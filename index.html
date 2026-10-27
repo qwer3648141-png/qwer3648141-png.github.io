@@ -852,7 +852,7 @@ body{
       <div class="ocean-note" id="macVoiceHelp" style="margin:10px 0 18px"><b>🔊 Voice Guard</b><br><span id="macVoiceHelpText">Chrome / Edge / Safari 皆可使用。系統會先確認語音語言；English 只使用 en-*，日本語只使用 ja-*，避免誤用中文聲線。</span></div>
       <div class="settingRow"><div><label>今日任務排程</label><small>任務會固定一天，不會每次重開智慧闖關都新增一批新字。</small></div><button class="btn soft" id="rebuildMissionSettings">重新安排</button></div>
       <div class="settingRow"><div><label>系統自我檢查</label><small id="selfTestStatus">尚未檢查</small></div><button class="btn soft" id="runSelfTest">重新檢查</button></div>
-      <div class="settingRow"><div><label>學習進度備份</label><small>更新 HTML 版本前建議匯出一次；可在新版匯入，避免瀏覽器 file:// 儲存差異造成紀錄遺失。</small></div><div class="progress-io"><button class="btn soft" id="exportProgress">匯出進度</button><button class="btn soft" id="importProgressBtn">匯入進度</button><input id="progressImport" type="file" accept="application/json,.json"></div></div>
+      <div class="settingRow"><div><label>學習進度備份</label><small id="backupStatus">正在讀取儲存狀態…</small></div><div class="progress-io"><button class="btn soft" id="exportProgress">下載備份</button><button class="btn soft" id="importProgressBtn">匯入備份</button><button class="btn soft" id="restoreSafetyBackup">還原上次安全備份</button><input id="progressImport" type="file" accept="application/json,.json"></div></div>
       <div class="settingRow"><div><label>重置學習紀錄</label><small>清除 XP、熟練度與複習排程。</small></div><button class="btn danger" id="resetData">全部重置</button></div>
     </div>
   </section>
@@ -1024,7 +1024,7 @@ function ws(v){
   s.level=Number(s.level||0);s.wrong=Number(s.wrong||0);s.seen=Number(s.seen||0);s.correct=Number(s.correct||0);s.hinted=Number(s.hinted||0);s.lapses=Number(s.lapses||0);s.streak=Number(s.streak||0);
   ensureMasteryState(s);s.clozeEligible=!!qualityAwareCloze(v);s.level=masteryLevel(masteryPercent(s),s);return s;
 }
-function save(){localStorage.setItem("enjpQuestState",JSON.stringify(store));updateStats()}
+function save(){store.lastSavedAt=new Date().toISOString();localStorage.setItem("enjpQuestState",JSON.stringify(store));updateStats();if(document.getElementById("backupStatus"))updateBackupStatus()}
 function addXP(n){store.xp+=n;save()}
 function dueDate(level){return dateAfter(INTERVALS[Math.max(0,Math.min(5,level))])}
 function mark(v,correct,meta={}){
@@ -2133,19 +2133,56 @@ document.getElementById("testVoices").onclick=async()=>{
   await speak("応募者","ja-JP");
 };
 
-function exportLearningProgress(){
-  const payload={app:"ENJP Ocean",version:38,exportedAt:new Date().toISOString(),state:store,matchBest:{}};
+function collectProgressPayload(reason="manual"){
+  const payload={app:"ENJP Ocean",version:39,exportedAt:new Date().toISOString(),reason,state:store,matchBest:{}};
   for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith("enjpMatchBest"))payload.matchBest[k]=localStorage.getItem(k);}
-  const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=`ENJP_Ocean_progress_${todayKey()}.json`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),500);toast("✅ 學習進度已匯出");
+  return payload;
+}
+function createSafetyBackup(reason){
+  try{const payload=collectProgressPayload(reason||"safety");payload.savedAt=new Date().toISOString();localStorage.setItem("enjpSafetyBackup",JSON.stringify(payload));updateBackupStatus();return true;}catch(e){return false}
+}
+function backupTimeText(iso){
+  if(!iso)return "尚無";const d=new Date(iso);if(Number.isNaN(d.getTime()))return "尚無";
+  return d.toLocaleString("zh-TW",{month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit"});
+}
+function updateBackupStatus(){
+  const el=document.getElementById("backupStatus");if(!el)return;
+  let safety=null;try{safety=JSON.parse(localStorage.getItem("enjpSafetyBackup")||"null")}catch(e){}
+  const lastExport=localStorage.getItem("enjpLastExportAt"),saved=store.lastSavedAt;
+  el.textContent=`此瀏覽器自動儲存：${backupTimeText(saved)}｜最近下載備份：${backupTimeText(lastExport)}｜安全備份：${backupTimeText(safety?.savedAt||safety?.exportedAt)}。跨電腦請先下載，再到另一台匯入。`;
+  const restore=document.getElementById("restoreSafetyBackup");if(restore)restore.disabled=!safety;
+}
+function exportLearningProgress(){
+  const payload=collectProgressPayload("manual-export");
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");
+  a.href=url;a.download=`ENJP_Ocean_progress_${todayKey()}.json`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),500);
+  localStorage.setItem("enjpLastExportAt",new Date().toISOString());updateBackupStatus();toast("✅ 學習進度備份已下載");
+}
+function applyProgressPayload(payload){
+  const state=payload?.state||payload;if(!state||typeof state!=="object"||!state.words)throw new Error("格式不符");
+  localStorage.setItem("enjpQuestState",JSON.stringify(state));
+  for(let i=localStorage.length-1;i>=0;i--){const k=localStorage.key(i);if(k&&k.startsWith("enjpMatchBest"))localStorage.removeItem(k);}
+  Object.entries(payload?.matchBest||{}).forEach(([k,v])=>{if(k.startsWith("enjpMatchBest"))localStorage.setItem(k,String(v));});
 }
 function importLearningProgress(file){
-  if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const payload=JSON.parse(String(reader.result||"{}")),state=payload.state||payload;if(!state||typeof state!=="object"||!state.words)throw new Error("格式不符");localStorage.setItem("enjpQuestState",JSON.stringify(state));Object.entries(payload.matchBest||{}).forEach(([k,v])=>{if(k.startsWith("enjpMatchBest"))localStorage.setItem(k,String(v));});toast("✅ 匯入成功，正在重新載入");setTimeout(()=>location.reload(),500);}catch(e){toast("❌ 匯入失敗：檔案格式不正確");}};reader.readAsText(file);
+  if(!file)return;const reader=new FileReader();
+  reader.onload=()=>{try{const payload=JSON.parse(String(reader.result||"{}")),state=payload.state||payload;if(!state||typeof state!=="object"||!state.words)throw new Error("格式不符");
+    createSafetyBackup("before-import");applyProgressPayload(payload);toast("✅ 匯入成功；原本進度已保留為安全備份");setTimeout(()=>location.reload(),650);
+  }catch(e){toast("❌ 匯入失敗：請確認是 ENJP Ocean 的 JSON 備份檔");}};reader.readAsText(file);
+}
+function restoreSafetyProgress(){
+  try{const raw=localStorage.getItem("enjpSafetyBackup");if(!raw){toast("目前沒有可還原的安全備份");return}const payload=JSON.parse(raw);
+    if(!confirm(`要還原 ${backupTimeText(payload.savedAt||payload.exportedAt)} 的安全備份嗎？目前進度會先再保留一份。`))return;
+    const current=collectProgressPayload("before-safety-restore");applyProgressPayload(payload);current.savedAt=new Date().toISOString();localStorage.setItem("enjpSafetyBackup",JSON.stringify(current));
+    toast("✅ 安全備份已還原，正在重新載入");setTimeout(()=>location.reload(),650);
+  }catch(e){toast("❌ 安全備份損壞，無法還原")}
 }
 document.getElementById("exportProgress").onclick=exportLearningProgress;
 document.getElementById("importProgressBtn").onclick=()=>document.getElementById("progressImport").click();
-document.getElementById("progressImport").onchange=e=>{const f=e.target.files?.[0];if(f&&confirm("匯入會以備份內容取代目前學習進度，確定繼續嗎？"))importLearningProgress(f);e.target.value="";};
-document.getElementById("resetData").onclick=()=>{if(confirm("確定要清除所有學習紀錄嗎？")){localStorage.removeItem("enjpQuestState");for(let i=localStorage.length-1;i>=0;i--){const k=localStorage.key(i);if(k&&k.startsWith("enjpMatchBest"))localStorage.removeItem(k)}location.reload()}};
-
+document.getElementById("progressImport").onchange=e=>{const f=e.target.files?.[0];if(f&&confirm("匯入會以備份內容取代目前學習進度；系統會先自動保存現在這份進度。確定繼續嗎？"))importLearningProgress(f);e.target.value="";};
+document.getElementById("restoreSafetyBackup").onclick=restoreSafetyProgress;
+document.getElementById("resetData").onclick=()=>{if(confirm("確定要清除所有學習紀錄嗎？系統會先保留一份安全備份。")){createSafetyBackup("before-reset");localStorage.removeItem("enjpQuestState");for(let i=localStorage.length-1;i>=0;i--){const k=localStorage.key(i);if(k&&k.startsWith("enjpMatchBest"))localStorage.removeItem(k)}location.reload()}};
+updateBackupStatus();
 
 // ===== Website Daily Mission =====
 const WEB_EN_GRAMMAR=[
