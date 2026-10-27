@@ -931,6 +931,187 @@ ruby rt{color:#79c9ef !important}
 .exen,.exjp{color:#eef4ff !important}
 .excn{color:#b9c5db !important}
 .pos{color:#aebbd2 !important}
+
+/* ===== Midnight City Nightscape v4 =====
+   Open palette: midnight navy + neon blue/violet/cyan + restrained warm city lights. */
+:root{
+  --bg:#02040a !important;
+  --panel:#0a1222 !important;
+  --text:#f1f5ff !important;
+  --ink:#f1f5ff !important;
+  --muted:#b5c0d6 !important;
+  --line:rgba(126,151,205,.24) !important;
+  --blue:#7f9dff !important;
+  --violet:#ae91ff !important;
+  --cyan:#62d4e8 !important;
+  --amber:#f3c66f !important;
+  --pink:#e592bc !important;
+  --green:#73d7b0 !important;
+  --red:#ff95a8 !important;
+  --ocean:#69cceb !important;
+  --ocean-deep:#7791f1 !important;
+  --shadow:0 18px 52px rgba(0,0,0,.40) !important;
+}
+
+html{background:#010309 !important}
+
+body{
+  background:
+    radial-gradient(ellipse at 18% -5%,rgba(78,88,196,.24),transparent 34%),
+    radial-gradient(ellipse at 83% 5%,rgba(48,116,190,.18),transparent 28%),
+    radial-gradient(ellipse at 55% 42%,rgba(91,67,151,.10),transparent 34%),
+    linear-gradient(180deg,#050817 0%,#071124 38%,#050a16 68%,#02040a 100%) !important;
+}
+
+/* Fewer, softer stars in the upper sky */
+body::before{
+  opacity:.34 !important;
+  background:
+    radial-gradient(circle,rgba(242,247,255,.90) 0 1px,transparent 1.35px) 0 0/69px 69px,
+    radial-gradient(circle,rgba(136,191,244,.66) 0 1px,transparent 1.5px) 24px 38px/103px 103px,
+    radial-gradient(circle,rgba(194,177,242,.54) 0 1px,transparent 1.6px) 47px 18px/151px 151px !important;
+  mask-image:linear-gradient(to bottom,#000 0%,#000 62%,transparent 90%);
+  -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 62%,transparent 90%);
+  animation:enjpStarDrift 72s linear infinite !important;
+}
+
+/* Distant city glow / bokeh at the lower horizon */
+body::after{
+  content:"" !important;
+  position:fixed !important;
+  inset:0 !important;
+  z-index:0 !important;
+  pointer-events:none !important;
+  opacity:.72 !important;
+  background:
+    radial-gradient(circle at 4% 92%,rgba(246,194,98,.42) 0 1.5px,transparent 4px),
+    radial-gradient(circle at 10% 87%,rgba(107,185,255,.33) 0 1px,transparent 4px),
+    radial-gradient(circle at 17% 94%,rgba(242,166,86,.30) 0 1.4px,transparent 4.5px),
+    radial-gradient(circle at 25% 89%,rgba(158,121,255,.30) 0 1.2px,transparent 4px),
+    radial-gradient(circle at 33% 95%,rgba(245,203,114,.38) 0 1.5px,transparent 5px),
+    radial-gradient(circle at 41% 88%,rgba(88,197,226,.30) 0 1.2px,transparent 4px),
+    radial-gradient(circle at 49% 93%,rgba(239,186,96,.36) 0 1.5px,transparent 4.6px),
+    radial-gradient(circle at 58% 90%,rgba(121,146,255,.28) 0 1.2px,transparent 4px),
+    radial-gradient(circle at 66% 95%,rgba(245,195,90,.42) 0 1.6px,transparent 5px),
+    radial-gradient(circle at 74% 88%,rgba(181,117,240,.25) 0 1.2px,transparent 4px),
+    radial-gradient(circle at 82% 93%,rgba(92,204,226,.30) 0 1.2px,transparent 4px),
+    radial-gradient(circle at 91% 89%,rgba(246,196,102,.40) 0 1.5px,transparent 4.5px),
+    radial-gradient(ellipse at 50% 105%,rgba(42,66,121,.34),transparent 48%),
+    linear-gradient(180deg,transparent 0%,transparent 70%,rgba(2,5,12,.22) 82%,rgba(1,3,8,.82) 100%) !important;
+  filter:blur(.15px);
+}
+
+/* Glass surfaces: darker center, faint colored edge light */
+.panel,.hero,.wordCard,.game,.daily-course-hero,.daily-work,.daily-word,
+.daily-grammar-card,.daily-listen-q,.daily-reading,.daily-final-q,.phrase-panel,
+.wordBox,.kpi,.mode,.feedback,.option,.tile,.statpill,.nav,.track-switcher,
+.chapter-card,.final-shell,.settings,.today-mission,.week-card{
+  background:linear-gradient(145deg,rgba(13,23,43,.94),rgba(6,13,27,.94)) !important;
+  border-color:rgba(124,151,207,.23) !important;
+  box-shadow:
+    0 18px 48px rgba(0,0,0,.30),
+    inset 0 1px 0 rgba(255,255,255,.025) !important;
+}
+
+/* Functional color identity — subtle, not neon */
+.today-mission{
+  border-color:rgba(243,198,111,.24) !important;
+  box-shadow:0 18px 48px rgba(0,0,0,.28), inset 0 1px 0 rgba(243,198,111,.05) !important;
+}
+.week-card{
+  border-color:rgba(174,145,255,.24) !important;
+}
+.daily-course-hero,.daily-work{
+  border-color:rgba(98,212,232,.22) !important;
+}
+.chapter-card,.chapter-lexicon-guide,.scope-mastery-overview{
+  border-color:rgba(127,157,255,.24) !important;
+}
+.grammar-chunks,.daily-grammar-card,.grammar-db-note{
+  border-color:rgba(174,145,255,.22) !important;
+}
+.daily-listen-q,.phrase-panel{
+  border-color:rgba(98,212,232,.22) !important;
+}
+.daily-final-q,.final-shell{
+  border-color:rgba(243,198,111,.22) !important;
+}
+
+/* Accent vocabulary */
+.eyebrow,.daily-kk,.daily-count-badge,.chapter-num,.daily-score,
+.scope-mastery-head strong,.mastery-simple-main strong,.mastery-metric-head strong{
+  color:#92adff !important;
+}
+.chapter-lexicon-guide h3,.chapter-guide-group>b{
+  color:#8fb2ff !important;
+}
+.daily-grammar-card h4,.grammar-db-note #grammarDbStats{
+  color:#bea9ff !important;
+}
+.daily-listen-q h4,.phrase-label{
+  color:#83d8e8 !important;
+}
+.final-q,.daily-final-q>strong{
+  color:#f0ca7f !important;
+}
+
+/* Buttons: blue-violet glass */
+.nav button.active,.btn.primary,.track-btn.active,.chapter-filter.active,.daily-pagebar button.active{
+  background:linear-gradient(135deg,#667fd9 0%,#765fcb 100%) !important;
+  border-color:rgba(164,179,255,.42) !important;
+  box-shadow:0 7px 20px rgba(68,77,157,.22) !important;
+}
+.btn.soft,.badge,.daily-step,.memory-step,.chapter-status-pill{
+  background:rgba(71,94,162,.18) !important;
+}
+.btn.soft:hover,.nav button:hover,.track-btn:hover,.chapter-guide-toggle:hover,.mastery-toggle:hover{
+  background:rgba(87,113,190,.25) !important;
+}
+
+/* Warm highlights as distant city lights, only on achievement / perfect states */
+.perfect-label{
+  background:rgba(191,137,46,.22) !important;
+  color:#f4cf85 !important;
+}
+.mission-chip b,.week-stat strong{
+  text-shadow:0 0 18px rgba(117,145,230,.08);
+}
+
+/* Progress feels like a night skyline light trail */
+.bar i,.daily-progress>i,.chapter-progress i,.training-bar i,.mastery-bar i,
+.skill-mini i,.library-progress i,.mission-bar i{
+  background:linear-gradient(90deg,#657fe2 0%,#796fe0 46%,#62c9e2 100%) !important;
+}
+.retention-bar i{
+  background:linear-gradient(90deg,#9277e7,#b391e8) !important;
+}
+
+/* More depth for nested cards */
+.mission-chip,.week-stat,.kpi,.wordBox,.mastery-simple,.mastery-metric,.mastery-skill,
+.chapter-guide-group,.context-chunk,.daily-word,.daily-grammar-card,.daily-listen-q,
+.daily-reading,.daily-example,.plan-card,.memory-path div{
+  background:linear-gradient(145deg,#13223d,#0e1a31) !important;
+}
+
+/* Slight colored hairlines by content type */
+.daily-word{border-color:rgba(127,157,255,.18) !important}
+.daily-grammar-card{border-color:rgba(174,145,255,.19) !important}
+.daily-listen-q{border-color:rgba(98,212,232,.18) !important}
+.daily-reading{border-color:rgba(127,157,255,.18) !important}
+.daily-final-q{border-color:rgba(243,198,111,.18) !important}
+
+/* Keep readability dominant */
+.cnMeaning,.daily-cn,.daily-chunk-cn,.phrase-cn,.hint,.small,.lv,.brand p,.mode p,
+.chapter-meta,.settingRow small,.match-scope-info,.practice-scope-info,.card-scope-info,
+.scope-mastery-meta,.chapter-guide-intro,.chapter-guide-source,.daily-course-meta,
+.mission-foot,.mastery-next,.mastery-legend,.quality-note,.track-copy small{
+  color:#b6c1d7 !important;
+}
+
+@media(max-width:700px){
+  body::after{opacity:.48 !important}
+}
+
 </style>
 </head>
 <body>
