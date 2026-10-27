@@ -514,6 +514,146 @@ body{
 @media(max-width:420px){.daily-steps{grid-template-columns:1fr}.daily-step{text-align:left}}
 </style>
 
+<style id="v-starfield-theme">
+/* ENJP Ocean — dark starfield theme */
+:root{
+  --bg:#030611 !important;
+  --panel:#0b1328 !important;
+  --ink:#f0f5ff !important;
+  --muted:#9faeca !important;
+  --line:rgba(145,169,221,.22) !important;
+  --blue:#8ab0ff !important;
+  --blue2:rgba(77,115,217,.19) !important;
+  --green:#67d6ae !important;
+  --green2:rgba(45,160,120,.16) !important;
+  --amber:#ffd27b !important;
+  --amber2:rgba(203,147,46,.16) !important;
+  --red:#ff91a1 !important;
+  --red2:rgba(198,72,96,.17) !important;
+  --violet:#b79cff !important;
+  --ocean-deep:#6286ee !important;
+  --ocean:#7fc5ff !important;
+  --ocean-soft:rgba(89,131,228,.17) !important;
+  --foam:#0b1328 !important;
+  --ocean-ink:#f0f5ff !important;
+  --shadow:0 18px 56px rgba(0,0,0,.38) !important;
+}
+html{background:#02040b !important}
+body{
+  color:var(--ink) !important;
+  min-height:100vh;
+  position:relative;
+  background:
+    radial-gradient(circle at 15% 8%,rgba(95,112,255,.21),transparent 27%),
+    radial-gradient(circle at 84% 14%,rgba(49,193,255,.13),transparent 25%),
+    radial-gradient(circle at 70% 78%,rgba(139,83,255,.12),transparent 29%),
+    linear-gradient(180deg,#030611 0%,#071024 48%,#02040b 100%) !important;
+}
+body::before{
+  content:"" !important;
+  position:fixed !important;
+  inset:0 !important;
+  z-index:0 !important;
+  pointer-events:none !important;
+  height:auto !important;
+  border-radius:0 !important;
+  opacity:.62 !important;
+  background:
+    radial-gradient(circle,rgba(255,255,255,.96) 0 1px,transparent 1.4px) 0 0/55px 55px,
+    radial-gradient(circle,rgba(160,206,255,.76) 0 1px,transparent 1.5px) 18px 30px/84px 84px,
+    radial-gradient(circle,rgba(215,193,255,.67) 0 1.2px,transparent 1.7px) 40px 12px/122px 122px !important;
+  animation:enjpStarDrift 44s linear infinite !important;
+}
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 25% 22%,rgba(112,145,255,.11),transparent 18%),
+    radial-gradient(circle at 78% 67%,rgba(59,199,255,.09),transparent 23%);
+}
+@keyframes enjpStarDrift{
+  from{background-position:0 0,18px 30px,40px 12px}
+  to{background-position:55px 110px,102px 114px,162px 134px}
+}
+#app{position:relative;z-index:1}
+.panel,.hero,.wordCard,.game,.daily-course-hero,.daily-work,.daily-word,
+.daily-grammar-card,.daily-listen-q,.daily-reading,.daily-final-q,.phrase-panel,
+.wordBox,.kpi,.mode,.feedback,.option,.tile,.statpill,.nav,.track-switcher,
+.chapter-card,.final-shell,.settings{
+  background:rgba(9,17,37,.82) !important;
+  color:var(--ink) !important;
+  border-color:var(--line) !important;
+  box-shadow:0 18px 50px rgba(0,0,0,.28) !important;
+  backdrop-filter:blur(15px);
+}
+.hero{background:linear-gradient(135deg,rgba(16,29,61,.95),rgba(7,13,30,.92)) !important}
+.daily-word,.daily-grammar-card,.daily-listen-q,.daily-reading,.daily-final-q{
+  background:rgba(12,23,48,.86) !important;
+}
+.daily-chunk,.daily-example,.grammar-chunks,.ocean-note,.star-guide,.daily-complete,
+.mastery-guide,.aux-skill-note{
+  background:rgba(21,37,72,.64) !important;
+  border-color:rgba(141,172,232,.18) !important;
+}
+.phrase-panel{background:rgba(14,28,58,.84) !important}
+.daily-options button,.option,.tile,.typebox,input,select{
+  background:rgba(7,15,33,.94) !important;
+  color:var(--ink) !important;
+  border-color:var(--line) !important;
+}
+select option{background:#091225;color:#eef5ff}
+.nav button{color:#c7d4ef !important}
+.nav button.active,.btn.primary{
+  background:linear-gradient(135deg,#607ee8,#3d62c8) !important;
+  color:white !important;
+}
+.btn.soft,.daily-step,.badge,.memory-step,.chapter-status-pill{
+  background:rgba(79,116,211,.19) !important;
+  color:#bfd3ff !important;
+  border-color:rgba(126,158,229,.24) !important;
+}
+.daily-step.active{background:rgba(87,128,227,.30) !important;color:#f6f8ff !important}
+.wordEn,.wordJp,.daily-en,.daily-jp,.prompt,.chapter-title,.final-q,
+.daily-grammar-card h4,.daily-listen-q h4,.daily-final-q>strong{
+  color:#f2f6ff !important;
+}
+.cnMeaning,.daily-cn,.daily-chunk-cn,.phrase-cn,.hint,.small,.lv,
+.brand p,.mode p,.chapter-meta,.settingRow small{
+  color:var(--muted) !important;
+}
+.eyebrow,.daily-kk,.daily-count-badge,.daily-chunk-main b,.chapter-num,.daily-score{
+  color:#91b9ff !important;
+}
+ruby rt{color:#8fd1ff !important}
+.bar,.daily-progress,.chapter-progress,.training-bar,.retention-bar{
+  background:rgba(151,173,216,.16) !important;
+}
+.daily-word-top{align-items:flex-start !important}
+.daily-word-audio{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  justify-content:flex-end;
+  flex-wrap:nowrap;
+  flex:0 0 auto;
+}
+.daily-word-audio .btn{
+  min-width:62px;
+  min-height:42px;
+  padding:8px 11px;
+  white-space:nowrap;
+}
+.daily-chunk{border-top-color:rgba(148,174,227,.20) !important}
+.toast{background:#111a31 !important;border:1px solid var(--line)}
+@media(max-width:520px){
+  .daily-word-top{gap:8px}
+  .daily-word-audio{gap:6px}
+  .daily-word-audio .btn{min-width:56px;padding:7px 9px;font-size:13px}
+}
+</style>
 </head>
 <body>
 <div id="app">
@@ -2237,10 +2377,9 @@ function webRenderVocab(data){
   work.innerHTML=`<div class="daily-section-head"><div><h3>① Vocabulary｜30 組英日對照</h3><p>每頁 10 組。英文、KK、日文、中文與片語都放大；片語可直接播放 EN / JP。</p></div><span class="daily-count-badge">${page*10+1}–${Math.min(30,page*10+10)} / 30</span></div>
   <div class="daily-word-grid">${slice.map((v,i)=>{const wi=page*10+i,phr=webPhraseList(v);return `<div class="daily-word">
     <div class="daily-word-top"><div><div class="daily-en">${v.en}</div>${kkVisible()?`<div class="daily-kk">${kkText(v)}</div>`:""}<div class="daily-pos">${v.pos||""}</div></div>
-    <button class="btn soft web-word-audio" data-w="${wi}" data-lang="en" type="button">🔊 EN</button></div>
+    <div class="daily-word-audio"><button class="btn soft web-word-audio" data-w="${wi}" data-lang="en" type="button">🔊 EN</button><button class="btn soft web-word-audio" data-w="${wi}" data-lang="jp" type="button">🔊 JP</button></div></div>
     <div class="daily-jp">${v.jp_ruby}</div><div class="daily-cn">${v.cn}</div>
     ${phr.length?`<div class="daily-chunk">${phr.map((p,pi)=>`<div class="daily-chunk-row"><div class="daily-chunk-main"><b>${p.en}</b><span>${p.jp_ruby||p.jp||""}</span><span class="daily-chunk-cn">${p.cn||""}</span></div><div class="daily-chunk-audio"><button class="btn soft web-phrase-audio" data-w="${wi}" data-p="${pi}" data-lang="en" type="button">🔊 EN</button><button class="btn soft web-phrase-audio" data-w="${wi}" data-p="${pi}" data-lang="jp" type="button">🔊 JP</button></div></div>`).join("")}</div>`:""}
-    <div style="margin-top:10px"><button class="btn soft web-word-audio" data-w="${wi}" data-lang="jp" type="button">🔊 JP</button></div>
   </div>`}).join("")}</div>
   <div class="daily-pagebar">${[0,1,2].map(x=>`<button class="btn soft ${x===page?"active":""}" data-vpage="${x}" type="button">${x*10+1}–${x*10+10}</button>`).join("")}</div>
   <div class="daily-action-row"><span style="color:var(--muted)">${r.vocabDone?"✅ 今日單字已完成":"三頁看完再進入文法。"}</span><button class="btn primary" id="webVocabDone" type="button">${r.vocabDone?"前往文法 →":"完成 30 組單字"}</button></div>`;
