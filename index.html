@@ -755,6 +755,177 @@ ruby rt{color:#79c9ef !important}
   .daily-word-audio{gap:6px}
   .daily-word-audio .btn{min-width:56px;padding:7px 9px;font-size:13px}
 }
+
+/* ===== Full-site dark audit v3 =====
+   Covers every legacy light surface and every secondary-description field. */
+:root{
+  --muted:#b3bfd5 !important;
+}
+
+/* Every legacy light/white surface found in the full stylesheet audit */
+.statpill,.nav,.kpi,.wordBox,.option,.feedback,.tile,.phrase-audio,
+.lock-label,.clear-label,.perfect-label,.final-result,.grammar-db-note,.grammar-toolbar,
+.track-btn,.chapter-filter,.match-scope-bar,.practice-scope-bar,.card-scope-bar,
+.mastery-overview,.mastery-skill,.scope-mastery-overview,.mastery-metric,.memory-step,
+.skill-step,.chapter-status-pill,.mission-chip,.week-stat,.mastery-simple,.mastery-toggle,
+.example-quality,.context-chunk,.mixed-banner,.confusion-note,.chapter-lexicon-guide,
+.chapter-guide-toggle,.chapter-guide-group,.daily-step,.daily-word,.daily-grammar-card,
+.daily-listen-q,.daily-reading,.daily-complete,.daily-example,.recall-tip,.ocean-note,
+.grammar-chunks,.phrase-panel,.star-guide,.mastery-guide,.aux-skill-note,.plan-card,
+.chapter-toolbar-wrap,.library-item,.final-result,.feedback,.scope-mastery-overview{
+  background:#0f1b33 !important;
+  color:#eaf1ff !important;
+  border-color:rgba(130,157,211,.25) !important;
+}
+
+/* Larger grouping bars / instruction containers */
+.match-scope-bar,.practice-scope-bar,.card-scope-bar,.grammar-toolbar,
+.scope-mastery-overview,.mastery-overview,.chapter-lexicon-guide,.chapter-toolbar-wrap{
+  background:linear-gradient(145deg,#101d37,#0a1429) !important;
+}
+
+/* Nested cards need a second level, not white */
+.mission-chip,.week-stat,.kpi,.wordBox,.mastery-simple,.mastery-metric,.mastery-skill,
+.chapter-guide-group,.context-chunk,.daily-word,.daily-grammar-card,.daily-listen-q,
+.daily-reading,.daily-example,.plan-card,.memory-path div{
+  background:#12213d !important;
+}
+
+/* Quiet description / helper / metadata text — checked across all features */
+.hint,.small,.lv,.brand p,.mode p,.chapter-meta,.settingRow small,
+.match-scope-info,.practice-scope-info,.card-scope-info,.scope-mastery-meta,
+.chapter-guide-intro,.chapter-guide-source,.grammar-db-note,.mixed-banner,.quality-note,
+.kk-phonetic,.kk-inline,.kk-answer-line,.phrase-subtitle,.exlabel,
+.feedback .contrast-inline,.track-copy small,.daily-course-meta,.daily-feedback,
+.mission-foot,.chapter-filter-summary,.mastery-next,.mastery-legend,.aux-skill-note,
+.mastery-guide,.mastery-simple-main span,.mastery-simple-next,.mastery-metric small,
+.mission-chip span,.week-stat span,.daily-cn,.daily-chunk-cn,.phrase-cn,
+.daily-rule,.daily-section-head p,.final-result,.chapter-guide-group div{
+  color:#b3bfd5 !important;
+}
+
+/* Main labels inside dark surfaces */
+.track-copy b,.card-scope-bar label,.match-scope-bar label,.practice-scope-bar label,
+.mastery-title,.scope-mastery-head b,.chapter-guide-group strong,.chapter-guide-group>b,
+.daily-section-head h3,.grammar-db-note b,.final-result b{
+  color:#edf3ff !important;
+}
+
+/* Accent text kept bright enough but not neon */
+.chapter-lexicon-guide h3,.chapter-guide-source b,.scope-mastery-head strong,
+.mastery-simple-main strong,.mastery-metric-head strong,.kk-phonetic,.kk-inline,
+.kk-answer-line{
+  color:#91adf7 !important;
+}
+
+/* Status pills: dark tinted, readable */
+.lock-label{
+  background:#18233a !important;
+  color:#aab7cf !important;
+}
+.clear-label,.memory-step.done,.skill-step.done,.chapter-status-pill.on{
+  background:rgba(47,139,109,.23) !important;
+  color:#83d9bb !important;
+  border-color:rgba(98,197,160,.28) !important;
+}
+.perfect-label{
+  background:rgba(176,125,41,.22) !important;
+  color:#efc77c !important;
+  border-color:rgba(219,165,79,.26) !important;
+}
+.memory-step.next,.skill-step.next{
+  background:rgba(74,105,191,.24) !important;
+  color:#b8cdfd !important;
+}
+.skill-step,.chapter-status-pill,.memory-step{
+  background:#16233b !important;
+  color:#aab7cf !important;
+}
+
+/* Correct/wrong feedback stays dark and meaningful */
+.feedback.ok,.daily-options button.correct,.option.correct,.grammar-quiz-option.correct{
+  background:rgba(42,128,100,.25) !important;
+  color:#c8f3e2 !important;
+  border-color:rgba(89,194,154,.42) !important;
+}
+.feedback.bad,.daily-options button.wrong,.option.wrong,.grammar-quiz-option.wrong{
+  background:rgba(156,58,78,.24) !important;
+  color:#ffd7de !important;
+  border-color:rgba(225,103,127,.39) !important;
+}
+
+/* Informational badges / notes */
+.example-quality,.chapter-group-badge{
+  background:rgba(66,103,178,.22) !important;
+  color:#a9c7ff !important;
+}
+.example-quality.template{
+  background:rgba(174,123,41,.22) !important;
+  color:#f0ca80 !important;
+}
+.mixed-banner,.recall-tip,.grammar-db-note,.confusion-note,.ocean-note,.star-guide,
+.mastery-guide,.aux-skill-note,.daily-complete{
+  background:#11203a !important;
+  color:#b8c5dc !important;
+}
+
+/* All form controls and specialty selectors */
+input,select,textarea,.typebox,.match-scope-bar select,.practice-scope-bar select,
+.card-scope-bar select{
+  background:#091326 !important;
+  color:#eef4ff !important;
+  border-color:rgba(130,157,211,.30) !important;
+  box-shadow:none !important;
+}
+input::placeholder,textarea::placeholder{
+  color:#7687a5 !important;
+  opacity:1;
+}
+input:focus,select:focus,textarea:focus,.typebox:focus{
+  border-color:#7897e8 !important;
+  box-shadow:0 0 0 3px rgba(100,132,220,.18) !important;
+}
+
+/* Buttons not covered by .btn */
+.phrase-audio,.daily-pagebar button,.chapter-guide-toggle,.mastery-toggle,
+.track-btn,.chapter-filter,.grammar-quiz-option{
+  background:#0d1830 !important;
+  color:#dce7fb !important;
+  border-color:rgba(130,157,211,.27) !important;
+}
+.phrase-audio:hover,.daily-pagebar button:hover,.chapter-guide-toggle:hover,
+.mastery-toggle:hover,.track-btn:hover,.chapter-filter:hover,.grammar-quiz-option:hover{
+  background:#17284a !important;
+}
+.daily-pagebar button.active{
+  background:#526fcb !important;
+  color:#fff !important;
+}
+
+/* Progress indicators and dots never use near-white tracks */
+.bar,.chapter-progress,.mastery-bar,.library-progress,.training-bar,.retention-bar,
+.skill-mini,.mission-bar,.daily-progress,.chapter-progress{
+  background:#1b2942 !important;
+}
+.dot,.levelDots i{
+  background:#34425d !important;
+}
+.dot.on,.levelDots i.on{
+  background:#7595ea !important;
+}
+
+/* Links and ruby remain visible */
+a{color:#9bbaff}
+ruby rt{color:#79c9ef !important}
+
+/* Avoid inherited pale-on-pale combinations in any screen */
+.screen,.screen section,.screen article{
+  color:var(--text) !important;
+}
+.screen p,.screen small{
+  text-shadow:none !important;
+}
+
 </style>
 </head>
 <body>
