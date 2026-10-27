@@ -515,39 +515,40 @@ body{
 </style>
 
 <style id="v-starfield-theme">
-/* ENJP Ocean — dark starfield theme */
+/* ENJP Ocean — Midnight Nebula palette v2 */
 :root{
-  --bg:#030611 !important;
-  --panel:#0b1328 !important;
-  --ink:#f0f5ff !important;
-  --muted:#9faeca !important;
-  --line:rgba(145,169,221,.22) !important;
-  --blue:#8ab0ff !important;
-  --blue2:rgba(77,115,217,.19) !important;
-  --green:#67d6ae !important;
-  --green2:rgba(45,160,120,.16) !important;
-  --amber:#ffd27b !important;
-  --amber2:rgba(203,147,46,.16) !important;
-  --red:#ff91a1 !important;
-  --red2:rgba(198,72,96,.17) !important;
-  --violet:#b79cff !important;
-  --ocean-deep:#6286ee !important;
-  --ocean:#7fc5ff !important;
-  --ocean-soft:rgba(89,131,228,.17) !important;
-  --foam:#0b1328 !important;
-  --ocean-ink:#f0f5ff !important;
-  --shadow:0 18px 56px rgba(0,0,0,.38) !important;
+  --bg:#03050c !important;
+  --panel:#0a1121 !important;
+  --text:#edf3ff !important;
+  --ink:#edf3ff !important;
+  --muted:#a7b3cc !important;
+  --line:rgba(126,153,207,.24) !important;
+  --blue:#8dacff !important;
+  --blue2:rgba(91,125,218,.20) !important;
+  --green:#72d8b4 !important;
+  --green2:rgba(48,157,121,.18) !important;
+  --amber:#f4c97d !important;
+  --amber2:rgba(198,145,58,.18) !important;
+  --red:#ff95a5 !important;
+  --red2:rgba(198,78,101,.18) !important;
+  --violet:#b9a7ff !important;
+  --ocean-deep:#7898ff !important;
+  --ocean:#76d2ff !important;
+  --ocean-soft:rgba(93,128,223,.18) !important;
+  --foam:#0a1121 !important;
+  --ocean-ink:#edf3ff !important;
+  --shadow:0 16px 48px rgba(0,0,0,.34) !important;
 }
-html{background:#02040b !important}
+html{background:#02040a !important}
 body{
-  color:var(--ink) !important;
+  color:var(--text) !important;
   min-height:100vh;
   position:relative;
   background:
-    radial-gradient(circle at 15% 8%,rgba(95,112,255,.21),transparent 27%),
-    radial-gradient(circle at 84% 14%,rgba(49,193,255,.13),transparent 25%),
-    radial-gradient(circle at 70% 78%,rgba(139,83,255,.12),transparent 29%),
-    linear-gradient(180deg,#030611 0%,#071024 48%,#02040b 100%) !important;
+    radial-gradient(circle at 14% 7%,rgba(78,91,198,.19),transparent 28%),
+    radial-gradient(circle at 86% 11%,rgba(36,133,188,.12),transparent 25%),
+    radial-gradient(circle at 68% 80%,rgba(113,70,178,.10),transparent 31%),
+    linear-gradient(180deg,#03050c 0%,#071021 48%,#02040a 100%) !important;
 }
 body::before{
   content:"" !important;
@@ -557,12 +558,12 @@ body::before{
   pointer-events:none !important;
   height:auto !important;
   border-radius:0 !important;
-  opacity:.62 !important;
+  opacity:.43 !important;
   background:
-    radial-gradient(circle,rgba(255,255,255,.96) 0 1px,transparent 1.4px) 0 0/55px 55px,
-    radial-gradient(circle,rgba(160,206,255,.76) 0 1px,transparent 1.5px) 18px 30px/84px 84px,
-    radial-gradient(circle,rgba(215,193,255,.67) 0 1.2px,transparent 1.7px) 40px 12px/122px 122px !important;
-  animation:enjpStarDrift 44s linear infinite !important;
+    radial-gradient(circle,rgba(236,245,255,.88) 0 1px,transparent 1.35px) 0 0/58px 58px,
+    radial-gradient(circle,rgba(132,184,240,.62) 0 1px,transparent 1.45px) 21px 31px/91px 91px,
+    radial-gradient(circle,rgba(188,170,233,.50) 0 1.1px,transparent 1.6px) 42px 13px/131px 131px !important;
+  animation:enjpStarDrift 54s linear infinite !important;
 }
 body::after{
   content:"";
@@ -571,66 +572,155 @@ body::after{
   z-index:0;
   pointer-events:none;
   background:
-    radial-gradient(circle at 25% 22%,rgba(112,145,255,.11),transparent 18%),
-    radial-gradient(circle at 78% 67%,rgba(59,199,255,.09),transparent 23%);
+    radial-gradient(circle at 24% 20%,rgba(96,117,218,.075),transparent 20%),
+    radial-gradient(circle at 79% 66%,rgba(54,155,202,.06),transparent 24%);
 }
 @keyframes enjpStarDrift{
-  from{background-position:0 0,18px 30px,40px 12px}
-  to{background-position:55px 110px,102px 114px,162px 134px}
+  from{background-position:0 0,21px 31px,42px 13px}
+  to{background-position:58px 116px,112px 122px,173px 144px}
 }
 #app{position:relative;z-index:1}
+
+/* Surface hierarchy */
 .panel,.hero,.wordCard,.game,.daily-course-hero,.daily-work,.daily-word,
 .daily-grammar-card,.daily-listen-q,.daily-reading,.daily-final-q,.phrase-panel,
 .wordBox,.kpi,.mode,.feedback,.option,.tile,.statpill,.nav,.track-switcher,
-.chapter-card,.final-shell,.settings{
-  background:rgba(9,17,37,.82) !important;
-  color:var(--ink) !important;
+.chapter-card,.final-shell,.settings,.today-mission,.week-card{
+  background:rgba(8,16,32,.91) !important;
+  color:var(--text) !important;
   border-color:var(--line) !important;
-  box-shadow:0 18px 50px rgba(0,0,0,.28) !important;
-  backdrop-filter:blur(15px);
+  box-shadow:0 16px 44px rgba(0,0,0,.26) !important;
+  backdrop-filter:blur(13px);
 }
-.hero{background:linear-gradient(135deg,rgba(16,29,61,.95),rgba(7,13,30,.92)) !important}
+.hero{
+  background:linear-gradient(135deg,rgba(17,29,57,.96),rgba(7,13,28,.95)) !important;
+}
 .daily-word,.daily-grammar-card,.daily-listen-q,.daily-reading,.daily-final-q{
-  background:rgba(12,23,48,.86) !important;
+  background:rgba(13,24,46,.94) !important;
 }
-.daily-chunk,.daily-example,.grammar-chunks,.ocean-note,.star-guide,.daily-complete,
-.mastery-guide,.aux-skill-note{
-  background:rgba(21,37,72,.64) !important;
-  border-color:rgba(141,172,232,.18) !important;
+
+/* Kill remaining bright legacy cards */
+.mission-chip,.week-stat,.mastery-simple,.mastery-metric,.mastery-skill,
+.scope-mastery-overview,.card-scope-bar,.chapter-lexicon-guide,.chapter-guide-group,
+.context-chunk,.recall-tip,.grammar-quiz-option,.memory-path div,.skill-step,
+.chapter-toolbar-wrap,.mastery-overview,.library-item,.plan-card{
+  background:rgba(14,25,47,.94) !important;
+  color:var(--text) !important;
+  border-color:rgba(126,153,207,.22) !important;
 }
-.phrase-panel{background:rgba(14,28,58,.84) !important}
-.daily-options button,.option,.tile,.typebox,input,select{
-  background:rgba(7,15,33,.94) !important;
-  color:var(--ink) !important;
-  border-color:var(--line) !important;
+.scope-mastery-overview,.card-scope-bar,.chapter-lexicon-guide,.mastery-overview{
+  background:linear-gradient(145deg,rgba(16,29,55,.96),rgba(10,19,38,.96)) !important;
 }
-select option{background:#091225;color:#eef5ff}
-.nav button{color:#c7d4ef !important}
-.nav button.active,.btn.primary{
-  background:linear-gradient(135deg,#607ee8,#3d62c8) !important;
-  color:white !important;
+.chapter-guide-group{
+  background:rgba(18,31,56,.92) !important;
+}
+.daily-course-hero{
+  background:linear-gradient(135deg,rgba(16,28,53,.97),rgba(8,16,33,.96)) !important;
+}
+.daily-step{
+  background:rgba(15,27,49,.94) !important;
+  color:#aebbd4 !important;
+  border-color:rgba(124,151,207,.23) !important;
+}
+.daily-step.active{
+  background:linear-gradient(135deg,rgba(84,111,201,.34),rgba(57,83,164,.28)) !important;
+  color:#f2f6ff !important;
+  border-color:rgba(126,161,238,.45) !important;
+}
+.daily-step.done::after{color:#76dcb8 !important}
+
+/* Controls */
+.daily-options button,.option,.tile,.typebox,input,select,.chapter-guide-toggle,
+.mastery-toggle,.track-btn,.chapter-filter{
+  background:#0b1428 !important;
+  color:#eaf1ff !important;
+  border-color:rgba(126,153,207,.28) !important;
+  box-shadow:none !important;
+}
+select{color-scheme:dark}
+select option{background:#091225 !important;color:#eef4ff !important}
+.chapter-guide-toggle,.mastery-toggle{
+  color:#a9c2ff !important;
+}
+.nav button{color:#bac7df !important}
+.nav button:hover,.btn.soft:hover,.track-btn:hover,.chapter-guide-toggle:hover,.mastery-toggle:hover{
+  background:rgba(76,106,188,.25) !important;
+}
+.nav button.active,.btn.primary,.track-btn.active,.chapter-filter.active{
+  background:linear-gradient(135deg,#647fdf,#4564be) !important;
+  color:#fff !important;
+  border-color:rgba(137,166,235,.45) !important;
 }
 .btn.soft,.daily-step,.badge,.memory-step,.chapter-status-pill{
-  background:rgba(79,116,211,.19) !important;
-  color:#bfd3ff !important;
-  border-color:rgba(126,158,229,.24) !important;
+  background:rgba(69,96,171,.18) !important;
+  color:#c1d2f6 !important;
+  border-color:rgba(126,153,207,.24) !important;
 }
-.daily-step.active{background:rgba(87,128,227,.30) !important;color:#f6f8ff !important}
-.wordEn,.wordJp,.daily-en,.daily-jp,.prompt,.chapter-title,.final-q,
-.daily-grammar-card h4,.daily-listen-q h4,.daily-final-q>strong{
-  color:#f2f6ff !important;
+
+/* Text contrast */
+h1,h2,h3,h4,h5,h6,.wordEn,.wordJp,.daily-en,.daily-jp,.prompt,.chapter-title,
+.final-q,.daily-grammar-card h4,.daily-listen-q h4,.daily-final-q>strong,
+.mission-chip b,.week-stat strong,.mastery-title,.mastery-metric-head b,
+.chapter-guide-group strong,.chapter-guide-group>b,.scope-mastery-head b{
+  color:#edf3ff !important;
 }
-.cnMeaning,.daily-cn,.daily-chunk-cn,.phrase-cn,.hint,.small,.lv,
-.brand p,.mode p,.chapter-meta,.settingRow small{
-  color:var(--muted) !important;
+.cnMeaning,.daily-cn,.daily-chunk-cn,.phrase-cn,.hint,.small,.lv,.brand p,.mode p,
+.chapter-meta,.settingRow small,.mission-chip span,.week-stat span,.mastery-simple-main span,
+.mastery-simple-next,.mastery-metric small,.mastery-legend,.scope-mastery-meta,
+.card-scope-info,.chapter-guide-intro,.chapter-guide-group div,.chapter-guide-source,
+.chapter-filter-summary{
+  color:#a7b3cc !important;
 }
-.eyebrow,.daily-kk,.daily-count-badge,.daily-chunk-main b,.chapter-num,.daily-score{
-  color:#91b9ff !important;
+.eyebrow,.daily-kk,.daily-count-badge,.daily-chunk-main b,.chapter-num,.daily-score,
+.scope-mastery-head strong,.mastery-simple-main strong,.mastery-metric-head strong,
+.chapter-lexicon-guide h3,.chapter-guide-group>b,.chapter-guide-source b{
+  color:#89a9ff !important;
 }
-ruby rt{color:#8fd1ff !important}
-.bar,.daily-progress,.chapter-progress,.training-bar,.retention-bar{
-  background:rgba(151,173,216,.16) !important;
+ruby rt{color:#79c9ef !important}
+
+/* Progress tracks: darker, never white */
+.bar,.daily-progress,.chapter-progress,.training-bar,.retention-bar,.mastery-bar,
+.skill-mini,.library-progress,.mission-bar{
+  background:rgba(86,105,143,.20) !important;
+  border-color:rgba(126,153,207,.10) !important;
 }
+.bar i,.daily-progress>i,.chapter-progress i,.training-bar i,.mastery-bar i,
+.skill-mini i,.library-progress i,.mission-bar i{
+  background:linear-gradient(90deg,#6688ea,#65c8ee) !important;
+}
+.retention-bar i{background:linear-gradient(90deg,#7d6ee4,#9da5ff) !important}
+
+/* Secondary info surfaces */
+.daily-chunk,.daily-example,.grammar-chunks,.ocean-note,.star-guide,.daily-complete,
+.mastery-guide,.aux-skill-note,.confusion-note,.example{
+  background:rgba(17,31,57,.82) !important;
+  color:var(--text) !important;
+  border-color:rgba(126,153,207,.18) !important;
+}
+.phrase-panel{background:rgba(15,29,55,.90) !important}
+.memory-step.done,.chapter-status-pill.on{
+  background:rgba(48,157,121,.18) !important;
+  color:#82dfbd !important;
+  border-color:rgba(86,194,154,.25) !important;
+}
+.memory-step.next{
+  background:rgba(83,112,202,.22) !important;
+  color:#bcd0ff !important;
+}
+.example-quality{
+  background:rgba(54,117,145,.22) !important;
+  color:#9eddf0 !important;
+}
+.example-quality.template{
+  background:rgba(181,126,37,.20) !important;
+  color:#f0c978 !important;
+}
+.chapter-group-badge{
+  background:rgba(74,112,181,.20) !important;
+  color:#9fc6ff !important;
+}
+
+/* Daily vocabulary audio alignment */
 .daily-word-top{align-items:flex-start !important}
 .daily-word-audio{
   display:flex;
@@ -646,8 +736,20 @@ ruby rt{color:#8fd1ff !important}
   padding:8px 11px;
   white-space:nowrap;
 }
-.daily-chunk{border-top-color:rgba(148,174,227,.20) !important}
-.toast{background:#111a31 !important;border:1px solid var(--line)}
+.daily-chunk{border-top-color:rgba(126,153,207,.18) !important}
+.toast{background:#101a30 !important;border:1px solid var(--line) !important}
+
+/* Correct / wrong states keep meaning without becoming neon */
+.grammar-quiz-option.correct,.option.correct{
+  background:rgba(43,135,104,.24) !important;
+  border-color:rgba(91,200,158,.42) !important;
+}
+.grammar-quiz-option.wrong,.option.wrong{
+  background:rgba(165,61,82,.22) !important;
+  border-color:rgba(226,105,128,.38) !important;
+}
+
+/* Mobile */
 @media(max-width:520px){
   .daily-word-top{gap:8px}
   .daily-word-audio{gap:6px}
