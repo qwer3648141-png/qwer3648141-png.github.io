@@ -2294,8 +2294,9 @@ let lexState={kind:"all",level:"all",topic:"all",search:"",mode:"browse",q:null}
 
 function lexSave(){try{localStorage.setItem(LEX_KEY,JSON.stringify(lexProgress))}catch(_){}}
 function lexKey(w){return w.kind+":"+w.word}
-function lexToday(){return new Date().toISOString().slice(0,10)}
-function lexAddDays(n){const d=new Date();d.setDate(d.getDate()+n);return d.toISOString().slice(0,10)}
+function lexDateKey(d=new Date()){const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,"0"),day=String(d.getDate()).padStart(2,"0");return y+"-"+m+"-"+day}
+function lexToday(){return lexDateKey(new Date())}
+function lexAddDays(n){const d=new Date();d.setDate(d.getDate()+n);return lexDateKey(d)}
 function lexP(w){return lexProgress[lexKey(w)]||{mastery:0,misses:0,due:null,last:null}}
 function lexMark(w,ok){
   if(!w)return;
@@ -2459,7 +2460,7 @@ function lexNextQuestion(){
   }else if(mode==="pairs"){
     const p=LEX_PAIRS[Math.floor(Math.random()*LEX_PAIRS.length)],intr=Math.random()<.5;
     const ans=intr?p[0]:p[2],other=intr?p[2]:p[0];
-    lexState.q={mode,p,answer:ans,word:null};
+    lexState.q={mode,p,answer:ans,w:LEX_WORDS.find(x=>x.kind==="verb"&&x.word===ans)||null};
     badge.textContent="🔄 自動詞・他動詞";title.textContent=intr?"「が」：事情自己發生":"「を」：主體使事情發生";hint.textContent="看助詞與情境判斷，不要只背中文。";
     prompt.textContent=p[4]+(intr?"が":"を")+"＿＿。";inputWrap.style.display="none";opts.style.display="grid";
     [ans,other].forEach(x=>{const bt=document.createElement("button");bt.textContent=x;bt.onclick=()=>lexAnswerOption(x);opts.appendChild(bt)});
@@ -3169,7 +3170,7 @@ document.getElementById("testVoices").onclick=async()=>{
 };
 
 function collectProgressPayload(reason="manual"){
-  const payload={app:"ENJP Ocean",version:39,exportedAt:new Date().toISOString(),reason,state:store,matchBest:{}};
+  const payload={app:"ENJP Ocean",version:40,exportedAt:new Date().toISOString(),reason,state:store,matchBest:{},lexTrain:lexProgress};
   for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith("enjpMatchBest"))payload.matchBest[k]=localStorage.getItem(k);}
   return payload;
 }
@@ -3198,6 +3199,7 @@ function applyProgressPayload(payload){
   localStorage.setItem("enjpQuestState",JSON.stringify(state));
   for(let i=localStorage.length-1;i>=0;i--){const k=localStorage.key(i);if(k&&k.startsWith("enjpMatchBest"))localStorage.removeItem(k);}
   Object.entries(payload?.matchBest||{}).forEach(([k,v])=>{if(k.startsWith("enjpMatchBest"))localStorage.setItem(k,String(v));});
+  if(payload?.lexTrain&&typeof payload.lexTrain==="object")localStorage.setItem(LEX_KEY,JSON.stringify(payload.lexTrain));
 }
 function importLearningProgress(file){
   if(!file)return;const reader=new FileReader();
@@ -3216,7 +3218,7 @@ document.getElementById("exportProgress").onclick=exportLearningProgress;
 document.getElementById("importProgressBtn").onclick=()=>document.getElementById("progressImport").click();
 document.getElementById("progressImport").onchange=e=>{const f=e.target.files?.[0];if(f&&confirm("匯入會以備份內容取代目前學習進度；系統會先自動保存現在這份進度。確定繼續嗎？"))importLearningProgress(f);e.target.value="";};
 document.getElementById("restoreSafetyBackup").onclick=restoreSafetyProgress;
-document.getElementById("resetData").onclick=()=>{if(confirm("確定要清除所有學習紀錄嗎？系統會先保留一份安全備份。")){createSafetyBackup("before-reset");localStorage.removeItem("enjpQuestState");for(let i=localStorage.length-1;i>=0;i--){const k=localStorage.key(i);if(k&&k.startsWith("enjpMatchBest"))localStorage.removeItem(k)}location.reload()}};
+document.getElementById("resetData").onclick=()=>{if(confirm("確定要清除所有學習紀錄嗎？系統會先保留一份安全備份。")){createSafetyBackup("before-reset");localStorage.removeItem("enjpQuestState");localStorage.removeItem(LEX_KEY);for(let i=localStorage.length-1;i>=0;i--){const k=localStorage.key(i);if(k&&k.startsWith("enjpMatchBest"))localStorage.removeItem(k)}location.reload()}};
 updateBackupStatus();
 
 // ===== Website Daily Mission =====
