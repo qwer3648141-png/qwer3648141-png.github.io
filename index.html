@@ -2603,7 +2603,7 @@ function lexVerbForms(v){
 }
 function lexAdjForms(v){
  const w=v.word.replace(/な$/,"");
- if(v.type==="i"){const stem=w.slice(0,-1);return {"否定形":stem+"くない","過去形":stem+"かった","過去否定":stem+"くなかった","副詞形":stem+"く"}}
+ if(v.type==="i"){const stem=w.endsWith("いい")?w.slice(0,-2)+"よ":w.slice(0,-1);return {"否定形":stem+"くない","過去形":stem+"かった","過去否定":stem+"くなかった","副詞形":stem+"く"}}
  return {"否定形":w+"ではない","過去形":w+"だった","過去否定":w+"ではなかった","副詞形":w+"に"};
 }
 function lexPick(pool){return pool[Math.floor(Math.random()*pool.length)]}
@@ -3003,12 +3003,13 @@ let grammarFilter="chapter";
 function grammarSearchText(g){return [g.f,g.lv,g.m,g.p,g.c,g.x,...(g.chunks||[]).flat()].join(" ").toLowerCase()}
 function chapterGrammarRecommendations(){
   const main=chapterGrammarData[String(selectedChapter)];
+  const n5=grammarBank.filter(g=>g.lv==="N5");
   const n4=grammarBank.filter(g=>g.lv==="N4");
   const n3=grammarBank.filter(g=>g.lv==="N3");
   const picks=[];
   if(main)picks.push({...main,kind:"本章核心"});
   const seed=(selectedChapter-1)*5;
-  const desired=selectedChapter<=8?[n4,n4,n4,n3,n3]:selectedChapter<=18?[n4,n4,n3,n3,n3]:[n4,n3,n3,n3,n3];
+  const desired=selectedChapter<=5?[n5,n5,n4,n4,n3]:selectedChapter<=10?[n5,n4,n4,n3,n3]:selectedChapter<=18?[n4,n4,n3,n3,n3]:[n4,n3,n3,n3,n3];
   desired.forEach((pool,i)=>{
     let g=pool[(seed+i*7)%pool.length];
     let guard=0;
@@ -3020,20 +3021,20 @@ function chapterGrammarRecommendations(){
 function renderGrammar(){
   const box=document.getElementById("grammarCards");if(!box)return;box.innerHTML="";
   const info=chapterCatalog[String(selectedChapter)];
-  document.getElementById("grammarChapterBadge").textContent=`CHAPTER ${String(selectedChapter).padStart(2,"0")} · N4 → N3`;
+  document.getElementById("grammarChapterBadge").textContent=`CHAPTER ${String(selectedChapter).padStart(2,"0")} · N5 → N3`;
   document.getElementById("grammarTitle").textContent=`🧩 ${info.title}｜文法航線`;
   const q=(document.getElementById("grammarSearch")?.value||"").trim().toLowerCase();
   let items=[];
   if(grammarFilter==="chapter"){
     items=chapterGrammarRecommendations();
-    document.getElementById("grammarIntro").textContent="每章現在顯示 6 個文法：1 個情境核心＋5 個 N4/N3 輪替加強。熟悉後可用下方 N4／N3 篩選直接進入完整核心庫。";
+    document.getElementById("grammarIntro").textContent="每章顯示 6 個文法：1 個情境核心＋5 個 N5/N4/N3 輪替加強。基礎章會多放 N5，越後面逐步提高 N4/N3 比例。";
   }else{
     items=grammarBank.filter(g=>grammarFilter==="all"||g.lv===grammarFilter);
-    document.getElementById("grammarIntro").textContent=grammarFilter==="all"?"瀏覽 N4＋N3 高實用核心文法；可直接搜尋形式、意思或接續。":`正在瀏覽 ${grammarFilter} 高實用核心文法。`;
+    document.getElementById("grammarIntro").textContent=grammarFilter==="all"?"瀏覽 N5＋N4＋N3 分級文法；可直接搜尋形式、意思、接續或例句。":`正在瀏覽 ${grammarFilter} 分級文法。`;
   }
   if(q)items=items.filter(g=>grammarSearchText(g).includes(q));
-  const n4c=grammarBank.filter(g=>g.lv==="N4").length,n3c=grammarBank.filter(g=>g.lv==="N3").length;
-  document.getElementById("grammarDbStats").textContent=`N4 ${n4c}｜N3 ${n3c}｜共 ${grammarBank.length}`;
+  const n5c=grammarBank.filter(g=>g.lv==="N5").length,n4c=grammarBank.filter(g=>g.lv==="N4").length,n3c=grammarBank.filter(g=>g.lv==="N3").length;
+  document.getElementById("grammarDbStats").textContent=`N5 ${n5c}｜N4 ${n4c}｜N3 ${n3c}｜共 ${grammarBank.length}`;
   document.getElementById("grammarShown").textContent=`顯示 ${items.length} 個`;
   if(!items.length){box.innerHTML='<div class="panel"><b>找不到符合條件的文法。</b><p class="small">試著縮短搜尋關鍵字。</p></div>';return}
   items.forEach((g,i)=>{
