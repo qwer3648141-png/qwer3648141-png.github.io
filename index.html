@@ -2512,9 +2512,140 @@ document.getElementById("lexTrainReveal")?.addEventListener("click",lexReveal);
 document.getElementById("lexTrainAudio")?.addEventListener("click",lexAudioCurrent);
 
 
+
+/* ===== JLPT N5-N3 Verb / Adjective Training Hall ===== */
+const LEX_TOPICS=[
+["V01","verb","🏠 日常生活"],["V02","verb","🚶 移動・交通"],["V03","verb","🍜 飲食・購物"],["V04","verb","💬 說話・溝通"],
+["V05","verb","👀 感覺・認知"],["V06","verb","❤️ 感情・人際"],["V07","verb","🧠 思考・判斷"],["V08","verb","🏢 工作・公司"],
+["V09","verb","🔧 問題・處理"],["V10","verb","📈 變化・成長"],["V11","verb","🔄 自動詞・他動詞"],["V12","verb","🎯 N3 高頻實用動詞"],
+["A01","adj","📐 外觀・物理特徵"],["A02","adj","😊 感情・心情"],["A03","adj","👤 性格・人物評價"],["A04","adj","👃 味覺・感官"],
+["A05","adj","🏙️ 環境・生活"],["A06","adj","💼 工作・品質"],["A07","adj","📊 程度・變化"],["A08","adj","🧩 N3 抽象形容詞"]
+];
+const LEX_DATA_LINES=[];
+const LEX_WORDS=()=>LEX_DATA_LINES.map(s=>{const a=s.split("|");return {topic:a[0],kind:a[1],word:a[2],reading:a[3],level:a[4],type:a[5],meaning:a[6],collocations:[a[7],a[8]].filter(Boolean)}});
+const LEX_PAIR_LINES=[
+"開く|あく|開ける|あける|ドア|門打開了|把門打開","閉まる|しまる|閉める|しめる|窓|窗戶關上了|把窗戶關上",
+"始まる|はじまる|始める|はじめる|会議|會議開始了|開始會議","終わる|おわる|終える|おえる|作業|作業結束了|完成作業",
+"入る|はいる|入れる|いれる|箱|進到箱子裡|放進箱子裡","出る|でる|出す|だす|ごみ|垃圾出來了|把垃圾拿出去",
+"消える|きえる|消す|けす|電気|燈熄了|把燈關掉","動く|うごく|動かす|うごかす|機械|機器動了|讓機器動",
+"落ちる|おちる|落とす|おとす|スマホ|手機掉了|把手機弄掉","壊れる|こわれる|壊す|こわす|機械|機器壞了|把機器弄壞",
+"直る|なおる|直す|なおす|故障|故障修好了|把故障修好","つく|つく|つける|つける|電気|燈亮了|把燈打開",
+"並ぶ|ならぶ|並べる|ならべる|商品|商品排成一列|把商品排好","集まる|あつまる|集める|あつめる|資料|資料聚集了|收集資料",
+"決まる|きまる|決める|きめる|日程|日程定下來了|決定日程","変わる|かわる|変える|かえる|予定|行程改變了|改變行程",
+"増える|ふえる|増やす|ふやす|人数|人數增加了|增加人數","減る|へる|減らす|へらす|費用|費用減少了|降低費用",
+"上がる|あがる|上げる|あげる|温度|溫度上升了|提高溫度","下がる|さがる|下げる|さげる|価格|價格下降了|降低價格",
+"広がる|ひろがる|広げる|ひろげる|市場|市場擴大了|擴大市場","見つかる|みつかる|見つける|みつける|原因|原因被找到了|找出原因",
+"届く|とどく|届ける|とどける|荷物|包裹送到了|把包裹送到","外れる|はずれる|外す|はずす|部品|零件脫落了|把零件拆下",
+"止まる|とまる|止める|とめる|機械|機器停了|把機器停下","続く|つづく|続ける|つづける|研修|培訓持續進行|繼續培訓",
+"育つ|そだつ|育てる|そだてる|植物|植物長大了|培育植物","沸く|わく|沸かす|わかす|お湯|熱水沸騰了|把水煮沸",
+"乾く|かわく|乾かす|かわかす|服|衣服乾了|把衣服弄乾","冷える|ひえる|冷やす|ひやす|飲み物|飲料變冷了|把飲料冰涼"
+];
+const LEX_PAIRS=()=>LEX_PAIR_LINES.map(s=>{const a=s.split("|");return {iv:a[0],ivr:a[1],tv:a[2],tvr:a[3],noun:a[4],ivm:a[5],tvm:a[6]}});
+const LEX_STORE_KEY="enjpLexTrainerV1";
+let lexState={items:{},filterKind:"all",filterLevel:"all",topic:"all",mode:"browse",current:null};
+try{const z=JSON.parse(localStorage.getItem(LEX_STORE_KEY)||"{}");if(z&&typeof z==="object")lexState={...lexState,...z,items:z.items||{}}}catch(_){}
+function lexSave(){try{localStorage.setItem(LEX_STORE_KEY,JSON.stringify(lexState))}catch(_){}}
+function lexKey(v){return v.kind+":"+v.word}
+function lexItem(v){const k=lexKey(v);return lexState.items[k]||(lexState.items[k]={level:0,seen:0,correct:0,wrong:0,due:"",last:""})}
+function lexToday(){return new Date().toISOString().slice(0,10)}
+function lexDue(level){const days=[0,1,3,7,14,30][Math.max(0,Math.min(5,level))]||1;const d=new Date();d.setDate(d.getDate()+days);return d.toISOString().slice(0,10)}
+function lexMark(v,ok){const st=lexItem(v);st.seen++;st.last=lexToday();if(ok){st.correct++;st.level=Math.min(5,st.level+1);st.due=lexDue(st.level)}else{st.wrong++;st.level=Math.max(0,st.level-1);st.due=lexToday()}lexSave();lexUpdateStats()}
+function lexRuby(v){return /[一-龯々]/.test(v.word)?'<ruby>'+v.word+'<rt>'+v.reading+'</rt></ruby>':v.word}
+function lexNormalize(s){return String(s||"").trim().replace(/[ 　]/g,"").replace(/[。．]/g,"")}
+function lexStars(n){return "★".repeat(Math.max(0,n))+"☆".repeat(Math.max(0,5-n))}
+function lexVisible(){
+ const q=lexNormalize(document.getElementById("lexSearch")?.value||"").toLowerCase();
+ return LEX_WORDS().filter(v=>(lexState.filterKind==="all"||v.kind===lexState.filterKind)&&(lexState.filterLevel==="all"||v.level===lexState.filterLevel)&&(lexState.topic==="all"||v.topic===lexState.topic)&&(!q||[v.word,v.reading,v.meaning,...v.collocations].join(" ").toLowerCase().includes(q)));
+}
+function lexUpdateStats(){
+ const all=LEX_WORDS(),today=lexToday();let known=0,due=0,weak=0;
+ all.forEach(v=>{const s=lexItem(v);if(s.level>=3)known++;if(s.seen&&s.due&&s.due<=today)due++;if(s.seen&&s.level<=2)weak++});
+ const set=(id,x)=>{const el=document.getElementById(id);if(el)el.textContent=x};
+ set("lexUniqueCount",all.length);set("lexKnownCount",known);set("lexDueCount",due);set("lexWeakCount",weak);
+}
+function lexInitTopics(){
+ const sel=document.getElementById("lexTopicSelect");if(!sel)return;
+ sel.innerHTML='<option value="all">全部主題</option>'+LEX_TOPICS.map(t=>'<option value="'+t[0]+'">'+t[2]+'</option>').join("");
+ sel.value=lexState.topic||"all";
+ document.getElementById("lexTopicGrid").innerHTML=LEX_TOPICS.map(t=>{const n=LEX_WORDS().filter(v=>v.topic===t[0]).length;return '<button class="lex-topic-card" data-lex-topic="'+t[0]+'"><strong>'+n+'</strong><b>'+t[2]+'</b><span>'+t[0]+' · '+(t[1]==="verb"?"動詞":"形容詞")+'</span></button>'}).join("");
+ document.querySelectorAll("[data-lex-topic]").forEach(b=>b.onclick=()=>{lexState.topic=b.dataset.lexTopic;sel.value=lexState.topic;lexSave();lexRenderBrowse();});
+}
+function lexRenderBrowse(){
+ const box=document.getElementById("lexWordGrid");if(!box)return;
+ const items=lexVisible(),topic=LEX_TOPICS.find(t=>t[0]===lexState.topic);
+ document.getElementById("lexResultTitle").textContent=topic?topic[2]:"全部詞彙";
+ document.getElementById("lexResultMeta").textContent="顯示 "+items.length+" / "+LEX_WORDS().length+" 個";
+ box.innerHTML=items.map((v,i)=>{const st=lexItem(v);return '<article class="lex-word"><div class="lex-word-head"><div><div class="lex-jp">'+lexRuby(v)+'</div><div class="lex-reading">'+v.reading+'</div></div><div class="lex-tags"><span class="lex-tag '+(v.level==="N3"?"n3":"")+'">'+v.level+'</span><span class="lex-tag">'+(v.kind==="verb"?(v.type==="ichidan"?"一段":v.type==="godan"?"五段":v.type==="suru"?"する":"動詞"):(v.type==="i"?"い形":"な形"))+'</span></div></div><div class="lex-cn">'+v.meaning+'</div><div class="lex-coll">'+v.collocations.map(x=>'<div>• <b>'+x+'</b></div>').join("")+'</div><div class="lex-word-foot"><button class="btn soft lex-audio" data-i="'+i+'">🔊 JP</button><button class="btn soft lex-grade" data-i="'+i+'" data-ok="1">記得</button><button class="btn soft lex-grade" data-i="'+i+'" data-ok="0">不熟</button><span class="lex-stars">'+lexStars(st.level)+'</span></div></article>'}).join("");
+ box.querySelectorAll(".lex-audio").forEach(b=>b.onclick=()=>speak(items[+b.dataset.i].word,"ja-JP"));
+ box.querySelectorAll(".lex-grade").forEach(b=>b.onclick=()=>{const v=items[+b.dataset.i];lexMark(v,b.dataset.ok==="1");lexRenderBrowse()});
+}
+function lexRender(){
+ lexUpdateStats();lexInitTopics();lexRenderBrowse();
+ document.querySelectorAll(".lex-filter").forEach(b=>b.classList.toggle("active",b.dataset.lexKind===lexState.filterKind));
+ document.querySelectorAll(".lex-level").forEach(b=>b.classList.toggle("active",b.dataset.lexLevel===lexState.filterLevel));
+ document.querySelectorAll(".lex-mode").forEach(b=>b.classList.toggle("active",b.dataset.lexMode===lexState.mode));
+ const browse=document.getElementById("lexBrowsePane"),train=document.getElementById("lexTrainingPane");
+ if(lexState.mode==="browse"){browse.style.display="block";train.style.display="none"}else{browse.style.display="none";train.style.display="block";lexNewQuestion()}
+}
+function lexVerbForms(v){
+ const w=v.word,r=v.reading;
+ if(v.type==="suru"){const stem=w.endsWith("する")?w.slice(0,-2):w;return {"ます形":stem+"します","ない形":stem+"しない","て形":stem+"して","た形":stem+"した","可能形":stem+"できる"}}
+ if(w==="来る")return {"ます形":"来ます","ない形":"来ない","て形":"来て","た形":"来た","可能形":"来られる"};
+ if(w==="行く")return {"ます形":"行きます","ない形":"行かない","て形":"行って","た形":"行った","可能形":"行ける"};
+ if(v.type==="ichidan"){const stem=w.slice(0,-1);return {"ます形":stem+"ます","ない形":stem+"ない","て形":stem+"て","た形":stem+"た","可能形":stem+"られる"}}
+ const last=w.slice(-1),stem=w.slice(0,-1),map={う:["い","わ","って","った","え"],く:["き","か","いて","いた","け"],ぐ:["ぎ","が","いで","いだ","げ"],す:["し","さ","して","した","せ"],つ:["ち","た","って","った","て"],ぬ:["に","な","んで","んだ","ね"],ぶ:["び","ば","んで","んだ","べ"],む:["み","ま","んで","んだ","め"],る:["り","ら","って","った","れ"]}[last];
+ if(!map)return {};
+ return {"ます形":stem+map[0]+"ます","ない形":stem+map[1]+"ない","て形":stem+map[2],"た形":stem+map[3],"可能形":stem+map[4]+"る"};
+}
+function lexAdjForms(v){
+ const w=v.word.replace(/な$/,"");
+ if(v.type==="i"){const stem=w.slice(0,-1);return {"否定形":stem+"くない","過去形":stem+"かった","過去否定":stem+"くなかった","副詞形":stem+"く"}}
+ return {"否定形":w+"ではない","過去形":w+"だった","過去否定":w+"ではなかった","副詞形":w+"に"};
+}
+function lexPick(pool){return pool[Math.floor(Math.random()*pool.length)]}
+function lexTrainPool(){let p=LEX_WORDS();if(lexState.filterLevel!=="all")p=p.filter(v=>v.level===lexState.filterLevel);if(lexState.mode==="weak"){const t=lexToday();const w=p.filter(v=>{const s=lexItem(v);return s.seen&&(s.level<=2||(s.due&&s.due<=t))});if(w.length)p=w}return p}
+function lexNewQuestion(){
+ const mode=lexState.mode,pool=lexTrainPool();if(!pool.length)return;
+ const badge=document.getElementById("lexTrainBadge"),title=document.getElementById("lexTrainTitle"),hint=document.getElementById("lexTrainHint"),prompt=document.getElementById("lexTrainPrompt"),opts=document.getElementById("lexTrainOptions"),wrap=document.getElementById("lexTrainInputWrap"),fb=document.getElementById("lexTrainFeedback");
+ fb.className="feedback";fb.textContent="先自己作答，系統會記錄弱項。";opts.innerHTML="";wrap.style.display="none";
+ if(mode==="conjugation"){
+  const candidates=pool.filter(v=>v.kind==="verb"||v.kind==="adj"),v=lexPick(candidates),forms=v.kind==="verb"?lexVerbForms(v):lexAdjForms(v),keys=Object.keys(forms),form=lexPick(keys);
+  lexState.current={mode,v,answer:forms[form],form};badge.textContent=v.level+" · "+(v.kind==="verb"?"動詞活用":"形容詞活用");title.textContent=v.word+" → "+form;hint.textContent=v.meaning+"｜"+v.reading;prompt.innerHTML=lexRuby(v)+" <span style='color:#8797b8'>→ "+form+"</span>";wrap.style.display="flex";document.getElementById("lexTrainInput").value="";
+ }else if(mode==="pairs"){
+  const p=lexPick(LEX_PAIRS()),trans=Math.random()>.5,answer=trans?p.tv:p.iv;
+  lexState.current={mode,v:LEX_WORDS().find(v=>v.word===answer)||{word:answer,kind:"verb",meaning:"自他動詞"},answer};
+  badge.textContent="自動詞・他動詞";title.textContent=trans?"請選他動詞（を）":"請選自動詞（が）";hint.textContent=trans?p.tvm:p.ivm;prompt.textContent=(trans?p.noun+"を ＿＿":p.noun+"が ＿＿");
+  const choices=[p.iv,p.tv,...LEX_PAIRS().filter(x=>x!==p).flatMap(x=>[x.iv,x.tv]).sort(()=>Math.random()-.5).slice(0,2)].sort(()=>Math.random()-.5);
+  opts.innerHTML=choices.map(x=>'<button data-a="'+x+'">'+x+'</button>').join("");opts.querySelectorAll("button").forEach(b=>b.onclick=()=>lexAnswer(b.dataset.a));
+ }else{
+  const v=lexPick(pool);lexState.current={mode,v,answer:v.meaning};badge.textContent=v.level+" · 聽力辨義";title.textContent="先聽聲音，再選意思";hint.textContent="不顯示單字，避免視覺提示";prompt.textContent="🔊 只聽日文";
+  const choices=[v,...LEX_WORDS().filter(x=>x!==v&&x.level===v.level).sort(()=>Math.random()-.5).slice(0,3)].sort(()=>Math.random()-.5);
+  opts.innerHTML=choices.map(x=>'<button data-a="'+x.meaning+'">'+x.meaning+'</button>').join("");opts.querySelectorAll("button").forEach(b=>b.onclick=()=>lexAnswer(b.dataset.a));setTimeout(()=>speak(v.word,"ja-JP"),120);
+ }
+ lexSave();
+}
+function lexAnswer(value){
+ const q=lexState.current;if(!q)return;const ok=lexNormalize(value)===lexNormalize(q.answer),fb=document.getElementById("lexTrainFeedback");
+ fb.className="feedback "+(ok?"ok":"bad");fb.innerHTML=(ok?"✅ 正確":"❌ 答案："+q.answer)+(q.v?.word?"<br>"+q.v.word+"｜"+(q.v.meaning||""):"");
+ if(q.v&&q.v.kind)lexMark(q.v,ok);
+}
+function lexInit(){
+ if(document.body.dataset.lexInit)return;document.body.dataset.lexInit="1";
+ document.querySelectorAll(".lex-filter").forEach(b=>b.onclick=()=>{lexState.filterKind=b.dataset.lexKind;lexSave();lexRender()});
+ document.querySelectorAll(".lex-level").forEach(b=>b.onclick=()=>{lexState.filterLevel=b.dataset.lexLevel;lexSave();lexRender()});
+ document.querySelectorAll(".lex-mode").forEach(b=>b.onclick=()=>{lexState.mode=b.dataset.lexMode;lexSave();lexRender()});
+ document.getElementById("lexTopicSelect").onchange=e=>{lexState.topic=e.target.value;lexSave();lexRenderBrowse()};
+ document.getElementById("lexSearch").oninput=lexRenderBrowse;
+ document.getElementById("lexTrainCheck").onclick=()=>lexAnswer(document.getElementById("lexTrainInput").value);
+ document.getElementById("lexTrainInput").addEventListener("keydown",e=>{if(e.key==="Enter")lexAnswer(e.target.value)});
+ document.getElementById("lexTrainAgain").onclick=lexNewQuestion;
+ document.getElementById("lexTrainReveal").onclick=()=>{const q=lexState.current;if(q){const fb=document.getElementById("lexTrainFeedback");fb.className="feedback";fb.innerHTML="答案：<b>"+q.answer+"</b>"}};
+ document.getElementById("lexTrainAudio").onclick=()=>{const q=lexState.current;if(q?.v?.word)speak(q.v.word,"ja-JP")};
+}
+
 function setScreen(id,opts={}){
   document.querySelectorAll(".screen").forEach(x=>x.classList.toggle("active",x.id===id));window.scrollTo({top:0,left:0,behavior:"auto"});document.querySelectorAll("#nav button").forEach(x=>x.classList.toggle("active",x.dataset.screen===id));
-  if(id==="daily")renderWebDailyLesson();if(id==="chapters")renderChapters();if(id==="cards"){if(!document.getElementById("cardScope")?.options.length)cardScopeOptions();applyCardScope(false);}if(id==="grammar")renderGrammar();if(id==="library"){practiceScopeOptions("libraryScope",false);renderLibrary();}if(id==="lextrain")renderLexTrain();
+  if(id==="daily")renderWebDailyLesson();if(id==="lextrain"){lexInit();lexRender();}if(id==="chapters")renderChapters();if(id==="cards"){if(!document.getElementById("cardScope")?.options.length)cardScopeOptions();applyCardScope(false);}if(id==="grammar")renderGrammar();if(id==="library"){practiceScopeOptions("libraryScope",false);renderLibrary();}if(id==="lextrain")renderLexTrain();
   if(id==="drill"&&!opts.skipAuto){practiceScopeOptions("drillScope",true);startDrill("scope");}if(id==="listen"&&!opts.skipAuto)startListen();if(id==="match"&&!opts.skipAuto)startMatch();if(id==="focus"&&!opts.skipAuto){practiceScopeOptions("focusScope",false);startFocus();}
 }
 document.querySelectorAll("[data-screen]").forEach(b=>b.addEventListener("click",()=>setScreen(b.dataset.screen)));document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>setScreen(b.dataset.go)));
