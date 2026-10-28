@@ -1,67 +1,26 @@
-<!doctype html>
-<html lang="zh-Hant">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="繁體中文半導體晶圓製造知識庫：由矽晶圓、FEOL、MOL、BEOL 到晶圓測試，以設備、溫度、材料、氣體與原理逐步理解。">
-<title>晶圓製造全流程｜半導體製程知識庫</title>
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="按章節學習晶圓製程：先看全流程，再逐站理解原理、設備、溫度與材料。"><title>晶圓製程學習室</title>
 <style>
-:root{--ink:#142333;--muted:#586b7d;--navy:#0b1928;--blue:#1967d2;--cyan:#21b8c7;--paper:#f4f7fa;--line:#d9e2ea;--white:#fff;--gold:#f3b64b;--green:#168a70;--shadow:0 18px 48px #14233312}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,"Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;line-height:1.72}a{color:#145cb8;text-decoration:none}a:hover{text-decoration:underline}.wrap{max-width:1160px;margin:auto;padding:0 24px}.hero{background:radial-gradient(ellipse at 82% 10%,#174e70 0,transparent 34%),linear-gradient(120deg,#0b1928,#122b40 68%,#102b42);color:white;padding:28px 0 66px;overflow:hidden}.top{display:flex;justify-content:space-between;align-items:center;color:#c6d6e5;font-size:13px}.brand{font-weight:750;letter-spacing:.04em;color:white}.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:34px;align-items:center;padding-top:55px}.eyebrow{font-size:12px;letter-spacing:.17em;text-transform:uppercase;color:#78dce2;font-weight:750}.hero h1{font-size:clamp(36px,5vw,60px);line-height:1.14;letter-spacing:-.035em;margin:14px 0 18px}.hero p{color:#d0deea;max-width:640px;font-size:17px}.chips{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0}.chip{border:1px solid #ffffff37;color:#d8e8f4;padding:5px 10px;border-radius:999px;font-size:12px}.hero-note{border-left:3px solid var(--cyan);padding:8px 13px;color:#b9cedd;font-size:13px;margin-top:23px}.hero figure{margin:0;background:#ffffff09;border:1px solid #ffffff1b;padding:18px;border-radius:20px}.hero figcaption{font-size:12px;color:#b8ccdc;margin-top:10px}.hero svg{display:block;width:100%;height:auto}
-.bar{position:sticky;top:0;z-index:9;background:#ffffffed;backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}.nav{display:flex;gap:8px;overflow:auto;padding:10px 0;white-space:nowrap}.nav a{font-size:12px;font-weight:650;color:#496074;padding:7px 10px;border-radius:9px}.nav a:hover{background:#eaf2f8;text-decoration:none}
-section{padding:52px 0;scroll-margin-top:68px}.section-head{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:24px}.kicker{font-size:11px;letter-spacing:.15em;text-transform:uppercase;font-weight:750;color:var(--blue)}h2{font-size:clamp(26px,3vw,37px);line-height:1.2;margin:5px 0 8px;letter-spacing:-.025em}.lead{margin:0;color:var(--muted);max-width:780px}.muted{color:var(--muted)}.grid{display:grid;gap:16px}.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}.card{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:var(--shadow)}.card h3{margin:0 0 9px;font-size:18px}.card p{margin:7px 0;color:#4c6073}.tag{display:inline-block;background:#eaf4fb;color:#235e86;border-radius:6px;padding:2px 7px;font-size:11px;font-weight:700;margin:2px 4px 2px 0}.callout{background:#e9f6f5;border:1px solid #cbe9e5;border-radius:14px;padding:17px 19px;color:#23564f}.callout strong{color:#153f3a}.warn{background:#fff6e5;border-color:#f6e0ad;color:#614b1d}.flow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;align-items:stretch}.flow .step{background:#fff;border:1px solid var(--line);border-radius:13px;padding:14px;position:relative}.step .num{font-size:11px;color:var(--blue);font-weight:800;letter-spacing:.08em}.step h3{font-size:14px;margin:6px 0}.step p{font-size:12px;line-height:1.55;color:var(--muted);margin:0}.loop{margin-top:12px;text-align:center;color:#236c74;font-weight:700;font-size:13px;padding:10px;border:1px dashed #9bced0;border-radius:11px;background:#eefaf9}
-.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:14px;background:white;box-shadow:var(--shadow)}table{border-collapse:collapse;width:100%;min-width:840px;font-size:13px}th,td{text-align:left;padding:12px 14px;border-bottom:1px solid #e7edf2;vertical-align:top}th{background:#eef4f8;color:#32495c;font-size:11px;letter-spacing:.04em}tr:last-child td{border-bottom:0}td:first-child{font-weight:750;color:#173a55;white-space:nowrap}.small{font-size:12px;color:var(--muted)}.module{border-top:1px solid var(--line);padding:25px 0;display:grid;grid-template-columns:72px 1fr;gap:18px}.module-icon{width:62px;height:62px;border-radius:17px;background:#e7f3f8;display:grid;place-items:center;font-size:27px}.module h3{margin:1px 0 5px;font-size:20px}.module .sub{color:var(--blue);font-size:12px;font-weight:750}.module p{margin:8px 0;color:#4d6072}.module ul{margin:7px 0;padding-left:20px;color:#41566a}.diagram{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;overflow:auto}.diagram svg{display:block;width:100%;min-width:600px;height:auto}.diagram figcaption{font-size:12px;color:var(--muted);margin:9px 4px 1px}.img-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.web-figure{margin:0;background:white;border:1px solid var(--line);border-radius:15px;overflow:hidden}.web-figure img{display:block;width:100%;height:auto;max-height:270px;object-fit:contain;background:#eef3f7}.web-figure figcaption{padding:12px 14px;font-size:12px;color:var(--muted)}.source-list{columns:2;column-gap:36px}.source-list li{break-inside:avoid;margin:0 0 10px;font-size:13px}.foot{background:var(--navy);color:#c8d6e2;padding:34px 0;font-size:12px}.foot a{color:#89d7df}.foot p{margin:4px 0}
-@media(max-width:820px){.hero-grid{grid-template-columns:1fr;padding-top:36px}.hero figure{max-width:600px}.flow{grid-template-columns:repeat(2,1fr)}.flow .step:last-child{grid-column:span 2}.grid.three{grid-template-columns:1fr}.section-head{display:block}.source-list{columns:1}}
-@media(max-width:560px){.wrap{padding:0 16px}.hero{padding-bottom:40px}.hero-grid{padding-top:28px}.grid.two,.img-grid{grid-template-columns:1fr}.module{grid-template-columns:48px 1fr;gap:12px}.module-icon{width:44px;height:44px;border-radius:12px;font-size:21px}.flow{grid-template-columns:1fr}.flow .step:last-child{grid-column:auto}.nav a{padding:7px 8px}}
-</style>
-</head>
-<body>
-<header class="hero">
- <div class="wrap">
-  <div class="top"><span class="brand">FAB NOTES　/　製程入門</span><span>繁體中文知識庫・v1</span></div>
-  <div class="hero-grid">
-   <div>
-    <div class="eyebrow">From sand to silicon circuits</div>
-    <h1>晶圓製造，<br>一層一層看懂</h1>
-    <p>從單晶矽、晶圓前處理，到電晶體、金屬互連、晶圓測試。每個製程都回答四個問題：<b>做什麼、用哪種設備、材料與氣體是什麼、溫度與反應原理為何。</b></p>
-    <div class="chips"><span class="chip">FEOL 前段製程</span><span class="chip">MOL 接觸層</span><span class="chip">BEOL 金屬互連</span><span class="chip">全流程概念圖</span></div>
-    <div class="hero-note">先記住：晶圓不是照一張固定流程表跑到底，而是以「沉積／塗佈 → 曝光 → 蝕刻或摻雜 → 清洗／量測」為循環，把很多層結構逐步堆疊出來。</div>
-   </div>
-   <figure aria-label="晶圓上逐層建立晶體管與金屬連線的示意圖">
-    <svg viewBox="0 0 570 330" role="img" aria-labelledby="waferTitle">
-     <title id="waferTitle">晶圓晶片的多層結構示意</title>
-     <defs><linearGradient id="w" x2="1" y2="1"><stop stop-color="#d2ecf4"/><stop offset="1" stop-color="#71acc3"/></linearGradient></defs>
-     <ellipse cx="287" cy="273" rx="225" ry="32" fill="#102c42" stroke="#70cee0" stroke-width="2"/>
-     <path d="M62 250v23c0 18 101 33 225 33s225-15 225-33v-23" fill="#27627b" stroke="#70cee0" stroke-width="2"/>
-     <ellipse cx="287" cy="249" rx="225" ry="32" fill="url(#w)" stroke="#b7ecf2" stroke-width="2"/>
-     <path d="M95 229h385v16c0 12-86 22-192 22S95 257 95 245z" fill="#236899"/>
-     <ellipse cx="287" cy="229" rx="192" ry="24" fill="#46c1cb"/>
-     <path d="M134 205h306v19c0 9-69 18-153 18s-153-9-153-18z" fill="#124a67"/>
-     <ellipse cx="287" cy="205" rx="153" ry="18" fill="#2c88b0"/>
-     <path d="M168 185h238v17c0 7-53 14-119 14s-119-7-119-14z" fill="#e5f4f0"/>
-     <ellipse cx="287" cy="185" rx="119" ry="14" fill="#f0c466"/>
-     <g fill="#0d2c42"><rect x="216" y="147" width="20" height="37" rx="3"/><rect x="263" y="137" width="20" height="47" rx="3"/><rect x="310" y="147" width="20" height="37" rx="3"/><path d="M208 147q18-14 36 0M255 137q18-14 36 0M302 147q18-14 36 0" fill="none" stroke="#f3bc58" stroke-width="4"/></g>
-     <g font-family="system-ui,sans-serif" font-size="13" font-weight="700">
-      <path d="M385 164h83" stroke="#f5cf78" stroke-width="2"/><text x="474" y="168" fill="#f5dfad">電晶體 FEOL</text>
-      <path d="M408 205h60" stroke="#52c6d2" stroke-width="2"/><text x="474" y="209" fill="#a9f1ed">接觸層 MOL</text>
-      <path d="M430 235h38" stroke="#76b9ef" stroke-width="2"/><text x="474" y="239" fill="#c6e2ff">金屬線 BEOL</text>
-      <path d="M450 273h18" stroke="#a6dbe8" stroke-width="2"/><text x="474" y="277" fill="#d3eaf1">矽晶圓</text>
-     </g>
-     <text x="65" y="45" fill="#bfe4ec" font-size="12" letter-spacing="2">NOT TO SCALE</text>
-     <text x="65" y="69" fill="#fff" font-size="20" font-weight="700">用薄膜、圖案與摻雜</text>
-     <text x="65" y="94" fill="#bdd1de" font-size="14">把平坦矽片變成三維電路</text>
-    </svg>
-    <figcaption>原創簡化剖面圖：多數晶片在矽基底上形成元件，再往上堆疊接點和多層互連。未按比例繪製。</figcaption>
-   </figure>
-  </div>
- </div>
-</header>
-<div class="bar"><nav class="wrap nav" aria-label="頁面導覽">
- <a href="#map">總覽流程</a><a href="#cycle">製程循環</a><a href="#conditions">溫度與環境</a><a href="#steps">設備與原理</a><a href="#cross">剖面圖解</a><a href="#images">網路示意圖</a><a href="#sources">資料來源</a>
-</nav></div>
-<main>
-<section id="map"><div class="wrap">
- <div class="section-head"><div><div class="kicker">01 / Big picture</div><h2>先把整座晶圓廠放進腦中</h2><p class="lead">晶圓廠前段製程常稱 wafer fab。下面是概念地圖；實際產品會依邏輯、DRAM、NAND、類比、功率元件、影像感測器等，使用不同材料與順序。</p></div></div>
+:root{--ink:#192e3e;--muted:#516778;--blue:#155bba;--line:#d7e2e9;--paper:#f3f6f8;--text:20px}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;font-size:var(--text);line-height:1.85}a{color:var(--blue);text-underline-offset:4px}button,input{font:inherit}button,a{touch-action:manipulation}button{cursor:pointer}button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid #147d9b;outline-offset:3px}[hidden]{display:none!important}
+.topbar{height:78px;background:#102d40;color:white;display:flex;justify-content:space-between;align-items:center;padding:0 30px;gap:16px;position:sticky;top:0;z-index:20}.brand{color:white;text-decoration:none;font-size:23px;font-weight:800;letter-spacing:.02em}.brand small{font-size:16px;color:#abcedb;margin-left:15px;font-weight:400}.tools{display:flex;align-items:center;gap:10px}.tools button{min-height:44px;background:#ffffff13;color:white;border:1px solid #ffffff55;border-radius:8px;font-size:17px;padding:4px 12px}.menu{display:none}.layout{display:grid;grid-template-columns:300px minmax(0,1fr);max-width:1500px;margin:auto}.sidebar{position:sticky;top:78px;height:calc(100vh - 78px);overflow-y:auto;background:#fff;border-right:1px solid var(--line);padding:24px 18px 40px}.search-label{display:block;font-size:16px;font-weight:700;margin-bottom:7px}.sidebar input{width:100%;min-height:48px;font-size:17px;padding:9px;border:1px solid #9bb0c0;border-radius:8px}.nav-group{margin-top:24px}.nav-group h2{font-size:16px;color:#637788;margin:0 8px 8px;font-weight:700}.nav-group a{display:flex;gap:9px;align-items:center;color:#334e61;text-decoration:none;padding:11px 10px;border-radius:9px;font-size:18px;line-height:1.5;margin:3px 0}.nav-group a:hover{background:#f1f6f9}.nav-group a[aria-current="page"]{background:#e5f1fa;color:#134d80;font-weight:750;box-shadow:inset 3px 0 #1c6cb4}.nav-number{font-size:16px;color:#647d8f}.check{margin-left:auto;color:#126a52}.progress{border-radius:12px;background:#edf6f4;padding:14px;margin-top:20px;font-size:16px}.progress progress{width:100%;accent-color:#17775f;display:block;height:10px;margin:9px 0}.search-note{font-size:16px;color:#607486}.content{min-width:0;padding:44px 42px 70px}.screen{max-width:970px;margin:auto}.eyebrow,.kicker{color:#226280;font-weight:700;font-size:16px;letter-spacing:.05em;margin:0 0 10px}h1{font-size:clamp(30px,3vw,44px);line-height:1.3;letter-spacing:-.02em;margin:0 0 16px}h2{font-size:26px;line-height:1.45;margin:0 0 14px}h3{font-size:22px;line-height:1.5;margin:0 0 10px}p{margin:10px 0 20px}.intro,.lead{color:var(--muted);max-width:43em;margin-bottom:28px}.muted,.small{color:var(--muted)}.small,figcaption,.save-note{font-size:17px;line-height:1.7}.hero-card{border-radius:20px;background:linear-gradient(130deg,#153d54,#155f6d);color:white;padding:32px;margin:25px 0}.hero-card p{color:#d6ecf1}.primary,.complete{display:inline-flex;align-items:center;justify-content:center;min-height:50px;border:0;border-radius:10px;background:#165ea7;color:white;padding:10px 20px;font-size:19px;font-weight:700;text-decoration:none}.hero-card .primary{background:#fff;color:#17465d}.path-cards,.grid,.img-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.card,.takeaways,.recall,.reading{background:white;border:1px solid var(--line);border-radius:16px;padding:24px;margin:20px 0}.path-cards .card,.grid .card{margin:0}.card p:last-child{margin-bottom:0}.path-cards a{font-weight:700}.path-cards .index{font-size:17px;color:#227181;font-weight:750}.takeaways{background:#eaf5f2;border-color:#c8e3db}.takeaways h2{color:#1b5c4b}.takeaways ol{padding-left:28px;margin:8px 0}.takeaways li{padding-left:6px;margin:10px 0}.reading{max-width:46em}.tabs{display:flex;flex-wrap:wrap;gap:8px;margin:24px 0;border-bottom:1px solid var(--line);padding-bottom:12px}.tabs button{border:1px solid #b9cbd8;background:white;color:#335468;border-radius:10px;padding:10px 16px;min-height:50px;font-size:19px}.tabs [aria-selected="true"]{background:#165ea7;color:white;border-color:#165ea7}.recall{border-left:5px solid #b58429;background:#fffaf0}.recall summary{cursor:pointer;padding:4px;list-style-position:outside;margin-left:18px}.recall summary span{display:block;color:#786025;font-size:17px}.recall summary strong{font-weight:650}.recall p{border-top:1px solid #e8d9b9;padding-top:18px;margin-top:18px}.facts .card h2{font-size:23px;color:#1c5c7e}.lesson-actions{display:flex;gap:15px;align-items:center;flex-wrap:wrap;margin:34px 0 20px}.complete[aria-pressed="true"]{background:#19745b}.save-note{color:#5c7080}.chapter-nav{display:flex;justify-content:space-between;gap:18px;border-top:1px solid var(--line);padding-top:22px}.chapter-nav a{font-size:18px;max-width:48%}.text-link{display:inline-block;margin:15px 0}.flow{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:20px}.step{background:white;border:1px solid var(--line);padding:20px;border-radius:12px}.num{font-size:16px;color:#226280;font-weight:700}.step p{font-size:19px;margin:5px 0}.loop,.callout{background:#e7f3f5;border-radius:12px;padding:20px;margin:20px 0}.warn{background:#fff4df}.diagram{background:white;border:1px solid var(--line);border-radius:14px;padding:18px;margin:24px 0}.diagram svg{display:block;width:100%;height:auto;min-width:0}.diagram figcaption{color:var(--muted);margin-top:14px}.zoom-hint{font-size:17px;color:#5b7180}.diagram button{background:#edf4f8;border:1px solid #a4bbc9;color:#254c63;border-radius:8px;min-height:44px;font-size:17px;padding:6px 14px;margin-top:12px}.diagram.enlarged{overflow:auto}.diagram.enlarged svg{min-width:1100px}.condition dl{margin:0}.condition dt{font-size:17px;color:#526f82;font-weight:750;margin-top:17px}.condition dd{margin:2px 0 0}.conditions-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.conditions-grid .card{margin:0}.source-list{padding-left:25px}.source-list li{margin:16px 0}.web-figure{margin:0;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}.web-figure img{width:100%;height:auto;display:block}.web-figure figcaption{padding:18px}.web-figure .card{font-size:19px}.web-figure .small{font-size:17px}.no-results{font-size:17px;color:#755c24}.skip{position:absolute;left:15px;top:-100px;background:white;padding:10px;z-index:50}.skip:focus{top:8px}.route-footer{font-size:16px;color:#617585;border-top:1px solid var(--line);padding-top:25px;margin-top:50px}
+@media(min-width:1400px){.content{padding:48px 60px}}
+@media(max-width:1050px){.layout{grid-template-columns:260px minmax(0,1fr)}.sidebar{padding:20px 13px}.content{padding:32px 25px}.nav-group a{font-size:17px}.path-cards,.conditions-grid,.img-grid{grid-template-columns:1fr}.brand small{display:none}}
+@media(max-width:760px){.topbar{height:70px;padding:0 14px}.brand{font-size:20px}.tools{gap:5px}.tools button{padding:4px 9px;font-size:16px}.menu{display:block}.layout{display:block}.sidebar{display:none;position:fixed;top:70px;left:0;width:min(340px,92vw);height:calc(100dvh - 70px);z-index:30;box-shadow:10px 0 40px #102d402e}.sidebar.open{display:block}.content{padding:28px 18px 50px}.hero-card{padding:25px}.card,.takeaways,.reading,.recall{padding:21px}.grid,.flow{grid-template-columns:1fr}.tabs{gap:6px}.tabs button{font-size:17px;padding:9px 10px}.chapter-nav{flex-direction:column}.chapter-nav a{max-width:100%}.diagram{padding:12px}.lesson-actions{align-items:flex-start;flex-direction:column}.nav-group a{font-size:18px}}
+@media print{.topbar,.sidebar,.tabs,.lesson-actions,.chapter-nav{display:none!important}.layout{display:block}.content{padding:0}.screen[hidden]{display:none!important}.screen:not([hidden]) [role="tabpanel"]{display:block!important}.diagram svg{min-width:0!important}}
+</style></head><body><a class="skip" href="#main">跳到主要內容</a>
+<header class="topbar"><a class="brand" href="#home">晶圓製程學習室<small>一次理解一個製程</small></a><div class="tools"><button id="font" aria-label="切換閱讀字級">字級：標準</button><button class="menu" id="menu" aria-controls="sidebar" aria-expanded="false">目錄</button></div></header>
+<div class="layout"><aside class="sidebar" id="sidebar" aria-label="課程目錄">
+<label class="search-label" for="search">找製程、機台或材料</label><input id="search" type="search" placeholder="例如：蝕刻、SiH₄、CMP" autocomplete="off"><p class="search-note" id="search-count" aria-live="polite"></p>
+<nav><div class="nav-group"><h2>先看全貌</h2><a href="#home" data-route="home">學習首頁</a><a href="#overview" data-route="overview">全流程導覽</a></div><div class="nav-group"><h2>01　基板與表面</h2><a href="#lesson-1" data-route="lesson-1" data-search="設備：CZ（Czochralski）拉晶爐、外圓研磨機、多線切割機、研磨／蝕刻／CMP 拋光機、清洗與檢查設備。 材料與氣氛：高純度多晶矽熔料、石英坩堝、氬氣；拉晶時可加入微量硼或磷控制電阻率。後續以線鋸切片、倒角、研磨和化學機械拋光。 原理：以籽晶引導熔融矽凝固，讓矽原子沿單晶晶格排列。切片後去除鋸切損傷並拋成鏡面，降低後續微影的焦距與缺陷風險。200／300 mm 是常見晶圓直徑，不代表每種產品都用同一尺寸。 溫度：矽熔點約 1414°C；拉晶爐以感應／電阻加熱控制熔池與拉速。切片、研磨、拋光為機械／濕化學步驟，通常不以高溫製程為核心。"><span class="nav-number">01</span><span>晶圓的起點</span><span class="check" aria-hidden="true"></span></a><a href="#lesson-2" data-route="lesson-2" data-search="設備：濕式槽台（wet bench）、單片旋轉噴洗機、刷洗機、兆聲／超音波槽、旋轉乾燥機或 Marangoni 乾燥機。 常見化學品：SC-1（NH₄OH／H₂O₂／H₂O）偏向去粒子與有機污染；SC-2（HCl／H₂O₂／H₂O）偏向金屬離子；HF 或 BOE 用於去除氧化層；大量超純水沖洗。清洗不是把所有化學液混用，流程依污染類型安排。 原理：化學反應、溶解與機械／聲學作用把微粒、金屬或有機物從表面帶走。最後必須低污染乾燥，否則水痕或再沾污會變成缺陷。 溫度與環境：室溫至約 80°C 的配方都可能使用；濕台局部抽氣並配置藥液供應、排氣與廢液處理。"><span class="nav-number">02</span><span>清洗：準備乾淨表面</span><span class="check" aria-hidden="true"></span></a><a href="#lesson-3" data-route="lesson-3" data-search="設備：批次石英管爐、立式爐、RTP／RTA 快速熱處理設備。 材料與氣體：乾氧化使用 O₂；濕氧化供應 H₂O 蒸氣（可由 O₂／H₂ 反應產生）；擴散摻雜常見硼、磷源；退火可用 N₂、Ar 或含 H₂ 的成形氣氛。 原理：氧化時氧化劑穿過已形成的氧化層到達 Si／SiO₂ 界面，與矽反應：Si + O₂ → SiO₂；水蒸氣氧化較快但膜質特性不同。擴散由濃度梯度推動雜質移動；退火用熱修復晶格缺陷、活化摻雜原子或改善介面。 溫度：熱氧化常約 800–1200°C；摻雜擴散約 1000°C 以上；植入後活化退火常約 800–1000°C，RTA 用很短時間達高溫以限制擴散。"><span class="nav-number">03</span><span>氧化與熱處理</span><span class="check" aria-hidden="true"></span></a></div><div class="nav-group"><h2>02　形成圖案與元件</h2><a href="#lesson-4" data-route="lesson-4" data-search="設備：Track 塗佈／顯影機（旋塗杯、熱板、顯影模組）、Stepper 或 Scanner 曝光機、缺陷檢查與 overlay／CD 量測設備。 材料：液態光阻、底部抗反射層、光罩 reticle、顯影液；正光阻曝光處通常變得較易溶，負光阻則常因曝光交聯而較難溶。 原理：旋塗形成均勻感光薄層；對位後投射光罩圖案。曝光改變光阻的化學溶解度，烘烤與顯影留下要保護的圖形。光阻圖形本身是暫時遮罩，後續通常還要把形狀轉移到下方薄膜。 光源／溫度：DUV 常見 KrF 248 nm、ArF 193 nm；EUV 波長 13.5 nm，EUV 光路需真空。塗佈後熱板通常在約 90–150°C 的 recipe window；精確溫度與時間依光阻與層別。"><span class="nav-number">04</span><span>微影：把圖案印上去</span><span class="check" aria-hidden="true"></span></a><a href="#lesson-5" data-route="lesson-5" data-search="設備：濕蝕刻槽／單片濕製程機；乾式使用 RIE、ICP、CCP 電漿蝕刻腔；去光阻常用 O₂ 灰化與下游濕式清洗。 材料與氣體：氧化物常用 HF 系濕蝕刻或 CF₄／CHF₃ 等含氟電漿；矽／多晶矽常用 Cl₂、HBr；深矽蝕刻常在 SF₆ 蝕刻與 C₄F₈ 保護膜沉積間交替。 原理：濕蝕刻靠液相反應溶解材料，常較各向同性；電漿把氣體解離成自由基和離子，化學反應生成揮發性副產物，帶偏壓的離子提供較垂直的方向性。製程需兼顧速率、選擇比、均勻性與側壁輪廓。 溫度：很多蝕刻用晶圓台會冷卻至數十°C；有些深矽／冷凍蝕刻會低於 0°C，亦有較高溫製程，取決於材料與側壁控制目標。腔體是低壓真空。"><span class="nav-number">05</span><span>蝕刻：把圖案刻下去</span><span class="check" aria-hidden="true"></span></a><a href="#lesson-6" data-route="lesson-6" data-search="設備：離子源、質量分析磁鐵、加速電場、掃描晶圓盤、高真空腔；植入後接 RTA／尖峰退火或爐管退火。 材料／氣體源：硼 B 或 BF₂ 形成 p 型摻雜；磷 P、砷 As 常形成 n 型摻雜。離子源使用氣、液或固態前驅物，依離子機台與物種選擇；退火常用 N₂ 或 Ar。 原理：離子化後按質量挑選所需離子，再加速至指定能量並掃描晶圓。能量主要影響植入深度，劑量影響濃度；光阻或硬遮罩限定區域。離子會造成晶格損傷，退火讓摻雜進入晶格位置並恢復晶體品質。 溫度：佈植通常近室溫（特定材料可熱佈植）；植入後矽晶圓活化退火常約 800–1000°C，控制時間避免摻雜擴散過遠。"><span class="nav-number">06</span><span>佈植：改變導電特性</span><span class="check" aria-hidden="true"></span></a><a href="#lesson-7" data-route="lesson-7" data-search="設備：CVD 批次爐管或單片反應腔；PVD 濺鍍真空腔；ALD 交替脈衝供應反應物；外延反應器用於晶體品質連續生長。 材料與氣體例：SiH₄ 可供應矽；SiH₄／O₂ 或 TEOS 可製氧化矽；SiH₄／NH₃ 或 DCS／NH₃ 可製含氮薄膜。PVD 以 Ar 電漿轟擊 Ti、Ta、Cu、Al 等固體靶材；ALD 以金屬有機或鹵化物前驅物搭配 H₂O、O₃、NH₃ 等反應物。 原理：CVD 讓前驅氣體在熱或電漿能量下反應並在表面成膜；PVD 以物理濺射把靶材原子送到晶圓；ALD 交替送入前驅物與反應物，利用表面自限反應逐循環長膜，適合高深寬比結構的共形覆蓋。 溫度：LPCVD 常約 500–1100°C；PECVD 常約 200–400°C；ALD 很依賴材料，常見約 100–400°C；PVD 可由近室溫到數百°C。這些範圍會因膜種差異很大。"><span class="nav-number">07</span><span>沉積：加上一層材料</span><span class="check" aria-hidden="true"></span></a></div><div class="nav-group"><h2>03　品質、連接與出貨</h2><a href="#lesson-8" data-route="lesson-8" data-search="設備：CMP 研磨機（載台、拋光墊、研磨頭、修整盤）、漿液供給和末端清洗設備。 材料：水基漿液含 SiO₂／CeO₂ 磨粒與化學添加劑；金屬 CMP 可能加入氧化劑、抑制劑與螯合劑，依銅、鎢、氧化物等不同薄膜設計。 原理：晶圓旋轉並受壓接觸拋光墊；漿液先化學改質／軟化表面，墊與磨粒再機械移除材料。凸起處接觸較多，逐步削平，露出所需層或形成平坦表面，讓下一層微影可對焦。 溫度：通常近室溫運作；需控制漿液供應、墊面修整、壓力、速度與終點。"><span class="nav-number">08</span><span>CMP：讓表面變平</span><span class="check" aria-hidden="true"></span></a><a href="#lesson-9" data-route="lesson-9" data-search="設備：橢偏儀／反射儀量薄膜，光學或電子束 CD-SEM 量線寬，散射量測看 overlay，AFM／輪廓儀量表面形貌，明暗場檢查機找缺陷，四點探針／電性測試量電阻。 原理：量測不只是最後驗收，而是每個關鍵模組後的回饋。SPC 追蹤中心值與變異，發現膜厚漂移、曝光對位、蝕刻深度或顆粒異常；電性測試則確認實際元件是否正常。 和你的量測經驗連結：白光干涉／UA3P 類工具可幫你理解表面輪廓與高度差；晶圓廠另會把膜厚、CD、粗糙度、缺陷座標與電性結果做跨站點追溯，量測重複性和取樣位置都很重要。"><span class="nav-number">09</span><span>量測：確認做得對不對</span><span class="check" aria-hidden="true"></span></a><a href="#lesson-10" data-route="lesson-10" data-search="設備：介電層 CVD／ALD、光刻與介電層蝕刻、阻障／種子層 PVD、銅電鍍、鎢 CVD 填孔、CMP、清洗與檢查設備。 材料：SiO₂／低介電常數 low-k 絕緣層；銅或鎢導體；Ti／TiN、Ta／TaN 等阻障／黏著材料。材料組合會隨年代與產品不同。 原理：在介電層開溝槽和通孔，覆上阻障／種子層，填入金屬後以 CMP 去掉表面多餘金屬。重複多層後，元件被接成完整電路。Damascene 銅線先刻介電層溝槽、再填銅，而非直接把銅乾蝕刻成線。 溫度：後段互連通常限制熱預算，常用低溫薄膜、電鍍和 CMP；各材料整合的允許溫度不同。"><span class="nav-number">10</span><span>互連：把元件接起來</span><span class="check" aria-hidden="true"></span></a><a href="#lesson-11" data-route="lesson-11" data-search="設備：晶圓探針台／自動測試機、雷射或鑽石刀切割機、貼晶機、打線機或倒裝晶片設備、塑封與成品測試設備。 原理：EDS／wafer sort 用探針接觸晶圓上的測試墊，找出良品 die 與電性分布；切割分離裸晶，再以 wire bond、flip-chip 或混合接合連到封裝基板，封裝保護晶粒並導出訊號和散熱。 範圍：晶圓前段製造到 EDS 是這份知識庫的主線；封裝屬後段，列入是為了把完整產品旅程接起來。"><span class="nav-number">11</span><span>晶圓測試與封裝</span><span class="check" aria-hidden="true"></span></a></div><div class="nav-group"><h2>隨時查閱</h2><a href="#conditions" data-route="conditions">溫度與材料速查</a><a href="#images" data-route="images">網路示意圖集</a><a href="#sources" data-route="sources">來源與延伸閱讀</a></div></nav><p class="no-results" hidden>找不到符合的項目，試試其他名稱。</p><div class="progress"><b id="progress-label">學習進度：0 / 11 章</b><progress id="progress" max="11" value="0" aria-label="已讀章節"></progress><span>可隨時取消已讀標記</span></div></aside>
+<main class="content" id="main"><section class="screen" id="home" data-title="學習首頁"><p class="eyebrow">從這裡開始</p><h1 tabindex="-1">先看懂全貌，<br>再一次學一個製程。</h1><p class="intro">不用一次記住所有機台和氣體。先知道晶圓在哪裡、這一站改變什麼，再逐步補上設備、材料與溫度。</p>
+<div class="hero-card"><h2>第一次來？先花 5 分鐘看全流程。</h2><p>建立「矽晶圓 → 電晶體 → 接觸與互連 → 測試封裝」的順序，再進入第一章。</p><a class="primary" id="resume" href="#overview">開始：全流程導覽 →</a></div>
+<h2>照這四個階段學</h2><div class="path-cards">
+<div class="card"><span class="index">第一階段 · 第 1–3 章</span><h3>晶圓準備好了嗎？</h3><p>先認識基板、清洗與熱處理，理解電路建立在什麼表面上。</p><a href="#lesson-1">從晶圓的起點開始 →</a></div>
+<div class="card"><span class="index">第二階段 · 第 4–7 章</span><h3>怎麼形成圖案與元件？</h3><p>釐清微影、蝕刻、佈植和沉積，各自改變了什麼。</p><a href="#lesson-4">進入圖案與元件製程 →</a></div>
+<div class="card"><span class="index">第三階段 · 第 8–9 章</span><h3>怎麼維持品質？</h3><p>理解平坦化與量測，知道為什麼製造途中要反覆確認。</p><a href="#lesson-8">進入平坦化與量測 →</a></div>
+<div class="card"><span class="index">第四階段 · 第 10–11 章</span><h3>怎麼變成可用的晶片？</h3><p>用金屬連接元件，再透過測試、切割與封裝完成產品。</p><a href="#lesson-10">進入互連與出貨流程 →</a></div></div>
+<div class="card"><h2>每章都用同一個讀法</h2><ol><li>看「先記住這三件事」，抓住核心。</li><li>讀原理，用自己的話回答一個問題。</li><li>需要時切到「設備與條件」，查溫度、氣體和材料。</li></ol><p class="small">章節順序是學習路線；實際晶圓製造會反覆穿插這些製程，不是每章只做一次。</p></div></section>
+<section class="screen" id="overview" hidden data-title="全流程導覽"><p class="eyebrow">第一步 · 約 5 分鐘</p><h1 tabindex="-1">先看全流程</h1><p class="intro">先記住五個大階段。各站的細節留到後面逐章學習。</p>
+ 
  <div class="flow">
   <article class="step"><span class="num">01 · SUBSTRATE</span><h3>長晶與晶圓</h3><p>高純度多晶矽長成單晶棒，再切片、研磨、拋光、清洗。</p></article>
   <article class="step"><span class="num">02 · FEOL</span><h3>做出電晶體</h3><p>隔離、井區、閘極、通道、源極／汲極；薄膜、微影、蝕刻、摻雜反覆交錯。</p></article>
@@ -75,65 +34,150 @@ section{padding:52px 0;scroll-margin-top:68px}.section-head{display:flex;justify
   <div class="card"><h3>MOL / BEOL：接觸與互連</h3><p>MOL 把元件接出來；BEOL 在上方鋪設多層絕緣層、金屬線和垂直通孔。可以把它想成城市的立體道路網：電晶體是街區，金屬線是道路，通孔是立體交流道。</p></div>
  </div>
  <div class="callout warn" style="margin-top:16px"><strong>流程觀念校正：</strong>大家常說「半導體八大製程」，那是教學分類法，不代表工廠嚴格依八個步驟各做一次。晶圓實際經歷數百至數千個製程操作，圖案化循環會在不同層重複。</div>
-</div></section>
-<section id="cycle" style="background:#eaf0f5"><div class="wrap">
- <div class="section-head"><div><div class="kicker">02 / Patterning loop</div><h2>晶圓上「一層圖案」怎麼做出來？</h2><p class="lead">這個循環是理解晶圓廠最有用的骨架。各層不一定每個步驟都齊全；例如有的層要植入，有的層只需要蝕刻薄膜。</p></div></div>
+
+ 
  <figure class="diagram">
  <svg viewBox="0 0 1000 245" role="img" aria-label="薄膜、塗光阻、曝光顯影、蝕刻、去光阻及量測的製程循環">
- <defs><marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#52738a"/></marker></defs>
+ <defs><marker id="arr-diagram-1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#52738a"/></marker></defs>
  <g font-family="system-ui,sans-serif">
  <g transform="translate(20,32)"><rect width="140" height="110" rx="14" fill="#e4f1f8" stroke="#bfd7e6"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#164d70">1 薄膜沉積</text><rect x="28" y="70" width="84" height="20" rx="5" fill="#6c93a4"/><rect x="28" y="62" width="84" height="8" fill="#20b8c3"/><text x="70" y="53" text-anchor="middle" font-size="11" fill="#546b7b">CVD / PVD / ALD</text></g>
- <path d="M163 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr)"/>
+ <path d="M163 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-1)"/>
  <g transform="translate(195,32)"><rect width="140" height="110" rx="14" fill="#f2ebfa" stroke="#d8c9ec"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#67418d">2 塗佈光阻</text><rect x="28" y="77" width="84" height="13" rx="4" fill="#6c93a4"/><rect x="28" y="69" width="84" height="8" fill="#af83d2"/><text x="70" y="53" text-anchor="middle" font-size="11" fill="#6d5b7d">旋塗＋烘烤</text></g>
- <path d="M338 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr)"/>
+ <path d="M338 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-1)"/>
  <g transform="translate(370,32)"><rect width="140" height="110" rx="14" fill="#fff4df" stroke="#eddcb7"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#8a5b10">3 曝光與顯影</text><rect x="28" y="77" width="84" height="13" rx="4" fill="#6c93a4"/><rect x="28" y="69" width="28" height="8" fill="#af83d2"/><rect x="84" y="69" width="28" height="8" fill="#af83d2"/><path d="M47 40v19M70 40v19M93 40v19" stroke="#efad32" stroke-width="2"/><text x="70" y="104" text-anchor="middle" font-size="10" fill="#6d5b7d">光罩圖案轉印</text></g>
- <path d="M513 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr)"/>
+ <path d="M513 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-1)"/>
  <g transform="translate(545,32)"><rect width="140" height="110" rx="14" fill="#fce9e7" stroke="#efcfca"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#944a40">4 蝕刻或植入</text><rect x="28" y="77" width="84" height="13" rx="4" fill="#6c93a4"/><rect x="28" y="69" width="28" height="8" fill="#af83d2"/><rect x="84" y="69" width="28" height="8" fill="#af83d2"/><path d="M69 42v20m-8-7 8 8 8-8" stroke="#d26c55" stroke-width="2"/><text x="70" y="104" text-anchor="middle" font-size="10" fill="#75514c">選擇性改變材料</text></g>
- <path d="M688 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr)"/>
+ <path d="M688 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-1)"/>
  <g transform="translate(720,32)"><rect width="140" height="110" rx="14" fill="#e5f5ed" stroke="#c4e2d2"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#287052">5 去光阻與清洗</text><rect x="28" y="77" width="84" height="13" rx="4" fill="#6c93a4"/><rect x="28" y="69" width="28" height="8" fill="#20b8c3"/><rect x="84" y="69" width="28" height="8" fill="#20b8c3"/><text x="70" y="53" text-anchor="middle" font-size="11" fill="#587264">灰化 / 濕式清洗</text></g>
- <path d="M863 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr)"/>
+ <path d="M863 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-1)"/>
  <g transform="translate(895,32)"><rect width="85" height="110" rx="14" fill="#eaf0f5" stroke="#cbd8e1"/><text x="42" y="27" text-anchor="middle" font-size="12" font-weight="700" fill="#344e62">6 量測</text><circle cx="42" cy="66" r="16" fill="none" stroke="#4d7995" stroke-width="3"/><path d="M54 78l12 12" stroke="#4d7995" stroke-width="4"/><text x="42" y="105" text-anchor="middle" font-size="10" fill="#546b7b">CD / 膜厚</text></g>
- <path d="M940 155 C940 204 300 206 300 157" fill="none" stroke="#52738a" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arr)"/>
+ <path d="M940 155 C940 204 300 206 300 157" fill="none" stroke="#52738a" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arr-diagram-1)"/>
  <text x="605" y="222" text-anchor="middle" font-size="12" fill="#526879">下一層：再沉積／再圖案化，逐層堆疊</text>
  </g></svg>
  <figcaption>原創概念圖。蝕刻與植入是不同模組；圖中合併表示都會使用光阻或硬遮罩保護部分區域。</figcaption></figure>
-</div></section>
-<section id="conditions"><div class="wrap">
- <div class="section-head"><div><div class="kicker">03 / Conditions</div><h2>溫度、環境與材料速查</h2><p class="lead">「溫度」有兩個意思：廠房空氣的設定點，以及機台腔體／晶圓本身的製程溫度。兩者常差數百度。</p></div></div>
- <div class="table-wrap"><table><thead><tr><th>製程</th><th>機台與環境</th><th>常見溫度（概念範圍）</th><th>常見氣體／固體／液體</th><th>主要目的</th></tr></thead><tbody>
- <tr><td>單晶長晶</td><td>CZ 拉晶爐；惰性、低壓環境</td><td>矽熔點約 1414°C 附近</td><td>高純度多晶矽；氬氣；B／P 等摻雜源</td><td>長出具指定晶向與電阻率的單晶棒</td></tr>
- <tr><td>熱氧化</td><td>石英管爐或快速熱處理爐；O₂／蒸氣</td><td>約 800–1200°C（依乾／濕氧化及膜厚）</td><td>O₂；水蒸氣 H₂O；矽基板</td><td>讓矽表面反應生成 SiO₂ 絕緣／保護膜</td></tr>
- <tr><td>晶圓清洗</td><td>濕式槽台、單片旋轉清洗機、乾燥機</td><td>室溫至約 80°C 常見；依化學配方而異</td><td>超純水；SC-1／SC-2 類清洗液；稀 HF</td><td>去除粒子、有機物、金屬與原生氧化層</td></tr>
- <tr><td>微影塗佈／顯影</td><td>Track（旋塗機、熱板、顯影杯）＋曝光機</td><td>廠房約 18–23°C；熱板常用約 90–150°C（配方相關）</td><td>光阻（液態）；顯影液多為 TMAH 水溶液</td><td>把光罩圖形轉成晶圓上的光阻遮罩</td></tr>
- <tr><td>曝光</td><td>步進／掃描曝光機；對位控制；EUV 光路在真空</td><td>晶圓接近控溫台條件，精密控制；不等於熱爐溫度</td><td>DUV：ArF／KrF 等雷射光源；EUV：13.5 nm 光；光罩</td><td>曝光造成光阻溶解度改變，再經顯影留下圖案</td></tr>
- <tr><td>乾蝕刻</td><td>真空 RIE／ICP 電漿蝕刻腔；晶圓台控溫</td><td>從低於 0°C 特殊冷凍蝕刻，到數十／百 °C 應用皆有</td><td>Si／多晶矽：Cl₂、HBr；介電層：CF₄、CHF₃、C₄F₈、Ar 等</td><td>自由基做化學反應、離子提供方向性，移除曝光區薄膜</td></tr>
- <tr><td>離子佈植</td><td>離子源、質量分析磁鐵、加速器、掃描盤；高真空</td><td>通常近室溫，依材料可熱佈植；後續退火約 600–1100°C</td><td>B／BF₂、P、As 離子源；N₂／Ar 退火氣氛</td><td>把摻雜離子打入指定深度；退火修復晶格並活化摻雜原子</td></tr>
- <tr><td>薄膜沉積</td><td>LPCVD 爐管、PECVD 平行板、ALD 單片腔、PVD 濺鍍腔</td><td>LPCVD 約 500–1100°C；PECVD 約 200–400°C；ALD 常見低於 400°C</td><td>SiH₄、NH₃、N₂O、TEOS；金屬靶材；Ar；ALD 前驅物</td><td>長出絕緣、半導體或導電薄膜</td></tr>
- <tr><td>金屬電鍍</td><td>電化學電鍍設備；晶圓作陰極</td><td>多接近室溫，依浴液與速率設定</td><td>銅硫酸鹽／酸性鍍液、添加劑；Cu seed 薄層</td><td>把銅填入介電層通孔與溝槽</td></tr>
- <tr><td>CMP 平坦化</td><td>研磨頭、拋光墊、修整盤、終點偵測</td><td>通常接近室溫、控制漿液與墊面狀態</td><td>研磨液 slurry：SiO₂ 或 CeO₂ 磨粒、水、氧化劑／添加劑</td><td>化學反應軟化表面、機械磨粒選擇性移除高處材料</td></tr>
- </tbody></table></div>
- <p class="small" style="margin-top:12px">範圍是入門用的代表值，不是可直接拿去跑機台的 recipe。實際設定會依設備商、薄膜材料、厚度、節點、產品與良率窗口而變。</p>
- <div class="grid two" style="margin-top:18px">
-  <div class="card"><h3>無塵室不是「沒有空氣」</h3><p>以晶圓廠關鍵區域常見設計值為例，室溫約 18–23°C、容差約 ±0.5–1°C，RH 約 35–50%。過濾循環氣流、微粒數、壓差、震動、靜電與分子污染也會受控。</p></div>
-  <div class="card"><h3>機台微環境才是真正反應場所</h3><p>氧化爐可超過 1000°C；電漿蝕刻在低壓真空；PVD、離子佈植也在真空腔中。操作員看到的無塵室空氣溫度，不能當成晶圓的製程溫度。</p></div>
+<a class="primary" href="#lesson-1">開始第 1 章：晶圓的起點 →</a></section>
+<section class="screen lesson" id="lesson-1" hidden data-title="晶圓的起點">
+ <p class="eyebrow">製程課程 01 / 11 · 約 3–5 分鐘</p><h1 tabindex="-1">晶圓的起點</h1>
+ <p class="intro">先理解這一步在晶圓上改變了什麼，再查看機台與條件。</p>
+ <div class="tabs" role="tablist" aria-label="本章內容">
+ <button role="tab" id="tab-0-0" aria-controls="panel-0-0" aria-selected="true" tabindex="0" data-tab="0">先理解原理</button><button role="tab" id="tab-0-1" aria-controls="panel-0-1" aria-selected="false" tabindex="-1" data-tab="1">設備與條件</button><button role="tab" id="tab-0-2" aria-controls="panel-0-2" aria-selected="false" tabindex="-1" data-tab="2">圖解與來源</button></div>
+ <div role="tabpanel" id="panel-0-0" aria-labelledby="tab-0-0">
+ <div class="takeaways"><h2>先記住這三件事</h2><ol><li>矽晶圓是承載電路的單晶基板。</li><li>拉晶決定晶體品質；切片、研磨與拋光決定表面條件。</li><li>要分清楚「製造晶圓」與「在晶圓上製造電路」。</li></ol></div>
+ <article class="reading"><h2>原理怎麼運作</h2><p>以籽晶引導熔融矽凝固，讓矽原子沿單晶晶格排列。切片後去除鋸切損傷並拋成鏡面，降低後續微影的焦距與缺陷風險。200／300 mm 是常見晶圓直徑，不代表每種產品都用同一尺寸。</p></article>
+ <details class="recall"><summary><span>停一下，試著用自己的話回答</span><strong>拋光晶圓的目的只有看起來亮嗎？</strong></summary><p>不是。平坦、低損傷的表面能減少後續缺陷，也有助於微影對焦。</p></details>
  </div>
-</div></section>
-<section id="steps" style="background:#eaf0f5"><div class="wrap">
- <div class="section-head"><div><div class="kicker">04 / Equipment & physics</div><h2>主要製程：設備、材料與原理</h2><p class="lead">可把製程工程師的工作想成讓薄膜、圖形、成分、尺寸和缺陷都落在規格內。每一個「做了什麼」都要用量測結果回頭驗證。</p></div></div>
- <article class="module"><div class="module-icon">💎</div><div><div class="sub">SUBSTRATE · 基板</div><h3>1. 長晶、切片與晶圓拋光</h3><p><b>設備：</b>CZ（Czochralski）拉晶爐、外圓研磨機、多線切割機、研磨／蝕刻／CMP 拋光機、清洗與檢查設備。</p><p><b>材料與氣氛：</b>高純度多晶矽熔料、石英坩堝、氬氣；拉晶時可加入微量硼或磷控制電阻率。後續以線鋸切片、倒角、研磨和化學機械拋光。</p><p><b>原理：</b>以籽晶引導熔融矽凝固，讓矽原子沿單晶晶格排列。切片後去除鋸切損傷並拋成鏡面，降低後續微影的焦距與缺陷風險。200／300 mm 是常見晶圓直徑，不代表每種產品都用同一尺寸。</p><p><b>溫度：</b>矽熔點約 1414°C；拉晶爐以感應／電阻加熱控制熔池與拉速。切片、研磨、拋光為機械／濕化學步驟，通常不以高溫製程為核心。</p></div></article>
- <article class="module"><div class="module-icon">🧼</div><div><div class="sub">SURFACE PREP · 表面準備</div><h3>2. 晶圓清洗與乾燥</h3><p><b>設備：</b>濕式槽台（wet bench）、單片旋轉噴洗機、刷洗機、兆聲／超音波槽、旋轉乾燥機或 Marangoni 乾燥機。</p><p><b>常見化學品：</b>SC-1（NH₄OH／H₂O₂／H₂O）偏向去粒子與有機污染；SC-2（HCl／H₂O₂／H₂O）偏向金屬離子；HF 或 BOE 用於去除氧化層；大量超純水沖洗。清洗不是把所有化學液混用，流程依污染類型安排。</p><p><b>原理：</b>化學反應、溶解與機械／聲學作用把微粒、金屬或有機物從表面帶走。最後必須低污染乾燥，否則水痕或再沾污會變成缺陷。</p><p><b>溫度與環境：</b>室溫至約 80°C 的配方都可能使用；濕台局部抽氣並配置藥液供應、排氣與廢液處理。</p></div></article>
- <article class="module"><div class="module-icon">🔥</div><div><div class="sub">THERMAL · 熱製程</div><h3>3. 氧化、擴散與退火</h3><p><b>設備：</b>批次石英管爐、立式爐、RTP／RTA 快速熱處理設備。</p><p><b>材料與氣體：</b>乾氧化使用 O₂；濕氧化供應 H₂O 蒸氣（可由 O₂／H₂ 反應產生）；擴散摻雜常見硼、磷源；退火可用 N₂、Ar 或含 H₂ 的成形氣氛。</p><p><b>原理：</b>氧化時氧化劑穿過已形成的氧化層到達 Si／SiO₂ 界面，與矽反應：Si + O₂ → SiO₂；水蒸氣氧化較快但膜質特性不同。擴散由濃度梯度推動雜質移動；退火用熱修復晶格缺陷、活化摻雜原子或改善介面。</p><p><b>溫度：</b>熱氧化常約 800–1200°C；摻雜擴散約 1000°C 以上；植入後活化退火常約 800–1000°C，RTA 用很短時間達高溫以限制擴散。</p></div></article>
- <article class="module"><div class="module-icon">🧪</div><div><div class="sub">LITHOGRAPHY · 微影</div><h3>4. 光阻塗佈、對位、曝光與顯影</h3><p><b>設備：</b>Track 塗佈／顯影機（旋塗杯、熱板、顯影模組）、Stepper 或 Scanner 曝光機、缺陷檢查與 overlay／CD 量測設備。</p><p><b>材料：</b>液態光阻、底部抗反射層、光罩 reticle、顯影液；正光阻曝光處通常變得較易溶，負光阻則常因曝光交聯而較難溶。</p><p><b>原理：</b>旋塗形成均勻感光薄層；對位後投射光罩圖案。曝光改變光阻的化學溶解度，烘烤與顯影留下要保護的圖形。光阻圖形本身是暫時遮罩，後續通常還要把形狀轉移到下方薄膜。</p><p><b>光源／溫度：</b>DUV 常見 KrF 248 nm、ArF 193 nm；EUV 波長 13.5 nm，EUV 光路需真空。塗佈後熱板通常在約 90–150°C 的 recipe window；精確溫度與時間依光阻與層別。</p></div></article>
- <article class="module"><div class="module-icon">⚡</div><div><div class="sub">ETCH · 蝕刻</div><h3>5. 濕蝕刻、乾蝕刻與去光阻</h3><p><b>設備：</b>濕蝕刻槽／單片濕製程機；乾式使用 RIE、ICP、CCP 電漿蝕刻腔；去光阻常用 O₂ 灰化與下游濕式清洗。</p><p><b>材料與氣體：</b>氧化物常用 HF 系濕蝕刻或 CF₄／CHF₃ 等含氟電漿；矽／多晶矽常用 Cl₂、HBr；深矽蝕刻常在 SF₆ 蝕刻與 C₄F₈ 保護膜沉積間交替。</p><p><b>原理：</b>濕蝕刻靠液相反應溶解材料，常較各向同性；電漿把氣體解離成自由基和離子，化學反應生成揮發性副產物，帶偏壓的離子提供較垂直的方向性。製程需兼顧速率、選擇比、均勻性與側壁輪廓。</p><p><b>溫度：</b>很多蝕刻用晶圓台會冷卻至數十°C；有些深矽／冷凍蝕刻會低於 0°C，亦有較高溫製程，取決於材料與側壁控制目標。腔體是低壓真空。</p></div></article>
- <article class="module"><div class="module-icon">🎯</div><div><div class="sub">DOPING · 摻雜</div><h3>6. 離子佈植與摻雜活化</h3><p><b>設備：</b>離子源、質量分析磁鐵、加速電場、掃描晶圓盤、高真空腔；植入後接 RTA／尖峰退火或爐管退火。</p><p><b>材料／氣體源：</b>硼 B 或 BF₂ 形成 p 型摻雜；磷 P、砷 As 常形成 n 型摻雜。離子源使用氣、液或固態前驅物，依離子機台與物種選擇；退火常用 N₂ 或 Ar。</p><p><b>原理：</b>離子化後按質量挑選所需離子，再加速至指定能量並掃描晶圓。能量主要影響植入深度，劑量影響濃度；光阻或硬遮罩限定區域。離子會造成晶格損傷，退火讓摻雜進入晶格位置並恢復晶體品質。</p><p><b>溫度：</b>佈植通常近室溫（特定材料可熱佈植）；植入後矽晶圓活化退火常約 800–1000°C，控制時間避免摻雜擴散過遠。</p></div></article>
- <article class="module"><div class="module-icon">🧱</div><div><div class="sub">THIN FILM · 薄膜沉積</div><h3>7. CVD、PVD、ALD 外延</h3><p><b>設備：</b>CVD 批次爐管或單片反應腔；PVD 濺鍍真空腔；ALD 交替脈衝供應反應物；外延反應器用於晶體品質連續生長。</p><p><b>材料與氣體例：</b>SiH₄ 可供應矽；SiH₄／O₂ 或 TEOS 可製氧化矽；SiH₄／NH₃ 或 DCS／NH₃ 可製含氮薄膜。PVD 以 Ar 電漿轟擊 Ti、Ta、Cu、Al 等固體靶材；ALD 以金屬有機或鹵化物前驅物搭配 H₂O、O₃、NH₃ 等反應物。</p><p><b>原理：</b>CVD 讓前驅氣體在熱或電漿能量下反應並在表面成膜；PVD 以物理濺射把靶材原子送到晶圓；ALD 交替送入前驅物與反應物，利用表面自限反應逐循環長膜，適合高深寬比結構的共形覆蓋。</p><p><b>溫度：</b>LPCVD 常約 500–1100°C；PECVD 常約 200–400°C；ALD 很依賴材料，常見約 100–400°C；PVD 可由近室溫到數百°C。這些範圍會因膜種差異很大。</p></div></article>
- <article class="module"><div class="module-icon">🪞</div><div><div class="sub">PLANARIZATION · 平坦化</div><h3>8. CMP 化學機械平坦化</h3><p><b>設備：</b>CMP 研磨機（載台、拋光墊、研磨頭、修整盤）、漿液供給和末端清洗設備。</p><p><b>材料：</b>水基漿液含 SiO₂／CeO₂ 磨粒與化學添加劑；金屬 CMP 可能加入氧化劑、抑制劑與螯合劑，依銅、鎢、氧化物等不同薄膜設計。</p><p><b>原理：</b>晶圓旋轉並受壓接觸拋光墊；漿液先化學改質／軟化表面，墊與磨粒再機械移除材料。凸起處接觸較多，逐步削平，露出所需層或形成平坦表面，讓下一層微影可對焦。</p><p><b>溫度：</b>通常近室溫運作；需控制漿液供應、墊面修整、壓力、速度與終點。</p></div></article>
- <article class="module"><div class="module-icon">🔬</div><div><div class="sub">METROLOGY · 量測與檢查</div><h3>9. 膜厚、尺寸、缺陷與電性量測</h3><p><b>設備：</b>橢偏儀／反射儀量薄膜，光學或電子束 CD-SEM 量線寬，散射量測看 overlay，AFM／輪廓儀量表面形貌，明暗場檢查機找缺陷，四點探針／電性測試量電阻。</p><p><b>原理：</b>量測不只是最後驗收，而是每個關鍵模組後的回饋。SPC 追蹤中心值與變異，發現膜厚漂移、曝光對位、蝕刻深度或顆粒異常；電性測試則確認實際元件是否正常。</p><p><b>和你的量測經驗連結：</b>白光干涉／UA3P 類工具可幫你理解表面輪廓與高度差；晶圓廠另會把膜厚、CD、粗糙度、缺陷座標與電性結果做跨站點追溯，量測重複性和取樣位置都很重要。</p></div></article>
- <article class="module"><div class="module-icon">🛣️</div><div><div class="sub">INTERCONNECT · 接觸與金屬互連</div><h3>10. MOL 接點、BEOL 金屬線與通孔</h3><p><b>設備：</b>介電層 CVD／ALD、光刻與介電層蝕刻、阻障／種子層 PVD、銅電鍍、鎢 CVD 填孔、CMP、清洗與檢查設備。</p><p><b>材料：</b>SiO₂／低介電常數 low-k 絕緣層；銅或鎢導體；Ti／TiN、Ta／TaN 等阻障／黏著材料。材料組合會隨年代與產品不同。</p><p><b>原理：</b>在介電層開溝槽和通孔，覆上阻障／種子層，填入金屬後以 CMP 去掉表面多餘金屬。重複多層後，元件被接成完整電路。Damascene 銅線先刻介電層溝槽、再填銅，而非直接把銅乾蝕刻成線。</p><p><b>溫度：</b>後段互連通常限制熱預算，常用低溫薄膜、電鍍和 CMP；各材料整合的允許溫度不同。</p></div></article>
- <article class="module"><div class="module-icon">✅</div><div><div class="sub">WAFER SORT · 晶圓測試與封裝</div><h3>11. EDS、切割與封裝（延伸）</h3><p><b>設備：</b>晶圓探針台／自動測試機、雷射或鑽石刀切割機、貼晶機、打線機或倒裝晶片設備、塑封與成品測試設備。</p><p><b>原理：</b>EDS／wafer sort 用探針接觸晶圓上的測試墊，找出良品 die 與電性分布；切割分離裸晶，再以 wire bond、flip-chip 或混合接合連到封裝基板，封裝保護晶粒並導出訊號和散熱。</p><p><b>範圍：</b>晶圓前段製造到 EDS 是這份知識庫的主線；封裝屬後段，列入是為了把完整產品旅程接起來。</p></div></article>
-</div></section>
-<section id="cross"><div class="wrap">
- <div class="section-head"><div><div class="kicker">05 / Cross section</div><h2>用剖面看懂「曝光後、蝕刻後」</h2><p class="lead">光阻只負責暫時遮罩；真正的功能結構來自下方介電層、矽、金屬等材料被選擇性保留、移除或改質。</p></div></div>
+ <div role="tabpanel" id="panel-0-1" aria-labelledby="tab-0-1" hidden><p class="muted">每張卡片只回答一個問題。數字是代表範圍，實際條件依設備、材料與製程而異。</p>
+ <div class="facts"><article class="card"><h2>設備</h2><p>CZ（Czochralski）拉晶爐、外圓研磨機、多線切割機、研磨／蝕刻／CMP 拋光機、清洗與檢查設備。</p></article><article class="card"><h2>材料與氣氛</h2><p>高純度多晶矽熔料、石英坩堝、氬氣；拉晶時可加入微量硼或磷控制電阻率。後續以線鋸切片、倒角、研磨和化學機械拋光。</p></article><article class="card"><h2>溫度</h2><p>矽熔點約 1414°C；拉晶爐以感應／電阻加熱控制熔池與拉速。切片、研磨、拋光為機械／濕化學步驟，通常不以高溫製程為核心。</p></article></div>
+ <a class="text-link" href="#conditions">查看所有製程的溫度與材料速查 →</a></div>
+ <div role="tabpanel" id="panel-0-2" aria-labelledby="tab-0-2" hidden>
+ <figure class="diagram">
+ <svg viewBox="0 0 1000 245" role="img" aria-label="薄膜、塗光阻、曝光顯影、蝕刻、去光阻及量測的製程循環">
+ <defs><marker id="arr-diagram-2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#52738a"/></marker></defs>
+ <g font-family="system-ui,sans-serif">
+ <g transform="translate(20,32)"><rect width="140" height="110" rx="14" fill="#e4f1f8" stroke="#bfd7e6"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#164d70">1 薄膜沉積</text><rect x="28" y="70" width="84" height="20" rx="5" fill="#6c93a4"/><rect x="28" y="62" width="84" height="8" fill="#20b8c3"/><text x="70" y="53" text-anchor="middle" font-size="11" fill="#546b7b">CVD / PVD / ALD</text></g>
+ <path d="M163 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-2)"/>
+ <g transform="translate(195,32)"><rect width="140" height="110" rx="14" fill="#f2ebfa" stroke="#d8c9ec"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#67418d">2 塗佈光阻</text><rect x="28" y="77" width="84" height="13" rx="4" fill="#6c93a4"/><rect x="28" y="69" width="84" height="8" fill="#af83d2"/><text x="70" y="53" text-anchor="middle" font-size="11" fill="#6d5b7d">旋塗＋烘烤</text></g>
+ <path d="M338 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-2)"/>
+ <g transform="translate(370,32)"><rect width="140" height="110" rx="14" fill="#fff4df" stroke="#eddcb7"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#8a5b10">3 曝光與顯影</text><rect x="28" y="77" width="84" height="13" rx="4" fill="#6c93a4"/><rect x="28" y="69" width="28" height="8" fill="#af83d2"/><rect x="84" y="69" width="28" height="8" fill="#af83d2"/><path d="M47 40v19M70 40v19M93 40v19" stroke="#efad32" stroke-width="2"/><text x="70" y="104" text-anchor="middle" font-size="10" fill="#6d5b7d">光罩圖案轉印</text></g>
+ <path d="M513 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-2)"/>
+ <g transform="translate(545,32)"><rect width="140" height="110" rx="14" fill="#fce9e7" stroke="#efcfca"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#944a40">4 蝕刻或植入</text><rect x="28" y="77" width="84" height="13" rx="4" fill="#6c93a4"/><rect x="28" y="69" width="28" height="8" fill="#af83d2"/><rect x="84" y="69" width="28" height="8" fill="#af83d2"/><path d="M69 42v20m-8-7 8 8 8-8" stroke="#d26c55" stroke-width="2"/><text x="70" y="104" text-anchor="middle" font-size="10" fill="#75514c">選擇性改變材料</text></g>
+ <path d="M688 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-2)"/>
+ <g transform="translate(720,32)"><rect width="140" height="110" rx="14" fill="#e5f5ed" stroke="#c4e2d2"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#287052">5 去光阻與清洗</text><rect x="28" y="77" width="84" height="13" rx="4" fill="#6c93a4"/><rect x="28" y="69" width="28" height="8" fill="#20b8c3"/><rect x="84" y="69" width="28" height="8" fill="#20b8c3"/><text x="70" y="53" text-anchor="middle" font-size="11" fill="#587264">灰化 / 濕式清洗</text></g>
+ <path d="M863 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-2)"/>
+ <g transform="translate(895,32)"><rect width="85" height="110" rx="14" fill="#eaf0f5" stroke="#cbd8e1"/><text x="42" y="27" text-anchor="middle" font-size="12" font-weight="700" fill="#344e62">6 量測</text><circle cx="42" cy="66" r="16" fill="none" stroke="#4d7995" stroke-width="3"/><path d="M54 78l12 12" stroke="#4d7995" stroke-width="4"/><text x="42" y="105" text-anchor="middle" font-size="10" fill="#546b7b">CD / 膜厚</text></g>
+ <path d="M940 155 C940 204 300 206 300 157" fill="none" stroke="#52738a" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arr-diagram-2)"/>
+ <text x="605" y="222" text-anchor="middle" font-size="12" fill="#526879">下一層：再沉積／再圖案化，逐層堆疊</text>
+ </g></svg>
+ <figcaption>原創概念圖。蝕刻與植入是不同模組；圖中合併表示都會使用光阻或硬遮罩保護部分區域。</figcaption></figure>
+ <div class="card"><h2>延伸閱讀</h2><p><a href="https://www.sas-globalwafers.co.jp/eng/technical/manufacturing.html" target="_blank" rel="noopener">GlobalWafers｜晶圓製造 ↗</a></p><p><a href="#images">網路示意圖集 →</a>　<a href="#sources">完整資料來源 →</a></p></div></div>
+ <div class="lesson-actions"><button class="complete" data-complete="1" aria-pressed="false">標記本章已讀</button><span class="save-note">進度保存在這個瀏覽器</span></div>
+ <nav class="chapter-nav" aria-label="章節切換"><a href="#overview">← 全流程導覽</a><a href="#lesson-2">清洗：準備乾淨表面 →</a></nav>
+ </section><section class="screen lesson" id="lesson-2" hidden data-title="清洗：準備乾淨表面">
+ <p class="eyebrow">製程課程 02 / 11 · 約 3–5 分鐘</p><h1 tabindex="-1">清洗：準備乾淨表面</h1>
+ <p class="intro">先理解這一步在晶圓上改變了什麼，再查看機台與條件。</p>
+ <div class="tabs" role="tablist" aria-label="本章內容">
+ <button role="tab" id="tab-1-0" aria-controls="panel-1-0" aria-selected="true" tabindex="0" data-tab="0">先理解原理</button><button role="tab" id="tab-1-1" aria-controls="panel-1-1" aria-selected="false" tabindex="-1" data-tab="1">設備與條件</button><button role="tab" id="tab-1-2" aria-controls="panel-1-2" aria-selected="false" tabindex="-1" data-tab="2">圖解與來源</button></div>
+ <div role="tabpanel" id="panel-1-0" aria-labelledby="tab-1-0">
+ <div class="takeaways"><h2>先記住這三件事</h2><ol><li>清洗會穿插在許多製程之間。</li><li>粒子、有機物、金屬污染，需要不同的去除方式。</li><li>乾燥也會影響品質，水痕和再沾污都可能形成缺陷。</li></ol></div>
+ <article class="reading"><h2>原理怎麼運作</h2><p>化學反應、溶解與機械／聲學作用把微粒、金屬或有機物從表面帶走。最後必須低污染乾燥，否則水痕或再沾污會變成缺陷。</p></article>
+ <details class="recall"><summary><span>停一下，試著用自己的話回答</span><strong>為什麼清洗不只出現在流程一開始？</strong></summary><p>因為蝕刻、CMP 等製程會持續產生殘留與污染，需要在下一站前去除。</p></details>
+ </div>
+ <div role="tabpanel" id="panel-1-1" aria-labelledby="tab-1-1" hidden><p class="muted">每張卡片只回答一個問題。數字是代表範圍，實際條件依設備、材料與製程而異。</p>
+ <div class="facts"><article class="card"><h2>設備</h2><p>濕式槽台（wet bench）、單片旋轉噴洗機、刷洗機、兆聲／超音波槽、旋轉乾燥機或 Marangoni 乾燥機。</p></article><article class="card"><h2>常見化學品</h2><p>SC-1（NH₄OH／H₂O₂／H₂O）偏向去粒子與有機污染；SC-2（HCl／H₂O₂／H₂O）偏向金屬離子；HF 或 BOE 用於去除氧化層；大量超純水沖洗。清洗不是把所有化學液混用，流程依污染類型安排。</p></article><article class="card"><h2>溫度與環境</h2><p>室溫至約 80°C 的配方都可能使用；濕台局部抽氣並配置藥液供應、排氣與廢液處理。</p></article></div>
+ <a class="text-link" href="#conditions">查看所有製程的溫度與材料速查 →</a></div>
+ <div role="tabpanel" id="panel-1-2" aria-labelledby="tab-1-2" hidden>
+ <figure class="diagram">
+ <svg viewBox="0 0 1000 245" role="img" aria-label="薄膜、塗光阻、曝光顯影、蝕刻、去光阻及量測的製程循環">
+ <defs><marker id="arr-diagram-3" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#52738a"/></marker></defs>
+ <g font-family="system-ui,sans-serif">
+ <g transform="translate(20,32)"><rect width="140" height="110" rx="14" fill="#e4f1f8" stroke="#bfd7e6"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#164d70">1 薄膜沉積</text><rect x="28" y="70" width="84" height="20" rx="5" fill="#6c93a4"/><rect x="28" y="62" width="84" height="8" fill="#20b8c3"/><text x="70" y="53" text-anchor="middle" font-size="11" fill="#546b7b">CVD / PVD / ALD</text></g>
+ <path d="M163 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-3)"/>
+ <g transform="translate(195,32)"><rect width="140" height="110" rx="14" fill="#f2ebfa" stroke="#d8c9ec"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#67418d">2 塗佈光阻</text><rect x="28" y="77" width="84" height="13" rx="4" fill="#6c93a4"/><rect x="28" y="69" width="84" height="8" fill="#af83d2"/><text x="70" y="53" text-anchor="middle" font-size="11" fill="#6d5b7d">旋塗＋烘烤</text></g>
+ <path d="M338 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-3)"/>
+ <g transform="translate(370,32)"><rect width="140" height="110" rx="14" fill="#fff4df" stroke="#eddcb7"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#8a5b10">3 曝光與顯影</text><rect x="28" y="77" width="84" height="13" rx="4" fill="#6c93a4"/><rect x="28" y="69" width="28" height="8" fill="#af83d2"/><rect x="84" y="69" width="28" height="8" fill="#af83d2"/><path d="M47 40v19M70 40v19M93 40v19" stroke="#efad32" stroke-width="2"/><text x="70" y="104" text-anchor="middle" font-size="10" fill="#6d5b7d">光罩圖案轉印</text></g>
+ <path d="M513 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-3)"/>
+ <g transform="translate(545,32)"><rect width="140" height="110" rx="14" fill="#fce9e7" stroke="#efcfca"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#944a40">4 蝕刻或植入</text><rect x="28" y="77" width="84" height="13" rx="4" fill="#6c93a4"/><rect x="28" y="69" width="28" height="8" fill="#af83d2"/><rect x="84" y="69" width="28" height="8" fill="#af83d2"/><path d="M69 42v20m-8-7 8 8 8-8" stroke="#d26c55" stroke-width="2"/><text x="70" y="104" text-anchor="middle" font-size="10" fill="#75514c">選擇性改變材料</text></g>
+ <path d="M688 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-3)"/>
+ <g transform="translate(720,32)"><rect width="140" height="110" rx="14" fill="#e5f5ed" stroke="#c4e2d2"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#287052">5 去光阻與清洗</text><rect x="28" y="77" width="84" height="13" rx="4" fill="#6c93a4"/><rect x="28" y="69" width="28" height="8" fill="#20b8c3"/><rect x="84" y="69" width="28" height="8" fill="#20b8c3"/><text x="70" y="53" text-anchor="middle" font-size="11" fill="#587264">灰化 / 濕式清洗</text></g>
+ <path d="M863 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-3)"/>
+ <g transform="translate(895,32)"><rect width="85" height="110" rx="14" fill="#eaf0f5" stroke="#cbd8e1"/><text x="42" y="27" text-anchor="middle" font-size="12" font-weight="700" fill="#344e62">6 量測</text><circle cx="42" cy="66" r="16" fill="none" stroke="#4d7995" stroke-width="3"/><path d="M54 78l12 12" stroke="#4d7995" stroke-width="4"/><text x="42" y="105" text-anchor="middle" font-size="10" fill="#546b7b">CD / 膜厚</text></g>
+ <path d="M940 155 C940 204 300 206 300 157" fill="none" stroke="#52738a" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arr-diagram-3)"/>
+ <text x="605" y="222" text-anchor="middle" font-size="12" fill="#526879">下一層：再沉積／再圖案化，逐層堆疊</text>
+ </g></svg>
+ <figcaption>原創概念圖。蝕刻與植入是不同模組；圖中合併表示都會使用光阻或硬遮罩保護部分區域。</figcaption></figure>
+ <div class="card"><h2>延伸閱讀</h2><p><a href="https://semiconductor.samsung.com/support/tools-resources/dictionary/zero-residue-zero-contaminants-semiconductor-cleaning/" target="_blank" rel="noopener">Samsung｜清洗 ↗</a></p><p><a href="#images">網路示意圖集 →</a>　<a href="#sources">完整資料來源 →</a></p></div></div>
+ <div class="lesson-actions"><button class="complete" data-complete="2" aria-pressed="false">標記本章已讀</button><span class="save-note">進度保存在這個瀏覽器</span></div>
+ <nav class="chapter-nav" aria-label="章節切換"><a href="#lesson-1">← 晶圓的起點</a><a href="#lesson-3">氧化與熱處理 →</a></nav>
+ </section><section class="screen lesson" id="lesson-3" hidden data-title="氧化與熱處理">
+ <p class="eyebrow">製程課程 03 / 11 · 約 3–5 分鐘</p><h1 tabindex="-1">氧化與熱處理</h1>
+ <p class="intro">先理解這一步在晶圓上改變了什麼，再查看機台與條件。</p>
+ <div class="tabs" role="tablist" aria-label="本章內容">
+ <button role="tab" id="tab-2-0" aria-controls="panel-2-0" aria-selected="true" tabindex="0" data-tab="0">先理解原理</button><button role="tab" id="tab-2-1" aria-controls="panel-2-1" aria-selected="false" tabindex="-1" data-tab="1">設備與條件</button><button role="tab" id="tab-2-2" aria-controls="panel-2-2" aria-selected="false" tabindex="-1" data-tab="2">圖解與來源</button></div>
+ <div role="tabpanel" id="panel-2-0" aria-labelledby="tab-2-0">
+ <div class="takeaways"><h2>先記住這三件事</h2><ol><li>熱氧化會消耗表面的矽，生成氧化矽。</li><li>乾氧化用氧氣；濕氧化用水蒸氣，成長特性不同。</li><li>退火可修復晶格、活化摻雜；溫度和時間要一起看。</li></ol></div>
+ <article class="reading"><h2>原理怎麼運作</h2><p>氧化時氧化劑穿過已形成的氧化層到達 Si／SiO₂ 界面，與矽反應：Si + O₂ → SiO₂；水蒸氣氧化較快但膜質特性不同。擴散由濃度梯度推動雜質移動；退火用熱修復晶格缺陷、活化摻雜原子或改善介面。</p></article>
+ <details class="recall"><summary><span>停一下，試著用自己的話回答</span><strong>同樣是加熱，氧化與退火的目標有什麼不同？</strong></summary><p>氧化讓矽和氧化劑反應形成氧化膜；退火主要用熱改善晶格、摻雜活化或介面性質。</p></details>
+ </div>
+ <div role="tabpanel" id="panel-2-1" aria-labelledby="tab-2-1" hidden><p class="muted">每張卡片只回答一個問題。數字是代表範圍，實際條件依設備、材料與製程而異。</p>
+ <div class="facts"><article class="card"><h2>設備</h2><p>批次石英管爐、立式爐、RTP／RTA 快速熱處理設備。</p></article><article class="card"><h2>材料與氣體</h2><p>乾氧化使用 O₂；濕氧化供應 H₂O 蒸氣（可由 O₂／H₂ 反應產生）；擴散摻雜常見硼、磷源；退火可用 N₂、Ar 或含 H₂ 的成形氣氛。</p></article><article class="card"><h2>溫度</h2><p>熱氧化常約 800–1200°C；摻雜擴散約 1000°C 以上；植入後活化退火常約 800–1000°C，RTA 用很短時間達高溫以限制擴散。</p></article></div>
+ <a class="text-link" href="#conditions">查看所有製程的溫度與材料速查 →</a></div>
+ <div role="tabpanel" id="panel-2-2" aria-labelledby="tab-2-2" hidden>
+ <figure class="diagram">
+ <svg viewBox="0 0 1000 245" role="img" aria-label="薄膜、塗光阻、曝光顯影、蝕刻、去光阻及量測的製程循環">
+ <defs><marker id="arr-diagram-4" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#52738a"/></marker></defs>
+ <g font-family="system-ui,sans-serif">
+ <g transform="translate(20,32)"><rect width="140" height="110" rx="14" fill="#e4f1f8" stroke="#bfd7e6"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#164d70">1 薄膜沉積</text><rect x="28" y="70" width="84" height="20" rx="5" fill="#6c93a4"/><rect x="28" y="62" width="84" height="8" fill="#20b8c3"/><text x="70" y="53" text-anchor="middle" font-size="11" fill="#546b7b">CVD / PVD / ALD</text></g>
+ <path d="M163 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-4)"/>
+ <g transform="translate(195,32)"><rect width="140" height="110" rx="14" fill="#f2ebfa" stroke="#d8c9ec"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#67418d">2 塗佈光阻</text><rect x="28" y="77" width="84" height="13" rx="4" fill="#6c93a4"/><rect x="28" y="69" width="84" height="8" fill="#af83d2"/><text x="70" y="53" text-anchor="middle" font-size="11" fill="#6d5b7d">旋塗＋烘烤</text></g>
+ <path d="M338 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-4)"/>
+ <g transform="translate(370,32)"><rect width="140" height="110" rx="14" fill="#fff4df" stroke="#eddcb7"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#8a5b10">3 曝光與顯影</text><rect x="28" y="77" width="84" height="13" rx="4" fill="#6c93a4"/><rect x="28" y="69" width="28" height="8" fill="#af83d2"/><rect x="84" y="69" width="28" height="8" fill="#af83d2"/><path d="M47 40v19M70 40v19M93 40v19" stroke="#efad32" stroke-width="2"/><text x="70" y="104" text-anchor="middle" font-size="10" fill="#6d5b7d">光罩圖案轉印</text></g>
+ <path d="M513 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-4)"/>
+ <g transform="translate(545,32)"><rect width="140" height="110" rx="14" fill="#fce9e7" stroke="#efcfca"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#944a40">4 蝕刻或植入</text><rect x="28" y="77" width="84" height="13" rx="4" fill="#6c93a4"/><rect x="28" y="69" width="28" height="8" fill="#af83d2"/><rect x="84" y="69" width="28" height="8" fill="#af83d2"/><path d="M69 42v20m-8-7 8 8 8-8" stroke="#d26c55" stroke-width="2"/><text x="70" y="104" text-anchor="middle" font-size="10" fill="#75514c">選擇性改變材料</text></g>
+ <path d="M688 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-4)"/>
+ <g transform="translate(720,32)"><rect width="140" height="110" rx="14" fill="#e5f5ed" stroke="#c4e2d2"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#287052">5 去光阻與清洗</text><rect x="28" y="77" width="84" height="13" rx="4" fill="#6c93a4"/><rect x="28" y="69" width="28" height="8" fill="#20b8c3"/><rect x="84" y="69" width="28" height="8" fill="#20b8c3"/><text x="70" y="53" text-anchor="middle" font-size="11" fill="#587264">灰化 / 濕式清洗</text></g>
+ <path d="M863 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-4)"/>
+ <g transform="translate(895,32)"><rect width="85" height="110" rx="14" fill="#eaf0f5" stroke="#cbd8e1"/><text x="42" y="27" text-anchor="middle" font-size="12" font-weight="700" fill="#344e62">6 量測</text><circle cx="42" cy="66" r="16" fill="none" stroke="#4d7995" stroke-width="3"/><path d="M54 78l12 12" stroke="#4d7995" stroke-width="4"/><text x="42" y="105" text-anchor="middle" font-size="10" fill="#546b7b">CD / 膜厚</text></g>
+ <path d="M940 155 C940 204 300 206 300 157" fill="none" stroke="#52738a" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arr-diagram-4)"/>
+ <text x="605" y="222" text-anchor="middle" font-size="12" fill="#526879">下一層：再沉積／再圖案化，逐層堆疊</text>
+ </g></svg>
+ <figcaption>原創概念圖。蝕刻與植入是不同模組；圖中合併表示都會使用光阻或硬遮罩保護部分區域。</figcaption></figure>
+ <div class="card"><h2>延伸閱讀</h2><p><a href="https://cores.research.asu.edu/semiconductor-device-processing/nanofab/capabilities/thermal-processing/" target="_blank" rel="noopener">ASU｜熱製程 ↗</a></p><p><a href="#images">網路示意圖集 →</a>　<a href="#sources">完整資料來源 →</a></p></div></div>
+ <div class="lesson-actions"><button class="complete" data-complete="3" aria-pressed="false">標記本章已讀</button><span class="save-note">進度保存在這個瀏覽器</span></div>
+ <nav class="chapter-nav" aria-label="章節切換"><a href="#lesson-2">← 清洗：準備乾淨表面</a><a href="#lesson-4">微影：把圖案印上去 →</a></nav>
+ </section><section class="screen lesson" id="lesson-4" hidden data-title="微影：把圖案印上去">
+ <p class="eyebrow">製程課程 04 / 11 · 約 3–5 分鐘</p><h1 tabindex="-1">微影：把圖案印上去</h1>
+ <p class="intro">先理解這一步在晶圓上改變了什麼，再查看機台與條件。</p>
+ <div class="tabs" role="tablist" aria-label="本章內容">
+ <button role="tab" id="tab-3-0" aria-controls="panel-3-0" aria-selected="true" tabindex="0" data-tab="0">先理解原理</button><button role="tab" id="tab-3-1" aria-controls="panel-3-1" aria-selected="false" tabindex="-1" data-tab="1">設備與條件</button><button role="tab" id="tab-3-2" aria-controls="panel-3-2" aria-selected="false" tabindex="-1" data-tab="2">圖解與來源</button></div>
+ <div role="tabpanel" id="panel-3-0" aria-labelledby="tab-3-0">
+ <div class="takeaways"><h2>先記住這三件事</h2><ol><li>光阻是一層暫時的感光遮罩。</li><li>曝光改變溶解度，顯影後才出現光阻開口。</li><li>微影決定「哪裡要加工」，後續蝕刻或植入才改變材料。</li></ol></div>
+ <article class="reading"><h2>原理怎麼運作</h2><p>旋塗形成均勻感光薄層；對位後投射光罩圖案。曝光改變光阻的化學溶解度，烘烤與顯影留下要保護的圖形。光阻圖形本身是暫時遮罩，後續通常還要把形狀轉移到下方薄膜。</p></article>
+ <details class="recall"><summary><span>停一下，試著用自己的話回答</span><strong>顯影後看到光阻圖案，代表下方薄膜也刻好了嗎？</strong></summary><p>還沒有。這時形成的是暫時遮罩，通常要再經蝕刻，才能將圖案轉入下方薄膜。</p></details>
+ </div>
+ <div role="tabpanel" id="panel-3-1" aria-labelledby="tab-3-1" hidden><p class="muted">每張卡片只回答一個問題。數字是代表範圍，實際條件依設備、材料與製程而異。</p>
+ <div class="facts"><article class="card"><h2>設備</h2><p>Track 塗佈／顯影機（旋塗杯、熱板、顯影模組）、Stepper 或 Scanner 曝光機、缺陷檢查與 overlay／CD 量測設備。</p></article><article class="card"><h2>材料</h2><p>液態光阻、底部抗反射層、光罩 reticle、顯影液；正光阻曝光處通常變得較易溶，負光阻則常因曝光交聯而較難溶。</p></article><article class="card"><h2>光源／溫度</h2><p>DUV 常見 KrF 248 nm、ArF 193 nm；EUV 波長 13.5 nm，EUV 光路需真空。塗佈後熱板通常在約 90–150°C 的 recipe window；精確溫度與時間依光阻與層別。</p></article></div>
+ <a class="text-link" href="#conditions">查看所有製程的溫度與材料速查 →</a></div>
+ <div role="tabpanel" id="panel-3-2" aria-labelledby="tab-3-2" hidden>
  <figure class="diagram">
  <svg viewBox="0 0 900 340" role="img" aria-label="微影圖案經蝕刻轉移至氧化層的晶圓剖面圖">
  <g font-family="system-ui,sans-serif">
@@ -151,21 +195,280 @@ section{padding:52px 0;scroll-margin-top:68px}.section-head{display:flex;justify
   <rect x="38" y="166" width="274" height="40" rx="3" fill="#8798a6"/><text x="175" y="191" text-anchor="middle" fill="white" font-size="13">單晶矽基板 Si</text>
   <path d="M38 139h86v27H38zm140 0h70v27h-70zm98 0h36v27h-36z" fill="#42bbbd"/>
   <text x="175" y="225" text-anchor="middle" fill="#087d81" font-size="12">薄膜只在被光阻保護的位置留下</text>
-  <path d="M124 101v30m70-30v30m70-30v30" stroke="#db715b" stroke-width="3" marker-end="url(#down)"/>
+  <path d="M124 101v30m70-30v30m70-30v30" stroke="#db715b" stroke-width="3" marker-end="url(#down-diagram-5)"/>
   <text x="175" y="81" text-anchor="middle" fill="#9a503e" font-size="12">電漿／液體蝕刻移除開口區</text>
  </g>
- <defs><marker id="down" markerWidth="8" markerHeight="8" refX="5" refY="3" orient="auto"><path d="M0 0L0 6L6 3z" fill="#db715b"/></marker></defs>
+ <defs><marker id="down-diagram-5" markerWidth="8" markerHeight="8" refX="5" refY="3" orient="auto"><path d="M0 0L0 6L6 3z" fill="#db715b"/></marker></defs>
  <path d="M415 166h65" stroke="#45677d" stroke-width="2"/><path d="M465 160l12 6-12 6" fill="none" stroke="#45677d" stroke-width="2"/>
  <text x="450" y="314" text-anchor="middle" font-size="12" fill="#566b7c">之後去光阻、清洗；量測圖形尺寸與蝕刻深度，再進入下一站。</text>
  </g></svg>
  <figcaption>原創剖面概念圖：尺寸與層厚未按比例。正光阻／負光阻選擇會改變顯影後的遮罩方向。</figcaption></figure>
- <div class="grid two" style="margin-top:16px">
-  <div class="card"><h3>為什麼清洗站很多？</h3><p>一顆微粒就可能在後續曝光或薄膜裡變成短路、斷路或形狀缺陷。清洗會夾在氧化、微影、蝕刻、沉積、CMP 等多個模組之間，清掉前站留下的化學殘留與微粒。</p></div>
-  <div class="card"><h3>為什麼要每層量測？</h3><p>後站很難修復前站造成的 overlay、膜厚或尺寸偏差。量測把製程結果轉成資料，供工程師調整 tool matching、chamber condition、dose、bias、氣體流量等控制參數。</p></div>
+ <div class="card"><h2>延伸閱讀</h2><p><a href="https://www.asml.com/en/technology/lithography-principles" target="_blank" rel="noopener">ASML｜微影原理 ↗</a></p><p><a href="#images">網路示意圖集 →</a>　<a href="#sources">完整資料來源 →</a></p></div></div>
+ <div class="lesson-actions"><button class="complete" data-complete="4" aria-pressed="false">標記本章已讀</button><span class="save-note">進度保存在這個瀏覽器</span></div>
+ <nav class="chapter-nav" aria-label="章節切換"><a href="#lesson-3">← 氧化與熱處理</a><a href="#lesson-5">蝕刻：把圖案刻下去 →</a></nav>
+ </section><section class="screen lesson" id="lesson-5" hidden data-title="蝕刻：把圖案刻下去">
+ <p class="eyebrow">製程課程 05 / 11 · 約 3–5 分鐘</p><h1 tabindex="-1">蝕刻：把圖案刻下去</h1>
+ <p class="intro">先理解這一步在晶圓上改變了什麼，再查看機台與條件。</p>
+ <div class="tabs" role="tablist" aria-label="本章內容">
+ <button role="tab" id="tab-4-0" aria-controls="panel-4-0" aria-selected="true" tabindex="0" data-tab="0">先理解原理</button><button role="tab" id="tab-4-1" aria-controls="panel-4-1" aria-selected="false" tabindex="-1" data-tab="1">設備與條件</button><button role="tab" id="tab-4-2" aria-controls="panel-4-2" aria-selected="false" tabindex="-1" data-tab="2">圖解與來源</button></div>
+ <div role="tabpanel" id="panel-4-0" aria-labelledby="tab-4-0">
+ <div class="takeaways"><h2>先記住這三件事</h2><ol><li>蝕刻移除遮罩開口處的材料。</li><li>電漿蝕刻結合化學反應與離子作用，控制加工方向。</li><li>不只要刻得快，還要顧到選擇比、深度與側壁形狀。</li></ol></div>
+ <article class="reading"><h2>原理怎麼運作</h2><p>濕蝕刻靠液相反應溶解材料，常較各向同性；電漿把氣體解離成自由基和離子，化學反應生成揮發性副產物，帶偏壓的離子提供較垂直的方向性。製程需兼顧速率、選擇比、均勻性與側壁輪廓。</p></article>
+ <details class="recall"><summary><span>停一下，試著用自己的話回答</span><strong>蝕刻為什麼要在意選擇比？</strong></summary><p>因為要盡量移除目標材料，同時減少對遮罩或下方停止層的損耗。</p></details>
  </div>
-</div></section>
-<section id="images" style="background:#eaf0f5"><div class="wrap">
- <div class="section-head"><div><div class="kicker">06 / Visual references</div><h2>網路上的原始示意圖與互動教材</h2><p class="lead">以下圖片由原作者網站載入，點圖可到原始教材。頁面另外繪製了流程和剖面圖，方便先讀懂，再對照各家教材的實際示意。</p></div></div>
+ <div role="tabpanel" id="panel-4-1" aria-labelledby="tab-4-1" hidden><p class="muted">每張卡片只回答一個問題。數字是代表範圍，實際條件依設備、材料與製程而異。</p>
+ <div class="facts"><article class="card"><h2>設備</h2><p>濕蝕刻槽／單片濕製程機；乾式使用 RIE、ICP、CCP 電漿蝕刻腔；去光阻常用 O₂ 灰化與下游濕式清洗。</p></article><article class="card"><h2>材料與氣體</h2><p>氧化物常用 HF 系濕蝕刻或 CF₄／CHF₃ 等含氟電漿；矽／多晶矽常用 Cl₂、HBr；深矽蝕刻常在 SF₆ 蝕刻與 C₄F₈ 保護膜沉積間交替。</p></article><article class="card"><h2>溫度</h2><p>很多蝕刻用晶圓台會冷卻至數十°C；有些深矽／冷凍蝕刻會低於 0°C，亦有較高溫製程，取決於材料與側壁控制目標。腔體是低壓真空。</p></article></div>
+ <a class="text-link" href="#conditions">查看所有製程的溫度與材料速查 →</a></div>
+ <div role="tabpanel" id="panel-4-2" aria-labelledby="tab-4-2" hidden>
+ <figure class="diagram">
+ <svg viewBox="0 0 900 340" role="img" aria-label="微影圖案經蝕刻轉移至氧化層的晶圓剖面圖">
+ <g font-family="system-ui,sans-serif">
+ <text x="225" y="30" text-anchor="middle" font-size="15" font-weight="700" fill="#183b53">A. 顯影後：光阻形成遮罩</text>
+ <text x="675" y="30" text-anchor="middle" font-size="15" font-weight="700" fill="#183b53">B. 蝕刻後：圖案轉入薄膜</text>
+ <g transform="translate(45,52)"><rect width="350" height="230" rx="12" fill="#f7fafc" stroke="#d3e0e9"/>
+  <rect x="38" y="166" width="274" height="40" rx="3" fill="#8798a6"/><text x="175" y="191" text-anchor="middle" fill="white" font-size="13">單晶矽基板 Si</text>
+  <rect x="38" y="139" width="274" height="27" fill="#42bbbd"/><text x="175" y="157" text-anchor="middle" fill="#073e45" font-size="12" font-weight="700">待圖案化薄膜（例：SiO₂）</text>
+  <rect x="38" y="111" width="86" height="28" rx="3" fill="#ad82d0"/><rect x="178" y="111" width="70" height="28" rx="3" fill="#ad82d0"/><rect x="276" y="111" width="36" height="28" rx="3" fill="#ad82d0"/>
+  <text x="175" y="94" text-anchor="middle" fill="#70508b" font-size="12">顯影後留下的光阻</text>
+  <path d="M78 64v35m100-35v35m100-35v35" stroke="#e7a62e" stroke-width="3"/><text x="175" y="55" text-anchor="middle" fill="#896116" font-size="12">曝光 → 顯影</text>
+  <path d="M143 135v-15m48 15v-15m51 15v-15" stroke="#bc6655" stroke-width="2" stroke-dasharray="4 3"/>
+ </g>
+ <g transform="translate(505,52)"><rect width="350" height="230" rx="12" fill="#f7fafc" stroke="#d3e0e9"/>
+  <rect x="38" y="166" width="274" height="40" rx="3" fill="#8798a6"/><text x="175" y="191" text-anchor="middle" fill="white" font-size="13">單晶矽基板 Si</text>
+  <path d="M38 139h86v27H38zm140 0h70v27h-70zm98 0h36v27h-36z" fill="#42bbbd"/>
+  <text x="175" y="225" text-anchor="middle" fill="#087d81" font-size="12">薄膜只在被光阻保護的位置留下</text>
+  <path d="M124 101v30m70-30v30m70-30v30" stroke="#db715b" stroke-width="3" marker-end="url(#down-diagram-6)"/>
+  <text x="175" y="81" text-anchor="middle" fill="#9a503e" font-size="12">電漿／液體蝕刻移除開口區</text>
+ </g>
+ <defs><marker id="down-diagram-6" markerWidth="8" markerHeight="8" refX="5" refY="3" orient="auto"><path d="M0 0L0 6L6 3z" fill="#db715b"/></marker></defs>
+ <path d="M415 166h65" stroke="#45677d" stroke-width="2"/><path d="M465 160l12 6-12 6" fill="none" stroke="#45677d" stroke-width="2"/>
+ <text x="450" y="314" text-anchor="middle" font-size="12" fill="#566b7c">之後去光阻、清洗；量測圖形尺寸與蝕刻深度，再進入下一站。</text>
+ </g></svg>
+ <figcaption>原創剖面概念圖：尺寸與層厚未按比例。正光阻／負光阻選擇會改變顯影後的遮罩方向。</figcaption></figure>
+ <div class="card"><h2>延伸閱讀</h2><p><a href="https://cnm2.ucdavis.edu/equipment-tool-types/etch" target="_blank" rel="noopener">UC Davis｜蝕刻設備與氣體 ↗</a></p><p><a href="#images">網路示意圖集 →</a>　<a href="#sources">完整資料來源 →</a></p></div></div>
+ <div class="lesson-actions"><button class="complete" data-complete="5" aria-pressed="false">標記本章已讀</button><span class="save-note">進度保存在這個瀏覽器</span></div>
+ <nav class="chapter-nav" aria-label="章節切換"><a href="#lesson-4">← 微影：把圖案印上去</a><a href="#lesson-6">佈植：改變導電特性 →</a></nav>
+ </section><section class="screen lesson" id="lesson-6" hidden data-title="佈植：改變導電特性">
+ <p class="eyebrow">製程課程 06 / 11 · 約 3–5 分鐘</p><h1 tabindex="-1">佈植：改變導電特性</h1>
+ <p class="intro">先理解這一步在晶圓上改變了什麼，再查看機台與條件。</p>
+ <div class="tabs" role="tablist" aria-label="本章內容">
+ <button role="tab" id="tab-5-0" aria-controls="panel-5-0" aria-selected="true" tabindex="0" data-tab="0">先理解原理</button><button role="tab" id="tab-5-1" aria-controls="panel-5-1" aria-selected="false" tabindex="-1" data-tab="1">設備與條件</button><button role="tab" id="tab-5-2" aria-controls="panel-5-2" aria-selected="false" tabindex="-1" data-tab="2">圖解與來源</button></div>
+ <div role="tabpanel" id="panel-5-0" aria-labelledby="tab-5-0">
+ <div class="takeaways"><h2>先記住這三件事</h2><ol><li>摻雜用來調整矽的電性。</li><li>植入能量主要影響深度，劑量影響植入數量。</li><li>植入後通常需要退火，修復損傷並活化摻雜。</li></ol></div>
+ <article class="reading"><h2>原理怎麼運作</h2><p>離子化後按質量挑選所需離子，再加速至指定能量並掃描晶圓。能量主要影響植入深度，劑量影響濃度；光阻或硬遮罩限定區域。離子會造成晶格損傷，退火讓摻雜進入晶格位置並恢復晶體品質。</p></article>
+ <details class="recall"><summary><span>停一下，試著用自己的話回答</span><strong>把摻雜離子打進矽裡後，為什麼通常還要退火？</strong></summary><p>植入可能打亂晶格；退火可修復損傷，並讓摻雜原子進入有效的晶格位置。</p></details>
+ </div>
+ <div role="tabpanel" id="panel-5-1" aria-labelledby="tab-5-1" hidden><p class="muted">每張卡片只回答一個問題。數字是代表範圍，實際條件依設備、材料與製程而異。</p>
+ <div class="facts"><article class="card"><h2>設備</h2><p>離子源、質量分析磁鐵、加速電場、掃描晶圓盤、高真空腔；植入後接 RTA／尖峰退火或爐管退火。</p></article><article class="card"><h2>材料／氣體源</h2><p>硼 B 或 BF₂ 形成 p 型摻雜；磷 P、砷 As 常形成 n 型摻雜。離子源使用氣、液或固態前驅物，依離子機台與物種選擇；退火常用 N₂ 或 Ar。</p></article><article class="card"><h2>溫度</h2><p>佈植通常近室溫（特定材料可熱佈植）；植入後矽晶圓活化退火常約 800–1000°C，控制時間避免摻雜擴散過遠。</p></article></div>
+ <a class="text-link" href="#conditions">查看所有製程的溫度與材料速查 →</a></div>
+ <div role="tabpanel" id="panel-5-2" aria-labelledby="tab-5-2" hidden>
+ <figure class="diagram">
+ <svg viewBox="0 0 1000 245" role="img" aria-label="薄膜、塗光阻、曝光顯影、蝕刻、去光阻及量測的製程循環">
+ <defs><marker id="arr-diagram-7" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#52738a"/></marker></defs>
+ <g font-family="system-ui,sans-serif">
+ <g transform="translate(20,32)"><rect width="140" height="110" rx="14" fill="#e4f1f8" stroke="#bfd7e6"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#164d70">1 薄膜沉積</text><rect x="28" y="70" width="84" height="20" rx="5" fill="#6c93a4"/><rect x="28" y="62" width="84" height="8" fill="#20b8c3"/><text x="70" y="53" text-anchor="middle" font-size="11" fill="#546b7b">CVD / PVD / ALD</text></g>
+ <path d="M163 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-7)"/>
+ <g transform="translate(195,32)"><rect width="140" height="110" rx="14" fill="#f2ebfa" stroke="#d8c9ec"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#67418d">2 塗佈光阻</text><rect x="28" y="77" width="84" height="13" rx="4" fill="#6c93a4"/><rect x="28" y="69" width="84" height="8" fill="#af83d2"/><text x="70" y="53" text-anchor="middle" font-size="11" fill="#6d5b7d">旋塗＋烘烤</text></g>
+ <path d="M338 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-7)"/>
+ <g transform="translate(370,32)"><rect width="140" height="110" rx="14" fill="#fff4df" stroke="#eddcb7"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#8a5b10">3 曝光與顯影</text><rect x="28" y="77" width="84" height="13" rx="4" fill="#6c93a4"/><rect x="28" y="69" width="28" height="8" fill="#af83d2"/><rect x="84" y="69" width="28" height="8" fill="#af83d2"/><path d="M47 40v19M70 40v19M93 40v19" stroke="#efad32" stroke-width="2"/><text x="70" y="104" text-anchor="middle" font-size="10" fill="#6d5b7d">光罩圖案轉印</text></g>
+ <path d="M513 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-7)"/>
+ <g transform="translate(545,32)"><rect width="140" height="110" rx="14" fill="#fce9e7" stroke="#efcfca"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#944a40">4 蝕刻或植入</text><rect x="28" y="77" width="84" height="13" rx="4" fill="#6c93a4"/><rect x="28" y="69" width="28" height="8" fill="#af83d2"/><rect x="84" y="69" width="28" height="8" fill="#af83d2"/><path d="M69 42v20m-8-7 8 8 8-8" stroke="#d26c55" stroke-width="2"/><text x="70" y="104" text-anchor="middle" font-size="10" fill="#75514c">選擇性改變材料</text></g>
+ <path d="M688 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-7)"/>
+ <g transform="translate(720,32)"><rect width="140" height="110" rx="14" fill="#e5f5ed" stroke="#c4e2d2"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#287052">5 去光阻與清洗</text><rect x="28" y="77" width="84" height="13" rx="4" fill="#6c93a4"/><rect x="28" y="69" width="28" height="8" fill="#20b8c3"/><rect x="84" y="69" width="28" height="8" fill="#20b8c3"/><text x="70" y="53" text-anchor="middle" font-size="11" fill="#587264">灰化 / 濕式清洗</text></g>
+ <path d="M863 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-7)"/>
+ <g transform="translate(895,32)"><rect width="85" height="110" rx="14" fill="#eaf0f5" stroke="#cbd8e1"/><text x="42" y="27" text-anchor="middle" font-size="12" font-weight="700" fill="#344e62">6 量測</text><circle cx="42" cy="66" r="16" fill="none" stroke="#4d7995" stroke-width="3"/><path d="M54 78l12 12" stroke="#4d7995" stroke-width="4"/><text x="42" y="105" text-anchor="middle" font-size="10" fill="#546b7b">CD / 膜厚</text></g>
+ <path d="M940 155 C940 204 300 206 300 157" fill="none" stroke="#52738a" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arr-diagram-7)"/>
+ <text x="605" y="222" text-anchor="middle" font-size="12" fill="#526879">下一層：再沉積／再圖案化，逐層堆疊</text>
+ </g></svg>
+ <figcaption>原創概念圖。蝕刻與植入是不同模組；圖中合併表示都會使用光阻或硬遮罩保護部分區域。</figcaption></figure>
+ <div class="card"><h2>延伸閱讀</h2><p><a href="https://www.osha.gov/semiconductors/silicon/device-fabrication" target="_blank" rel="noopener">OSHA｜元件製造與離子佈植 ↗</a></p><p><a href="#images">網路示意圖集 →</a>　<a href="#sources">完整資料來源 →</a></p></div></div>
+ <div class="lesson-actions"><button class="complete" data-complete="6" aria-pressed="false">標記本章已讀</button><span class="save-note">進度保存在這個瀏覽器</span></div>
+ <nav class="chapter-nav" aria-label="章節切換"><a href="#lesson-5">← 蝕刻：把圖案刻下去</a><a href="#lesson-7">沉積：加上一層材料 →</a></nav>
+ </section><section class="screen lesson" id="lesson-7" hidden data-title="沉積：加上一層材料">
+ <p class="eyebrow">製程課程 07 / 11 · 約 3–5 分鐘</p><h1 tabindex="-1">沉積：加上一層材料</h1>
+ <p class="intro">先理解這一步在晶圓上改變了什麼，再查看機台與條件。</p>
+ <div class="tabs" role="tablist" aria-label="本章內容">
+ <button role="tab" id="tab-6-0" aria-controls="panel-6-0" aria-selected="true" tabindex="0" data-tab="0">先理解原理</button><button role="tab" id="tab-6-1" aria-controls="panel-6-1" aria-selected="false" tabindex="-1" data-tab="1">設備與條件</button><button role="tab" id="tab-6-2" aria-controls="panel-6-2" aria-selected="false" tabindex="-1" data-tab="2">圖解與來源</button></div>
+ <div role="tabpanel" id="panel-6-0" aria-labelledby="tab-6-0">
+ <div class="takeaways"><h2>先記住這三件事</h2><ol><li>沉積把新材料加到晶圓表面。</li><li>CVD 靠化學反應，PVD 靠物理傳送，ALD 靠交替的表面反應。</li><li>薄膜種類和覆蓋需求，會影響方法與溫度的選擇。</li></ol></div>
+ <article class="reading"><h2>原理怎麼運作</h2><p>CVD 讓前驅氣體在熱或電漿能量下反應並在表面成膜；PVD 以物理濺射把靶材原子送到晶圓；ALD 交替送入前驅物與反應物，利用表面自限反應逐循環長膜，適合高深寬比結構的共形覆蓋。</p></article>
+ <details class="recall"><summary><span>停一下，試著用自己的話回答</span><strong>深而窄的結構，為什麼會重視共形覆蓋？</strong></summary><p>因為孔底和側壁都需要適當覆膜，不能只有頂部變厚；ALD 的表面反應機制常適合這類需求。</p></details>
+ </div>
+ <div role="tabpanel" id="panel-6-1" aria-labelledby="tab-6-1" hidden><p class="muted">每張卡片只回答一個問題。數字是代表範圍，實際條件依設備、材料與製程而異。</p>
+ <div class="facts"><article class="card"><h2>設備</h2><p>CVD 批次爐管或單片反應腔；PVD 濺鍍真空腔；ALD 交替脈衝供應反應物；外延反應器用於晶體品質連續生長。</p></article><article class="card"><h2>材料與氣體例</h2><p>SiH₄ 可供應矽；SiH₄／O₂ 或 TEOS 可製氧化矽；SiH₄／NH₃ 或 DCS／NH₃ 可製含氮薄膜。PVD 以 Ar 電漿轟擊 Ti、Ta、Cu、Al 等固體靶材；ALD 以金屬有機或鹵化物前驅物搭配 H₂O、O₃、NH₃ 等反應物。</p></article><article class="card"><h2>溫度</h2><p>LPCVD 常約 500–1100°C；PECVD 常約 200–400°C；ALD 很依賴材料，常見約 100–400°C；PVD 可由近室溫到數百°C。這些範圍會因膜種差異很大。</p></article></div>
+ <a class="text-link" href="#conditions">查看所有製程的溫度與材料速查 →</a></div>
+ <div role="tabpanel" id="panel-6-2" aria-labelledby="tab-6-2" hidden>
+ <figure class="diagram">
+ <svg viewBox="0 0 1000 245" role="img" aria-label="薄膜、塗光阻、曝光顯影、蝕刻、去光阻及量測的製程循環">
+ <defs><marker id="arr-diagram-8" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#52738a"/></marker></defs>
+ <g font-family="system-ui,sans-serif">
+ <g transform="translate(20,32)"><rect width="140" height="110" rx="14" fill="#e4f1f8" stroke="#bfd7e6"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#164d70">1 薄膜沉積</text><rect x="28" y="70" width="84" height="20" rx="5" fill="#6c93a4"/><rect x="28" y="62" width="84" height="8" fill="#20b8c3"/><text x="70" y="53" text-anchor="middle" font-size="11" fill="#546b7b">CVD / PVD / ALD</text></g>
+ <path d="M163 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-8)"/>
+ <g transform="translate(195,32)"><rect width="140" height="110" rx="14" fill="#f2ebfa" stroke="#d8c9ec"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#67418d">2 塗佈光阻</text><rect x="28" y="77" width="84" height="13" rx="4" fill="#6c93a4"/><rect x="28" y="69" width="84" height="8" fill="#af83d2"/><text x="70" y="53" text-anchor="middle" font-size="11" fill="#6d5b7d">旋塗＋烘烤</text></g>
+ <path d="M338 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-8)"/>
+ <g transform="translate(370,32)"><rect width="140" height="110" rx="14" fill="#fff4df" stroke="#eddcb7"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#8a5b10">3 曝光與顯影</text><rect x="28" y="77" width="84" height="13" rx="4" fill="#6c93a4"/><rect x="28" y="69" width="28" height="8" fill="#af83d2"/><rect x="84" y="69" width="28" height="8" fill="#af83d2"/><path d="M47 40v19M70 40v19M93 40v19" stroke="#efad32" stroke-width="2"/><text x="70" y="104" text-anchor="middle" font-size="10" fill="#6d5b7d">光罩圖案轉印</text></g>
+ <path d="M513 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-8)"/>
+ <g transform="translate(545,32)"><rect width="140" height="110" rx="14" fill="#fce9e7" stroke="#efcfca"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#944a40">4 蝕刻或植入</text><rect x="28" y="77" width="84" height="13" rx="4" fill="#6c93a4"/><rect x="28" y="69" width="28" height="8" fill="#af83d2"/><rect x="84" y="69" width="28" height="8" fill="#af83d2"/><path d="M69 42v20m-8-7 8 8 8-8" stroke="#d26c55" stroke-width="2"/><text x="70" y="104" text-anchor="middle" font-size="10" fill="#75514c">選擇性改變材料</text></g>
+ <path d="M688 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-8)"/>
+ <g transform="translate(720,32)"><rect width="140" height="110" rx="14" fill="#e5f5ed" stroke="#c4e2d2"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#287052">5 去光阻與清洗</text><rect x="28" y="77" width="84" height="13" rx="4" fill="#6c93a4"/><rect x="28" y="69" width="28" height="8" fill="#20b8c3"/><rect x="84" y="69" width="28" height="8" fill="#20b8c3"/><text x="70" y="53" text-anchor="middle" font-size="11" fill="#587264">灰化 / 濕式清洗</text></g>
+ <path d="M863 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-8)"/>
+ <g transform="translate(895,32)"><rect width="85" height="110" rx="14" fill="#eaf0f5" stroke="#cbd8e1"/><text x="42" y="27" text-anchor="middle" font-size="12" font-weight="700" fill="#344e62">6 量測</text><circle cx="42" cy="66" r="16" fill="none" stroke="#4d7995" stroke-width="3"/><path d="M54 78l12 12" stroke="#4d7995" stroke-width="4"/><text x="42" y="105" text-anchor="middle" font-size="10" fill="#546b7b">CD / 膜厚</text></g>
+ <path d="M940 155 C940 204 300 206 300 157" fill="none" stroke="#52738a" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arr-diagram-8)"/>
+ <text x="605" y="222" text-anchor="middle" font-size="12" fill="#526879">下一層：再沉積／再圖案化，逐層堆疊</text>
+ </g></svg>
+ <figcaption>原創概念圖。蝕刻與植入是不同模組；圖中合併表示都會使用光阻或硬遮罩保護部分區域。</figcaption></figure>
+ <div class="card"><h2>延伸閱讀</h2><p><a href="https://lnf.engin.umich.edu/technologies/" target="_blank" rel="noopener">University of Michigan｜沉積技術 ↗</a></p><p><a href="#images">網路示意圖集 →</a>　<a href="#sources">完整資料來源 →</a></p></div></div>
+ <div class="lesson-actions"><button class="complete" data-complete="7" aria-pressed="false">標記本章已讀</button><span class="save-note">進度保存在這個瀏覽器</span></div>
+ <nav class="chapter-nav" aria-label="章節切換"><a href="#lesson-6">← 佈植：改變導電特性</a><a href="#lesson-8">CMP：讓表面變平 →</a></nav>
+ </section><section class="screen lesson" id="lesson-8" hidden data-title="CMP：讓表面變平">
+ <p class="eyebrow">製程課程 08 / 11 · 約 3–5 分鐘</p><h1 tabindex="-1">CMP：讓表面變平</h1>
+ <p class="intro">先理解這一步在晶圓上改變了什麼，再查看機台與條件。</p>
+ <div class="tabs" role="tablist" aria-label="本章內容">
+ <button role="tab" id="tab-7-0" aria-controls="panel-7-0" aria-selected="true" tabindex="0" data-tab="0">先理解原理</button><button role="tab" id="tab-7-1" aria-controls="panel-7-1" aria-selected="false" tabindex="-1" data-tab="1">設備與條件</button><button role="tab" id="tab-7-2" aria-controls="panel-7-2" aria-selected="false" tabindex="-1" data-tab="2">圖解與來源</button></div>
+ <div role="tabpanel" id="panel-7-0" aria-labelledby="tab-7-0">
+ <div class="takeaways"><h2>先記住這三件事</h2><ol><li>堆疊多層之前，表面常需要先平坦化。</li><li>CMP 同時使用化學作用與機械移除。</li><li>平坦化能幫助下一層微影對焦，也能去掉多餘金屬。</li></ol></div>
+ <article class="reading"><h2>原理怎麼運作</h2><p>晶圓旋轉並受壓接觸拋光墊；漿液先化學改質／軟化表面，墊與磨粒再機械移除材料。凸起處接觸較多，逐步削平，露出所需層或形成平坦表面，讓下一層微影可對焦。</p></article>
+ <details class="recall"><summary><span>停一下，試著用自己的話回答</span><strong>CMP 與一般把材料磨薄，有什麼學習重點上的差別？</strong></summary><p>CMP 重視特定薄膜的選擇性移除、全域平坦度及終點，化學配方和機械條件必須一起控制。</p></details>
+ </div>
+ <div role="tabpanel" id="panel-7-1" aria-labelledby="tab-7-1" hidden><p class="muted">每張卡片只回答一個問題。數字是代表範圍，實際條件依設備、材料與製程而異。</p>
+ <div class="facts"><article class="card"><h2>設備</h2><p>CMP 研磨機（載台、拋光墊、研磨頭、修整盤）、漿液供給和末端清洗設備。</p></article><article class="card"><h2>材料</h2><p>水基漿液含 SiO₂／CeO₂ 磨粒與化學添加劑；金屬 CMP 可能加入氧化劑、抑制劑與螯合劑，依銅、鎢、氧化物等不同薄膜設計。</p></article><article class="card"><h2>溫度</h2><p>通常近室溫運作；需控制漿液供應、墊面修整、壓力、速度與終點。</p></article></div>
+ <a class="text-link" href="#conditions">查看所有製程的溫度與材料速查 →</a></div>
+ <div role="tabpanel" id="panel-7-2" aria-labelledby="tab-7-2" hidden>
+ <figure class="diagram">
+ <svg viewBox="0 0 1000 245" role="img" aria-label="薄膜、塗光阻、曝光顯影、蝕刻、去光阻及量測的製程循環">
+ <defs><marker id="arr-diagram-9" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#52738a"/></marker></defs>
+ <g font-family="system-ui,sans-serif">
+ <g transform="translate(20,32)"><rect width="140" height="110" rx="14" fill="#e4f1f8" stroke="#bfd7e6"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#164d70">1 薄膜沉積</text><rect x="28" y="70" width="84" height="20" rx="5" fill="#6c93a4"/><rect x="28" y="62" width="84" height="8" fill="#20b8c3"/><text x="70" y="53" text-anchor="middle" font-size="11" fill="#546b7b">CVD / PVD / ALD</text></g>
+ <path d="M163 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-9)"/>
+ <g transform="translate(195,32)"><rect width="140" height="110" rx="14" fill="#f2ebfa" stroke="#d8c9ec"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#67418d">2 塗佈光阻</text><rect x="28" y="77" width="84" height="13" rx="4" fill="#6c93a4"/><rect x="28" y="69" width="84" height="8" fill="#af83d2"/><text x="70" y="53" text-anchor="middle" font-size="11" fill="#6d5b7d">旋塗＋烘烤</text></g>
+ <path d="M338 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-9)"/>
+ <g transform="translate(370,32)"><rect width="140" height="110" rx="14" fill="#fff4df" stroke="#eddcb7"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#8a5b10">3 曝光與顯影</text><rect x="28" y="77" width="84" height="13" rx="4" fill="#6c93a4"/><rect x="28" y="69" width="28" height="8" fill="#af83d2"/><rect x="84" y="69" width="28" height="8" fill="#af83d2"/><path d="M47 40v19M70 40v19M93 40v19" stroke="#efad32" stroke-width="2"/><text x="70" y="104" text-anchor="middle" font-size="10" fill="#6d5b7d">光罩圖案轉印</text></g>
+ <path d="M513 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-9)"/>
+ <g transform="translate(545,32)"><rect width="140" height="110" rx="14" fill="#fce9e7" stroke="#efcfca"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#944a40">4 蝕刻或植入</text><rect x="28" y="77" width="84" height="13" rx="4" fill="#6c93a4"/><rect x="28" y="69" width="28" height="8" fill="#af83d2"/><rect x="84" y="69" width="28" height="8" fill="#af83d2"/><path d="M69 42v20m-8-7 8 8 8-8" stroke="#d26c55" stroke-width="2"/><text x="70" y="104" text-anchor="middle" font-size="10" fill="#75514c">選擇性改變材料</text></g>
+ <path d="M688 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-9)"/>
+ <g transform="translate(720,32)"><rect width="140" height="110" rx="14" fill="#e5f5ed" stroke="#c4e2d2"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#287052">5 去光阻與清洗</text><rect x="28" y="77" width="84" height="13" rx="4" fill="#6c93a4"/><rect x="28" y="69" width="28" height="8" fill="#20b8c3"/><rect x="84" y="69" width="28" height="8" fill="#20b8c3"/><text x="70" y="53" text-anchor="middle" font-size="11" fill="#587264">灰化 / 濕式清洗</text></g>
+ <path d="M863 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-9)"/>
+ <g transform="translate(895,32)"><rect width="85" height="110" rx="14" fill="#eaf0f5" stroke="#cbd8e1"/><text x="42" y="27" text-anchor="middle" font-size="12" font-weight="700" fill="#344e62">6 量測</text><circle cx="42" cy="66" r="16" fill="none" stroke="#4d7995" stroke-width="3"/><path d="M54 78l12 12" stroke="#4d7995" stroke-width="4"/><text x="42" y="105" text-anchor="middle" font-size="10" fill="#546b7b">CD / 膜厚</text></g>
+ <path d="M940 155 C940 204 300 206 300 157" fill="none" stroke="#52738a" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arr-diagram-9)"/>
+ <text x="605" y="222" text-anchor="middle" font-size="12" fill="#526879">下一層：再沉積／再圖案化，逐層堆疊</text>
+ </g></svg>
+ <figcaption>原創概念圖。蝕刻與植入是不同模組；圖中合併表示都會使用光阻或硬遮罩保護部分區域。</figcaption></figure>
+ <div class="card"><h2>延伸閱讀</h2><p><a href="https://www.appliedmaterials.com/tw/zh_tw/semiconductor/products/processes/cmp.html" target="_blank" rel="noopener">Applied Materials｜CMP ↗</a></p><p><a href="#images">網路示意圖集 →</a>　<a href="#sources">完整資料來源 →</a></p></div></div>
+ <div class="lesson-actions"><button class="complete" data-complete="8" aria-pressed="false">標記本章已讀</button><span class="save-note">進度保存在這個瀏覽器</span></div>
+ <nav class="chapter-nav" aria-label="章節切換"><a href="#lesson-7">← 沉積：加上一層材料</a><a href="#lesson-9">量測：確認做得對不對 →</a></nav>
+ </section><section class="screen lesson" id="lesson-9" hidden data-title="量測：確認做得對不對">
+ <p class="eyebrow">製程課程 09 / 11 · 約 3–5 分鐘</p><h1 tabindex="-1">量測：確認做得對不對</h1>
+ <p class="intro">先理解這一步在晶圓上改變了什麼，再查看機台與條件。</p>
+ <div class="tabs" role="tablist" aria-label="本章內容">
+ <button role="tab" id="tab-8-0" aria-controls="panel-8-0" aria-selected="true" tabindex="0" data-tab="0">先理解原理</button><button role="tab" id="tab-8-1" aria-controls="panel-8-1" aria-selected="false" tabindex="-1" data-tab="1">設備與條件</button><button role="tab" id="tab-8-2" aria-controls="panel-8-2" aria-selected="false" tabindex="-1" data-tab="2">圖解與來源</button></div>
+ <div role="tabpanel" id="panel-8-0" aria-labelledby="tab-8-0">
+ <div class="takeaways"><h2>先記住這三件事</h2><ol><li>量測會穿插在製造途中，提供製程回饋。</li><li>膜厚、線寬、對位、缺陷和電性是不同的檢查目標。</li><li>數據的重複性、取樣位置和趨勢都很重要。</li></ol></div>
+ <article class="reading"><h2>原理怎麼運作</h2><p>量測不只是最後驗收，而是每個關鍵模組後的回饋。SPC 追蹤中心值與變異，發現膜厚漂移、曝光對位、蝕刻深度或顆粒異常；電性測試則確認實際元件是否正常。</p></article>
+ <details class="recall"><summary><span>停一下，試著用自己的話回答</span><strong>膜厚量測正常，可以直接代表電性也正常嗎？</strong></summary><p>不行。膜厚只是品質的一個面向，還需要結合尺寸、缺陷、材料性質與電性結果。</p></details>
+ </div>
+ <div role="tabpanel" id="panel-8-1" aria-labelledby="tab-8-1" hidden><p class="muted">每張卡片只回答一個問題。數字是代表範圍，實際條件依設備、材料與製程而異。</p>
+ <div class="facts"><article class="card"><h2>設備</h2><p>橢偏儀／反射儀量薄膜，光學或電子束 CD-SEM 量線寬，散射量測看 overlay，AFM／輪廓儀量表面形貌，明暗場檢查機找缺陷，四點探針／電性測試量電阻。</p></article><article class="card"><h2>和你的量測經驗連結</h2><p>白光干涉／UA3P 類工具可幫你理解表面輪廓與高度差；晶圓廠另會把膜厚、CD、粗糙度、缺陷座標與電性結果做跨站點追溯，量測重複性和取樣位置都很重要。</p></article></div>
+ <a class="text-link" href="#conditions">查看所有製程的溫度與材料速查 →</a></div>
+ <div role="tabpanel" id="panel-8-2" aria-labelledby="tab-8-2" hidden>
+ <figure class="diagram">
+ <svg viewBox="0 0 1000 245" role="img" aria-label="薄膜、塗光阻、曝光顯影、蝕刻、去光阻及量測的製程循環">
+ <defs><marker id="arr-diagram-10" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#52738a"/></marker></defs>
+ <g font-family="system-ui,sans-serif">
+ <g transform="translate(20,32)"><rect width="140" height="110" rx="14" fill="#e4f1f8" stroke="#bfd7e6"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#164d70">1 薄膜沉積</text><rect x="28" y="70" width="84" height="20" rx="5" fill="#6c93a4"/><rect x="28" y="62" width="84" height="8" fill="#20b8c3"/><text x="70" y="53" text-anchor="middle" font-size="11" fill="#546b7b">CVD / PVD / ALD</text></g>
+ <path d="M163 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-10)"/>
+ <g transform="translate(195,32)"><rect width="140" height="110" rx="14" fill="#f2ebfa" stroke="#d8c9ec"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#67418d">2 塗佈光阻</text><rect x="28" y="77" width="84" height="13" rx="4" fill="#6c93a4"/><rect x="28" y="69" width="84" height="8" fill="#af83d2"/><text x="70" y="53" text-anchor="middle" font-size="11" fill="#6d5b7d">旋塗＋烘烤</text></g>
+ <path d="M338 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-10)"/>
+ <g transform="translate(370,32)"><rect width="140" height="110" rx="14" fill="#fff4df" stroke="#eddcb7"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#8a5b10">3 曝光與顯影</text><rect x="28" y="77" width="84" height="13" rx="4" fill="#6c93a4"/><rect x="28" y="69" width="28" height="8" fill="#af83d2"/><rect x="84" y="69" width="28" height="8" fill="#af83d2"/><path d="M47 40v19M70 40v19M93 40v19" stroke="#efad32" stroke-width="2"/><text x="70" y="104" text-anchor="middle" font-size="10" fill="#6d5b7d">光罩圖案轉印</text></g>
+ <path d="M513 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-10)"/>
+ <g transform="translate(545,32)"><rect width="140" height="110" rx="14" fill="#fce9e7" stroke="#efcfca"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#944a40">4 蝕刻或植入</text><rect x="28" y="77" width="84" height="13" rx="4" fill="#6c93a4"/><rect x="28" y="69" width="28" height="8" fill="#af83d2"/><rect x="84" y="69" width="28" height="8" fill="#af83d2"/><path d="M69 42v20m-8-7 8 8 8-8" stroke="#d26c55" stroke-width="2"/><text x="70" y="104" text-anchor="middle" font-size="10" fill="#75514c">選擇性改變材料</text></g>
+ <path d="M688 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-10)"/>
+ <g transform="translate(720,32)"><rect width="140" height="110" rx="14" fill="#e5f5ed" stroke="#c4e2d2"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#287052">5 去光阻與清洗</text><rect x="28" y="77" width="84" height="13" rx="4" fill="#6c93a4"/><rect x="28" y="69" width="28" height="8" fill="#20b8c3"/><rect x="84" y="69" width="28" height="8" fill="#20b8c3"/><text x="70" y="53" text-anchor="middle" font-size="11" fill="#587264">灰化 / 濕式清洗</text></g>
+ <path d="M863 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-10)"/>
+ <g transform="translate(895,32)"><rect width="85" height="110" rx="14" fill="#eaf0f5" stroke="#cbd8e1"/><text x="42" y="27" text-anchor="middle" font-size="12" font-weight="700" fill="#344e62">6 量測</text><circle cx="42" cy="66" r="16" fill="none" stroke="#4d7995" stroke-width="3"/><path d="M54 78l12 12" stroke="#4d7995" stroke-width="4"/><text x="42" y="105" text-anchor="middle" font-size="10" fill="#546b7b">CD / 膜厚</text></g>
+ <path d="M940 155 C940 204 300 206 300 157" fill="none" stroke="#52738a" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arr-diagram-10)"/>
+ <text x="605" y="222" text-anchor="middle" font-size="12" fill="#526879">下一層：再沉積／再圖案化，逐層堆疊</text>
+ </g></svg>
+ <figcaption>原創概念圖。蝕刻與植入是不同模組；圖中合併表示都會使用光阻或硬遮罩保護部分區域。</figcaption></figure>
+ <div class="card"><h2>延伸閱讀</h2><p><a href="https://www.asml.com/en/technology/all-about-microchips/how-microchips-are-made" target="_blank" rel="noopener">ASML｜微影與量測 ↗</a></p><p><a href="#images">網路示意圖集 →</a>　<a href="#sources">完整資料來源 →</a></p></div></div>
+ <div class="lesson-actions"><button class="complete" data-complete="9" aria-pressed="false">標記本章已讀</button><span class="save-note">進度保存在這個瀏覽器</span></div>
+ <nav class="chapter-nav" aria-label="章節切換"><a href="#lesson-8">← CMP：讓表面變平</a><a href="#lesson-10">互連：把元件接起來 →</a></nav>
+ </section><section class="screen lesson" id="lesson-10" hidden data-title="互連：把元件接起來">
+ <p class="eyebrow">製程課程 10 / 11 · 約 3–5 分鐘</p><h1 tabindex="-1">互連：把元件接起來</h1>
+ <p class="intro">先理解這一步在晶圓上改變了什麼，再查看機台與條件。</p>
+ <div class="tabs" role="tablist" aria-label="本章內容">
+ <button role="tab" id="tab-9-0" aria-controls="panel-9-0" aria-selected="true" tabindex="0" data-tab="0">先理解原理</button><button role="tab" id="tab-9-1" aria-controls="panel-9-1" aria-selected="false" tabindex="-1" data-tab="1">設備與條件</button><button role="tab" id="tab-9-2" aria-controls="panel-9-2" aria-selected="false" tabindex="-1" data-tab="2">圖解與來源</button></div>
+ <div role="tabpanel" id="panel-9-0" aria-labelledby="tab-9-0">
+ <div class="takeaways"><h2>先記住這三件事</h2><ol><li>MOL 把電晶體接出來，BEOL 建立上層金屬線。</li><li>通孔連接不同高度的導線。</li><li>銅鑲嵌流程常先刻介電層，再填銅、再 CMP。</li></ol></div>
+ <article class="reading"><h2>原理怎麼運作</h2><p>在介電層開溝槽和通孔，覆上阻障／種子層，填入金屬後以 CMP 去掉表面多餘金屬。重複多層後，元件被接成完整電路。Damascene 銅線先刻介電層溝槽、再填銅，而非直接把銅乾蝕刻成線。</p></article>
+ <details class="recall"><summary><span>停一下，試著用自己的話回答</span><strong>銅鑲嵌製程為什麼在填銅後還要 CMP？</strong></summary><p>填銅會在表面留下多餘銅；CMP 去掉這一層，讓銅留在溝槽與通孔內並恢復平坦。</p></details>
+ </div>
+ <div role="tabpanel" id="panel-9-1" aria-labelledby="tab-9-1" hidden><p class="muted">每張卡片只回答一個問題。數字是代表範圍，實際條件依設備、材料與製程而異。</p>
+ <div class="facts"><article class="card"><h2>設備</h2><p>介電層 CVD／ALD、光刻與介電層蝕刻、阻障／種子層 PVD、銅電鍍、鎢 CVD 填孔、CMP、清洗與檢查設備。</p></article><article class="card"><h2>材料</h2><p>SiO₂／低介電常數 low-k 絕緣層；銅或鎢導體；Ti／TiN、Ta／TaN 等阻障／黏著材料。材料組合會隨年代與產品不同。</p></article><article class="card"><h2>溫度</h2><p>後段互連通常限制熱預算，常用低溫薄膜、電鍍和 CMP；各材料整合的允許溫度不同。</p></article></div>
+ <a class="text-link" href="#conditions">查看所有製程的溫度與材料速查 →</a></div>
+ <div role="tabpanel" id="panel-9-2" aria-labelledby="tab-9-2" hidden>
+ <figure class="diagram">
+ <svg viewBox="0 0 1000 245" role="img" aria-label="薄膜、塗光阻、曝光顯影、蝕刻、去光阻及量測的製程循環">
+ <defs><marker id="arr-diagram-11" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#52738a"/></marker></defs>
+ <g font-family="system-ui,sans-serif">
+ <g transform="translate(20,32)"><rect width="140" height="110" rx="14" fill="#e4f1f8" stroke="#bfd7e6"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#164d70">1 薄膜沉積</text><rect x="28" y="70" width="84" height="20" rx="5" fill="#6c93a4"/><rect x="28" y="62" width="84" height="8" fill="#20b8c3"/><text x="70" y="53" text-anchor="middle" font-size="11" fill="#546b7b">CVD / PVD / ALD</text></g>
+ <path d="M163 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-11)"/>
+ <g transform="translate(195,32)"><rect width="140" height="110" rx="14" fill="#f2ebfa" stroke="#d8c9ec"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#67418d">2 塗佈光阻</text><rect x="28" y="77" width="84" height="13" rx="4" fill="#6c93a4"/><rect x="28" y="69" width="84" height="8" fill="#af83d2"/><text x="70" y="53" text-anchor="middle" font-size="11" fill="#6d5b7d">旋塗＋烘烤</text></g>
+ <path d="M338 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-11)"/>
+ <g transform="translate(370,32)"><rect width="140" height="110" rx="14" fill="#fff4df" stroke="#eddcb7"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#8a5b10">3 曝光與顯影</text><rect x="28" y="77" width="84" height="13" rx="4" fill="#6c93a4"/><rect x="28" y="69" width="28" height="8" fill="#af83d2"/><rect x="84" y="69" width="28" height="8" fill="#af83d2"/><path d="M47 40v19M70 40v19M93 40v19" stroke="#efad32" stroke-width="2"/><text x="70" y="104" text-anchor="middle" font-size="10" fill="#6d5b7d">光罩圖案轉印</text></g>
+ <path d="M513 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-11)"/>
+ <g transform="translate(545,32)"><rect width="140" height="110" rx="14" fill="#fce9e7" stroke="#efcfca"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#944a40">4 蝕刻或植入</text><rect x="28" y="77" width="84" height="13" rx="4" fill="#6c93a4"/><rect x="28" y="69" width="28" height="8" fill="#af83d2"/><rect x="84" y="69" width="28" height="8" fill="#af83d2"/><path d="M69 42v20m-8-7 8 8 8-8" stroke="#d26c55" stroke-width="2"/><text x="70" y="104" text-anchor="middle" font-size="10" fill="#75514c">選擇性改變材料</text></g>
+ <path d="M688 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-11)"/>
+ <g transform="translate(720,32)"><rect width="140" height="110" rx="14" fill="#e5f5ed" stroke="#c4e2d2"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#287052">5 去光阻與清洗</text><rect x="28" y="77" width="84" height="13" rx="4" fill="#6c93a4"/><rect x="28" y="69" width="28" height="8" fill="#20b8c3"/><rect x="84" y="69" width="28" height="8" fill="#20b8c3"/><text x="70" y="53" text-anchor="middle" font-size="11" fill="#587264">灰化 / 濕式清洗</text></g>
+ <path d="M863 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-11)"/>
+ <g transform="translate(895,32)"><rect width="85" height="110" rx="14" fill="#eaf0f5" stroke="#cbd8e1"/><text x="42" y="27" text-anchor="middle" font-size="12" font-weight="700" fill="#344e62">6 量測</text><circle cx="42" cy="66" r="16" fill="none" stroke="#4d7995" stroke-width="3"/><path d="M54 78l12 12" stroke="#4d7995" stroke-width="4"/><text x="42" y="105" text-anchor="middle" font-size="10" fill="#546b7b">CD / 膜厚</text></g>
+ <path d="M940 155 C940 204 300 206 300 157" fill="none" stroke="#52738a" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arr-diagram-11)"/>
+ <text x="605" y="222" text-anchor="middle" font-size="12" fill="#526879">下一層：再沉積／再圖案化，逐層堆疊</text>
+ </g></svg>
+ <figcaption>原創概念圖。蝕刻與植入是不同模組；圖中合併表示都會使用光阻或硬遮罩保護部分區域。</figcaption></figure>
+ <div class="card"><h2>延伸閱讀</h2><p><a href="https://semiconductor.samsung.com/support/tools-resources/fabrication-process/eight-essential-semiconductor-fabrication-processes-part-7-metal-interconnects-electrical-highways/" target="_blank" rel="noopener">Samsung｜金屬互連 ↗</a></p><p><a href="#images">網路示意圖集 →</a>　<a href="#sources">完整資料來源 →</a></p></div></div>
+ <div class="lesson-actions"><button class="complete" data-complete="10" aria-pressed="false">標記本章已讀</button><span class="save-note">進度保存在這個瀏覽器</span></div>
+ <nav class="chapter-nav" aria-label="章節切換"><a href="#lesson-9">← 量測：確認做得對不對</a><a href="#lesson-11">晶圓測試與封裝 →</a></nav>
+ </section><section class="screen lesson" id="lesson-11" hidden data-title="晶圓測試與封裝">
+ <p class="eyebrow">製程課程 11 / 11 · 約 3–5 分鐘</p><h1 tabindex="-1">晶圓測試與封裝</h1>
+ <p class="intro">先理解這一步在晶圓上改變了什麼，再查看機台與條件。</p>
+ <div class="tabs" role="tablist" aria-label="本章內容">
+ <button role="tab" id="tab-10-0" aria-controls="panel-10-0" aria-selected="true" tabindex="0" data-tab="0">先理解原理</button><button role="tab" id="tab-10-1" aria-controls="panel-10-1" aria-selected="false" tabindex="-1" data-tab="1">設備與條件</button><button role="tab" id="tab-10-2" aria-controls="panel-10-2" aria-selected="false" tabindex="-1" data-tab="2">圖解與來源</button></div>
+ <div role="tabpanel" id="panel-10-0" aria-labelledby="tab-10-0">
+ <div class="takeaways"><h2>先記住這三件事</h2><ol><li>晶圓測試先辨認每顆裸晶的電性狀況。</li><li>切割把晶圓分成裸晶，封裝提供連接與保護。</li><li>封裝與成品測試把晶圓製造接到可使用的產品。</li></ol></div>
+ <article class="reading"><h2>原理怎麼運作</h2><p>EDS／wafer sort 用探針接觸晶圓上的測試墊，找出良品 die 與電性分布；切割分離裸晶，再以 wire bond、flip-chip 或混合接合連到封裝基板，封裝保護晶粒並導出訊號和散熱。</p></article>
+ <details class="recall"><summary><span>停一下，試著用自己的話回答</span><strong>晶圓測試與封裝各在解決什麼問題？</strong></summary><p>晶圓測試檢查裸晶的電性；封裝提供對外連接、機械保護與散熱路徑。</p></details>
+ </div>
+ <div role="tabpanel" id="panel-10-1" aria-labelledby="tab-10-1" hidden><p class="muted">每張卡片只回答一個問題。數字是代表範圍，實際條件依設備、材料與製程而異。</p>
+ <div class="facts"><article class="card"><h2>設備</h2><p>晶圓探針台／自動測試機、雷射或鑽石刀切割機、貼晶機、打線機或倒裝晶片設備、塑封與成品測試設備。</p></article><article class="card"><h2>範圍</h2><p>晶圓前段製造到 EDS 是這份知識庫的主線；封裝屬後段，列入是為了把完整產品旅程接起來。</p></article></div>
+ <a class="text-link" href="#conditions">查看所有製程的溫度與材料速查 →</a></div>
+ <div role="tabpanel" id="panel-10-2" aria-labelledby="tab-10-2" hidden>
+ <figure class="diagram">
+ <svg viewBox="0 0 1000 245" role="img" aria-label="薄膜、塗光阻、曝光顯影、蝕刻、去光阻及量測的製程循環">
+ <defs><marker id="arr-diagram-12" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#52738a"/></marker></defs>
+ <g font-family="system-ui,sans-serif">
+ <g transform="translate(20,32)"><rect width="140" height="110" rx="14" fill="#e4f1f8" stroke="#bfd7e6"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#164d70">1 薄膜沉積</text><rect x="28" y="70" width="84" height="20" rx="5" fill="#6c93a4"/><rect x="28" y="62" width="84" height="8" fill="#20b8c3"/><text x="70" y="53" text-anchor="middle" font-size="11" fill="#546b7b">CVD / PVD / ALD</text></g>
+ <path d="M163 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-12)"/>
+ <g transform="translate(195,32)"><rect width="140" height="110" rx="14" fill="#f2ebfa" stroke="#d8c9ec"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#67418d">2 塗佈光阻</text><rect x="28" y="77" width="84" height="13" rx="4" fill="#6c93a4"/><rect x="28" y="69" width="84" height="8" fill="#af83d2"/><text x="70" y="53" text-anchor="middle" font-size="11" fill="#6d5b7d">旋塗＋烘烤</text></g>
+ <path d="M338 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-12)"/>
+ <g transform="translate(370,32)"><rect width="140" height="110" rx="14" fill="#fff4df" stroke="#eddcb7"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#8a5b10">3 曝光與顯影</text><rect x="28" y="77" width="84" height="13" rx="4" fill="#6c93a4"/><rect x="28" y="69" width="28" height="8" fill="#af83d2"/><rect x="84" y="69" width="28" height="8" fill="#af83d2"/><path d="M47 40v19M70 40v19M93 40v19" stroke="#efad32" stroke-width="2"/><text x="70" y="104" text-anchor="middle" font-size="10" fill="#6d5b7d">光罩圖案轉印</text></g>
+ <path d="M513 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-12)"/>
+ <g transform="translate(545,32)"><rect width="140" height="110" rx="14" fill="#fce9e7" stroke="#efcfca"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#944a40">4 蝕刻或植入</text><rect x="28" y="77" width="84" height="13" rx="4" fill="#6c93a4"/><rect x="28" y="69" width="28" height="8" fill="#af83d2"/><rect x="84" y="69" width="28" height="8" fill="#af83d2"/><path d="M69 42v20m-8-7 8 8 8-8" stroke="#d26c55" stroke-width="2"/><text x="70" y="104" text-anchor="middle" font-size="10" fill="#75514c">選擇性改變材料</text></g>
+ <path d="M688 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-12)"/>
+ <g transform="translate(720,32)"><rect width="140" height="110" rx="14" fill="#e5f5ed" stroke="#c4e2d2"/><text x="70" y="27" text-anchor="middle" font-size="13" font-weight="700" fill="#287052">5 去光阻與清洗</text><rect x="28" y="77" width="84" height="13" rx="4" fill="#6c93a4"/><rect x="28" y="69" width="28" height="8" fill="#20b8c3"/><rect x="84" y="69" width="28" height="8" fill="#20b8c3"/><text x="70" y="53" text-anchor="middle" font-size="11" fill="#587264">灰化 / 濕式清洗</text></g>
+ <path d="M863 87h25" stroke="#52738a" stroke-width="2" marker-end="url(#arr-diagram-12)"/>
+ <g transform="translate(895,32)"><rect width="85" height="110" rx="14" fill="#eaf0f5" stroke="#cbd8e1"/><text x="42" y="27" text-anchor="middle" font-size="12" font-weight="700" fill="#344e62">6 量測</text><circle cx="42" cy="66" r="16" fill="none" stroke="#4d7995" stroke-width="3"/><path d="M54 78l12 12" stroke="#4d7995" stroke-width="4"/><text x="42" y="105" text-anchor="middle" font-size="10" fill="#546b7b">CD / 膜厚</text></g>
+ <path d="M940 155 C940 204 300 206 300 157" fill="none" stroke="#52738a" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arr-diagram-12)"/>
+ <text x="605" y="222" text-anchor="middle" font-size="12" fill="#526879">下一層：再沉積／再圖案化，逐層堆疊</text>
+ </g></svg>
+ <figcaption>原創概念圖。蝕刻與植入是不同模組；圖中合併表示都會使用光阻或硬遮罩保護部分區域。</figcaption></figure>
+ <div class="card"><h2>延伸閱讀</h2><p><a href="https://www.asml.com/en/company/stories/2021/semiconductor-manufacturing-process-steps" target="_blank" rel="noopener">ASML｜製造到封裝 ↗</a></p><p><a href="#images">網路示意圖集 →</a>　<a href="#sources">完整資料來源 →</a></p></div></div>
+ <div class="lesson-actions"><button class="complete" data-complete="11" aria-pressed="false">標記本章已讀</button><span class="save-note">進度保存在這個瀏覽器</span></div>
+ <nav class="chapter-nav" aria-label="章節切換"><a href="#lesson-10">← 互連：把元件接起來</a><a href="#home">回到學習首頁 →</a></nav>
+ </section>
+<section class="screen" id="conditions" hidden data-title="溫度與材料速查"><p class="eyebrow">查詢工具</p><h1 tabindex="-1">溫度與材料速查</h1><p class="intro">已按製程分卡，方便比較設備、環境、溫度與材料。這些是代表範圍，不是可直接執行的機台配方。</p>
+<div class="takeaways"><h2>先分清楚兩種溫度</h2><p><b>無塵室空氣：</b>關鍵區域常見設計值約 18–23°C，RH 約 35–50%，實際規格依廠區。</p><p><b>機台中的晶圓：</b>可能在低溫電漿腔，也可能進入超過 1000°C 的熱製程。它不等於無塵室室溫。</p><p class="small">環境設計參考：<a href="#sources">ASHRAE 與原始來源</a>。</p></div><div class="conditions-grid"><article class="card condition"><h2>單晶長晶</h2><dl><dt>設備與環境</dt><dd>CZ 拉晶爐；惰性、低壓環境</dd><dt>代表溫度</dt><dd>矽熔點約 1414°C 附近</dd><dt>材料／氣體</dt><dd>高純度多晶矽；氬氣；B／P 等摻雜源</dd><dt>主要目的</dt><dd>長出具指定晶向與電阻率的單晶棒</dd></dl></article><article class="card condition"><h2>熱氧化</h2><dl><dt>設備與環境</dt><dd>石英管爐或快速熱處理爐；O₂／蒸氣</dd><dt>代表溫度</dt><dd>約 800–1200°C（依乾／濕氧化及膜厚）</dd><dt>材料／氣體</dt><dd>O₂；水蒸氣 H₂O；矽基板</dd><dt>主要目的</dt><dd>讓矽表面反應生成 SiO₂ 絕緣／保護膜</dd></dl></article><article class="card condition"><h2>晶圓清洗</h2><dl><dt>設備與環境</dt><dd>濕式槽台、單片旋轉清洗機、乾燥機</dd><dt>代表溫度</dt><dd>室溫至約 80°C 常見；依化學配方而異</dd><dt>材料／氣體</dt><dd>超純水；SC-1／SC-2 類清洗液；稀 HF</dd><dt>主要目的</dt><dd>去除粒子、有機物、金屬與原生氧化層</dd></dl></article><article class="card condition"><h2>微影塗佈／顯影</h2><dl><dt>設備與環境</dt><dd>Track（旋塗機、熱板、顯影杯）＋曝光機</dd><dt>代表溫度</dt><dd>廠房約 18–23°C；熱板常用約 90–150°C（配方相關）</dd><dt>材料／氣體</dt><dd>光阻（液態）；顯影液多為 TMAH 水溶液</dd><dt>主要目的</dt><dd>把光罩圖形轉成晶圓上的光阻遮罩</dd></dl></article><article class="card condition"><h2>曝光</h2><dl><dt>設備與環境</dt><dd>步進／掃描曝光機；對位控制；EUV 光路在真空</dd><dt>代表溫度</dt><dd>晶圓接近控溫台條件，精密控制；不等於熱爐溫度</dd><dt>材料／氣體</dt><dd>DUV：ArF／KrF 等雷射光源；EUV：13.5 nm 光；光罩</dd><dt>主要目的</dt><dd>曝光造成光阻溶解度改變，再經顯影留下圖案</dd></dl></article><article class="card condition"><h2>乾蝕刻</h2><dl><dt>設備與環境</dt><dd>真空 RIE／ICP 電漿蝕刻腔；晶圓台控溫</dd><dt>代表溫度</dt><dd>從低於 0°C 特殊冷凍蝕刻，到數十／百 °C 應用皆有</dd><dt>材料／氣體</dt><dd>Si／多晶矽：Cl₂、HBr；介電層：CF₄、CHF₃、C₄F₈、Ar 等</dd><dt>主要目的</dt><dd>自由基做化學反應、離子提供方向性，移除曝光區薄膜</dd></dl></article><article class="card condition"><h2>離子佈植</h2><dl><dt>設備與環境</dt><dd>離子源、質量分析磁鐵、加速器、掃描盤；高真空</dd><dt>代表溫度</dt><dd>通常近室溫，依材料可熱佈植；後續退火約 600–1100°C</dd><dt>材料／氣體</dt><dd>B／BF₂、P、As 離子源；N₂／Ar 退火氣氛</dd><dt>主要目的</dt><dd>把摻雜離子打入指定深度；退火修復晶格並活化摻雜原子</dd></dl></article><article class="card condition"><h2>薄膜沉積</h2><dl><dt>設備與環境</dt><dd>LPCVD 爐管、PECVD 平行板、ALD 單片腔、PVD 濺鍍腔</dd><dt>代表溫度</dt><dd>LPCVD 約 500–1100°C；PECVD 約 200–400°C；ALD 常見低於 400°C</dd><dt>材料／氣體</dt><dd>SiH₄、NH₃、N₂O、TEOS；金屬靶材；Ar；ALD 前驅物</dd><dt>主要目的</dt><dd>長出絕緣、半導體或導電薄膜</dd></dl></article><article class="card condition"><h2>金屬電鍍</h2><dl><dt>設備與環境</dt><dd>電化學電鍍設備；晶圓作陰極</dd><dt>代表溫度</dt><dd>多接近室溫，依浴液與速率設定</dd><dt>材料／氣體</dt><dd>銅硫酸鹽／酸性鍍液、添加劑；Cu seed 薄層</dd><dt>主要目的</dt><dd>把銅填入介電層通孔與溝槽</dd></dl></article><article class="card condition"><h2>CMP 平坦化</h2><dl><dt>設備與環境</dt><dd>研磨頭、拋光墊、修整盤、終點偵測</dd><dt>代表溫度</dt><dd>通常接近室溫、控制漿液與墊面狀態</dd><dt>材料／氣體</dt><dd>研磨液 slurry：SiO₂ 或 CeO₂ 磨粒、水、氧化劑／添加劑</dd><dt>主要目的</dt><dd>化學反應軟化表面、機械磨粒選擇性移除高處材料</dd></dl></article></div></section>
+<section class="screen" id="images" hidden data-title="網路示意圖集"><p class="eyebrow">圖像教材</p><h1 tabindex="-1">網路示意圖集</h1><p class="intro">先挑正在學的主題，再對照原始教材。圖片和文章連結會開啟原作者網站。</p>
+ 
  <div class="img-grid">
   <figure class="web-figure"><a href="https://semiconductor.samsung.com/support/tools-resources/fabrication-process/eight-essential-semiconductor-fabrication-processes-part-1-what-is-a-wafer/" target="_blank" rel="noopener"><img src="https://image.semiconductor.samsung.com/image/samsung/p6/semiconductor/suppport/toolsandresources/eight-essential-semiconductor-fabrication-processes-part-1-what-is-a-wafer_2_pc_en.png?%24ORIGIN_PNG%24=" alt="Samsung 示意：單晶矽錠到拋光晶圓" loading="lazy"></a><figcaption><b>晶圓從哪裡來：</b>Samsung 展示長晶、切片和拋光後的晶圓。<a href="https://semiconductor.samsung.com/support/tools-resources/fabrication-process/eight-essential-semiconductor-fabrication-processes-part-1-what-is-a-wafer/" target="_blank" rel="noopener">看原始教材 →</a></figcaption></figure>
   <figure class="web-figure"><a href="https://semiconductor.samsung.com/support/tools-resources/fabrication-process/eight-essential-semiconductor-fabrication-processes-part-2-oxidation-to-protect-the-wafer/" target="_blank" rel="noopener"><img src="https://image.semiconductor.samsung.com/image/samsung/p6/semiconductor/suppport/toolsandresources/fabricationprocess/eight-essential-semiconductor-fabrication-processes-part-2-oxidation-to-protect-the-wafer_2_pc_en.png?%24ORIGIN_PNG%24=" alt="Samsung 示意：在晶圓表面形成氧化矽" loading="lazy"></a><figcaption><b>氧化膜怎麼長：</b>Samsung 的氧氣／水蒸氣與矽反應示意。<a href="https://semiconductor.samsung.com/support/tools-resources/fabrication-process/eight-essential-semiconductor-fabrication-processes-part-2-oxidation-to-protect-the-wafer/" target="_blank" rel="noopener">看原始教材 →</a></figcaption></figure>
@@ -173,9 +476,9 @@ section{padding:52px 0;scroll-margin-top:68px}.section-head{display:flex;justify
   <figure class="web-figure"><div class="card" style="margin:0;border:0;box-shadow:none;min-height:190px;display:grid;place-items:center;background:linear-gradient(145deg,#f2e9fa,#fff)"><div style="text-align:center"><div style="font-size:48px">🔍</div><b>蝕刻與微影原理示意</b><p class="small">Samsung：顯影後圖形如何轉移到薄膜</p><a href="https://semiconductor.samsung.com/support/tools-resources/fabrication-process/eight-essential-semiconductor-fabrication-processes-part-4-photolithography-laying-the-blueprint/" target="_blank" rel="noopener">開啟微影示意 →</a><br><a href="https://semiconductor.samsung.com/support/tools-resources/fabrication-process/eight-essential-semiconductor-fabrication-processes-part-5-etching-a-circuit-pattern/" target="_blank" rel="noopener">開啟蝕刻示意 →</a></div></div><figcaption><b>圖案怎麼轉印：</b>對照曝光、正負光阻、顯影與蝕刻流程。教材圖片版權歸原網站所有。</figcaption></figure>
  </div>
  <p class="small" style="margin-top:12px">如果原始網站改版或移除圖片，直接打開圖說中的教材連結仍可查看其文字與示意圖；外站圖片可能依瀏覽器設定而無法載入。</p>
-</div></section>
-<section id="sources"><div class="wrap">
- <div class="section-head"><div><div class="kicker">07 / Reading list</div><h2>資料來源與延伸閱讀</h2><p class="lead">優先引用設備商、晶圓製造商、政府職安與大學奈米製程中心。設備能力表只代表該中心配置，不代表所有量產機台的統一 recipe。</p></div></div>
+</section>
+<section class="screen" id="sources" hidden data-title="來源與延伸閱讀"><p class="eyebrow">延伸閱讀</p><h1 tabindex="-1">資料來源與延伸閱讀</h1>
+ 
  <ul class="source-list">
   <li><a href="https://www.asml.com/en/technology/all-about-microchips/how-microchips-are-made" target="_blank" rel="noopener">ASML｜How microchips are made</a>：晶片層疊、無塵室、DUV／EUV。</li>
   <li><a href="https://www.asml.com/en/company/stories/2021/semiconductor-manufacturing-process-steps" target="_blank" rel="noopener">ASML｜Six crucial steps in semiconductor manufacturing</a>：薄膜、微影、蝕刻、佈植、封裝。</li>
@@ -197,7 +500,52 @@ section{padding:52px 0;scroll-margin-top:68px}.section-head{display:flex;justify
   <li><a href="https://www.nptel.ac.in/courses/108104865" target="_blank" rel="noopener">NPTEL｜Semiconductor Device Technology</a>：氧化、擴散、佈植、CVD、PVD、微影與蝕刻課程。</li>
  </ul>
  <div class="callout" style="margin-top:18px"><strong>安全與範圍：</strong>本頁是製程原理學習材料，不是機台操作指令。半導體製程可能使用有毒、腐蝕性、易燃或具高環境衝擊的化學品與氣體；實際作業須依廠內核准 recipe、SDS、訓練與工程控制執行。</div>
-</div></section>
-</main>
-<footer class="foot"><div class="wrap"><p><b>晶圓製造全流程｜半導體製程知識庫</b></p><p>學習路線：矽晶圓 → 熱製程 → 微影 → 蝕刻／摻雜 → 薄膜 → CMP → 量測 → 互連 → 測試。</p><p>外部教材及其圖像著作權屬原作者；本頁原創圖為概念示意，非按比例繪製。</p></div></footer>
-</body></html>
+</section>
+<footer class="route-footer">晶圓製程學習室 · 數據為代表範圍，示意圖未按比例繪製。外部教材與圖片歸原作者所有。</footer></main></div>
+<noscript><p>開啟 JavaScript 可使用章節切換、查詢與已讀紀錄。</p><style>.screen[hidden]{display:block!important}.sidebar{display:none}.layout{display:block}</style></noscript>
+<script>
+(function(){
+'use strict';
+var done=[],size=20,last='';
+try{done=JSON.parse(localStorage.getItem('fab-read-v2')||'[]');if(!Array.isArray(done))done=[];size=Number(localStorage.getItem('fab-size-v2'))||20;last=localStorage.getItem('fab-last-v2')||''}catch(e){}
+done=done.filter(function(x){return Number.isInteger(x)&&x>=1&&x<=11});
+done=Array.from(new Set(done));if([20,22,24].indexOf(size)<0)size=20;
+function save(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+var screens=Array.from(document.querySelectorAll('.screen')), sidebar=document.getElementById('sidebar'),menu=document.getElementById('menu');
+function closeMenu(){sidebar.classList.remove('open');menu.setAttribute('aria-expanded','false')}
+function progress(){
+document.getElementById('progress').value=done.length;document.getElementById('progress-label').textContent='學習進度：'+done.length+' / 11 章';
+document.querySelectorAll('[data-complete]').forEach(function(b){var yes=done.indexOf(Number(b.dataset.complete))>=0;b.setAttribute('aria-pressed',String(yes));b.textContent=yes?'✓ 本章已讀（點此取消）':'標記本章已讀'});
+document.querySelectorAll('[data-route^="lesson-"]').forEach(function(a){var yes=done.indexOf(Number(a.dataset.route.split('-')[1]))>=0;a.querySelector('.check').textContent=yes?'✓':'';a.setAttribute('aria-label',a.textContent.replace('✓','')+(yes?'，已讀':''))})
+}
+function fonts(){document.documentElement.style.setProperty('--text',size+'px');document.getElementById('font').textContent='字級：'+({20:'標準',22:'大',24:'特大'}[size])}
+function route(focus){
+var aliases={map:'overview',cycle:'overview',steps:'lesson-1',cross:'lesson-4'};
+var id=location.hash.slice(1)||'home';id=aliases[id]||id;if(id==='main'){document.getElementById('main').scrollIntoView();return}
+if(!screens.some(function(s){return s.id===id}))id='home';
+screens.forEach(function(s){s.hidden=s.id!==id});
+document.querySelectorAll('[data-route]').forEach(function(a){if(a.dataset.route===id)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
+var active=document.getElementById(id);document.title=active.dataset.title+'｜晶圓製程學習室';
+if(id.indexOf('lesson-')===0){last=id;save('fab-last-v2',id)}
+var resume=document.getElementById('resume');if(/^lesson-([1-9]|10|11)$/.test(last)){resume.href='#'+last;resume.textContent='繼續閱讀：'+document.getElementById(last).dataset.title+' →'}
+closeMenu();if(focus){window.scrollTo(0,0);active.querySelector('h1').focus({preventScroll:true})}
+}
+document.getElementById('font').addEventListener('click',function(){size=size===24?20:size+2;save('fab-size-v2',String(size));fonts()});
+menu.addEventListener('click',function(){var open=sidebar.classList.toggle('open');menu.setAttribute('aria-expanded',String(open));if(open)document.getElementById('search').focus()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&sidebar.classList.contains('open')){closeMenu();menu.focus()}});
+document.querySelectorAll('.tabs').forEach(function(tabs){
+function select(b,focus){var lesson=tabs.closest('.lesson');tabs.querySelectorAll('[role="tab"]').forEach(function(x){var active=x===b;x.setAttribute('aria-selected',String(active));x.tabIndex=active?0:-1;document.getElementById(x.getAttribute('aria-controls')).hidden=!active});if(focus)b.focus()}
+tabs.addEventListener('click',function(e){var b=e.target.closest('[role="tab"]');if(b)select(b,false)});
+tabs.addEventListener('keydown',function(e){var all=Array.from(tabs.querySelectorAll('button')),i=all.indexOf(document.activeElement),n=i;if(e.key==='ArrowRight')n=(i+1)%all.length;else if(e.key==='ArrowLeft')n=(i+all.length-1)%all.length;else if(e.key==='Home')n=0;else if(e.key==='End')n=all.length-1;else return;e.preventDefault();select(all[n],true)})
+});
+document.querySelectorAll('[data-complete]').forEach(function(b){b.addEventListener('click',function(){var n=Number(b.dataset.complete),i=done.indexOf(n);if(i<0)done.push(n);else done.splice(i,1);save('fab-read-v2',JSON.stringify(done));progress()})});
+document.getElementById('search').addEventListener('input',function(){
+var q=this.value.trim().toLocaleLowerCase(),count=0;
+document.querySelectorAll('[data-route]').forEach(function(a){var match=!q||(a.textContent+' '+(a.dataset.search||'')).toLocaleLowerCase().includes(q);a.hidden=!match;if(match)count++});
+document.querySelectorAll('.nav-group').forEach(function(g){g.hidden=!Array.from(g.querySelectorAll('a')).some(function(a){return !a.hidden})});
+document.querySelector('.no-results').hidden=count!==0;document.getElementById('search-count').textContent=q?'找到 '+count+' 個項目':'';
+});
+document.querySelectorAll('.diagram').forEach(function(fig){var b=document.createElement('button');b.type='button';b.textContent='放大圖解';b.setAttribute('aria-pressed','false');b.addEventListener('click',function(){var on=fig.classList.toggle('enlarged');b.setAttribute('aria-pressed',String(on));b.textContent=on?'縮回圖解':'放大圖解（可左右滑動）'});fig.appendChild(b)});
+window.addEventListener('hashchange',function(){route(true)});fonts();progress();route(false);
+})();
+</script></body></html>
