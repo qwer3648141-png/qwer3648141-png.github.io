@@ -1825,6 +1825,36 @@ function rubyToSpeech(html){
   });
   return box.textContent.replace(/・/g,"、").replace(/\s+/g," ").trim();
 }
+function jpIsKanjiChar(ch){return /[\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff々〆]/.test(ch)}
+function jpKanaNormalize(text){
+  return String(text||"").replace(/[\u30a1-\u30f6]/g,ch=>String.fromCharCode(ch.charCodeAt(0)-0x60));
+}
+function jpRegexEscape(text){
+  return String(text||"").replace(/[|\\{}()[\]^$+*?.]/g,"\\$&");
+}
+function jpRubySurface(surface,reading){
+  surface=String(surface||"");reading=jpKanaNormalize(reading);
+  if(!surface||!reading||!/[\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff々〆]/.test(surface))return surface;
+  const runs=[];
+  for(const ch of [...surface]){
+    const kanji=jpIsKanjiChar(ch),last=runs[runs.length-1];
+    if(last&&last.kanji===kanji)last.text+=ch;else runs.push({kanji,text:ch});
+  }
+  let pattern="^";
+  runs.forEach(r=>{pattern+=r.kanji?"(.+?)":jpRegexEscape(jpKanaNormalize(r.text))});
+  pattern+="$";
+  let match=null;
+  try{match=reading.match(new RegExp(pattern))}catch(_){}
+  if(!match){
+    if(runs.every(r=>r.kanji))return "<ruby>"+surface+"<rt>"+reading+"</rt></ruby>";
+    return surface;
+  }
+  let gi=1;
+  return runs.map(r=>r.kanji?("<ruby>"+r.text+"<rt>"+match[gi++]+"</rt></ruby>"):r.text).join("");
+}
+function jpRubyKanjiOnly(html){
+  return String(html||"").replace(/<ruby>([^<]*?)<rt>([^<]*?)<\/rt><\/ruby>/g,(_,base,reading)=>jpRubySurface(base,reading));
+}
 function safeSpeechText(text,lang){
   const box=document.createElement("div");box.innerHTML=String(text||"");
   let s=(box.textContent||"").replace(/[\u200B-\u200D\uFEFF]/g,"").replace(/\s+/g," ").trim();
@@ -2352,7 +2382,7 @@ function lexItem(v){const k=lexKey(v);return lexState.items[k]||(lexState.items[
 function lexToday(){return new Date().toISOString().slice(0,10)}
 function lexDue(level){const days=[0,1,3,7,14,30][Math.max(0,Math.min(5,level))]||1;const d=new Date();d.setDate(d.getDate()+days);return d.toISOString().slice(0,10)}
 function lexMark(v,ok){const st=lexItem(v);st.seen++;st.last=lexToday();if(ok){st.correct++;st.level=Math.min(5,st.level+1);st.due=lexDue(st.level)}else{st.wrong++;st.level=Math.max(0,st.level-1);st.due=lexToday()}lexSave();lexUpdateStats()}
-function lexRuby(v){return /[一-龯々]/.test(v.word)?'<ruby>'+v.word+'<rt>'+v.reading+'</rt></ruby>':v.word}
+function lexRuby(v){return jpRubySurface(v.word,v.reading)}
 function lexBaseForm(v){
  let word=String(v?.word||""),reading=String(v?.reading||"");
  if(v?.kind==="adj"&&v?.type==="na"){word=word.replace(/な$/,"");reading=reading.replace(/な$/,"")}
@@ -2360,11 +2390,8 @@ function lexBaseForm(v){
 }
 function lexExampleRuby(text,v){
  text=String(text||"");const base=lexBaseForm(v);
- if(!base.word||!base.reading||!/[一-龯々]/.test(base.word)||!text.includes(base.word))return text;
- return text.split(base.word).join('<ruby>'+base.word+'<rt>'+base.reading+'</rt></ruby>');
-}
-function lexExampleKana(v){
- const base=lexBaseForm(v);return /[一-龯々]/.test(base.word)&&base.reading?'<span class="lex-coll-kana">假名：'+base.reading+'</span>':"";
+ if(!base.word||!base.reading||!text.includes(base.word))return text;
+ return text.split(base.word).join(jpRubySurface(base.word,base.reading));
 }
 function lexNormalize(s){return String(s||"").trim().replace(/[ 　]/g,"").replace(/[。．]/g,"")}
 function lexStars(n){return "★".repeat(Math.max(0,n))+"☆".repeat(Math.max(0,5-n))}
@@ -2400,7 +2427,7 @@ function lexRenderBrowse(){
  const allTitle=lexState.filterKind==="verb"?"🔵 全部動詞":lexState.filterKind==="adj"?"🟣 全部形容詞":"全部詞彙";
  document.getElementById("lexResultTitle").textContent=topic?topic[2]:allTitle;
  document.getElementById("lexResultMeta").textContent="顯示 "+items.length+" / "+scoped.length+" 個";
- box.innerHTML=items.map((v,i)=>{const st=lexItem(v);return '<article class="lex-word"><div class="lex-word-head"><div><div class="lex-jp">'+lexRuby(v)+'</div><div class="lex-reading">'+v.reading+'</div></div><div class="lex-tags"><span class="lex-tag '+(v.level==="N3"?"n3":"")+'">'+v.level+'</span><span class="lex-tag">'+(v.kind==="verb"?(v.type==="ichidan"?"一段":v.type==="godan"?"五段":v.type==="suru"?"する":"動詞"):(v.type==="i"?"い形":"な形"))+'</span></div></div><div class="lex-cn">'+v.meaning+'</div><div class="lex-coll">'+v.collocations.map((x,ci)=>'<div class="lex-coll-row"><div class="lex-coll-main"><div class="lex-coll-text">• '+lexExampleRuby(x,v)+'</div>'+lexExampleKana(v)+'</div><button class="btn soft lex-example-audio" data-i="'+i+'" data-ci="'+ci+'" type="button" aria-label="播放例子">🔊 例句</button></div>').join("")+'</div><div class="lex-word-foot"><button class="btn soft lex-audio" data-i="'+i+'">🔊 單字</button><button class="btn soft lex-grade" data-i="'+i+'" data-ok="1">記得</button><button class="btn soft lex-grade" data-i="'+i+'" data-ok="0">不熟</button><span class="lex-stars">'+lexStars(st.level)+'</span></div></article>'}).join("");
+ box.innerHTML=items.map((v,i)=>{const st=lexItem(v);return '<article class="lex-word"><div class="lex-word-head"><div><div class="lex-jp">'+lexRuby(v)+'</div></div><div class="lex-tags"><span class="lex-tag '+(v.level==="N3"?"n3":"")+'">'+v.level+'</span><span class="lex-tag">'+(v.kind==="verb"?(v.type==="ichidan"?"一段":v.type==="godan"?"五段":v.type==="suru"?"する":"動詞"):(v.type==="i"?"い形":"な形"))+'</span></div></div><div class="lex-cn">'+v.meaning+'</div><div class="lex-coll">'+v.collocations.map((x,ci)=>'<div class="lex-coll-row"><div class="lex-coll-main"><div class="lex-coll-text">• '+lexExampleRuby(x,v)+'</div></div><button class="btn soft lex-example-audio" data-i="'+i+'" data-ci="'+ci+'" type="button" aria-label="播放例子">🔊 例句</button></div>').join("")+'</div><div class="lex-word-foot"><button class="btn soft lex-audio" data-i="'+i+'">🔊 單字</button><button class="btn soft lex-grade" data-i="'+i+'" data-ok="1">記得</button><button class="btn soft lex-grade" data-i="'+i+'" data-ok="0">不熟</button><span class="lex-stars">'+lexStars(st.level)+'</span></div></article>'}).join("");
  box.querySelectorAll(".lex-audio").forEach(b=>b.onclick=()=>speak(items[+b.dataset.i].word,"ja-JP"));
  box.querySelectorAll(".lex-example-audio").forEach(b=>b.onclick=()=>{const v=items[+b.dataset.i],x=v?.collocations?.[+b.dataset.ci];if(x)speak(x,"ja-JP")});
  box.querySelectorAll(".lex-grade").forEach(b=>b.onclick=()=>{const v=items[+b.dataset.i];lexMark(v,b.dataset.ok==="1");lexRenderBrowse()});
@@ -2869,8 +2896,8 @@ function renderGrammar(){
   if(!items.length){box.innerHTML='<div class="panel"><b>找不到符合條件的文法。</b><p class="small">試著縮短搜尋關鍵字。</p></div>';return}
   items.forEach((g,i)=>{
     const d=document.createElement("div");d.className="panel";d.style.marginBottom="12px";
-    const chunks=(g.chunks||[]).map(x=>`<div class="grammar-chunk"><div class="jpchunk">${x[0]}</div><div class="enchunk">EN: ${x[1]}</div></div>`).join("");
-    d.innerHTML=`<div class="grammar-card-top"><span class="badge">${g.kind||g.lv} · ${g.lv||""}</span><span class="grammar-index">${grammarFilter==="chapter"?`推薦 ${i+1}/${items.length}`:`${i+1}/${items.length}`}</span></div><h2 style="margin:11px 0 8px">${g.f}</h2><b>${g.m}</b><p style="color:var(--muted)"><b>接續：</b>${g.p}</p><div style="font-size:20px;line-height:2">${g.j}</div><div>${g.c}</div><div class="grammar-chunks"><div class="grammar-chunks-title">常用小片語｜Useful chunks</div>${chunks}</div><p style="color:var(--muted)"><b>辨別重點：</b>${g.x||"先理解情境，再做選擇與輸出。"}</p><button class="btn soft" data-g="${i}">🔊 日文例句</button>`;
+    const chunks=(g.chunks||[]).map(x=>`<div class="grammar-chunk"><div class="jpchunk">${jpRubyKanjiOnly(x[0])}</div><div class="enchunk">EN: ${x[1]}</div></div>`).join("");
+    d.innerHTML=`<div class="grammar-card-top"><span class="badge">${g.kind||g.lv} · ${g.lv||""}</span><span class="grammar-index">${grammarFilter==="chapter"?`推薦 ${i+1}/${items.length}`:`${i+1}/${items.length}`}</span></div><h2 style="margin:11px 0 8px">${g.f}</h2><b>${g.m}</b><p style="color:var(--muted)"><b>接續：</b>${g.p}</p><div style="font-size:20px;line-height:2">${jpRubyKanjiOnly(g.j)}</div><div>${g.c}</div><div class="grammar-chunks"><div class="grammar-chunks-title">常用小片語｜Useful chunks</div>${chunks}</div><p style="color:var(--muted)"><b>辨別重點：</b>${g.x||"先理解情境，再做選擇與輸出。"}</p><button class="btn soft" data-g="${i}">🔊 日文例句</button>`;
     box.appendChild(d);
   });
   box.querySelectorAll("[data-g]").forEach(b=>b.onclick=()=>speak(rubyToSpeech(items[+b.dataset.g].j),"ja-JP"));
@@ -2913,7 +2940,7 @@ function answerGrammarQuiz(ok,btn,g){
   if(grammarQuiz.answered)return;grammarQuiz.answered=true;markGrammar(g,ok);btn.classList.add(ok?"correct":"wrong");
   document.querySelectorAll("#grammarQuizOptions .grammar-quiz-option").forEach(b=>b.disabled=true);
   if(!ok){const labels=[...document.querySelectorAll("#grammarQuizOptions .grammar-quiz-option")];labels.forEach(b=>{if(b.textContent===((grammarQuiz.i%2===1)?g.m:g.f))b.classList.add("correct")});const insertAt=Math.min(grammarQuiz.items.length,grammarQuiz.i+3);if(grammarQuiz.items.length<14&&!grammarQuiz.items.slice(grammarQuiz.i+1).includes(g))grammarQuiz.items.splice(insertAt,0,g);}
-  const f=document.getElementById("grammarQuizFeedback");f.className="feedback "+(ok?"ok":"bad");f.innerHTML=`<b>${ok?"✅ 正確":"❌ 再記一次"}</b><br><b>${g.f}</b>｜${g.m}<br><span style="color:var(--muted)">接續：${g.p}</span><br><br>${g.j}<br>${g.c}<br><span style="color:var(--muted)"><b>辨別：</b>${g.x||"依情境判斷。"}</span>`;document.getElementById("grammarQuizNext").style.display="inline-block";
+  const f=document.getElementById("grammarQuizFeedback");f.className="feedback "+(ok?"ok":"bad");f.innerHTML=`<b>${ok?"✅ 正確":"❌ 再記一次"}</b><br><b>${g.f}</b>｜${g.m}<br><span style="color:var(--muted)">接續：${g.p}</span><br><br>${jpRubyKanjiOnly(g.j)}<br>${g.c}<br><span style="color:var(--muted)"><b>辨別：</b>${g.x||"依情境判斷。"}</span>`;document.getElementById("grammarQuizNext").style.display="inline-block";
 }
 document.getElementById("startGrammarN5").onclick=()=>startGrammarQuiz(false,10,"normal","N5");document.getElementById("startGrammarN4").onclick=()=>startGrammarQuiz(false,10,"normal","N4");document.getElementById("startGrammarSprint").onclick=()=>startGrammarQuiz(false,10,"normal","N3");document.getElementById("startGrammarWeak").onclick=()=>startGrammarQuiz(true,10,"normal","N3");document.getElementById("grammarQuizNext").onclick=()=>{grammarQuiz.i++;renderGrammarQuiz()};document.getElementById("grammarQuizClose").onclick=()=>{document.getElementById("grammarQuizPanel").style.display="none"};
 
@@ -3255,7 +3282,7 @@ function webRenderGrammar(data){
   const {r,n3,enGrammar:g}=data,work=document.getElementById("dailyWork");
   work.innerHTML=`<div class="daily-section-head"><div><h3>② Grammar｜今日 5 個</h3><p>英文 1 個＋N3 4 個。</p></div><span class="daily-count-badge">1 EN + 4 N3</span></div>
   <div class="daily-grammar-grid"><div class="daily-grammar-card"><div class="tag">ENGLISH GRAMMAR</div><h4>${g.t}</h4><div class="daily-rule"><b>${g.m}</b><br>${g.p}</div><div class="daily-example">${g.e}</div></div>
-  ${n3.map(x=>`<div class="daily-grammar-card"><div class="tag">JLPT N3</div><h4>${x.f}</h4><div class="daily-rule"><b>${x.m}</b><br><span style="color:var(--muted)">${x.p}</span></div><div class="daily-example">${x.j}<br><span style="color:var(--muted)">${x.c}</span></div>${x.x?`<div style="margin-top:8px;color:var(--muted)">🔍 ${x.x}</div>`:""}</div>`).join("")}</div>
+  ${n3.map(x=>`<div class="daily-grammar-card"><div class="tag">JLPT N3</div><h4>${x.f}</h4><div class="daily-rule"><b>${x.m}</b><br><span style="color:var(--muted)">${x.p}</span></div><div class="daily-example">${jpRubyKanjiOnly(x.j)}<br><span style="color:var(--muted)">${x.c}</span></div>${x.x?`<div style="margin-top:8px;color:var(--muted)">🔍 ${x.x}</div>`:""}</div>`).join("")}</div>
   <div class="daily-action-row"><span></span><button class="btn primary" id="webGrammarDone" type="button">前往聽力 →</button></div>`;
   document.getElementById("webGrammarDone").onclick=()=>{r.grammarDone=true;webDailySetStep("listening")};
 }
