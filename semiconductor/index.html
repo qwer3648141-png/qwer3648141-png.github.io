@@ -540,8 +540,8 @@ tabs.addEventListener('keydown',function(e){var all=Array.from(tabs.querySelecto
 });
 document.querySelectorAll('[data-complete]').forEach(function(b){b.addEventListener('click',function(){var n=Number(b.dataset.complete),i=done.indexOf(n);if(i<0)done.push(n);else done.splice(i,1);save('fab-read-v2',JSON.stringify(done));progress()})});
 document.getElementById('search').addEventListener('input',function(){
-var q=this.value.trim().toLocaleLowerCase(),count=0;
-document.querySelectorAll('[data-route]').forEach(function(a){var match=!q||(a.textContent+' '+(a.dataset.search||'')).toLocaleLowerCase().includes(q);a.hidden=!match;if(match)count++});
+var q=this.value.trim().normalize('NFKC').toLocaleLowerCase(),count=0;
+document.querySelectorAll('[data-route]').forEach(function(a){var match=!q||(a.textContent+' '+(a.dataset.search||'')).normalize('NFKC').toLocaleLowerCase().includes(q);a.hidden=!match;if(match)count++});
 document.querySelectorAll('.nav-group').forEach(function(g){g.hidden=!Array.from(g.querySelectorAll('a')).some(function(a){return !a.hidden})});
 document.querySelector('.no-results').hidden=count!==0;document.getElementById('search-count').textContent=q?'找到 '+count+' 個項目':'';
 });
