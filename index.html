@@ -1810,36 +1810,88 @@ function ensureVoices(langOrTimeout="",timeout=3200){
 function speechRate(lang){return String(lang).toLowerCase().startsWith("ja")?Math.max(.6,Math.min(1.15,Number(store.voiceRateJp)||.82)):Math.max(.6,Math.min(1.15,Number(store.voiceRateEn)||.90));}
 
 function speechErrorIsBenign(code){
-  return code==="canceled"||code==="interrupted";
+  return code==="canceled"||code==="interrupted"||code==="superseded";
 }
 function speechErrorCanRetry(code){
-  return ["canceled","interrupted","audio-busy","network","synthesis-failed","synthesis-unavailable","voice-unavailable","language-unavailable"].includes(code);
+  return ["canceled","interrupted","audio-busy","network","synthesis-failed","synthesis-unavailable","voice-unavailable","language-unavailable","start-timeout"].includes(code);
 }
 function waitMs(ms){return new Promise(r=>setTimeout(r,ms));}
+
+function runSpeechAttempt(cleaned,lang,voice,runId,attempt){
+  return new Promise(resolve=>{
+    if(runId!==speechRunId){resolve({ok:false,code:"superseded"});return}
+
+    const u=new SpeechSynthesisUtterance(cleaned);
+    u.voice=voice;
+    u.lang=voice?.lang||lang;
+    u.rate=speechRate(lang);
+    u.pitch=1;
+    u.volume=1;
+
+    let settled=false;
+    let started=false;
+    const settle=(ok,code="")=>{
+      if(settled)return;
+      settled=true;
+      clearTimeout(startWatch);
+      resolve({ok,code});
+    };
+
+    u.onstart=()=>{started=true};
+    u.onend=()=>{
+      if(runId!==speechRunId){settle(false,"superseded");return}
+      settle(true,"");
+    };
+    u.onerror=e=>{
+      const code=String(e?.error||"unknown");
+      console.warn("ENJP speech error",code);
+      if(runId!==speechRunId){settle(false,"superseded");return}
+      settle(false,code);
+    };
+
+    // Some Safari/Chrome builds occasionally accept speak() without starting it.
+    const startWatch=setTimeout(()=>{
+      if(settled||started)return;
+      settle(false,"start-timeout");
+      try{window.speechSynthesis.cancel()}catch(_){}
+    },attempt===0?1500:1900);
+
+    setTimeout(()=>{
+      if(runId!==speechRunId){settle(false,"superseded");return}
+      try{
+        window.speechSynthesis.resume();
+        window.speechSynthesis.speak(u);
+      }catch(e){
+        console.warn("ENJP speech exception",e);
+        settle(false,"exception");
+      }
+    },attempt===0?80:180);
+  });
+}
 
 async function speak(text,lang){
   if(!("speechSynthesis" in window)){toast("此瀏覽器不支援語音");return false}
   const isJa=String(lang).toLowerCase().startsWith("ja");
   const runId=++speechRunId;
 
-  // Intentionally stopping the previous utterance must never show a false error.
+  // Stopping a previous clip is normal. Its canceled/interrupted event must stay silent.
   try{window.speechSynthesis.cancel()}catch(_){}
   await waitMs(120);
   if(runId!==speechRunId)return false;
 
-  // Wait for the requested LANGUAGE, not merely for any voice to exist.
+  // Crucial: wait for JA when JA was requested; English voices loading first is not enough.
   await ensureVoices(lang,3600);
   if(runId!==speechRunId)return false;
 
-  let v=voiceFor(lang);
-  if(!v){
-    // Some browsers publish ja/en voices in a second wave.
-    await waitMs(260);
+  let voice=voiceFor(lang);
+  if(!voice){
+    await waitMs(280);
     refreshVoices();
-    v=voiceFor(lang);
+    voice=voiceFor(lang);
   }
   if(runId!==speechRunId)return false;
-  if(!v){
+
+  if(!voice){
     populateVoiceSelectors();
     toast(isJa?"⚠ 日文語音尚未載入，請稍後再按一次":"⚠ 英文語音尚未載入，請稍後再按一次");
     return false;
@@ -1848,87 +1900,40 @@ async function speak(text,lang){
   const cleaned=safeSpeechText(text,lang);
   if(!cleaned)return false;
 
-  const attemptSpeak=async(attempt)=>{
+  let lastCode="";
+  for(let attempt=0;attempt<2;attempt++){
     if(runId!==speechRunId)return false;
 
-    // Voice lists can change after tab switching / mobile resume.
     refreshVoices();
-    v=voiceFor(lang)||v;
-    if(!v)return false;
+    voice=voiceFor(lang)||voice;
+    if(!voice){lastCode="voice-unavailable";break}
 
-    return new Promise(resolve=>{
-      const u=new SpeechSynthesisUtterance(cleaned);
-      u.voice=v;
-      u.lang=v.lang||lang;
-      u.rate=speechRate(lang);
-      u.pitch=1;
-      u.volume=1;
+    const result=await runSpeechAttempt(cleaned,lang,voice,runId,attempt);
+    if(result.ok)return true;
+    lastCode=result.code||"unknown";
 
-      let settled=false;
-      let started=false;
-      const finish=ok=>{if(settled)return;settled=true;clearTimeout(startWatch);resolve(ok)};
+    if(runId!==speechRunId || lastCode==="superseded")return false;
+    if(attempt===0 && speechErrorCanRetry(lastCode)){
+      // Refresh the actual language voice before the retry.
+      if(lastCode==="voice-unavailable"||lastCode==="language-unavailable"){
+        await ensureVoices(lang,1800);
+      }else{
+        await waitMs(260);
+      }
+      continue;
+    }
+    break;
+  }
 
-      u.onstart=()=>{started=true};
-      u.onend=()=>{
-        // An old utterance ending after the user clicked another speaker is not a failure.
-        if(runId!==speechRunId){finish(false);return}
-        finish(true);
-      };
-      u.onerror=async e=>{
-        const code=String(e?.error||"unknown");
-        console.warn("ENJP speech error",code);
+  // canceled/interrupted are often browser housekeeping, not real user-visible failures.
+  if(speechErrorIsBenign(lastCode))return false;
 
-        // cancel()/interrupted from a newer click is expected; suppress all warning toasts.
-        if(runId!==speechRunId){finish(false);return}
-
-        // Retry one time for transient browser/TTS failures, silently.
-        if(attempt<1 && speechErrorCanRetry(code)){
-          finish(false);
-          await waitMs(code==="voice-unavailable"||code==="language-unavailable"?380:240);
-          if(runId!==speechRunId)return;
-          refreshVoices();
-          const ok=await attemptSpeak(attempt+1);
-          resolve(ok);
-          return;
-        }
-
-        // Browser-generated cancel/interruption is not a useful "failure" alert.
-        if(speechErrorIsBenign(code)){finish(false);return}
-
-        if(code==="not-allowed"){
-          toast("⚠ 瀏覽器暫時阻擋語音，請再按一次播放");
-        }else{
-          toast(isJa?"⚠ 日文語音暫時無法播放，請再按一次":"⚠ 英文語音暫時無法播放，請再按一次");
-        }
-        finish(false);
-      };
-
-      // Rare Safari/Chrome case: speak() is accepted but never starts.
-      const startWatch=setTimeout(async()=>{
-        if(settled||started||runId!==speechRunId)return;
-        try{window.speechSynthesis.cancel()}catch(_){}
-        finish(false);
-        if(attempt<1 && runId===speechRunId){
-          await waitMs(260);
-          const ok=await attemptSpeak(attempt+1);
-          resolve(ok);
-        }
-      },1400);
-
-      setTimeout(()=>{
-        if(runId!==speechRunId){finish(false);return}
-        try{
-          window.speechSynthesis.resume();
-          window.speechSynthesis.speak(u);
-        }catch(e){
-          console.warn("ENJP speech exception",e);
-          finish(false);
-        }
-      },attempt===0?80:180);
-    });
-  };
-
-  return attemptSpeak(0);
+  if(lastCode==="not-allowed"){
+    toast("⚠ 瀏覽器暫時阻擋語音，請再按一次播放");
+  }else{
+    toast(isJa?"⚠ 日文語音暫時無法播放，請再按一次":"⚠ 英文語音暫時無法播放，請再按一次");
+  }
+  return false;
 }
 function shuffle(a){
   const out=[...a];
