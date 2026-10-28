@@ -1113,6 +1113,37 @@ body::after{
 }
 
 </style>
+<style id="v-lextrain">
+#lextrain{--lex-blue:#8eaaff;--lex-violet:#b79cff;--lex-cyan:#77d4e8;--lex-gold:#e7c47d}
+.lex-hero{padding:28px 30px;display:grid;grid-template-columns:1.45fr .8fr;gap:22px;background:linear-gradient(135deg,rgba(20,31,59,.96),rgba(10,16,34,.96))!important}
+.lex-hero h2{font-size:34px;margin:8px 0 10px}.lex-hero p{color:#b6c1d7;line-height:1.85;margin:0}
+.lex-overview{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;align-content:center}
+.lex-overview div{padding:15px;border:1px solid rgba(133,158,214,.2);border-radius:16px;background:rgba(19,34,62,.86);text-align:center}
+.lex-overview strong{display:block;font-size:28px;color:#a9bbff}.lex-overview span{font-size:12px;color:#aebbd3}
+.lex-toolbar{padding:16px;margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.lex-filter-group{display:flex;gap:6px;flex-wrap:wrap}.lex-filter,.lex-level,.lex-mode{border:1px solid rgba(132,157,211,.24);background:#0d1830;color:#cbd7ed;border-radius:12px;padding:9px 12px;font-weight:750}
+.lex-filter.active,.lex-level.active{background:linear-gradient(135deg,#5e79d5,#725cc3);color:#fff}
+.lex-search,#lexTopicSelect{background:#091326!important;color:#eef4ff!important;border:1px solid rgba(132,157,211,.28)!important;border-radius:12px;padding:10px 12px}
+.lex-search{flex:1;min-width:230px}.lex-mode-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:14px 0}
+.lex-mode{min-height:84px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;text-align:left}
+.lex-mode span{font-size:22px}.lex-mode b{font-size:15px;margin-top:3px}.lex-mode small{color:#96a7c5;margin-top:3px}
+.lex-mode.active{background:linear-gradient(145deg,rgba(82,106,192,.34),rgba(93,70,170,.28));border-color:rgba(154,169,235,.43);color:#fff}
+.lex-topic-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0}
+.lex-topic-card{border:1px solid rgba(131,157,212,.2);background:linear-gradient(145deg,#11203b,#0c172c);border-radius:16px;padding:15px;text-align:left;color:#eaf1ff;cursor:pointer}
+.lex-topic-card:hover{border-color:rgba(141,172,240,.46);transform:translateY(-1px)}.lex-topic-card b{display:block;font-size:15px}.lex-topic-card span{display:block;color:#9faec8;font-size:12px;margin-top:5px}.lex-topic-card strong{float:right;color:#89a9ff}
+.lex-result-head{display:flex;justify-content:space-between;gap:12px;align-items:end;margin:22px 2px 12px}.lex-result-head b{font-size:21px}.lex-result-head span,.lex-legend{color:#9eacc5;font-size:12px}
+.lex-word-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.lex-word{border:1px solid rgba(131,157,212,.2);background:linear-gradient(145deg,#12213c,#0d192f);border-radius:18px;padding:18px;position:relative}
+.lex-word-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.lex-jp{font-size:27px;font-weight:850;line-height:1.5}.lex-reading{font-size:13px;color:#83cbea;margin-top:2px}.lex-tags{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}.lex-tag{font-size:11px;border-radius:999px;padding:5px 8px;background:rgba(100,130,207,.16);color:#bad0ff}.lex-tag.n3{background:rgba(160,112,219,.18);color:#d3b9ff}
+.lex-cn{font-size:16px;margin-top:8px;color:#dbe4f7}.lex-coll{margin-top:12px;padding-top:11px;border-top:1px solid rgba(131,157,212,.14);display:grid;gap:7px}.lex-coll div{color:#b7c3d9;font-size:14px}.lex-coll b{color:#edf3ff}
+.lex-word-foot{display:flex;gap:7px;flex-wrap:wrap;margin-top:14px;align-items:center}.lex-word-foot button{min-height:38px}.lex-stars{margin-left:auto;color:#e4c476;letter-spacing:1px}
+.lex-training{padding:26px;margin-top:14px}.lex-train-top{display:flex;justify-content:space-between;gap:14px}.lex-train-top h3{margin:10px 0 5px;font-size:24px}.lex-train-top p{margin:0;color:#a8b6cf}.lex-train-prompt{font-size:32px;font-weight:850;line-height:1.55;padding:30px 4px 20px}
+.lex-input-wrap{display:flex;gap:9px}.lex-input-wrap input{flex:1;min-width:0;background:#091326!important;color:#fff!important;border:1px solid rgba(132,157,211,.3)!important;border-radius:13px;padding:14px;font-size:20px}
+.lex-train-options{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.lex-train-options button{border:1px solid rgba(132,157,211,.25);background:#0e1a32;color:#edf3ff;border-radius:14px;padding:15px;text-align:left;font-size:17px}.lex-train-options button:hover{background:#17294a}
+.lex-train-actions{display:flex;gap:9px;margin-top:12px;flex-wrap:wrap}
+@media(max-width:850px){.lex-hero{grid-template-columns:1fr}.lex-mode-grid{grid-template-columns:repeat(2,1fr)}.lex-topic-grid{grid-template-columns:repeat(2,1fr)}.lex-word-grid{grid-template-columns:1fr}}
+@media(max-width:520px){.lex-hero{padding:22px 18px}.lex-hero h2{font-size:28px}.lex-overview{grid-template-columns:repeat(2,1fr)}.lex-topic-grid{grid-template-columns:1fr}.lex-mode-grid{grid-template-columns:1fr 1fr}.lex-train-prompt{font-size:26px}.lex-train-options{grid-template-columns:1fr}.lex-input-wrap{flex-direction:column}}
+</style>
 </head>
 <body>
 <div id="app">
@@ -1144,6 +1175,7 @@ body::after{
     <button data-screen="listen">聽力挑戰</button>
     <button data-screen="focus">弱項衝刺</button>
     <button data-screen="library">單字庫</button>
+    <button data-screen="lextrain">🌙 動詞・形容詞</button>
     <button data-screen="grammar">日本語文法</button>
     <button data-screen="settings">設定</button>
   </nav>
@@ -1435,6 +1467,61 @@ body::after{
       <span class="small" id="grammarShown"></span>
     </div>
     <div id="grammarCards" style="margin-top:14px"></div>
+  </section>
+
+  <section class="screen" id="lextrain">
+    <div class="panel lex-hero">
+      <div>
+        <div class="eyebrow">JLPT N5 → N3 · ACTIVE VOCABULARY</div>
+        <h2>🌙 動詞・形容詞特訓館</h2>
+        <p>依生活情境建立詞彙網絡，不只背中文意思。動詞練活用、自他動詞與常用搭配；形容詞練い／な形變化、語感與搭配。JLPT 標籤為學習難度參考，並非官方固定詞表。</p>
+      </div>
+      <div class="lex-overview">
+        <div><strong id="lexUniqueCount">0</strong><span>核心詞</span></div>
+        <div><strong id="lexKnownCount">0</strong><span>熟練 ≥ 3</span></div>
+        <div><strong id="lexDueCount">0</strong><span>今日到期</span></div>
+        <div><strong id="lexWeakCount">0</strong><span>弱項</span></div>
+      </div>
+    </div>
+
+    <div class="panel lex-toolbar">
+      <div class="lex-filter-group">
+        <button class="lex-filter active" data-lex-kind="all">全部</button>
+        <button class="lex-filter" data-lex-kind="verb">🔵 動詞</button>
+        <button class="lex-filter" data-lex-kind="adj">🟣 形容詞</button>
+      </div>
+      <div class="lex-filter-group">
+        <button class="lex-level active" data-lex-level="all">N5–N3</button>
+        <button class="lex-level" data-lex-level="N5">N5</button>
+        <button class="lex-level" data-lex-level="N4">N4</button>
+        <button class="lex-level" data-lex-level="N3">N3</button>
+      </div>
+      <select id="lexTopicSelect" aria-label="詞彙主題"><option value="all">全部主題</option></select>
+      <input id="lexSearch" class="lex-search" placeholder="搜尋日文／讀音／中文／搭配…">
+    </div>
+
+    <div class="lex-mode-grid">
+      <button class="lex-mode active" data-lex-mode="browse"><span>📚</span><b>主題學習</b><small>讀音＋意思＋搭配</small></button>
+      <button class="lex-mode" data-lex-mode="conjugation"><span>⚡</span><b>活用變化</b><small>自己輸入答案</small></button>
+      <button class="lex-mode" data-lex-mode="pairs"><span>🔄</span><b>自他動詞</b><small>が／を情境辨識</small></button>
+      <button class="lex-mode" data-lex-mode="listening"><span>🎧</span><b>聽力辨義</b><small>不先顯示單字</small></button>
+      <button class="lex-mode" data-lex-mode="weak"><span>💀</span><b>弱項複習</b><small>錯題與低熟練優先</small></button>
+    </div>
+
+    <div id="lexBrowsePane">
+      <div class="lex-topic-grid" id="lexTopicGrid"></div>
+      <div class="lex-result-head"><div><b id="lexResultTitle">全部詞彙</b><span id="lexResultMeta"></span></div><div class="lex-legend">⭐ 熟練度會依 1／3／7／14／30 天排程複習</div></div>
+      <div class="lex-word-grid" id="lexWordGrid"></div>
+    </div>
+
+    <div id="lexTrainingPane" class="panel lex-training" style="display:none">
+      <div class="lex-train-top"><div><span class="badge" id="lexTrainBadge">活用變化</span><h3 id="lexTrainTitle">準備中</h3><p id="lexTrainHint">先自己想，再輸入或選擇答案。</p></div><button class="btn soft" id="lexTrainAudio" type="button">🔊 JP</button></div>
+      <div class="lex-train-prompt" id="lexTrainPrompt"></div>
+      <div id="lexTrainInputWrap" class="lex-input-wrap"><input id="lexTrainInput" autocomplete="off" placeholder="輸入日文答案…"><button class="btn primary" id="lexTrainCheck" type="button">確認</button></div>
+      <div id="lexTrainOptions" class="lex-train-options"></div>
+      <div class="feedback" id="lexTrainFeedback">先自己作答，系統會記錄弱項。</div>
+      <div class="lex-train-actions"><button class="btn soft" id="lexTrainAgain" type="button">換一題</button><button class="btn soft" id="lexTrainReveal" type="button">顯示答案</button></div>
+    </div>
   </section>
 
   <section class="screen" id="settings">
