@@ -1144,6 +1144,38 @@ body::after{
 @media(max-width:850px){.lex-hero{grid-template-columns:1fr}.lex-mode-grid{grid-template-columns:repeat(2,1fr)}.lex-topic-grid{grid-template-columns:repeat(2,1fr)}.lex-word-grid{grid-template-columns:1fr}}
 @media(max-width:520px){.lex-hero{padding:22px 18px}.lex-hero h2{font-size:28px}.lex-overview{grid-template-columns:repeat(2,1fr)}.lex-topic-grid{grid-template-columns:1fr}.lex-mode-grid{grid-template-columns:1fr 1fr}.lex-train-prompt{font-size:26px}.lex-train-options{grid-template-columns:1fr}.lex-input-wrap{flex-direction:column}}
 </style>
+
+<style id="lex-v2-category-example-fixes">
+/* Verb/adjective topic separation + larger, readable example rows */
+.lex-topic-card.active{
+  border-color:rgba(170,185,255,.72)!important;
+  background:linear-gradient(145deg,rgba(62,83,150,.72),rgba(82,59,142,.58))!important;
+  box-shadow:0 0 0 2px rgba(139,157,236,.14) inset;
+}
+.lex-reading{font-size:15px!important;line-height:1.65!important}
+.lex-cn{font-size:17px!important;line-height:1.65!important}
+.lex-coll{gap:9px!important}
+.lex-coll-row{
+  display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;
+  padding:10px 0;border-bottom:1px dashed rgba(131,157,212,.14)
+}
+.lex-coll-row:last-child{border-bottom:0}
+.lex-coll-main{min-width:0}
+.lex-coll-text{
+  color:#edf3ff;font-size:18px;font-weight:760;line-height:1.9;
+  font-family:"Noto Sans JP","Yu Gothic UI","Yu Gothic","Hiragino Kaku Gothic ProN","Meiryo",sans-serif
+}
+.lex-coll-text ruby{ruby-position:over}
+.lex-coll-text ruby rt{font-size:.58em!important;font-weight:700!important;color:#8fd2ef!important;letter-spacing:.02em}
+.lex-coll-kana{display:block;color:#91a8c9;font-size:13px;margin-top:2px}
+.lex-example-audio{min-width:62px!important;min-height:40px!important;padding:8px 10px!important}
+@media(max-width:650px){
+  .lex-coll-text{font-size:17px}
+  .lex-coll-row{grid-template-columns:1fr}
+  .lex-example-audio{justify-self:start}
+}
+</style>
+
 </head>
 <body>
 <div id="app">
@@ -2321,6 +2353,19 @@ function lexToday(){return new Date().toISOString().slice(0,10)}
 function lexDue(level){const days=[0,1,3,7,14,30][Math.max(0,Math.min(5,level))]||1;const d=new Date();d.setDate(d.getDate()+days);return d.toISOString().slice(0,10)}
 function lexMark(v,ok){const st=lexItem(v);st.seen++;st.last=lexToday();if(ok){st.correct++;st.level=Math.min(5,st.level+1);st.due=lexDue(st.level)}else{st.wrong++;st.level=Math.max(0,st.level-1);st.due=lexToday()}lexSave();lexUpdateStats()}
 function lexRuby(v){return /[一-龯々]/.test(v.word)?'<ruby>'+v.word+'<rt>'+v.reading+'</rt></ruby>':v.word}
+function lexBaseForm(v){
+ let word=String(v?.word||""),reading=String(v?.reading||"");
+ if(v?.kind==="adj"&&v?.type==="na"){word=word.replace(/な$/,"");reading=reading.replace(/な$/,"")}
+ return {word,reading};
+}
+function lexExampleRuby(text,v){
+ text=String(text||"");const base=lexBaseForm(v);
+ if(!base.word||!base.reading||!/[一-龯々]/.test(base.word)||!text.includes(base.word))return text;
+ return text.split(base.word).join('<ruby>'+base.word+'<rt>'+base.reading+'</rt></ruby>');
+}
+function lexExampleKana(v){
+ const base=lexBaseForm(v);return /[一-龯々]/.test(base.word)&&base.reading?'<span class="lex-coll-kana">假名：'+base.reading+'</span>':"";
+}
 function lexNormalize(s){return String(s||"").trim().replace(/[ 　]/g,"").replace(/[。．]/g,"")}
 function lexStars(n){return "★".repeat(Math.max(0,n))+"☆".repeat(Math.max(0,5-n))}
 function lexVisible(){
@@ -2333,20 +2378,31 @@ function lexUpdateStats(){
  const set=(id,x)=>{const el=document.getElementById(id);if(el)el.textContent=x};
  set("lexUniqueCount",all.length);set("lexKnownCount",known);set("lexDueCount",due);set("lexWeakCount",weak);
 }
+function lexTopicScope(){
+ return LEX_TOPICS.filter(t=>lexState.filterKind==="all"||t[1]===lexState.filterKind);
+}
 function lexInitTopics(){
  const sel=document.getElementById("lexTopicSelect");if(!sel)return;
- sel.innerHTML='<option value="all">全部主題</option>'+LEX_TOPICS.map(t=>'<option value="'+t[0]+'">'+t[2]+'</option>').join("");
+ const words=LEX_WORDS();
+ let topics=lexTopicScope().map(t=>({t,n:words.filter(v=>v.topic===t[0]&&(lexState.filterLevel==="all"||v.level===lexState.filterLevel)).length}));
+ if(lexState.filterLevel!=="all")topics=topics.filter(x=>x.n>0);
+ if(lexState.topic!=="all"&&!topics.some(x=>x.t[0]===lexState.topic)){lexState.topic="all";lexSave()}
+ const kindLabel=lexState.filterKind==="verb"?"動詞":lexState.filterKind==="adj"?"形容詞":"";
+ sel.innerHTML='<option value="all">全部'+kindLabel+'主題</option>'+topics.map(x=>'<option value="'+x.t[0]+'">'+x.t[2]+'</option>').join("");
  sel.value=lexState.topic||"all";
- document.getElementById("lexTopicGrid").innerHTML=LEX_TOPICS.map(t=>{const n=LEX_WORDS().filter(v=>v.topic===t[0]).length;return '<button class="lex-topic-card" data-lex-topic="'+t[0]+'"><strong>'+n+'</strong><b>'+t[2]+'</b><span>'+t[0]+' · '+(t[1]==="verb"?"動詞":"形容詞")+'</span></button>'}).join("");
- document.querySelectorAll("[data-lex-topic]").forEach(b=>b.onclick=()=>{lexState.topic=b.dataset.lexTopic;sel.value=lexState.topic;lexSave();lexRenderBrowse();});
+ document.getElementById("lexTopicGrid").innerHTML=topics.map(x=>{const t=x.t;return '<button class="lex-topic-card '+(lexState.topic===t[0]?"active":"")+'" data-lex-topic="'+t[0]+'"><strong>'+x.n+'</strong><b>'+t[2]+'</b><span>'+t[0]+' · '+(t[1]==="verb"?"動詞":"形容詞")+'</span></button>'}).join("");
+ document.querySelectorAll("[data-lex-topic]").forEach(b=>b.onclick=()=>{lexState.topic=b.dataset.lexTopic;sel.value=lexState.topic;lexSave();lexRender();});
 }
 function lexRenderBrowse(){
  const box=document.getElementById("lexWordGrid");if(!box)return;
  const items=lexVisible(),topic=LEX_TOPICS.find(t=>t[0]===lexState.topic);
- document.getElementById("lexResultTitle").textContent=topic?topic[2]:"全部詞彙";
- document.getElementById("lexResultMeta").textContent="顯示 "+items.length+" / "+LEX_WORDS().length+" 個";
- box.innerHTML=items.map((v,i)=>{const st=lexItem(v);return '<article class="lex-word"><div class="lex-word-head"><div><div class="lex-jp">'+lexRuby(v)+'</div><div class="lex-reading">'+v.reading+'</div></div><div class="lex-tags"><span class="lex-tag '+(v.level==="N3"?"n3":"")+'">'+v.level+'</span><span class="lex-tag">'+(v.kind==="verb"?(v.type==="ichidan"?"一段":v.type==="godan"?"五段":v.type==="suru"?"する":"動詞"):(v.type==="i"?"い形":"な形"))+'</span></div></div><div class="lex-cn">'+v.meaning+'</div><div class="lex-coll">'+v.collocations.map(x=>'<div>• <b>'+x+'</b></div>').join("")+'</div><div class="lex-word-foot"><button class="btn soft lex-audio" data-i="'+i+'">🔊 JP</button><button class="btn soft lex-grade" data-i="'+i+'" data-ok="1">記得</button><button class="btn soft lex-grade" data-i="'+i+'" data-ok="0">不熟</button><span class="lex-stars">'+lexStars(st.level)+'</span></div></article>'}).join("");
+ const scoped=LEX_WORDS().filter(v=>(lexState.filterKind==="all"||v.kind===lexState.filterKind)&&(lexState.filterLevel==="all"||v.level===lexState.filterLevel));
+ const allTitle=lexState.filterKind==="verb"?"🔵 全部動詞":lexState.filterKind==="adj"?"🟣 全部形容詞":"全部詞彙";
+ document.getElementById("lexResultTitle").textContent=topic?topic[2]:allTitle;
+ document.getElementById("lexResultMeta").textContent="顯示 "+items.length+" / "+scoped.length+" 個";
+ box.innerHTML=items.map((v,i)=>{const st=lexItem(v);return '<article class="lex-word"><div class="lex-word-head"><div><div class="lex-jp">'+lexRuby(v)+'</div><div class="lex-reading">'+v.reading+'</div></div><div class="lex-tags"><span class="lex-tag '+(v.level==="N3"?"n3":"")+'">'+v.level+'</span><span class="lex-tag">'+(v.kind==="verb"?(v.type==="ichidan"?"一段":v.type==="godan"?"五段":v.type==="suru"?"する":"動詞"):(v.type==="i"?"い形":"な形"))+'</span></div></div><div class="lex-cn">'+v.meaning+'</div><div class="lex-coll">'+v.collocations.map((x,ci)=>'<div class="lex-coll-row"><div class="lex-coll-main"><div class="lex-coll-text">• '+lexExampleRuby(x,v)+'</div>'+lexExampleKana(v)+'</div><button class="btn soft lex-example-audio" data-i="'+i+'" data-ci="'+ci+'" type="button" aria-label="播放例子">🔊 例句</button></div>').join("")+'</div><div class="lex-word-foot"><button class="btn soft lex-audio" data-i="'+i+'">🔊 單字</button><button class="btn soft lex-grade" data-i="'+i+'" data-ok="1">記得</button><button class="btn soft lex-grade" data-i="'+i+'" data-ok="0">不熟</button><span class="lex-stars">'+lexStars(st.level)+'</span></div></article>'}).join("");
  box.querySelectorAll(".lex-audio").forEach(b=>b.onclick=()=>speak(items[+b.dataset.i].word,"ja-JP"));
+ box.querySelectorAll(".lex-example-audio").forEach(b=>b.onclick=()=>{const v=items[+b.dataset.i],x=v?.collocations?.[+b.dataset.ci];if(x)speak(x,"ja-JP")});
  box.querySelectorAll(".lex-grade").forEach(b=>b.onclick=()=>{const v=items[+b.dataset.i];lexMark(v,b.dataset.ok==="1");lexRenderBrowse()});
 }
 function lexRender(){
@@ -2373,11 +2429,19 @@ function lexAdjForms(v){
  return {"否定形":w+"ではない","過去形":w+"だった","過去否定":w+"ではなかった","副詞形":w+"に"};
 }
 function lexPick(pool){return pool[Math.floor(Math.random()*pool.length)]}
-function lexTrainPool(){let p=LEX_WORDS();if(lexState.filterLevel!=="all")p=p.filter(v=>v.level===lexState.filterLevel);if(lexState.mode==="weak"){const t=lexToday();const w=p.filter(v=>{const s=lexItem(v);return s.seen&&(s.level<=2||(s.due&&s.due<=t))});if(w.length)p=w}return p}
+function lexTrainPool(){
+ let p=LEX_WORDS();
+ if(lexState.filterKind!=="all")p=p.filter(v=>v.kind===lexState.filterKind);
+ if(lexState.filterLevel!=="all")p=p.filter(v=>v.level===lexState.filterLevel);
+ if(lexState.topic!=="all")p=p.filter(v=>v.topic===lexState.topic);
+ if(lexState.mode==="weak"){const t=lexToday();const w=p.filter(v=>{const st=lexItem(v);return st.seen&&(st.level<=2||(st.due&&st.due<=t))});if(w.length)p=w}
+ return p;
+}
 function lexNewQuestion(){
- const mode=lexState.mode,pool=lexTrainPool();if(!pool.length)return;
+ const mode=lexState.mode,pool=lexTrainPool();
  const badge=document.getElementById("lexTrainBadge"),title=document.getElementById("lexTrainTitle"),hint=document.getElementById("lexTrainHint"),prompt=document.getElementById("lexTrainPrompt"),opts=document.getElementById("lexTrainOptions"),wrap=document.getElementById("lexTrainInputWrap"),fb=document.getElementById("lexTrainFeedback");
  fb.className="feedback";fb.textContent="先自己作答，系統會記錄弱項。";opts.innerHTML="";wrap.style.display="none";
+ if(!pool.length){lexState.current=null;badge.textContent="目前篩選";title.textContent="沒有可練習的內容";hint.textContent="請切換主題或 JLPT 等級。";prompt.textContent="";fb.textContent="這組條件目前沒有題目。";lexSave();return;}
  if(mode==="conjugation"){
   const candidates=pool.filter(v=>v.kind==="verb"||v.kind==="adj"),v=lexPick(candidates),forms=v.kind==="verb"?lexVerbForms(v):lexAdjForms(v),keys=Object.keys(forms),form=lexPick(keys);
   lexState.current={mode,v,answer:forms[form],form};badge.textContent=v.level+" · "+(v.kind==="verb"?"動詞活用":"形容詞活用");title.textContent=v.word+" → "+form;hint.textContent=v.meaning+"｜"+v.reading;prompt.innerHTML=lexRuby(v)+" <span style='color:#8797b8'>→ "+form+"</span>";wrap.style.display="flex";document.getElementById("lexTrainInput").value="";
@@ -2389,7 +2453,7 @@ function lexNewQuestion(){
   opts.innerHTML=choices.map(x=>'<button data-a="'+x+'">'+x+'</button>').join("");opts.querySelectorAll("button").forEach(b=>b.onclick=()=>lexAnswer(b.dataset.a));
  }else{
   const v=lexPick(pool);lexState.current={mode,v,answer:v.meaning};badge.textContent=v.level+" · 聽力辨義";title.textContent="先聽聲音，再選意思";hint.textContent="不顯示單字，避免視覺提示";prompt.textContent="🔊 只聽日文";
-  const choices=[v,...LEX_WORDS().filter(x=>x!==v&&x.level===v.level).sort(()=>Math.random()-.5).slice(0,3)].sort(()=>Math.random()-.5);
+  const distract=pool.filter(x=>x!==v&&x.level===v.level);const fallback=pool.filter(x=>x!==v&&!distract.includes(x));const choices=[v,...[...distract,...fallback].sort(()=>Math.random()-.5).slice(0,3)].sort(()=>Math.random()-.5);
   opts.innerHTML=choices.map(x=>'<button data-a="'+x.meaning+'">'+x.meaning+'</button>').join("");opts.querySelectorAll("button").forEach(b=>b.onclick=()=>lexAnswer(b.dataset.a));setTimeout(()=>speak(v.word,"ja-JP"),120);
  }
  lexSave();
@@ -2401,10 +2465,10 @@ function lexAnswer(value){
 }
 function lexInit(){
  if(document.body.dataset.lexInit)return;document.body.dataset.lexInit="1";
- document.querySelectorAll(".lex-filter").forEach(b=>b.onclick=()=>{lexState.filterKind=b.dataset.lexKind;lexSave();lexRender()});
+ document.querySelectorAll(".lex-filter").forEach(b=>b.onclick=()=>{lexState.filterKind=b.dataset.lexKind;if(lexState.filterKind==="adj"&&lexState.mode==="pairs")lexState.mode="browse";lexSave();lexRender()});
  document.querySelectorAll(".lex-level").forEach(b=>b.onclick=()=>{lexState.filterLevel=b.dataset.lexLevel;lexSave();lexRender()});
- document.querySelectorAll(".lex-mode").forEach(b=>b.onclick=()=>{lexState.mode=b.dataset.lexMode;lexSave();lexRender()});
- document.getElementById("lexTopicSelect").onchange=e=>{lexState.topic=e.target.value;lexSave();lexRenderBrowse()};
+ document.querySelectorAll(".lex-mode").forEach(b=>b.onclick=()=>{lexState.mode=b.dataset.lexMode;if(lexState.mode==="pairs"){lexState.filterKind="verb";lexState.topic="V11"}lexSave();lexRender()});
+ document.getElementById("lexTopicSelect").onchange=e=>{lexState.topic=e.target.value;lexSave();lexRender()};
  document.getElementById("lexSearch").oninput=lexRenderBrowse;
  document.getElementById("lexTrainCheck").onclick=()=>lexAnswer(document.getElementById("lexTrainInput").value);
  document.getElementById("lexTrainInput").addEventListener("keydown",e=>{if(e.key==="Enter")lexAnswer(e.target.value)});
