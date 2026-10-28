@@ -1443,11 +1443,11 @@ body::after{
       <h2 style="margin-bottom:8px" id="grammarTitle">🧩 文法航線</h2>
       <p style="color:var(--muted);line-height:1.7" id="grammarIntro">每章安排一個情境核心文法，再混入舊文法複習，避免只會背規則、不會選用法。</p>
     </div>
-    <div class="grammar-db-note"><b>📚 N4・N3 文法核心資料庫</b><span id="grammarDbStats"></span><br><small>交叉參考 Bunpro 與 JLPT Sensei 的 N4/N3 分類；JLPT 官方自 2010 年起不公布固定文法清單，因此這裡採「高實用核心」而非宣稱官方完整表。</small></div>
+    <div class="grammar-db-note"><b>📚 N5・N4・N3 分級文法資料庫</b><span id="grammarDbStats"></span><br><small>分級交叉參考 JLPT 官方能力描述、JLPT Sensei、MaruMori 等常見學習分類；JLPT 官方不公布固定文法／單字清單，因此這裡標示為學習分級參考。</small></div>
     <div class="panel grammar-sprint">
-      <h3>🔥 N3 文法主動回想</h3>
-      <p>不是只閱讀文法卡。系統會用「中文意思 → 文法形式」與「文法形式 → 中文意思」交錯出題，答錯的文法會在同一輪稍後再次出現。</p>
-      <div class="actions" style="margin-top:14px"><button class="btn primary" id="startGrammarSprint">開始 N3 文法 10 題</button><button class="btn soft" id="startGrammarWeak">只練 N3 弱項</button></div>
+      <h3>🔥 分級文法主動回想</h3>
+      <p>用「中文意思 → 文法形式」與「文法形式 → 中文意思」交錯出題。先補 N5 基礎，再走 N4，最後集中 N3；答錯的文法會提高之後的出題優先度。</p>
+      <div class="actions grammar-level-actions" style="margin-top:14px"><button class="btn soft" id="startGrammarN5">N5 基礎 10 題</button><button class="btn soft" id="startGrammarN4">N4 進階 10 題</button><button class="btn primary" id="startGrammarSprint">N3 衝刺 10 題</button><button class="btn soft" id="startGrammarWeak">N3 弱項</button></div>
     </div>
     <div class="panel grammar-quiz" id="grammarQuizPanel" style="display:none">
       <div class="gameTop"><span class="badge" id="grammarQuizType">N3 GRAMMAR</span><b id="grammarQuizProgress">1 / 10</b></div>
@@ -1460,6 +1460,7 @@ body::after{
     </div>
     <div class="grammar-toolbar">
       <button class="btn soft grammar-filter active" data-gfilter="chapter">本章推薦</button>
+      <button class="btn soft grammar-filter" data-gfilter="N5">N5</button>
       <button class="btn soft grammar-filter" data-gfilter="N4">N4</button>
       <button class="btn soft grammar-filter" data-gfilter="N3">N3</button>
       <button class="btn soft grammar-filter" data-gfilter="all">全部</button>
@@ -3052,9 +3053,9 @@ function initGrammarLibrary(){
   const s=document.getElementById("grammarSearch");if(s)s.addEventListener("input",renderGrammar);
 }
 
-function grammarPriorityPool(weakOnly=false){
-  const t=todayKey(),base=grammarBank.filter(g=>g.lv==="N3").filter(g=>!weakOnly||grammarState(g).seen>0&&grammarState(g).level<=2);
-  const use=base.length?base:grammarBank.filter(g=>g.lv==="N3");
+function grammarPriorityPool(weakOnly=false,level="N3"){
+  const t=todayKey(),base=grammarBank.filter(g=>g.lv===level).filter(g=>!weakOnly||grammarState(g).seen>0&&grammarState(g).level<=2);
+  const use=base.length?base:grammarBank.filter(g=>g.lv===level);
   return shuffle([...use]).sort((a,b)=>{const A=grammarState(a),B=grammarState(b);const pa=(A.seen>0&&A.due<=t?120:0)+(A.seen?((5-A.level)*12+A.wrong*10):15);const pb=(B.seen>0&&B.due<=t?120:0)+(B.seen?((5-B.level)*12+B.wrong*10):15);return pb-pa});
 }
 function markGrammar(g,correct){
@@ -3062,19 +3063,19 @@ function markGrammar(g,correct){
   if(correct){st.correct++;store.today.correct=Number(store.today.correct||0)+1;st.streak=(st.streak||0)+1;const eligible=st.level===0||t>=st.due;if(eligible){st.level=Math.min(5,st.level+1);if(st.level>before)store.today.effective=Number(store.today.effective||0)+1;}st.due=dueDate(st.level);store.xp+=8+st.level;}
   else{st.wrong++;st.streak=0;st.level=Math.max(0,st.level-1);st.due=t;}save();return {before,after:st.level};
 }
-function startGrammarQuiz(weakOnly=false,count=10,session="normal"){
-  const pool=grammarPriorityPool(weakOnly);grammarQuiz={items:pool.slice(0,count),i:0,answered:false,weakOnly,session};const panel=document.getElementById("grammarQuizPanel");panel.style.display="block";renderGrammarQuiz();panel.scrollIntoView({behavior:"smooth",block:"start"});
+function startGrammarQuiz(weakOnly=false,count=10,session="normal",level="N3"){
+  const pool=grammarPriorityPool(weakOnly,level);grammarQuiz={items:pool.slice(0,count),i:0,answered:false,weakOnly,session,level};const panel=document.getElementById("grammarQuizPanel");panel.style.display="block";renderGrammarQuiz();panel.scrollIntoView({behavior:"smooth",block:"start"});
 }
 function grammarChoices(target,field){
-  const pool=grammarBank.filter(g=>g.lv==="N3"&&g.f!==target.f);return shuffle([target,...sample(pool,3,target)]).map(g=>({g,label:field==="form"?g.f:g.m}));
+  const level=grammarQuiz.level||target.lv||"N3";const pool=grammarBank.filter(g=>g.lv===level&&g.f!==target.f);return shuffle([target,...sample(pool,3,target)]).map(g=>({g,label:field==="form"?g.f:g.m}));
 }
 function renderGrammarQuiz(){
-  if(grammarQuiz.i>=grammarQuiz.items.length){const mixed=grammarQuiz.session==="mixed";document.getElementById("grammarQuizPrompt").textContent=mixed?"🌊 今日 Mixed 任務完成":"🎉 N3 文法一輪完成";document.getElementById("grammarQuizHint").textContent=mixed?"英文核心與 N3 文法兩段都完成了。":"答錯的文法已提高優先度，之後會更早再次出現。";document.getElementById("grammarQuizOptions").innerHTML="";document.getElementById("grammarQuizFeedback").className="feedback ok";document.getElementById("grammarQuizFeedback").textContent=mixed?"✅ Mixed Mission 完成。今天可以回首頁看有效進度與任務剩餘量。":"完成。建議隔一段時間再測，不要立刻重刷答案。";document.getElementById("grammarQuizBar").style.width="100%";document.getElementById("grammarQuizNext").style.display="none";if(mixed){store.mixedSession={date:todayKey(),stage:"done"};save();}updateStats();return}
+  if(grammarQuiz.i>=grammarQuiz.items.length){const mixed=grammarQuiz.session==="mixed";document.getElementById("grammarQuizPrompt").textContent=mixed?"🌊 今日 Mixed 任務完成":`🎉 ${grammarQuiz.level||"N3"} 文法一輪完成`;document.getElementById("grammarQuizHint").textContent=mixed?"英文核心與 N3 文法兩段都完成了。":"答錯的文法已提高優先度，之後會更早再次出現。";document.getElementById("grammarQuizOptions").innerHTML="";document.getElementById("grammarQuizFeedback").className="feedback ok";document.getElementById("grammarQuizFeedback").textContent=mixed?"✅ Mixed Mission 完成。今天可以回首頁看有效進度與任務剩餘量。":"完成。建議隔一段時間再測，不要立刻重刷答案。";document.getElementById("grammarQuizBar").style.width="100%";document.getElementById("grammarQuizNext").style.display="none";if(mixed){store.mixedSession={date:todayKey(),stage:"done"};save();}updateStats();return}
   grammarQuiz.answered=false;const g=grammarQuiz.items[grammarQuiz.i],reverse=grammarQuiz.i%2===1;
   document.getElementById("grammarQuizProgress").textContent=`${grammarQuiz.i+1} / ${grammarQuiz.items.length}`;document.getElementById("grammarQuizBar").style.width=`${grammarQuiz.i/grammarQuiz.items.length*100}%`;document.getElementById("grammarQuizNext").style.display="none";document.getElementById("grammarQuizFeedback").className="feedback";document.getElementById("grammarQuizFeedback").textContent="先自己想，再選答案。";
   const box=document.getElementById("grammarQuizOptions");box.innerHTML="";
-  if(!reverse){document.getElementById("grammarQuizType").textContent="意思 → 文法";document.getElementById("grammarQuizPrompt").textContent=g.m;document.getElementById("grammarQuizHint").textContent=`接續：${g.p}`;grammarChoices(g,"form").forEach(o=>makeGrammarOption(o,g,box));}
-  else{document.getElementById("grammarQuizType").textContent="文法 → 意思";document.getElementById("grammarQuizPrompt").textContent=g.f;document.getElementById("grammarQuizHint").textContent="不要只看形式，先在腦中說出它的意思與使用情境。";grammarChoices(g,"meaning").forEach(o=>makeGrammarOption(o,g,box));}
+  if(!reverse){document.getElementById("grammarQuizType").textContent=(grammarQuiz.level||"N3")+"｜意思 → 文法";document.getElementById("grammarQuizPrompt").textContent=g.m;document.getElementById("grammarQuizHint").textContent=`接續：${g.p}`;grammarChoices(g,"form").forEach(o=>makeGrammarOption(o,g,box));}
+  else{document.getElementById("grammarQuizType").textContent=(grammarQuiz.level||"N3")+"｜文法 → 意思";document.getElementById("grammarQuizPrompt").textContent=g.f;document.getElementById("grammarQuizHint").textContent="不要只看形式，先在腦中說出它的意思與使用情境。";grammarChoices(g,"meaning").forEach(o=>makeGrammarOption(o,g,box));}
 }
 function makeGrammarOption(o,target,box){const b=document.createElement("button");b.className="grammar-quiz-option";b.textContent=o.label;b.onclick=()=>answerGrammarQuiz(o.g===target,b,target);box.appendChild(b)}
 function answerGrammarQuiz(ok,btn,g){
@@ -3083,7 +3084,7 @@ function answerGrammarQuiz(ok,btn,g){
   if(!ok){const labels=[...document.querySelectorAll("#grammarQuizOptions .grammar-quiz-option")];labels.forEach(b=>{if(b.textContent===((grammarQuiz.i%2===1)?g.m:g.f))b.classList.add("correct")});const insertAt=Math.min(grammarQuiz.items.length,grammarQuiz.i+3);if(grammarQuiz.items.length<14&&!grammarQuiz.items.slice(grammarQuiz.i+1).includes(g))grammarQuiz.items.splice(insertAt,0,g);}
   const f=document.getElementById("grammarQuizFeedback");f.className="feedback "+(ok?"ok":"bad");f.innerHTML=`<b>${ok?"✅ 正確":"❌ 再記一次"}</b><br><b>${g.f}</b>｜${g.m}<br><span style="color:var(--muted)">接續：${g.p}</span><br><br>${g.j}<br>${g.c}<br><span style="color:var(--muted)"><b>辨別：</b>${g.x||"依情境判斷。"}</span>`;document.getElementById("grammarQuizNext").style.display="inline-block";
 }
-document.getElementById("startGrammarSprint").onclick=()=>startGrammarQuiz(false,10,"normal");document.getElementById("startGrammarWeak").onclick=()=>startGrammarQuiz(true,10,"normal");document.getElementById("grammarQuizNext").onclick=()=>{grammarQuiz.i++;renderGrammarQuiz()};document.getElementById("grammarQuizClose").onclick=()=>{document.getElementById("grammarQuizPanel").style.display="none"};
+document.getElementById("startGrammarN5").onclick=()=>startGrammarQuiz(false,10,"normal","N5");document.getElementById("startGrammarN4").onclick=()=>startGrammarQuiz(false,10,"normal","N4");document.getElementById("startGrammarSprint").onclick=()=>startGrammarQuiz(false,10,"normal","N3");document.getElementById("startGrammarWeak").onclick=()=>startGrammarQuiz(true,10,"normal","N3");document.getElementById("grammarQuizNext").onclick=()=>{grammarQuiz.i++;renderGrammarQuiz()};document.getElementById("grammarQuizClose").onclick=()=>{document.getElementById("grammarQuizPanel").style.display="none"};
 
 function startListen(){
   const lang=document.getElementById("listenLang").value,skill=lang==="en"?"listen-en":"listen-jp";
