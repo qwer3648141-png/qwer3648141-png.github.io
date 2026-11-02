@@ -1,0 +1,28 @@
+
+/* ENJP Ocean 2.0 Phase 1: additive navigation. Original styles retained. */
+#v2ModeShelf{margin:16px 0 20px;padding:20px;border:1px solid #47618c;border-radius:18px;background:linear-gradient(145deg,#142847,#121b36);color:#f4f7ff;box-shadow:0 14px 40px rgba(0,0,0,.14)}
+#v2ModeShelf *{box-sizing:border-box}
+#v2ModeShelf .v2-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+#v2ModeShelf h2{font-size:clamp(22px,3vw,27px);line-height:1.4;margin:5px 0}
+#v2ModeShelf .v2-kicker{font-size:12px;letter-spacing:.15em;color:#9bc7ed;font-weight:800}
+#v2ModeShelf .v2-caption{color:#c3d3ec;font-size:15px;line-height:1.75;margin:3px 0}
+#v2ModeShelf .v2-toggle{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+#v2ModeShelf button{min-height:44px;cursor:pointer;touch-action:manipulation;font:inherit}
+#v2ModeShelf .v2-switch{background:#223551;color:#d9e5f9;border:1px solid #51698d;padding:10px 15px;border-radius:12px;font-weight:800}
+#v2ModeShelf .v2-switch[aria-pressed="true"]{background:#90c9ed;color:#0a1c36;border-color:#90c9ed}
+#v2ModeShelf .v2-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:16px 0 10px}
+#v2ModeShelf .v2-action{min-width:0;background:#1b3454;border:1px solid #365578;border-radius:13px;padding:14px;text-align:left;color:#f1f6ff}
+#v2ModeShelf .v2-action:hover,#v2ModeShelf .v2-action:focus-visible{border-color:#8bc5e6;background:#254668}
+#v2ModeShelf .v2-action b{display:block;font-size:17px;line-height:1.5}
+#v2ModeShelf .v2-action span{display:block;color:#b7cce8;font-size:14px;line-height:1.5;margin-top:3px}
+#v2ModeShelf .v2-settings{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:14px;padding-top:13px;border-top:1px solid #364b6d}
+#v2ModeShelf .v2-settings label{font-size:14px;color:#e4eefa}
+#v2ModeShelf .v2-settings select{font-size:16px;min-height:44px;max-width:100%;padding:8px 9px;border-radius:9px;border:1px solid #6886ad;background:#152640;color:#fff}
+#v2ModeShelf .v2-status{font-size:13px;color:#b5cce6;line-height:1.5;margin-top:8px}
+body.enjp-v2-font-large .lex-coll-text,body.enjp-v2-font-large .vl-usagejp,body.enjp-v2-font-large .daily-example,body.enjp-v2-font-large #grammarCards p{font-size:20px!important}
+body.enjp-v2-font-xlarge .lex-coll-text,body.enjp-v2-font-xlarge .vl-usagejp,body.enjp-v2-font-xlarge .daily-example,body.enjp-v2-font-xlarge #grammarCards p{font-size:23px!important}
+body.enjp-v2-font-large .lex-coll-cn,body.enjp-v2-font-large .vl-usagecn{font-size:18px!important}
+body.enjp-v2-font-xlarge .lex-coll-cn,body.enjp-v2-font-xlarge .vl-usagecn{font-size:20px!important}
+body.enjp-v2-hide-ruby ruby rt{visibility:hidden!important}
+@media(max-width:740px){#v2ModeShelf{padding:15px}#v2ModeShelf .v2-actions{grid-template-columns:repeat(2,minmax(0,1fr))}#v2ModeShelf .v2-action{padding:12px}#v2ModeShelf .v2-action b{font-size:16px}}
+@media(max-width:390px){#v2ModeShelf .v2-actions{grid-template-columns:1fr}}
