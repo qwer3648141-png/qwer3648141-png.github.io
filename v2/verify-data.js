@@ -22,8 +22,9 @@ function oneLineJSON(name){
 }
 function report(label,value){console.log("✓ "+label+": "+value)}
 const scripts=[...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)];
-assert.equal(scripts.length,1,"Expected exactly one original inline app script");
-new vm.Script(scripts[0][1],{filename:"index.html:inline.js"});
+const inlineScripts=scripts.filter(m=>m[1].trim().length>0);
+assert.equal(inlineScripts.length,1,"Expected exactly one original inline app script");
+new vm.Script(inlineScripts[0][1],{filename:"index.html:inline.js"});
 new vm.Script(v2,{filename:"v2/dual-mode.js"});
 report("JavaScript syntax","main app + v2 bridge parsed");
 const chapters=oneLineJSON("chapterVocab");
