@@ -35,3 +35,12 @@
 - 匯出 JSON → 匯入備份 → 三套學習進度仍完整。
 - iPhone Safari、Mac Safari、Windows Chrome 逐項測試日英語音及 ruby。
 - 原本網站自我檢查通過；開發分支與 main diff 只包含預期變更。
+
+## Phase 2 實際新增（2026-11-03，尚未完成整體改版）
+- 雙模式捷徑延伸：形容詞完整學習連到既有瀏覽學習、形容詞快速特訓連到既有活用輸入題。
+- 文法快速特訓：N5、N4、N3 各自連到原本 `startGrammarQuiz` 的指定等級、十題測驗。這是新入口，不是新增整套文法教材。
+- 修正既有訓練：`lexAnswer` 同一題只允許計分一次；`lexMark` 每日最多升一星，保留舊資料與既有星數，不回溯更改既有紀錄。
+- 新增 `v2/verify-navigation.js`、`v2/verify-legacy-scoring.js` 與 `v2/verify-ruby-dataset.js`。最新七項 GitHub Actions 檢查均通過：[CI #41487578585](https://github.com/qwer3648141-png/qwer3648141-png.github.io/actions/runs/41487578585)。
+- 全資料庫 ruby 自動檢查會保證「表層文字不因轉換被改寫」「不輸出純假名 ruby」。這**不等於每個讀音都有人工校對**。
+- `v2/review-core.js` 的細項五星與批次抽題仍處於獨立測試階段，**還沒有改接正式的歷史學習進度**，不得宣稱完整智慧複習已上線。
+- 目前沒有手機實機語音、版面測試，也沒有把開發分支合併至 `main`。
