@@ -49,3 +49,13 @@
 4. 情境和聽力：情境對話、逐句播放、閱讀理解；語音錯誤清楚提示。
 5. 全面振假名稽核和手機版可讀性；用真實 Safari / Chrome 做回歸。
 6. 分支預覽與 PR。只有經人工確認後才考慮 merge；本階段不得動 `main`。
+
+
+## Phase 2 品質檢查進展（2026-11-02）
+- 已新增 `v2/PHASE2_CHECKLIST.md`，記錄六大功能驗收門檻，仍不修改 `main`。
+- 已新增 `v2/audit-furigana.js`，在 CI 中輸出具來源資訊的注音待確認片段，可在 GitHub Actions Summary 查看最多 100 筆。
+- 本輪來源資料掃描：**5,031 個 ruby 片段**；其中 **111 個混合漢字／假名、53 個純假名 ruby、0 個空白讀音**。這些是原始資料標註的待確認項目，並不等於 164 個最終呈現錯誤。
+- 已新增 `v2/verify-ruby-render.js`，直接擷取既有 `jpRubyKanjiOnly`／`jpRubySurface` 函式驗證七個代表案例：純平假名、純片假名、送り仮名、過去形、並列詞、漢字複合詞和普通文字。
+- CI `ENJP V2 structural checks`：GitHub Actions [#41426828757](https://github.com/qwer3648141-png/qwer3648141-png.github.io/actions/runs/41426828757) **成功**，包含原資料檢查、注音掃描與七例回歸測試。
+- **尚未完成**：5,031 筆每一筆的讀音語境審校、瀏覽器實際視覺呈現、英日語音跨裝置測試；不能因為上述測試成功就宣稱網站全部無誤。
+- 下一階段先增量處理形容詞入口、N5/N4/N3 快速特訓與細項複習資料結構，變更必須只落在 `feature/enjp-ocean-v2`。
