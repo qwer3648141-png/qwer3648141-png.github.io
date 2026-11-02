@@ -16,6 +16,7 @@
     learn:[
       {id:"daily",title:"🌅 完整每日作業",sub:"30 組英日配對、5 文法、聽力與短文"},
       {id:"verb-learn",title:"📘 動詞變化教室",sub:"三類動詞、五段換段與實戰"},
+      {id:"adj-learn",title:"🌷 形容詞完整學習",sub:"い形、な形與例句活用"},
       {id:"grammar-learn",title:"📚 N5～N3 文法",sub:"依程度理解接續規則與例句"},
       {id:"chapters",title:"🌊 30 章英日單字",sub:"挑主題完整學習"},
       {id:"library",title:"🔎 英日單字資料庫",sub:"查找單字、例句和發音"},
@@ -23,8 +24,11 @@
     ],
     quick:[
       {id:"drill",title:"⚡ 英日智慧闖關",sub:"立即開始主動回想"},
-      {id:"verb-quick",title:"✍️ 動詞變化特訓",sub:"直接輸入動詞或形容詞變化"},
-      {id:"grammar-quick",title:"🎯 N4 文法 10 題",sub:"雙向辨認，答錯立即解析"},
+      {id:"verb-quick",title:"✍️ 動詞變化特訓",sub:"三類動詞輸入變化"},
+      {id:"adj-quick",title:"✍️ 形容詞變化特訓",sub:"い形、な形獨立練習"},
+      {id:"grammar-N5",title:"🎯 N5 文法 10 題",sub:"基礎文法雙向測驗"},
+      {id:"grammar-N4",title:"🎯 N4 文法 10 題",sub:"中階文法雙向測驗"},
+      {id:"grammar-N3",title:"🎯 N3 文法 10 題",sub:"進階文法雙向測驗"},
       {id:"focus",title:"💪 弱項衝刺",sub:"優先練習低熟練項目"},
       {id:"listen",title:"🎧 英日聽力挑戰",sub:"先聽再回答"},
       {id:"match",title:"🔄 配對競速",sub:"英日詞彙配對反應練習"}
