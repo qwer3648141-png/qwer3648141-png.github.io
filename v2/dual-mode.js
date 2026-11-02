@@ -73,6 +73,16 @@
       setScreen("lextrain");
       return;
     }
+    if(id==="adj-learn"||id==="adj-quick"){
+      if(typeof lexState!=="undefined"){
+        lexState.filterKind="adj";
+        lexState.topic="all";
+        lexState.mode=id==="adj-learn"?"browse":"conjugation";
+        if(typeof lexSave==="function")lexSave();
+      }
+      setScreen("lextrain");
+      return;
+    }
     if(id==="grammar-learn"){
       setScreen("grammar");
       if(typeof grammarFilter!=="undefined"){grammarFilter="all";renderGrammar();
@@ -80,9 +90,9 @@
       }
       return;
     }
-    if(id==="grammar-quick"){
+    if(/^grammar-N[345]$/.test(id)){
       setScreen("grammar");
-      if(typeof startGrammarQuiz==="function")startGrammarQuiz(false,10,"normal","N4");
+      if(typeof startGrammarQuiz==="function")startGrammarQuiz(false,10,"normal",id.slice(-2));
       return;
     }
     setScreen(id);
