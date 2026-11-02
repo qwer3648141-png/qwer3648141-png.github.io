@@ -1251,6 +1251,14 @@ body::after{
 #verbLabPane .vl-footnote{font-size:15px;margin-bottom:24px}
 @media(max-width:900px){#verbLabPane .vl-soundgrid{grid-template-columns:repeat(3,minmax(0,1fr))}#verbLabPane .vl-notes{grid-template-columns:1fr}}
 @media(max-width:650px){#lextrain .lex-mode-grid{grid-template-columns:repeat(2,minmax(0,1fr))}#verbLabPane .vl-hero{flex-direction:column}#verbLabPane .vl-hero,#verbLabPane .vl-section{padding:16px}#verbLabPane .vl-groups,#verbLabPane .vl-choices{grid-template-columns:1fr}#verbLabPane .vl-soundgrid{grid-template-columns:repeat(2,minmax(0,1fr))}#verbLabPane .vl-group{padding:13px}#verbLabPane h3{font-size:25px}#verbLabPane h4{font-size:21px}#verbLabPane .vl-usagejp{font-size:18px}}
+
+#verbLabPane .vl-sound-rows .vl-table td:nth-child(2){font-size:17px;font-weight:700}
+#verbLabPane .vl-sound-rows .vl-table td{font-size:17px}
+#verbLabPane .vl-sound-rows .vl-table{min-width:580px}
+#verbLabPane .vl-group small,#verbLabPane .vl-soundgrid span,#verbLabPane .vl-notes span{font-size:16px}
+#verbLabPane .vl-table td:nth-child(3),#verbLabPane .vl-usagecn{font-size:17px}
+#verbLabPane .vl-warning,#verbLabPane p{font-size:17px}
+#verbLabPane .vl-footnote{font-size:16px}
 </style>
 
 </head>
@@ -1649,7 +1657,26 @@ body::after{
         <div><b>禮貌形・過去肯定</b><strong>ます → ました</strong><span>書きます → 書きました</span></div>
         <div><b>禮貌形・過去否定</b><strong>ません → ませんでした</strong><span>書きません → 書きませんでした</span></div>
       </div>
-      <div class="vl-section"><h4>② 第一類的「て形／た形」音便速查</h4>
+      
+      <div class="vl-section vl-sound-rows"><h4>② 第一類：ない形／ます形換段速查</h4>
+        <p>老師筆記中的「か・き・く・け・こ」「ま・み・む・め・も」就是同一行五十音的變化。<strong>ない形＝あ段＋ない</strong>，<strong>ます形＝い段＋ます</strong>；唯獨「う」變否定時用「わ」。</p>
+        <div class="vl-tablewrap"><table class="vl-table">
+          <thead><tr><th>辭書形結尾</th><th>ない形尾音</th><th>ます形尾音</th><th>例子</th></tr></thead>
+          <tbody>
+           <tr><td>う</td><td>わない</td><td>います</td><td>買う → 買わない／買います</td></tr>
+           <tr><td>く</td><td>かない</td><td>きます</td><td>書く → 書かない／書きます</td></tr>
+           <tr><td>ぐ</td><td>がない</td><td>ぎます</td><td>泳ぐ → 泳がない／泳ぎます</td></tr>
+           <tr><td>す</td><td>さない</td><td>します</td><td>話す → 話さない／話します</td></tr>
+           <tr><td>つ</td><td>たない</td><td>ちます</td><td>持つ → 持たない／持ちます</td></tr>
+           <tr><td>ぬ</td><td>なない</td><td>にます</td><td>死ぬ → 死なない／死にます</td></tr>
+           <tr><td>ぶ</td><td>ばない</td><td>びます</td><td>遊ぶ → 遊ばない／遊びます</td></tr>
+           <tr><td>む</td><td>まない</td><td>みます</td><td>休む → 休まない／休みます</td></tr>
+           <tr><td>る（第一類）</td><td>らない</td><td>ります</td><td>帰る → 帰らない／帰ります</td></tr>
+          </tbody>
+        </table></div>
+        <div class="vl-warning"><b>小心分類！</b>不是所有「る」都屬第二類。帰る／走る／切る等是第一類。分類請以字典和題庫標註為準，不只看字尾。</div>
+      </div>
+      <div class="vl-section"><h4>③ 第一類的「て形／た形」音便速查</h4>
         <div class="vl-soundgrid">
           <div><b>う・つ・る</b><strong>って／った</strong><span>買う → 買って／買った</span></div>
           <div><b>む・ぶ・ぬ</b><strong>んで／んだ</strong><span>読む → 読んで／読んだ</span></div>
@@ -1659,18 +1686,18 @@ body::after{
         </div>
         <div class="vl-warning">⚠️ <b>行く → 行って／行った</b> 是特例。也別把所有「～いる／～える」都當第二類：<b>帰る、走る、入る、切る、知る</b> 是第一類。</div>
       </div>
-      <div class="vl-section"><div class="vl-heading vl-top"><div><h4>③ 選一個動詞，看完整變化</h4><p>直接使用原本資料庫的動詞和兩組日文運用句，維持「只有漢字上方標平假名」。</p></div><select id="verbLabWordSelect" aria-label="選擇動詞"></select></div>
+      <div class="vl-section"><div class="vl-heading vl-top"><div><h4>④ 選一個動詞，看完整變化</h4><p>直接使用原本資料庫的動詞和兩組日文運用句，維持「只有漢字上方標平假名」。</p></div><select id="verbLabWordSelect" aria-label="選擇動詞"></select></div>
         <div id="verbLabSelected" class="vl-selected"></div>
         <div class="vl-tablewrap"><table class="vl-table"><thead><tr><th>形式</th><th>日文變化</th><th>規則</th><th>聆聽</th></tr></thead><tbody id="verbLabTableBody"></tbody></table></div>
         <div class="vl-use" id="verbLabUsage"></div>
       </div>
-      <div class="vl-section"><div class="vl-heading vl-top"><div><h4>④ 變化闖關</h4><p>「判斷類別」會混合三類；「輸入變化」依你選的類別出題。</p></div>
+      <div class="vl-section"><div class="vl-heading vl-top"><div><h4>⑤ 變化闖關</h4><p>「判斷類別」會混合三類；「輸入變化」依你選的類別出題。</p></div>
         <div class="vl-tabs"><button type="button" id="verbLabQuizClass" class="vl-btn">判斷類別</button><button type="button" id="verbLabQuizForm" class="vl-btn">輸入變化</button></div></div>
         <div id="verbLabPrompt" class="vl-prompt">準備題目</div>
         <div id="verbLabChoices" class="vl-choices"></div>
         <div id="verbLabAnswerRow" class="vl-answerrow" style="display:none"><input id="verbLabAnswerInput" lang="ja" placeholder="輸入日文答案" autocapitalize="off" autocomplete="off" spellcheck="false"><button type="button" id="verbLabCheck" class="vl-btn">檢查答案</button></div>
         <div id="verbLabFeedback" class="vl-feedback" aria-live="polite">先想一想，再揭曉。</div>
-        <div class="vl-footerbtn"><button type="button" id="verbLabNext" class="vl-btn">換一題 →</button><button type="button" id="verbLabReveal" class="vl-btn vl-muted">看答案與解析</button></div>
+        <div class="vl-footerbtn"><button type="button" id="verbLabHear" class="vl-btn">🔊 題目單字</button><button type="button" id="verbLabNext" class="vl-btn">換一題 →</button><button type="button" id="verbLabReveal" class="vl-btn vl-muted">看答案與解析</button></div>
       </div>
       <p class="vl-footnote">教學提醒：普通形的「ない／た」與禮貌形的「ません／ました」要分開理解；「未然形」是語法術語，不是「過去式」的另一個名稱。</p>
     </div>
@@ -2531,7 +2558,7 @@ try{const z=JSON.parse(localStorage.getItem(VL_KEY)||"{}");if(z&&typeof z==="obj
 let vlQuestion=null;
 function vlSave(){try{localStorage.setItem(VL_KEY,JSON.stringify(vlState))}catch(_){}}
 function vlGroupOf(v){return v.type==="godan"?"godan":v.type==="ichidan"?"ichidan":"irregular"}
-function vlPool(group){return LEX_WORDS().filter(v=>v.kind==="verb"&&(group==="all"||vlGroupOf(v)===group)&&(lexState.filterLevel==="all"||v.level===lexState.filterLevel))}
+function vlPool(group){return LEX_WORDS().filter(v=>v.kind==="verb"&&(group==="all"||vlGroupOf(v)===group)&&(lexState.filterLevel==="all"||v.level===lexState.filterLevel)&&(lexState.topic==="all"||v.topic===lexState.topic))}
 function vlForms(v){
  const f=lexVerbForms(v),stem=f["ます形"]?.slice(0,-2),nai=f["ない形"];
  if(!stem||!nai)throw Error("沒有動詞變化："+v.word);
@@ -2581,7 +2608,7 @@ function vlRender(){
  }
  document.getElementById("verbLabQuizClass").classList.toggle("active",vlState.quiz==="classify");
  document.getElementById("verbLabQuizForm").classList.toggle("active",vlState.quiz==="form");
- if(!vlQuestion||vlQuestion.mode!==vlState.quiz)vlNext();
+ if(!vlQuestion||vlQuestion.mode!==vlState.quiz||!vlPool(vlState.quiz==="classify"?"all":vlState.group).some(v=>v.word===vlQuestion.v.word))vlNext();
  vlSave();
 }
 function vlNext(){
@@ -2609,7 +2636,8 @@ function vlNext(){
 function vlSubmit(value,reveal=false){
  const q=vlQuestion;if(!q||q.done)return;
  q.done=true;
- const correct=!reveal&&lexNormalize(value)===lexNormalize(q.answer);
+ const kanaAnswer=q.mode==="form"?vlReadingForms(q.v)[q.key]:null;
+ const correct=!reveal&&(lexNormalize(value)===lexNormalize(q.answer)||(kanaAnswer&&lexNormalize(value)===lexNormalize(kanaAnswer)));
  if(!reveal){vlState.attempts++;if(correct){vlState.correct++;vlState.streak++}else vlState.streak=0}
  const ans=q.mode==="classify"?VL_GROUP[q.answer]:q.answer;
  const fb=document.getElementById("verbLabFeedback");
@@ -2630,6 +2658,7 @@ function vlInit(){
  document.getElementById("verbLabQuizForm").onclick=()=>{vlState.quiz="form";vlQuestion=null;vlRender()};
  document.getElementById("verbLabCheck").onclick=()=>vlSubmit(document.getElementById("verbLabAnswerInput").value);
  document.getElementById("verbLabAnswerInput").onkeydown=e=>{if(e.key==="Enter")vlSubmit(e.target.value)};
+ document.getElementById("verbLabHear").onclick=()=>{if(vlQuestion?.v?.word)speak(vlQuestion.v.word,"ja-JP")};
  document.getElementById("verbLabNext").onclick=vlNext;
  document.getElementById("verbLabReveal").onclick=()=>vlSubmit("",true);
 }
@@ -2687,9 +2716,9 @@ function lexAnswer(value){
 function lexInit(){
  if(document.body.dataset.lexInit)return;document.body.dataset.lexInit="1";
  document.querySelectorAll(".lex-filter").forEach(b=>b.onclick=()=>{lexState.filterKind=b.dataset.lexKind;if(lexState.filterKind==="adj"&&(lexState.mode==="pairs"||lexState.mode==="verblab"))lexState.mode="browse";lexSave();lexRender()});
- document.querySelectorAll(".lex-level").forEach(b=>b.onclick=()=>{lexState.filterLevel=b.dataset.lexLevel;lexSave();lexRender()});
+ document.querySelectorAll(".lex-level").forEach(b=>b.onclick=()=>{lexState.filterLevel=b.dataset.lexLevel;vlQuestion=null;lexSave();lexRender()});
  document.querySelectorAll(".lex-mode").forEach(b=>b.onclick=()=>{lexState.mode=b.dataset.lexMode;if(lexState.mode==="pairs"){lexState.filterKind="verb";lexState.topic="V11"}if(lexState.mode==="verblab"){lexState.filterKind="verb";lexState.topic="all"}lexSave();lexRender()});
- document.getElementById("lexTopicSelect").onchange=e=>{lexState.topic=e.target.value;lexSave();lexRender()};
+ document.getElementById("lexTopicSelect").onchange=e=>{lexState.topic=e.target.value;vlQuestion=null;lexSave();lexRender()};
  document.getElementById("lexSearch").oninput=lexRenderBrowse;
  document.getElementById("lexTrainCheck").onclick=()=>lexAnswer(document.getElementById("lexTrainInput").value);
  document.getElementById("lexTrainInput").addEventListener("keydown",e=>{if(e.key==="Enter")lexAnswer(e.target.value)});
