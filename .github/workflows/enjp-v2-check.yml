@@ -20,3 +20,4 @@ jobs:
           node-version: '22'
       - run: node v2/verify-data.js
       - run: node v2/audit-furigana.js
+      - run: node v2/verify-ruby-render.js
