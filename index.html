@@ -1968,132 +1968,61 @@ function ensureVoices(langOrTimeout="",timeout=3200){
 }
 function speechRate(lang){return String(lang).toLowerCase().startsWith("ja")?Math.max(.6,Math.min(1.15,Number(store.voiceRateJp)||.82)):Math.max(.6,Math.min(1.15,Number(store.voiceRateEn)||.90));}
 
-function speechErrorIsBenign(code){
-  return code==="canceled"||code==="interrupted"||code==="superseded";
-}
-function speechErrorCanRetry(code){
-  return ["canceled","interrupted","audio-busy","network","synthesis-failed","synthesis-unavailable","voice-unavailable","language-unavailable","start-timeout"].includes(code);
-}
-function waitMs(ms){return new Promise(r=>setTimeout(r,ms));}
-
-function runSpeechAttempt(cleaned,lang,voice,runId,attempt){
+// WebKit/iOS requires speechSynthesis.speak() in the original click stack.
+// Never await a voice list or use a timer before the first speak() call.
+function speak(text,lang){
+  const locale=String(lang||"ja-JP"),isJa=locale.toLowerCase().startsWith("ja");
+  if(!("speechSynthesis" in window)||typeof SpeechSynthesisUtterance==="undefined"){
+    toast("此瀏覽器不支援語音播放");return Promise.resolve(false);
+  }
+  const content=safeSpeechText(text,locale);
+  if(!content)return Promise.resolve(false);
+  const synth=window.speechSynthesis,id=++speechRunId;
+  let voice=voiceFor(locale);
+  if(!voice){refreshVoices();voice=voiceFor(locale)}
+  const u=new SpeechSynthesisUtterance(content);
+  u.lang=locale; // even when Safari has not published its voice list
+  if(voice)u.voice=voice;
+  u.rate=speechRate(locale);u.pitch=1;u.volume=1;
   return new Promise(resolve=>{
-    if(runId!==speechRunId){resolve({ok:false,code:"superseded"});return}
-
-    const u=new SpeechSynthesisUtterance(cleaned);
-    u.voice=voice;
-    u.lang=voice?.lang||lang;
-    u.rate=speechRate(lang);
-    u.pitch=1;
-    u.volume=1;
-
-    let settled=false;
-    let started=false;
-    const settle=(ok,code="")=>{
-      if(settled)return;
-      settled=true;
-      clearTimeout(startWatch);
-      resolve({ok,code});
+    let done=false,started=false,watch=null;
+    const finish=ok=>{
+      if(done)return;
+      done=true;
+      if(watch!==null)clearTimeout(watch);
+      resolve(ok);
     };
-
     u.onstart=()=>{started=true};
-    u.onend=()=>{
-      if(runId!==speechRunId){settle(false,"superseded");return}
-      settle(true,"");
-    };
+    u.onend=()=>finish(id===speechRunId);
     u.onerror=e=>{
-      const code=String(e?.error||"unknown");
-      console.warn("ENJP speech error",code);
-      if(runId!==speechRunId){settle(false,"superseded");return}
-      settle(false,code);
+      const error=String(e?.error||"unknown");
+      if(id!==speechRunId||error==="canceled"||error==="interrupted"){finish(false);return}
+      console.warn("ENJP TTS",error);
+      if(error==="not-allowed")toast("⚠ 瀏覽器阻擋語音，請直接點擊播放鍵重試");
+      else if(["language-unavailable","voice-unavailable","synthesis-unavailable"].includes(error))
+        toast(isJa?"⚠ 找不到日文語音，請確認裝置已安裝日本語聲線":"⚠ 找不到英文語音，請確認裝置語音設定");
+      else toast(isJa?"⚠ 日文語音無法播放，請再按一次":"⚠ 英文語音無法播放，請再按一次");
+      finish(false);
     };
-
-    // Some Safari/Chrome builds occasionally accept speak() without starting it.
-    const startWatch=setTimeout(()=>{
-      if(settled||started)return;
-      settle(false,"start-timeout");
-      try{window.speechSynthesis.cancel()}catch(_){}
-    },attempt===0?1500:1900);
-
-    setTimeout(()=>{
-      if(runId!==speechRunId){settle(false,"superseded");return}
-      try{
-        window.speechSynthesis.resume();
-        window.speechSynthesis.speak(u);
-      }catch(e){
-        console.warn("ENJP speech exception",e);
-        settle(false,"exception");
-      }
-    },attempt===0?80:180);
+    try{
+      if(synth.speaking||synth.pending||synth.paused)synth.cancel();
+      if(synth.paused)synth.resume();
+      synth.speak(u); // synchronous, same user activation as click
+      if(!done)watch=setTimeout(()=>{
+        if(done||started||id!==speechRunId||synth.speaking)return;
+        console.warn("ENJP TTS start timeout");
+        try{synth.cancel()}catch(_){}
+        toast(isJa?"⚠ 日文語音沒有啟動，請重按播放鍵":"⚠ 英文語音沒有啟動，請重按播放鍵");
+        finish(false);
+      },4500);
+    }catch(e){
+      console.warn("ENJP TTS exception",e);
+      if(id===speechRunId)toast("⚠ 語音啟動失敗，請重新點擊播放");
+      finish(false);
+    }
   });
 }
 
-async function speak(text,lang){
-  if(!("speechSynthesis" in window)){toast("此瀏覽器不支援語音");return false}
-  const isJa=String(lang).toLowerCase().startsWith("ja");
-  const runId=++speechRunId;
-
-  // Stopping a previous clip is normal. Its canceled/interrupted event must stay silent.
-  try{window.speechSynthesis.cancel()}catch(_){}
-  await waitMs(120);
-  if(runId!==speechRunId)return false;
-
-  // Crucial: wait for JA when JA was requested; English voices loading first is not enough.
-  await ensureVoices(lang,3600);
-  if(runId!==speechRunId)return false;
-
-  let voice=voiceFor(lang);
-  if(!voice){
-    await waitMs(280);
-    refreshVoices();
-    voice=voiceFor(lang);
-  }
-  if(runId!==speechRunId)return false;
-
-  if(!voice){
-    populateVoiceSelectors();
-    toast(isJa?"⚠ 日文語音尚未載入，請稍後再按一次":"⚠ 英文語音尚未載入，請稍後再按一次");
-    return false;
-  }
-
-  const cleaned=safeSpeechText(text,lang);
-  if(!cleaned)return false;
-
-  let lastCode="";
-  for(let attempt=0;attempt<2;attempt++){
-    if(runId!==speechRunId)return false;
-
-    refreshVoices();
-    voice=voiceFor(lang)||voice;
-    if(!voice){lastCode="voice-unavailable";break}
-
-    const result=await runSpeechAttempt(cleaned,lang,voice,runId,attempt);
-    if(result.ok)return true;
-    lastCode=result.code||"unknown";
-
-    if(runId!==speechRunId || lastCode==="superseded")return false;
-    if(attempt===0 && speechErrorCanRetry(lastCode)){
-      // Refresh the actual language voice before the retry.
-      if(lastCode==="voice-unavailable"||lastCode==="language-unavailable"){
-        await ensureVoices(lang,1800);
-      }else{
-        await waitMs(260);
-      }
-      continue;
-    }
-    break;
-  }
-
-  // canceled/interrupted are often browser housekeeping, not real user-visible failures.
-  if(speechErrorIsBenign(lastCode))return false;
-
-  if(lastCode==="not-allowed"){
-    toast("⚠ 瀏覽器暫時阻擋語音，請再按一次播放");
-  }else{
-    toast(isJa?"⚠ 日文語音暫時無法播放，請再按一次":"⚠ 英文語音暫時無法播放，請再按一次");
-  }
-  return false;
-}
 function shuffle(a){
   const out=[...a];
   for(let i=out.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[out[i],out[j]]=[out[j],out[i]]}
