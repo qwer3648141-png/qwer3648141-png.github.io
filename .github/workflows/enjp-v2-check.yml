@@ -23,3 +23,4 @@ jobs:
       - run: node v2/verify-ruby-render.js
       - run: node v2/verify-review-core.js
       - run: node v2/verify-navigation.js
+      - run: node v2/verify-ruby-dataset.js
