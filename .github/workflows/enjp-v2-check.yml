@@ -22,3 +22,4 @@ jobs:
       - run: node v2/audit-furigana.js
       - run: node v2/verify-ruby-render.js
       - run: node v2/verify-review-core.js
+      - run: node v2/verify-navigation.js
