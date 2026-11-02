@@ -2541,7 +2541,11 @@ function vlForms(v){
 }
 function vlReadingForms(v){
  if(v.word==="来る")return {"辭書形":"くる","ます形":"きます","ません形":"きません","ました形":"きました","ませんでした形":"きませんでした","ない形":"こない","なかった形":"こなかった","て形":"きて","た形":"きた"};
- return {"辭書形":v.reading,...vlForms({...v,word:v.reading})};
+ const r={"辭書形":v.reading,...vlForms({...v,word:v.reading})};
+ // 行く is a godan exception: て形・た形 are 行って／行った.
+ // The kana-only pseudo-verb いく has no kanji trigger, so correct it here.
+ if(v.word==="行く"){r["て形"]="いって";r["た形"]="いった"}
+ return r;
 }
 function vlRuleText(group){
  if(group==="godan")return "<b>第一類：</b>語尾可在五十音的不同段移動。ます形換「い段＋ます」，ない形換「あ段＋ない」，<b>う→わない</b>。例如：書く→書きます／書かない。て形、た形需記音便表。";
@@ -2682,7 +2686,7 @@ function lexAnswer(value){
 }
 function lexInit(){
  if(document.body.dataset.lexInit)return;document.body.dataset.lexInit="1";
- document.querySelectorAll(".lex-filter").forEach(b=>b.onclick=()=>{lexState.filterKind=b.dataset.lexKind;if(lexState.filterKind==="adj"&&lexState.mode==="pairs")lexState.mode="browse";lexSave();lexRender()});
+ document.querySelectorAll(".lex-filter").forEach(b=>b.onclick=()=>{lexState.filterKind=b.dataset.lexKind;if(lexState.filterKind==="adj"&&(lexState.mode==="pairs"||lexState.mode==="verblab"))lexState.mode="browse";lexSave();lexRender()});
  document.querySelectorAll(".lex-level").forEach(b=>b.onclick=()=>{lexState.filterLevel=b.dataset.lexLevel;lexSave();lexRender()});
  document.querySelectorAll(".lex-mode").forEach(b=>b.onclick=()=>{lexState.mode=b.dataset.lexMode;if(lexState.mode==="pairs"){lexState.filterKind="verb";lexState.topic="V11"}if(lexState.mode==="verblab"){lexState.filterKind="verb";lexState.topic="all"}lexSave();lexRender()});
  document.getElementById("lexTopicSelect").onchange=e=>{lexState.topic=e.target.value;lexSave();lexRender()};
