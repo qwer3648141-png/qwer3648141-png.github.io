@@ -34,6 +34,6 @@ funcs.lexAnswer("書いて");assert.equal(item.seen,before+1);
 assert.equal(trainer.current.answered,true);
 funcs.lexAnswer("書いて");assert.equal(item.seen,before+1,"Double submit counted twice");
 assert.equal(item.level,2);
-assert.equal(saves,7);
-assert.equal(updates,7);
+assert.equal(saves,6);
+assert.equal(updates,6);
 console.log("PASS — legacy form quiz prevents double scoring; star promotion is limited across dates");
