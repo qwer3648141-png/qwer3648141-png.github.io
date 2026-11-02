@@ -19,3 +19,4 @@ jobs:
         with:
           node-version: '22'
       - run: node v2/verify-data.js
+      - run: node v2/audit-furigana.js
