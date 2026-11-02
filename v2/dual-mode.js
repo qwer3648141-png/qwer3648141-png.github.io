@@ -109,7 +109,7 @@
       save();render();
     });
     render();
-    window.ENJP_V2_INTERFACE={version:"2.0-phase1",readPreferences:function(){return Object.assign({},pref)},open:navigate};
+    window.ENJP_V2_INTERFACE={version:"2.0-phase2",readPreferences:function(){return Object.assign({},pref)},open:navigate};
   }
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init,{once:true});else init();
 })();
