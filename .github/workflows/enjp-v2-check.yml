@@ -1,0 +1,21 @@
+name: ENJP V2 structural checks
+on:
+  push:
+    branches:
+      - feature/enjp-ocean-v2
+  pull_request:
+    paths:
+      - index.html
+      - v2/**
+      - .github/workflows/enjp-v2-check.yml
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node v2/verify-data.js
