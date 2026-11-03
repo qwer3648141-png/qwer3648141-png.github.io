@@ -39,9 +39,10 @@ const sandbox={window,document,localStorage:storage,Date:FixedDate,
  speak:()=>true};
 vm.runInNewContext(js,sandbox);
 assert(window.ENJP_V2_REVIEW_HUB,"Review hub missing from window");
+const get=key=>pane.querySelector("[data-review-"+key+"]");
+get("kind").value="all";get("count").value="10";
 window.ENJP_V2_REVIEW_HUB.open();
 assert.equal(pane.hidden,false);
-const get=key=>pane.querySelector("[data-review-"+key+"]");
 assert(get("summary").textContent.includes("待複習 2 項"));
 get("kind").value="verb";get("kind").events.change();
 get("start").click();
