@@ -20,6 +20,7 @@
       {id:"grammar-learn",title:"📚 N5～N3 文法",sub:"依程度理解接續規則與例句"},
       {id:"chapters",title:"🌊 30 章英日單字",sub:"挑主題完整學習"},
       {id:"library",title:"🔎 英日單字資料庫",sub:"查找單字、例句和發音"},
+      {id:"review",title:"🧠 智慧複習中心",sub:"跨日到期題目與批次練習"},
       {id:"settings",title:"⚙️ 設定與備份",sub:"音色、語速與學習進度"}
     ],
     quick:[
@@ -29,6 +30,7 @@
       {id:"grammar-N5",title:"🎯 N5 文法 10 題",sub:"基礎文法雙向測驗"},
       {id:"grammar-N4",title:"🎯 N4 文法 10 題",sub:"中階文法雙向測驗"},
       {id:"grammar-N3",title:"🎯 N3 文法 10 題",sub:"進階文法雙向測驗"},
+      {id:"review",title:"🧠 智慧批次複習",sub:"10／20／30 題或最多 100 題"},
       {id:"focus",title:"💪 弱項衝刺",sub:"優先練習低熟練項目"},
       {id:"listen",title:"🎧 英日聽力挑戰",sub:"先聽再回答"},
       {id:"match",title:"🔄 配對競速",sub:"英日詞彙配對反應練習"}
@@ -63,6 +65,11 @@
   }
   function navigate(id){
     if(typeof setScreen!=="function")return;
+    if(id==="review"){
+      setScreen("home");
+      if(window.ENJP_V2_REVIEW_HUB)window.ENJP_V2_REVIEW_HUB.open();
+      return;
+    }
     if(id==="verb-learn"||id==="verb-quick"){
       if(typeof lexState!=="undefined"){
         lexState.filterKind="verb";
