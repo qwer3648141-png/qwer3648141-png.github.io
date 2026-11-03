@@ -1262,6 +1262,7 @@ body::after{
 </style>
 
 <link rel="stylesheet" href="v2/dual-mode.css">
+<link rel="stylesheet" href="v2/review-hub.css">
 </head>
 <body>
 <div id="app">
@@ -3387,7 +3388,7 @@ document.getElementById("testVoices").onclick=async()=>{
 };
 
 function collectProgressPayload(reason="manual"){
-  const payload={app:"ENJP Ocean",version:41,exportedAt:new Date().toISOString(),reason,state:store,matchBest:{},lexTrain:lexState,verbLab:vlState,uiPrefs:localStorage.getItem("enjpV2InterfacePrefs")};
+  const payload={app:"ENJP Ocean",version:41,exportedAt:new Date().toISOString(),reason,state:store,matchBest:{},lexTrain:lexState,verbLab:vlState,uiPrefs:localStorage.getItem("enjpV2InterfacePrefs"),v2Review:localStorage.getItem("enjpV2ReviewProgress")};
   for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith("enjpMatchBest"))payload.matchBest[k]=localStorage.getItem(k);}
   return payload;
 }
@@ -3419,6 +3420,8 @@ function applyProgressPayload(payload){
   if(payload?.lexTrain&&typeof payload.lexTrain==="object")localStorage.setItem(LEX_STORE_KEY,JSON.stringify(payload.lexTrain));
   if(payload?.verbLab&&typeof payload.verbLab==="object")localStorage.setItem(VL_KEY,JSON.stringify(payload.verbLab));
   if(typeof payload?.uiPrefs==="string")localStorage.setItem("enjpV2InterfacePrefs",payload.uiPrefs);
+  if(typeof payload?.v2Review==="string")localStorage.setItem("enjpV2ReviewProgress",payload.v2Review);
+  else localStorage.removeItem("enjpV2ReviewProgress");
 }
 function importLearningProgress(file){
   if(!file)return;const reader=new FileReader();
@@ -3437,7 +3440,7 @@ document.getElementById("exportProgress").onclick=exportLearningProgress;
 document.getElementById("importProgressBtn").onclick=()=>document.getElementById("progressImport").click();
 document.getElementById("progressImport").onchange=e=>{const f=e.target.files?.[0];if(f&&confirm("匯入會以備份內容取代目前學習進度；系統會先自動保存現在這份進度。確定繼續嗎？"))importLearningProgress(f);e.target.value="";};
 document.getElementById("restoreSafetyBackup").onclick=restoreSafetyProgress;
-document.getElementById("resetData").onclick=()=>{if(confirm("確定要清除所有學習紀錄嗎？系統會先保留一份安全備份。")){if(!createSafetyBackup("before-reset")){toast("❌ 無法建立安全備份，已取消重置");return;}localStorage.removeItem("enjpQuestState");localStorage.removeItem(LEX_STORE_KEY);localStorage.removeItem(VL_KEY);for(let i=localStorage.length-1;i>=0;i--){const k=localStorage.key(i);if(k&&k.startsWith("enjpMatchBest"))localStorage.removeItem(k)}location.reload()}};
+document.getElementById("resetData").onclick=()=>{if(confirm("確定要清除所有學習紀錄嗎？系統會先保留一份安全備份。")){if(!createSafetyBackup("before-reset")){toast("❌ 無法建立安全備份，已取消重置");return;}localStorage.removeItem("enjpQuestState");localStorage.removeItem(LEX_STORE_KEY);localStorage.removeItem(VL_KEY);localStorage.removeItem("enjpV2ReviewProgress");for(let i=localStorage.length-1;i>=0;i--){const k=localStorage.key(i);if(k&&k.startsWith("enjpMatchBest"))localStorage.removeItem(k)}location.reload()}};
 updateBackupStatus();
 
 // ===== Website Daily Mission =====
@@ -3579,5 +3582,8 @@ if("speechSynthesis" in window){
 }
 </script>
 <script src="v2/dual-mode.js" defer></script>
+<script src="v2/review-core.js" defer></script>
+<script src="v2/review-batch.js" defer></script>
+<script src="v2/review-hub.js" defer></script>
 </body>
 </html>
