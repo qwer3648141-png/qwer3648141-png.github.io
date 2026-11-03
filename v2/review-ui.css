@@ -1,0 +1,35 @@
+/* ENJP Ocean V2: compact mobile-friendly batch review. */
+.v2-review-panel{margin:16px 0 22px;padding:22px;border:1px solid #456587;border-radius:18px;background:linear-gradient(145deg,#101f38,#141b34);color:#eff6ff}
+.v2-review-panel[hidden],.v2-review-panel [hidden]{display:none!important}
+.v2-review-panel *{box-sizing:border-box}
+.v2-review-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.v2-review-kicker{font-size:12px;font-weight:800;letter-spacing:.1em;color:#91d1ec}
+.v2-review-header h2{font-size:clamp(22px,4vw,28px);line-height:1.5;margin:4px 0 6px}
+.v2-review-header p{color:#c5d3ea;font-size:16px;line-height:1.6;margin:0}
+.v2-review-panel button{cursor:pointer;min-height:44px;font:inherit;border-radius:11px;padding:9px 13px;border:1px solid #6183ac;background:#24476a;color:#f8fbff;touch-action:manipulation}
+.v2-review-panel button:disabled{cursor:default;opacity:.47}
+.v2-review-panel button:focus-visible,.v2-review-panel input:focus-visible,.v2-review-panel select:focus-visible{outline:3px solid #9ccef0;outline-offset:2px}
+.v2-review-panel #v2ReviewClose{background:#1a2d49}
+.v2-review-toolbar{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+.v2-review-toolbar label{font-size:15px;color:#d1dfec;flex:1 1 160px}
+.v2-review-toolbar select{display:block;width:100%;min-height:44px;margin-top:6px;border-radius:10px;border:1px solid #6382aa;background:#152943;color:#fff;padding:8px;font-size:16px}
+.v2-review-info,.v2-review-stats{font-size:15px;line-height:1.7;color:#d0e1f1;margin:9px 0}
+.v2-review-stats{font-weight:700}
+.v2-review-start{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
+.v2-review-start button{flex:1 1 170px}
+.v2-review-start button:first-child{background:#76bddd;border-color:#76bddd;color:#0d233a;font-weight:800}
+.v2-review-question{padding:18px;border:1px solid #3e5678;background:#192b47;border-radius:15px;margin-top:18px}
+.v2-review-question #v2ReviewProgress{font-size:14px;font-weight:700;color:#9bcae3;margin:0 0 12px}
+.v2-review-prompt{font-size:clamp(23px,5vw,31px);font-weight:800;line-height:1.9;overflow-wrap:anywhere;min-height:45px}
+.v2-review-prompt ruby rt{font-size:.55em;color:#a4d9f5;font-weight:700}
+.v2-review-question #v2ReviewDetail{font-size:16px;color:#d2e0ed;line-height:1.7;margin:8px 0 16px}
+.v2-review-question #v2ReviewInput{width:100%;min-height:52px;border-radius:11px;border:1px solid #7a99ba;background:#111f33;color:#fff;padding:11px 13px;font-size:21px}
+.v2-review-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.v2-review-options button{text-align:left;min-height:56px;font-size:16px;line-height:1.55;overflow-wrap:anywhere}
+.v2-review-options button.correct{border-color:#82c8a3;background:#285647;color:white}
+#v2ReviewActions{display:flex;gap:10px;flex-wrap:wrap;margin-top:13px}
+#v2ReviewActions button{flex:1 1 140px}
+#v2ReviewActions #v2ReviewReveal{background:#283752}
+#v2ReviewActions #v2ReviewNext{background:#86bfde;color:#10233b;font-weight:800}
+#v2ReviewFeedback{font-size:16px;line-height:1.7;color:#f1f6ff;min-height:30px}
+@media(max-width:650px){.v2-review-panel{padding:15px}.v2-review-question{padding:13px}.v2-review-options{grid-template-columns:1fr}}
