@@ -33,7 +33,7 @@ for(const file of ["review-core.js","review-batch.js","review-hub.js"]){
  const matches=html.match(new RegExp('src="v2/'+file.replace(".", "\\.")+'"',"g"))||[];
  assert.equal(matches.length,1,"Expected exactly one reference to "+file);
 }
-assert.equal((html.match(/src="v2\\/review-ui\\.js"/g)||[]).length,0,"Duplicate review UI must not load");
+assert(!html.includes('src="v2/review-ui.js"'),"Duplicate review UI must not load");
 assert(html.includes('v2Review:localStorage.getItem("enjpV2ReviewProgress")'),"V2 review backup field missing");
 assert(html.includes('localStorage.setItem("enjpV2ReviewProgress",payload.v2Review)'),"V2 review import missing");
 assert(html.includes('localStorage.removeItem("enjpV2ReviewProgress")'),"V2 review reset missing");
