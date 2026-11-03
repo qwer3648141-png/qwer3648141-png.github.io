@@ -27,6 +27,17 @@ assert.equal(inlineScripts.length,1,"Expected exactly one original inline app sc
 new vm.Script(inlineScripts[0][1],{filename:"index.html:inline.js"});
 new vm.Script(v2,{filename:"v2/dual-mode.js"});
 report("JavaScript syntax","main app + v2 bridge parsed");
+for(const file of ["review-core.js","review-batch.js","review-hub.js"]){
+ const source=fs.readFileSync(path.join(__dirname,file),"utf8");
+ new vm.Script(source,{filename:"v2/"+file});
+ const matches=html.match(new RegExp('src="v2/'+file.replace(".", "\\.")+'"',"g"))||[];
+ assert.equal(matches.length,1,"Expected exactly one reference to "+file);
+}
+assert.equal((html.match(/src="v2\\/review-ui\\.js"/g)||[]).length,0,"Duplicate review UI must not load");
+assert(html.includes('v2Review:localStorage.getItem("enjpV2ReviewProgress")'),"V2 review backup field missing");
+assert(html.includes('localStorage.setItem("enjpV2ReviewProgress",payload.v2Review)'),"V2 review import missing");
+assert(html.includes('localStorage.removeItem("enjpV2ReviewProgress")'),"V2 review reset missing");
+report("V2 review integration","single UI, isolated progress and backup hooks parsed");
 const chapters=oneLineJSON("chapterVocab");
 const chapterIds=Object.keys(chapters);
 assert.equal(chapterIds.length,30,"30 Chapters required");
