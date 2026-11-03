@@ -1,0 +1,34 @@
+/* ENJP V2 additive review panel; no changes to legacy page classes. */
+#v2ReviewHub{margin:18px 0 22px;padding:20px;border:1px solid #456484;border-radius:18px;background:linear-gradient(145deg,#10233b,#10182d);color:#f4f8ff}
+#v2ReviewHub *{box-sizing:border-box}
+#v2ReviewHub [hidden]{display:none!important}
+#v2ReviewHub .v2-review-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+#v2ReviewHub h2{font-size:clamp(23px,3vw,28px);line-height:1.4;margin:5px 0 8px}
+#v2ReviewHub p{font-size:16px;line-height:1.8;margin:5px 0;color:#c2d3ec}
+#v2ReviewHub .v2-review-kicker{font-size:12px;letter-spacing:.13em;color:#9bcbe5;font-weight:800}
+#v2ReviewHub button,#v2ReviewHub select,#v2ReviewHub input{font:inherit;font-size:16px;border-radius:10px;min-height:44px}
+#v2ReviewHub button{padding:10px 15px;cursor:pointer;border:1px solid #56799b;background:#24496c;color:#f1f7ff;font-weight:700}
+#v2ReviewHub button:disabled{opacity:.47;cursor:default}
+#v2ReviewHub button:hover:not(:disabled),#v2ReviewHub button:focus-visible{border-color:#9cd9ee;background:#31577c}
+#v2ReviewHub .v2-review-controls{display:flex;flex-wrap:wrap;gap:12px;margin:18px 0 10px}
+#v2ReviewHub label{display:grid;gap:6px;font-weight:700;font-size:15px;color:#e3f0ff}
+#v2ReviewHub select,#v2ReviewHub input{background:#0b192d;color:#f4f8ff;padding:10px 12px;border:1px solid #55779d;max-width:100%}
+#v2ReviewHub .v2-review-summary{padding:11px 13px;background:#1e3551;border-radius:10px;color:#d7e9f7}
+#v2ReviewHub .v2-review-buttons{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
+#v2ReviewHub [data-review-session]{margin-top:18px;padding-top:16px;border-top:1px solid #3b5579}
+#v2ReviewHub .v2-review-meta{display:flex;justify-content:space-between;gap:10px;color:#addbf2;font-size:14px;font-weight:750}
+#v2ReviewHub .v2-review-question{font-size:clamp(23px,4vw,29px);line-height:2.1;font-weight:750;overflow-wrap:anywhere;margin-top:10px}
+#v2ReviewHub ruby{ruby-position:over}
+#v2ReviewHub rt{font-size:.57em;color:#b5d9f6}
+#v2ReviewHub .v2-review-hint{font-size:16px;color:#b5cce1}
+#v2ReviewHub .v2-review-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}
+#v2ReviewHub .v2-review-option{text-align:left;white-space:normal;overflow-wrap:anywhere}
+#v2ReviewHub .v2-review-input{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+#v2ReviewHub .v2-review-input input{flex:1 1 190px;min-width:0}
+#v2ReviewHub .v2-review-feedback{min-height:28px;color:#f2e2c4;font-weight:650}
+@media(max-width:600px){
+ #v2ReviewHub{padding:15px}
+ #v2ReviewHub .v2-review-controls label{flex:1 1 120px}
+ #v2ReviewHub .v2-review-options{grid-template-columns:1fr}
+ #v2ReviewHub .v2-review-buttons button{flex:1 1 135px}
+}
