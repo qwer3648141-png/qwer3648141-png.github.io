@@ -9,7 +9,7 @@ let pane=null,queue=[],position=0,answered=false,correctCount=0,sessionTotal=0,s
 function localDay(){
  const d=new Date();return [d.getFullYear(),String(d.getMonth()+1).padStart(2,"0"),String(d.getDate()).padStart(2,"0")].join("-");
 }
-function read(){try{const raw=JSON.parse(localStorage.getItem(KEY)||"{}");return raw&&typeof raw==="object"&&!Array.isArray(raw)?raw:{}}catch(_){return {}}}
+function read(){const saved=localStorage.getItem(KEY);if(!saved)return {};const raw=JSON.parse(saved);if(!raw||typeof raw!=="object"||Array.isArray(raw))throw Error("Invalid review history");return raw;}
 function materials(){
  return {day:localDay(),words:typeof LEX_WORDS==="function"?LEX_WORDS():[],
  grammar:typeof grammarBank!=="undefined"?grammarBank:[],
@@ -21,7 +21,12 @@ function node(sel){return pane.querySelector(sel)}
 function announce(t){node("[data-review-message]").textContent=t}
 function setVisible(sel,show){node(sel).hidden=!show}
 function stats(){
- const data=batch.items(materials()),kind=node("[data-review-kind]").value;
+ let data;try{data=batch.items(materials())}catch(e){
+  node("[data-review-summary]").textContent="複習紀錄需要檢查";
+  node("[data-review-start]").disabled=true;node("[data-review-fresh]").disabled=true;
+  announce("無法讀取複習紀錄；為保護原本進度，已暫停作答。請先備份目前資料。");return;
+ }
+ const kind=node("[data-review-kind]").value;
  const due=data.due.filter(t=>kind==="all"||t.kind===kind),known=Object.keys(read()).length;
  node("[data-review-summary]").textContent="待複習 "+due.length+" 項｜2.0 細項紀錄 "+known+" 項（舊資料會自動納入待複習判斷）";
  node("[data-review-start]").disabled=due.length===0;
@@ -71,7 +76,8 @@ function displayQuestion(t){
  node("[data-review-audio]").hidden=t.kind==="grammar";
 }
 function start(mode){
- const data=batch.items(materials()),kind=node("[data-review-kind]").value;
+ let data;try{data=batch.items(materials())}catch(e){stats();return;}
+ const kind=node("[data-review-kind]").value;
  const limit=Number(node("[data-review-count]").value)||10;
  const pool=mode==="due"?data.due:[...data.fresh].sort(()=>Math.random()-.5);
  queue=batch.select(pool,{kind,limit});
@@ -87,9 +93,10 @@ function normalize(s){
 function submit(value,reveal){
  if(answered||!queue[position])return;
  const t=queue[position],correct=!reveal&&normalize(value)===normalize(t.answer);
- const detailed=read(),day=localDay();
+ const day=localDay();
  let next;
  try{
+  const detailed=read();
   next=core.grade(detailed[t.key],{day,correct:reveal?true:correct,revealed:!!reveal,type:t.kind==="grammar"?"choice":"input"});
   const replacement={...detailed,[t.key]:next};
   localStorage.setItem(KEY,JSON.stringify(replacement));
