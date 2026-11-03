@@ -26,4 +26,4 @@ jobs:
       - run: node v2/verify-ruby-dataset.js
       - run: node v2/verify-legacy-scoring.js
       - run: node v2/verify-review-batch.js
-      - run: node v2/verify-review-ui.js
+      - run: node v2/verify-review-hub.js
