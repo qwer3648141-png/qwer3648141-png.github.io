@@ -73,9 +73,8 @@ function displayQuestion(t){
 function start(mode){
  const data=batch.items(materials()),kind=node("[data-review-kind]").value;
  const limit=Number(node("[data-review-count]").value)||10;
- const pool=mode==="due"?data.due:data.fresh;
+ const pool=mode==="due"?data.due:[...data.fresh].sort(()=>Math.random()-.5);
  queue=batch.select(pool,{kind,limit});
- if(mode!=="due")queue=queue.sort(()=>Math.random()-.5);
  if(!queue.length){stats();announce(mode==="due"?"此類別目前沒有到期題目":"此類別暫時沒有新的練習內容");return}
  sourceMode=mode;position=0;correctCount=0;sessionTotal=queue.length;answered=false;
  setVisible("[data-review-session]",true);
