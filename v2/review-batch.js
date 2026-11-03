@@ -25,7 +25,7 @@ function items(opts){
    if(Object.prototype.hasOwnProperty.call(detailed,key)){
     const dueAt=core.record(detailed[key]).due;
     if(dueAt&&dueAt<=day)make(v.kind,v.word,skill,v,answer,v.meaning,v.level,dueAt);
-   }
+   }else if(recorded)make(v.kind,v.word,skill,v,answer,v.meaning,v.level,null);
   }
   if(!recorded){
    const old=oldLex[v.kind+":"+v.word];
@@ -44,7 +44,7 @@ function items(opts){
    if(Object.prototype.hasOwnProperty.call(detailed,key)){
     const dueAt=core.record(detailed[key]).due;
     if(dueAt&&dueAt<=day)make("grammar",g.f,skill,g,skill==="meaning"?g.m:g.f,g.m,g.lv,dueAt);
-   }
+   }else if(recorded)make("grammar",g.f,skill,g,skill==="meaning"?g.m:g.f,g.m,g.lv,null);
   }
   if(!recorded){
    const old=oldGrammar[g.f];
