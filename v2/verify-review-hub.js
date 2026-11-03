@@ -63,4 +63,14 @@ assert.equal(grammarCalls,1,"Grammar repeated clicks must not score twice");
 progress=JSON.parse(data.get("enjpV2ReviewProgress"));
 assert.equal(Object.keys(progress).length,2);
 assert.equal(oldLex["verb:書く"].seen,2,"Adapter must not mutate existing progress itself");
-console.log("PASS — live review hub: start verb and grammar batches, answer, save detail, double-submit prevention and existing scoring bridge");
+// Corrupt storage must never be interpreted as empty and silently overwritten.
+data.set("enjpV2ReviewProgress","{broken-json");
+get("kind").events.change();
+assert(get("summary").textContent.includes("需要檢查"));
+assert.equal(get("start").disabled,true);
+assert.equal(get("fresh").disabled,true);
+get("start").click();
+assert.equal(data.get("enjpV2ReviewProgress"),"{broken-json");
+assert.equal(legacyCalls,1);
+assert.equal(grammarCalls,1);
+console.log("PASS — batch UI, double-submit protection, old-score bridge and corrupt-storage safety");
