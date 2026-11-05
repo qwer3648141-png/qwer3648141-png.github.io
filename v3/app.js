@@ -59,11 +59,12 @@
       d.append(summary);
       const sub=el("div","sections");
       sections.forEach(section=>{
-        const available=Boolean(database.lesson[section.id]);
+        const imported=window.ENJP_MIGRATED?.sections?.[section.id];
+        const available=Boolean(database.lesson[section.id]||imported);
         const b=el("button","section");
         b.type="button";b.dataset.section=section.id;
         b.setAttribute("aria-current",String(state.sectionId===section.id));
-        append(b,el("span","section-name",section.title),el("span","section-tag"+(available?" ready":""),available?"試學":"規劃中"));
+        append(b,el("span","section-name",section.title),el("span","section-tag"+(available?" ready":""),imported?"教材庫 · "+imported.items.length:available?"試學":"規劃中"));
         b.addEventListener("click",()=>{
           Audio.stop();state.sectionId=section.id;
           document.querySelectorAll(".section").forEach(item=>item.setAttribute("aria-current",String(item===b)));
@@ -90,15 +91,15 @@
   }
   function showWelcome(root){
     const chapters=listChapters(),all=chapters.flatMap(c=>c.sections);
-    const ready=all.filter(s=>database.lesson[s.id]).length;
+    const ready=all.filter(s=>database.lesson[s.id]||window.ENJP_MIGRATED?.sections?.[s.id]).length;
     root.append(renderHeader("從左側挑選章節開始","右邊是固定的教材閱讀區。切換章節或縮放電腦畫面時，不會把教材推到整頁最下方。",[modeTitles[state.mode],"學習總覽"]));
     const stats=el("div","info-grid");
-    for(const [value,label] of [[chapters.length,"課程章節"],[all.length,"主題入口"],[ready,"已接入試學教材"]]){
+    for(const [value,label] of [[chapters.length,"課程章節"],[all.length,"主題入口"],[ready,"已接入教材主題"]]){
       stats.append(append(el("div","info-box"),el("strong","",String(value)),el("span","",label)));
     }
     root.append(stats);
     const welcome=el("div","welcome-grid");
-    for(const [title,desc] of [["01｜選課不鎖定","N5／N4／N3 與所有章節都可以自由打開；不用先取得五顆星。"],["02｜分開顯示教材","有教材的主題標「試學」；尚未整合的部分會明確標示，不假裝已完成。"],["03｜中英日各自朗讀","日文依教材標註讀音發聲，英文不混入日文聲線；下方可選裝置上的語音。"],["04｜舊版完整功能保留","配對競速、智慧挑戰、錯題進度與原始資料仍在舊版網站，這一版不覆寫它們。"]]){
+    for(const [title,desc] of [["01｜選課不鎖定","N5／N4／N3 與所有章節都可以自由打開；不用先取得五顆星。"],["02｜分開顯示教材","原版資料已匯入「教材庫」章節；部分朗讀及標音持續校對，其餘未完成項目會標示。"],["03｜中英日各自朗讀","日文依教材標註讀音發聲，英文不混入日文聲線；下方可選裝置上的語音。"],["04｜保留原版學習紀錄","完整舊版教材已經可從本頁閱讀；原版測驗、複習排程與學習紀錄不會被覆寫。"]]){
       welcome.append(append(el("div","welcome-card"),el("h3","",title),el("p","",desc)));
     }
     root.append(welcome);
@@ -299,7 +300,15 @@
     if(!found){showWelcome(root);return}
     const {chapter,section}=found;
     const lesson=database.lesson[section.id];
+    const imported=window.ENJP_MIGRATED?.sections?.[section.id];
     root.append(renderHeader(section.title,chapter.summary,[state.mode==="jp"?jpLabels[state.level]:modeTitles[state.mode],chapter.title,section.title]));
+    if(imported){
+      root.append(el("span","example-count","已匯入原版完整教材 · "+imported.items.length+" 筆"));
+      if(!window.ENJP_LegacyReader?.render(root,section.id,state.mode)){
+        root.append(el("p","legacy-note","教材載入異常。可先使用原版課程。"));
+      }
+      return;
+    }
     if(!lesson){
       const note=el("div","placeholder");
       note.append(el("h3","","此主題尚未接入 3.0 教材"),el("p","","這是新的課程規劃入口，不代表整章已完成。原有單字、文法、動詞及練習仍可從舊版網站使用，學習進度不會被重置。"));
