@@ -1,7 +1,7 @@
 "use strict";
 /* Read-only legacy lesson viewer. Do not mutate or reset original progress. */
 (function(){
- const bank=window.ENJP_MIGRATED,Audio=window.ENJP_Audio;
+ const bank=window.ENJP_MIGRATED,Audio=window.ENJP_Audio,Forms=window.ENJP_Inflections;
  if(!bank||!Audio)return;
  const el=(tag,cls,text)=>{const x=document.createElement(tag);if(cls)x.className=cls;if(text!==undefined)x.textContent=String(text);return x};
  const add=(p,...items)=>{p.append(...items);return p};
@@ -67,6 +67,39 @@
    box.append(lang==="jp"?ruby(source):document.createTextNode(source||""));
    target.append(box);
  }
+
+ function formPanel(item,i,status){
+   if(!Forms)return null;
+   const rows=item.kind==="verb"?Forms.verbForms(item):Forms.adjectiveForms(item);
+   if(!rows||!rows.length)return null;
+   const panel=el("details","conjugation-panel");
+   panel.open=i===0;
+   const name=item.kind==="verb"?"動詞活用 · "+rows.length+" 種變化":"形容詞活用 · "+rows.length+" 種變化";
+   const summary=el("summary","","⚔️ "+name+"｜點擊展開學習");
+   const hint=el("p","conjugation-rule",item.kind==="verb"?
+     Forms.rule[item.type]||"依原版詞性分類呈現變化。":
+     item.type==="i"?"い形容詞：い→くない／かった／く。注意「いい」會變成「よ」。":
+     "な形容詞：連接名詞要加「な」，過去形用「だった」，副詞形用「に」。");
+   panel.append(summary,hint);
+   const grid=el("div","conjugation-grid");
+   rows.forEach(row=>{
+     const cell=el("div","conjugation-cell");
+     const top=el("div","conjugation-row-head");
+     top.append(el("strong","",row.key));
+     const audio=el("button","conjugation-audio","🔊");
+     audio.type="button";
+     audio.setAttribute("aria-label","朗讀 "+row.key+" "+row.reading);
+     audio.addEventListener("click",()=>Audio.play(row.reading,"jp",audio,status));
+     top.append(audio);
+     const expression=el("div","conjugation-word");
+     expression.append(Audio.makeRuby(Forms.annotation(row.word,row.reading)));
+     cell.append(top,expression,el("p","conjugation-help",row.hint||""));
+     grid.append(cell);
+   });
+   panel.append(grid);
+   return panel;
+ }
+
  function card(type,item,mode,i){
    const card=el("article","quest-card legacy-card");
    card.append(header(i,item.topic||item.lv||item.level||"",type.toUpperCase()));
@@ -99,7 +132,7 @@
      phraseExpand(right,(item.chunks||[]).map(x=>({jp:x[0],en:x[1]})));
      speak(controls,status,"🔊 例句",safe(item.j),"jp");
    }else{
-     left=identity(item.meaning,ruby(wordRuby(item.word,item.reading)),"読み｜"+item.reading,
+     left=identity(item.meaning,ruby(Forms?Forms.annotation(item.word,item.reading):wordRuby(item.word,item.reading)),"読み｜"+item.reading,
        item.kind==="verb"?(item.type==="godan"?"第一類・五段":item.type==="ichidan"?"第二類・一段":"第三類・不規則"):(item.type==="i"?"い形容詞":"な形容詞"));
      right.append(el("span","quest-subhead","CONTEXT / 常用搭配短語"));
      (item.collocations||[]).forEach((x,j)=>{
@@ -107,7 +140,9 @@
        right.append(el("p","quest-translation","中文｜"+(item.collocationCn?.[j]||"")));
      });
      speak(controls,status,"🔊 單字",item.reading,"jp");
-     right.append(el("p","legacy-note","搭配短語的振假名與語音尚待校對，不會擅自猜讀。"));
+     const forms=formPanel(item,i,status);
+     if(forms)right.append(forms);
+     right.append(el("p","legacy-note","變化形式使用原始讀音推導；搭配短語的完整振假名與發音仍需逐筆校對。"));
    }
    core.append(left,right);
    const foot=el("div","quest-footer");foot.append(controls,status);
