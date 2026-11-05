@@ -26,3 +26,8 @@
 .legacy-pager button[disabled],.legacy-card button[disabled]{opacity:.55;cursor:not-allowed}
 @media(max-width:1050px){.legacy-card .quest-core{grid-template-columns:1fr}.legacy-card .quest-identity{border-right:0;border-bottom:1px solid #3d587c}}
 @media(max-width:640px){.legacy-intro{padding:15px}.legacy-intro strong{font-size:1.04rem}.legacy-card .quest-mission,.legacy-card .quest-identity{padding:16px}.legacy-phrase-grid{grid-template-columns:1fr}.legacy-toolbar{display:block}.legacy-toolbar label{display:block;margin:0 0 8px}.legacy-filter{width:100%}.legacy-pager{gap:9px;justify-content:space-between}}
+
+.legacy-mark-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:13px;padding-top:13px;border-top:1px solid #365578}
+.legacy-mark-actions .quest-mark{min-width:112px}
+.legacy-mark-status{color:#a6cfdf;font-size:.82rem;line-height:1.6;margin:8px 0 0}
+@media(max-width:640px){.legacy-mark-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.legacy-mark-actions .quest-mark{min-width:0;padding:10px 5px;font-size:.84rem}}
