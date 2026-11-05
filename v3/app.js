@@ -114,52 +114,157 @@
     b.addEventListener("click",()=>Audio.play(text,type,b,status));
     parent.append(b);
   }
-  function vocabCard(entry,type){
-    const card=el("section","lesson-card");
-    const word=el("div");
-    const headline=el("div","word-main");
-    const strong=el("strong");
+  /* V2 game-style cards. These flags are separate from the legacy website's learning records. */
+  const FLAG_KEY="enjpOceanV3QuestFlagsV1";
+  function loadFlags(){
+    try{
+      const raw=window.localStorage?.getItem(FLAG_KEY);
+      const parsed=raw?JSON.parse(raw):{};
+      return parsed && typeof parsed==="object" && !Array.isArray(parsed)?parsed:{};
+    }catch{return {}}
+  }
+  const cardFlags=loadFlags();
+  function flagFor(sectionId,index){
+    const key=sectionId+":"+index,record=cardFlags[key];
+    return record && typeof record==="object"?record:{favorite:false,weak:false,known:false};
+  }
+  function writeFlags(sectionId,index,value){
+    cardFlags[sectionId+":"+index]={favorite:Boolean(value.favorite),weak:Boolean(value.weak),known:Boolean(value.known)};
+    try{window.localStorage?.setItem(FLAG_KEY,JSON.stringify(cardFlags))}catch{} // private browsing still works in session
+  }
+  function sectionKnownCount(sectionId,length){
+    let known=0;for(let i=0;i<length;i++)if(flagFor(sectionId,i).known)known++;
+    return known;
+  }
+  function sectionProgress(sectionId,length){
+    const strip=el("div","quest-progress");
+    const top=el("div","quest-progress-top"),title=el("span","","本節技能自評進度"),numbers=el("strong","quest-progress-label");
+    top.append(title,numbers);
+    const track=el("div","quest-progress-track");track.setAttribute("role","progressbar");track.setAttribute("aria-label","本節已自評會的卡片比例");track.setAttribute("aria-valuemin","0");track.setAttribute("aria-valuemax",String(length));
+    const fill=el("span","quest-progress-fill");track.append(fill);
+    const note=el("p","quest-progress-note","依此裝置上的「我會了」標記計算；非測驗正確率，不影響原版學習紀錄。");
+    strip.append(top,track,note);
+    const refresh=()=>{const count=sectionKnownCount(sectionId,length);numbers.textContent=count+" / "+length;fill.style.width=(length?100*count/length:0)+"%";track.setAttribute("aria-valuenow",String(count))};
+    refresh();
+    return {node:strip,refresh};
+  }
+  function skillComparison(comparison){
+    const wrap=el("section","skill-comparison");
+    const head=el("div","compare-head");
+    head.append(el("span","quest-overline","SKILL INTEL / 核心對照"),el("h3","",comparison.title),el("p","",comparison.intro));
+    wrap.append(head);
+    const grid=el("div","compare-grid");
+    comparison.parts.forEach((part,i)=>{
+      const pane=el("article","compare-item compare-"+i);
+      pane.append(el("span","compare-index","TYPE "+(i+1)));
+      pane.append(el("strong","",part.name));
+      pane.append(el("span","compare-label",part.label));
+      pane.append(el("p","",part.detail));
+      grid.append(pane);
+    });
+    wrap.append(grid);return wrap;
+  }
+  function vocabCard(entry,type,sectionId,index,level,refreshProgress){
+    const card=el("section","quest-card");
+    const flags=flagFor(sectionId,index);
+    const top=el("div","quest-topline");
+    const code=el("span","quest-overline","QUEST CARD / "+String(index+1).padStart(2,"0"));
+    const tags=el("div","quest-tags");
+    const classification=type==="jp"?(level+" · "+(entry.usage?"GRAMMAR":"JAPANESE")):type==="en"?"ENGLISH · VOCAB":"DUAL · PAIR";
+    tags.append(el("span","quest-tier",classification));
+    const statusTag=el("span","quest-state","未標記");
+    tags.append(statusTag);top.append(code,tags);
+    const core=el("div","quest-core"),left=el("div","quest-identity"),right=el("div","quest-mission");
+    left.append(el("span","quest-subhead","CORE SKILL / 核心資料"));
+    const headline=el("div","word-main"),strong=el("strong");
     if(type==="jp"){
-      const show=entry.ruby || (/^[一-龯々]+$/.test(entry.term)?entry.term+"（"+entry.reading+"）":entry.term);
+      const show=entry.ruby||(/^[一-龯々]+$/.test(entry.term)?entry.term+"（"+entry.reading+"）":entry.term);
       strong.append(Audio.makeRuby(show));
     }else if(type==="dual"){
       strong.append(document.createTextNode(entry.en+" ／ "));
-      const show=entry.ruby || (/^[一-龯々]+$/.test(entry.jp)?entry.jp+"（"+entry.reading+"）":entry.jp);
+      const show=entry.ruby||(/^[一-龯々]+$/.test(entry.jp)?entry.jp+"（"+entry.reading+"）":entry.jp);
       strong.append(Audio.makeRuby(show));
-    }else strong.textContent=entry.term;
-    headline.append(strong);
-    word.append(headline);
-    if(type==="en" && entry.ipa)word.append(el("span","reading",entry.ipa));
-    if(type==="jp")word.append(el("span","reading",entry.reading));
-    if(type==="dual")word.append(el("span","reading","JP: "+entry.reading));
-    const zh=el("div","word-zh");
-    append(zh,el("small","","繁體中文"),document.createTextNode(entry.zh));
-    word.append(zh);
-    const right=el("div");
-    const status=el("div","audio-status","");
-    status.setAttribute("role","status");
-    if(type==="dual"){
-      const en=append(el("div","sentence"),el("span","sentence-label","ENGLISH"),document.createTextNode(entry.enExample));
-      const jp=append(el("div","sentence"),el("span","sentence-label","日本語"),Audio.makeRuby(entry.jpExample));
-      right.append(en,jp,el("p","translation","中文｜"+entry.translation));
-      const row=el("div","audio-row");
-      speakButton(row,status,"英文單字",entry.en,"en",true);
-      speakButton(row,status,"日文單字",entry.reading,"jp",true);
-      speakButton(row,status,"英文例句",entry.enExample,"en",false);
-      speakButton(row,status,"日文例句",entry.jpExample,"jp",false);
-      right.append(row,status);
-    }else{
-      const sentence=el("div","sentence");
-      sentence.append(el("span","sentence-label",type==="jp"?"日本語":"ENGLISH"));
-      if(type==="jp")sentence.append(Audio.makeRuby(entry.example));
-      else sentence.append(document.createTextNode(entry.example));
-      right.append(sentence,el("p","translation","中文｜"+entry.translation));
-      const row=el("div","audio-row");
-      speakButton(row,status,"單字",type==="jp"?entry.reading:entry.term,type,true);
-      speakButton(row,status,"例句",entry.example,type,false);
-      right.append(row,status);
+    }else{strong.textContent=entry.term}
+    headline.append(strong);left.append(headline);
+    if(type==="en"&&entry.ipa)left.append(el("div","quest-reading",entry.ipa));
+    if(type==="jp")left.append(el("div","quest-reading","読み｜"+entry.reading));
+    if(type==="dual")left.append(el("div","quest-reading","日本語｜"+entry.reading));
+    left.append(el("p","quest-meaning",entry.zh));
+    if(entry.usage){
+      const usage=el("div","quest-use");
+      usage.append(el("span","quest-subhead","GRAMMAR FORM / 接續形式"),el("strong","",entry.usage));
+      left.append(usage);
     }
-    card.append(word,right);return card;
+    if(entry.tip)left.append(el("p","quest-tip","✦ "+entry.tip));
+    const status=el("div","audio-status","");status.setAttribute("role","status");
+    right.append(el("span","quest-subhead","MISSION EXAMPLE / 情境例句"));
+    if(type==="dual"){
+      const en=el("div","quest-sentence");en.append(el("span","sentence-label","ENGLISH"),document.createTextNode(entry.enExample));
+      const jp=el("div","quest-sentence");jp.append(el("span","sentence-label","日本語"),Audio.makeRuby(entry.jpExample));
+      right.append(en,jp);
+    }else{
+      const sentence=el("div","quest-sentence");
+      sentence.append(el("span","sentence-label",type==="jp"?"日本語":"ENGLISH"));
+      sentence.append(type==="jp"?Audio.makeRuby(entry.example):document.createTextNode(entry.example));
+      right.append(sentence);
+    }
+    right.append(el("div","quest-translation","中文翻譯｜"+entry.translation));
+    if(entry.breakdown?.length){
+      const details=el("details","quest-breakdown");
+      details.append(el("summary","","▸ 句型拆解 · 查看各部分意思"));
+      const steps=el("div","quest-breakdown-grid");
+      entry.breakdown.forEach(([part,translation])=>{
+        const step=el("div","quest-step");
+        step.append(Audio.makeRuby(part),el("small","",translation));steps.append(step);
+      });
+      details.append(steps);right.append(details);
+    }
+    core.append(left,right);
+    const foot=el("div","quest-footer");
+    const actions=el("div","quest-actions");
+    const audioActions=el("div","audio-row");
+    if(type==="dual"){
+      speakButton(audioActions,status,"EN 單字",entry.en,"en",true);
+      speakButton(audioActions,status,"JP 單字",entry.reading,"jp",true);
+      speakButton(audioActions,status,"EN 例句",entry.enExample,"en",false);
+      speakButton(audioActions,status,"JP 例句",entry.jpExample,"jp",false);
+    }else{
+      speakButton(audioActions,status,"單字",type==="jp"?entry.reading:entry.term,type,true);
+      speakButton(audioActions,status,"例句",entry.example,type,false);
+    }
+    actions.append(audioActions);
+    const markActions=el("div","quest-mark-actions");
+    function marker(label,prop,handler){
+      const button=el("button","quest-mark",label);button.type="button";
+      button.addEventListener("click",()=>{handler();update();refreshProgress()});
+      markActions.append(button);
+      return {button,prop};
+    }
+    const fav=marker("☆ 收藏","favorite",()=>{flags.favorite=!flags.favorite;writeFlags(sectionId,index,flags)});
+    const weak=marker("◇ 待複習","weak",()=>{flags.weak=!flags.weak;if(flags.weak)flags.known=false;writeFlags(sectionId,index,flags)});
+    const known=marker("✓ 我會了","known",()=>{flags.known=!flags.known;if(flags.known)flags.weak=false;writeFlags(sectionId,index,flags)});
+    const stateLine=el("div","quest-feedback");
+    const update=()=>{
+      const current=flagFor(sectionId,index);
+      let label="未標記",status="neutral";
+      if(current.weak){label="待複習";status="weak"}
+      else if(current.known){label="自評已會";status="known"}
+      else if(current.favorite){label="已收藏";status="fav"}
+      statusTag.textContent=label;statusTag.dataset.state=status;
+      for(const mark of [fav,weak,known]){
+        mark.button.setAttribute("aria-pressed",String(Boolean(current[mark.prop])));
+        mark.button.classList.toggle("active",Boolean(current[mark.prop]));
+      }
+      fav.button.textContent=current.favorite?"★ 已收藏":"☆ 收藏";
+      weak.button.textContent=current.weak?"◆ 待複習":"◇ 待複習";
+      known.button.textContent=current.known?"✓ 已標記會了":"✓ 我會了";
+      stateLine.textContent="學習標記｜"+label+" · 此裝置保存（獨立於原版進度）";
+    };
+    update();
+    actions.append(markActions);
+    foot.append(actions,status,stateLine);
+    card.append(top,core,foot);
+    return card;
   }
   function renderReader(){
     const root=$("reader-content");
@@ -174,9 +279,12 @@
       note.append(el("h3","","此主題尚未接入 3.0 教材"),el("p","","這是新的課程規劃入口，不代表整章已完成。原有單字、文法、動詞及練習仍可從舊版網站使用，學習進度不會被重置。"));
       root.append(note,makeLegacyLink());return;
     }
-    root.append(el("span","example-count","可試學 · "+lesson.items.length+" 個例子"));
-    const list=el("div","lesson-list");
-    lesson.items.forEach(entry=>list.append(vocabCard(entry,lesson.type)));
+    root.append(el("span","example-count","可試學 · "+lesson.items.length+" 張技能卡"));
+    if(lesson.comparison)root.append(skillComparison(lesson.comparison));
+    const progress=sectionProgress(section.id,lesson.items.length);
+    root.append(progress.node);
+    const list=el("div","lesson-list game-lessons");
+    lesson.items.forEach((entry,index)=>list.append(vocabCard(entry,lesson.type,section.id,index,state.level,progress.refresh)));
     root.append(list,makeLegacyLink());
   }
   function renderAll(){
