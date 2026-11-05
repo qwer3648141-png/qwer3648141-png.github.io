@@ -64,3 +64,16 @@
 .challenge-reading{color:#c5d9e8}
 .challenge-tally{font-size:.83rem;color:#a9c4d9;margin:10px 0 0}
 @media(max-width:680px){.conjugation-challenge{margin:0 10px 12px;padding:13px}.challenge-input{width:100%;flex-basis:100%}.challenge-controls button{flex:1}}
+
+
+/* One-tap course access: formal curriculum before sample lessons */
+.course-quick-start{margin:20px 0;padding:18px;border:1px solid #5974a8;background:linear-gradient(135deg,#182f57,#14374e);border-radius:16px}
+.course-quick-start h3{font-size:1.21rem;line-height:1.5;color:#eee9ff;margin:0 0 7px}
+.course-quick-start p{margin:0 0 15px;color:#bed3e8;line-height:1.7;font-size:.96rem}
+.course-quick-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+.course-quick-item{text-align:left;min-width:0;min-height:104px;padding:15px 16px;border-radius:13px;border:1px solid #5675a0;background:linear-gradient(145deg,#24406b,#183b58);color:#f1f8ff;cursor:pointer;transition:background .16s,border-color .16s}
+.course-quick-item:hover{background:#2d5579;border-color:#85d9ed}
+.course-quick-item:focus-visible{outline:3px solid #90f0ff;outline-offset:3px}
+.course-quick-item strong{display:block;font-size:1.06rem;line-height:1.5;margin-bottom:6px}
+.course-quick-item small{display:block;font-size:.86rem;color:#bcd9e9;line-height:1.65}
+@media(max-width:700px){.course-quick-start{padding:14px}.course-quick-grid{grid-template-columns:1fr}.course-quick-item{min-height:78px;padding:12px 14px}}
