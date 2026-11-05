@@ -77,19 +77,140 @@ const data={N5:[["五十音與發音","平假名、片假名、發音",["平假�
 const otherCourses={en:[["日常高頻單字","生活、工作與常用表達",["生活詞彙","工作詞彙","常見片語"]],["英文基礎文法","句型、時態與疑問句",["基本句型","現在與過去","疑問與否定"]],["英文聽力與閱讀","短句與情境理解",["短句聽力","情境對話","短文閱讀"]]],dual:[["英日配對入門","同義詞彙與發音",["日常英日配對","情境片語配對","發音對照"]],["雙語互動挑戰","配對、辨識與回顧",["配對競速","智慧挑戰","錯題回顧"]],["雙語情境應用","工作與生活對話",["購物與餐廳","交通與旅行","職場對話"]]]};
 
 const lessonBank={
-"平假名":[["あ","a","日文平假名的「あ」","あさ（早晨）","早晨"],["い","i","日文平假名的「い」","いえ（家）","家"],["う","u","日文平假名的「う」","うみ（海）","海"]],
-"片假名":[["ア","a","日文片假名的「ア」","アイス","冰淇淋"],["コ","ko","日文片假名的「コ」","コーヒー","咖啡"],["ネ","ne","日文片假名的「ネ」","ネコ","貓"]],
+"平假名":[["あ","a","日文平假名的「あ」","あさ、ごはんを食（た）べます。","我早上吃早餐。"],["い","i","日文平假名的「い」","いえに帰（かえ）ります。","我回家。"],["う","u","日文平假名的「う」","うみがきれいです。","海很漂亮。"]],
+"片假名":[["ア","a","日文片假名的「ア」","アイスを食（た）べます。","我吃冰淇淋。"],["コ","ko","日文片假名的「コ」","コーヒーを飲（の）みます。","我喝咖啡。"],["ネ","ne","日文片假名的「ネ」","ネコが好（す）きです。","我喜歡貓。"]],
 "基本句型":[["学生","がくせい","學生","私（わたし）は学生（がくせい）です。","我是學生。"],["先生","せんせい","老師","田中（たなか）さんは先生（せんせい）です。","田中先生是老師。"],["日本語","にほんご","日文","日本語（にほんご）を勉強（べんきょう）します。","我學習日文。"]],
 "三類動詞":[["食べる","たべる","吃／第二類動詞","朝（あさ）ご飯（はん）を食（た）べます。","我吃早餐。"],["書く","かく","寫／第一類動詞","手紙（てがみ）を書（か）きます。","我寫信。"],["する","する","做／第三類動詞","毎日（まいにち）勉強（べんきょう）します。","我每天學習。"]],
 "生活詞彙":[["apple","/ˈæp.əl/","蘋果","I eat an apple.","我吃一顆蘋果。"],["water","/ˈwɔː.tɚ/","水","I drink water every day.","我每天喝水。"],["learn","/lɝːn/","學習","I learn English.","我學英文。"]],
 "日常英日配對":[["apple · りんご","apple / りんご","蘋果","I eat an apple. ／ りんごを食（た）べます。","我吃一顆蘋果。"],["water · 水","water / みず","水","I drink water. ／ 水（みず）を飲（の）みます。","我喝水。"],["study · 勉強する","study / べんきょうする","學習","I study every day. ／ 毎日（まいにち）勉強（べんきょう）します。","我每天學習。"]]
+,
+"en:基本句型":[["am","/æm/","是（I 的 be 動詞）","I am a student.","我是一位學生。"],["is","/ɪz/","是（單數第三人稱）","She is my teacher.","她是我的老師。"],["are","/ɑːr/","是（you／複數）","You are welcome.","不客氣。"]]
 };
-function jpRuby(text){const box=document.createElement("span");const re=/([一-龯々]+)（([ぁ-ゖー]+)）/g;let pos=0,m;while((m=re.exec(text))){box.append(document.createTextNode(text.slice(pos,m.index)));const ruby=document.createElement("ruby");ruby.append(document.createTextNode(m[1]));const rt=document.createElement("rt");rt.textContent=m[2];ruby.append(rt);box.append(ruby);pos=re.lastIndex}box.append(document.createTextNode(text.slice(pos)));return box}
-function speak(text,lang){if(!("speechSynthesis" in window)){alert("此瀏覽器不支援語音播放");return}speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text.replace(/（[ぁ-ゖー]+）/g,""));u.lang=lang;u.rate=.85;speechSynthesis.speak(u)}
-function showLesson(chapter,name){lesson.replaceChildren();const h=document.createElement("h2");h.textContent=chapter+" · "+name;lesson.append(h);const entries=lessonBank[name];if(!entries){const p=document.createElement("p");p.textContent="此小節正在整合既有教材；你可以先使用下方舊版完整課程。";lesson.append(p)}else{const p=document.createElement("p");p.textContent="入門示範教材 · 單字／發音／例句／繁體中文";lesson.append(p);entries.forEach(([word,reading,meaning,sentence,translation])=>{const card=document.createElement("article");card.className="vocab-card";const top=document.createElement("div");top.className="vocab-title";const w=document.createElement("strong");w.textContent=word;const read=document.createElement("small");read.textContent=reading;top.append(w,read);const meaningEl=document.createElement("p");meaningEl.textContent=meaning;const sentenceEl=document.createElement("div");sentenceEl.className="example";sentenceEl.append(jpRuby(sentence));const translationEl=document.createElement("p");translationEl.textContent=translation;const play=document.createElement("button");play.className="play-btn";play.textContent="🔊 播放例句";play.addEventListener("click",()=>speak(sentence,mode==="en"?"en-US":"ja-JP"));card.append(top,meaningEl,sentenceEl,translationEl,play);lesson.append(card)})}const link=document.createElement("a");link.href="/";link.className="legacy-link";link.textContent="開啟原有完整教材與練習 →";lesson.append(link);lesson.classList.add("visible");lesson.scrollIntoView({behavior:"smooth",block:"nearest"})}
+
+function jpRuby(text){
+  const box=document.createElement("span");
+  const pattern=/([一-龯々]+)（([ぁ-ゖー]+)）/g;
+  let last=0,match;
+  while((match=pattern.exec(text))){
+    box.append(document.createTextNode(text.slice(last,match.index)));
+    const ruby=document.createElement("ruby");
+    ruby.append(document.createTextNode(match[1]));
+    const rt=document.createElement("rt");rt.textContent=match[2];ruby.append(rt);
+    box.append(ruby);last=pattern.lastIndex;
+  }
+  box.append(document.createTextNode(text.slice(last)));
+  return box;
+}
+function japaneseWord(word,reading){
+  if(/^[一-龯々]+$/.test(word)&&/^[ぁ-ゖー]+$/.test(reading)){
+    return jpRuby(word+"（"+reading+"）");
+  }
+  const span=document.createElement("span");span.textContent=word;return span;
+}
+let activeSpeech=null;
+function speak(text,lang,button,status){
+  const synth=window.speechSynthesis;
+  if(!synth || !("SpeechSynthesisUtterance" in window)){
+    status.textContent="目前瀏覽器不支援朗讀。";return;
+  }
+  if(activeSpeech){
+    const previous=activeSpeech;activeSpeech=null;
+    previous.button.textContent=previous.original;
+    synth.cancel();
+    if(previous.button===button){status.textContent="已停止朗讀";return;}
+  }
+  const clean=(lang==="ja-JP"?text.replace(/（[ぁ-ゖー]+）/g,""):text).trim();
+  if(!clean){status.textContent="沒有可播放的文字。";return;}
+  const voices=typeof synth.getVoices==="function"?synth.getVoices():[];
+  const prefix=lang.slice(0,2).toLowerCase();
+  const available=voices.filter(v=>String(v.lang||"").toLowerCase().startsWith(prefix));
+  const match=available.find(v=>v.lang.toLowerCase()===lang.toLowerCase()&&v.localService)
+    ||available.find(v=>v.lang.toLowerCase()===lang.toLowerCase())
+    ||available.find(v=>v.localService)||available[0];
+  if(voices.length && !match){
+    status.textContent=prefix==="ja"?"找不到日文語音，請先安裝裝置的日文朗讀語音。":"找不到英文語音，請先安裝裝置的英文朗讀語音。";
+    return;
+  }
+  const utterance=new SpeechSynthesisUtterance(clean);
+  utterance.lang=lang;utterance.rate=lang==="ja-JP"?.88:.92;utterance.pitch=1;
+  if(match)utterance.voice=match;
+  const original=button.textContent;
+  activeSpeech={utterance,button,original};
+  button.textContent="■ 停止朗讀";
+  status.textContent=(lang==="ja-JP"?"日本語":"English")+" · "+(match?match.name:"系統預設")+" · 準備播放";
+  utterance.onstart=()=>{
+    if(activeSpeech?.utterance===utterance)status.textContent=(lang==="ja-JP"?"日文":"英文")+"朗讀中…";
+  };
+  utterance.onend=()=>{
+    if(activeSpeech?.utterance!==utterance)return;
+    button.textContent=original;activeSpeech=null;status.textContent="朗讀結束";
+  };
+  utterance.onerror=e=>{
+    if(activeSpeech?.utterance!==utterance)return;
+    button.textContent=original;activeSpeech=null;
+    status.textContent="播放失敗（"+(e.error||"未知原因")+"），請檢查裝置語音設定。";
+  };
+  try{synth.speak(utterance)}catch(e){button.textContent=original;activeSpeech=null;status.textContent="語音服務目前無法使用。";}
+}
+function addSpeechButton(row,status,label,text,lang,secondary){
+  const b=document.createElement("button");b.type="button";b.className="play-btn"+(secondary?" subtle":"");
+  b.textContent="🔊 "+label;b.addEventListener("click",()=>speak(text,lang,b,status));row.append(b);
+}
+function showLesson(chapter,name){
+  if(activeSpeech){window.speechSynthesis?.cancel();activeSpeech.button.textContent=activeSpeech.original;activeSpeech=null;}
+  lesson.replaceChildren();
+  const h=document.createElement("h2");h.textContent=chapter+" · "+name;lesson.append(h);
+  const entries=mode==="jp"?lessonBank[name]:mode==="en"?(lessonBank["en:"+name]||(name==="生活詞彙"?lessonBank[name]:null)):mode==="dual"&&name==="日常英日配對"?lessonBank[name]:null;
+  const intro=document.createElement("p");
+  intro.textContent=entries?"單字、例句與繁體中文對照 · 點擊朗讀按鈕聆聽正確語言":"本節教材仍在整合中；可使用下方原版完整課程繼續學習。";
+  lesson.append(intro);
+  if(entries)entries.forEach(([word,reading,meaning,sentence,translation])=>{
+    const card=document.createElement("article");card.className="vocab-card";
+    const top=document.createElement("div");top.className="vocab-title";
+    const wordEl=document.createElement("strong"),read=document.createElement("small");
+    const dual=mode==="dual"&&sentence.includes("／");
+    if(dual){
+      const [enWord,jpWord]=word.split(" · ");
+      const jpReading=(reading.split(" / ")[1]||"").trim();
+      wordEl.append(document.createTextNode(enWord+" · "));
+      wordEl.append(japaneseWord(jpWord,jpReading));
+    }else if(mode==="jp"){wordEl.append(japaneseWord(word,reading))}
+    else{wordEl.textContent=word}
+    read.textContent=reading;top.append(wordEl,read);
+    const meaningEl=document.createElement("p");meaningEl.textContent="中文｜"+meaning;
+    const example=document.createElement("div");example.className="example";
+    const segments=dual?sentence.split(/\s*／\s*/):[sentence];
+    segments.forEach((segment,i)=>{
+      const line=document.createElement("div");line.className="example-line";
+      if(dual){const label=document.createElement("span");label.className="lang-label";label.textContent=i===0?"EN":"JP";line.append(label)}
+      if(mode==="en"||(dual&&i===0)){line.append(document.createTextNode(segment))}
+      else{line.append(jpRuby(segment))}
+      example.append(line);
+    });
+    const translationEl=document.createElement("p");translationEl.textContent="翻譯｜"+translation;
+    const buttons=document.createElement("div");buttons.className="play-row";
+    const status=document.createElement("div");status.className="tts-status";status.setAttribute("role","status");
+    if(dual){
+      const [enWord,jpWord]=word.split(" · ");
+      const jpReading=(reading.split(" / ")[1]||"").trim();
+      addSpeechButton(buttons,status,"EN 單字",enWord,"en-US",true);
+      addSpeechButton(buttons,status,"JP 單字",jpReading||jpWord,"ja-JP",true);
+      addSpeechButton(buttons,status,"EN 例句",segments[0],"en-US",false);
+      addSpeechButton(buttons,status,"JP 例句",segments[1],"ja-JP",false);
+    }else{
+      const lang=mode==="en"?"en-US":"ja-JP";
+      addSpeechButton(buttons,status,"播放單字",mode==="en"?word:reading,lang,true);
+      addSpeechButton(buttons,status,"播放例句",sentence,lang,false);
+    }
+    card.append(top,meaningEl,example,translationEl,buttons,status);lesson.append(card);
+  });
+  const link=document.createElement("a");link.href="/";link.className="legacy-link";
+  link.textContent="前往原版完整教材與練習 →";lesson.append(link);
+  lesson.classList.add("visible");lesson.scrollIntoView({behavior:"smooth",block:"nearest"});
+}
 
 let mode="jp",level="N5";
 const chapters=document.getElementById("chapters"),lesson=document.getElementById("lesson");
-function render(){lesson.classList.remove("visible");document.getElementById("levels").hidden=mode!=="jp";document.getElementById("course-title").textContent=mode==="jp"?"日本語學習地圖":mode==="en"?"English 英文學習": "EN × JP 雙語學習";document.getElementById("subtitle").textContent=mode==="jp"?"JAPANESE COURSE":mode==="en"?"ENGLISH COURSE":"BILINGUAL COURSE";document.getElementById("description").textContent=mode==="jp"?"選擇程度，點擊章節展開小節。":"選擇章節並展開小節；目前僅為導覽原型，不會更動舊資料。";chapters.replaceChildren();const courseChapters=mode==="jp"?data[level]:otherCourses[mode];courseChapters.forEach((chapter,i)=>{const d=document.createElement("details");d.className="chapter";if(i===0)d.open=true;const summary=document.createElement("summary");summary.textContent="第 "+(i+1)+" 章｜"+chapter[0];const small=document.createElement("small");small.textContent=chapter[1];summary.append(small);d.append(summary);const sectionBox=document.createElement("div");sectionBox.className="sections";chapter[2].forEach((name,j)=>{const b=document.createElement("button");b.className="section";b.textContent="第 "+(j+1)+" 節｜"+name;b.addEventListener("click",()=>{showLesson(chapter[0],name)});sectionBox.append(b)});d.append(sectionBox);chapters.append(d)})}
+function render(){lesson.classList.remove("visible");document.getElementById("levels").hidden=mode!=="jp";document.getElementById("course-title").textContent=mode==="jp"?"日本語學習地圖":mode==="en"?"English 英文學習": "EN × JP 雙語學習";document.getElementById("subtitle").textContent=mode==="jp"?"JAPANESE COURSE":mode==="en"?"ENGLISH COURSE":"BILINGUAL COURSE";document.getElementById("description").textContent=mode==="jp"?"選擇程度，點擊章節展開小節。":"選擇章節並展開小節；目前僅為導覽原型，不會更動舊資料。";chapters.replaceChildren();const courseChapters=mode==="jp"?data[level]:otherCourses[mode];courseChapters.forEach((chapter,i)=>{const d=document.createElement("details");d.className="chapter";if(i===0)d.open=true;d.addEventListener("toggle",()=>{if(d.open)chapters.querySelectorAll("details.chapter").forEach(other=>{if(other!==d)other.open=false})});const summary=document.createElement("summary");summary.textContent="第 "+(i+1)+" 章｜"+chapter[0];const small=document.createElement("small");small.textContent=chapter[1];summary.append(small);d.append(summary);const sectionBox=document.createElement("div");sectionBox.className="sections";chapter[2].forEach((name,j)=>{const b=document.createElement("button");b.className="section";b.textContent="第 "+(j+1)+" 節｜"+name;b.addEventListener("click",()=>{showLesson(chapter[0],name)});sectionBox.append(b)});d.append(sectionBox);chapters.append(d)})}
 document.querySelectorAll("[data-mode]").forEach(b=>b.addEventListener("click",()=>{mode=b.dataset.mode;document.querySelectorAll("[data-mode]").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));render()}));document.querySelectorAll("[data-level]").forEach(b=>b.addEventListener("click",()=>{level=b.dataset.level;document.querySelectorAll("[data-level]").forEach(x=>x.setAttribute("aria-selected",String(x===b)));render()}));render();
 </script></body></html>
