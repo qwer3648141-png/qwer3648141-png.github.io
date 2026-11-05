@@ -86,7 +86,7 @@
  }
  function annotation(surface,reading){
    surface=String(surface||"");reading=String(reading||"");
-   if(!/[一-龯々]/.test(surface)||!/^[ぁ-ゖァ-ヺー]+$/.test(reading))return surface;
+   if(!/[一-龯々]/.test(surface)||!/^[ぁ-ゖァ-ヺー、。！？!?・，．\s]+$/.test(reading))return surface;
    const norm=s=>s.replace(/[ァ-ヶ]/g,c=>String.fromCharCode(c.charCodeAt(0)-96));
    const parts=[...surface].reduce((arr,c)=>{
      const kanji=/[一-龯々]/.test(c),last=arr[arr.length-1];
