@@ -13,11 +13,17 @@
    "手続|んてつづ":"てつづ"
  };
  function annotated(html){
-   return String(html||"").replace(rubyPattern,(_,surface,reading)=>{
+   // Two reviewed fixes in the imported source; leave original data files untouched.
+   const source=String(html||"");
+   if(source==="<ruby>十 分どころか、一時間待ちました<rt>じゅっぷんどころか、いちじかんまちました</rt></ruby>"){
+     return "十分（じゅっぷん）どころか、一時間（いちじかん）待（ま）ちました";
+   }
+   return source.replace(rubyPattern,(_,surface,reading)=>{
      const fixed=verifiedCorrections[surface+"|"+reading]||reading;
      if(Forms){const aligned=Forms.annotation(surface,fixed);if(aligned!==surface)return aligned}
      return /^[一-龯々]+$/.test(surface)&&/^[ぁ-ゖー]+$/.test(fixed)?surface+"（"+fixed+"）":surface;
-   }).replace(/<[^>]*>/g,"").replaceAll("&nbsp;"," ");
+   }).replace(/<[^>]*>/g,"").replaceAll("&nbsp;"," ")
+     .replace(/二つ(?!（)/g,"二（ふた）つ");
  }
  const ruby=t=>Audio.makeRuby(annotated(t));
  const safe=t=>Audio.spokenJapanese(annotated(t))?annotated(t):null;
