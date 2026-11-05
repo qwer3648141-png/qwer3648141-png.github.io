@@ -106,3 +106,78 @@ a{color:#a2ebfc}
 @media(max-width:640px){.wrap{width:calc(100% - 24px)}.topbar{flex-wrap:wrap;margin-top:15px}.top-links{width:100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.navlink{justify-content:center;padding:10px 9px;font-size:.78rem}.hero{padding:21px 18px;border-radius:20px}.hero h1{font-size:1.48rem}.hero p{font-size:.87rem}.mode-strip{gap:8px}.mode{flex-direction:column;text-align:center;justify-content:center;padding:11px 5px;min-height:100px;gap:7px;border-radius:14px}.mode strong{font-size:.86rem}.mode small{font-size:.68rem;margin-top:3px}.mode-icon{width:35px;height:35px;font-size:.95rem}.workarea{display:flex;flex-direction:column;gap:12px}.rail,.reader{width:100%}.rail{position:static;max-height:none;overflow:visible;padding:16px}.reader{padding:17px;min-height:380px}.info-grid{gap:8px}.info-box{padding:12px}.info-box strong{font-size:1.1rem}.welcome-grid{grid-template-columns:1fr;gap:10px}.lesson-card{grid-template-columns:1fr;gap:9px;padding:16px}.word-zh{margin-bottom:5px}.voice-row{grid-template-columns:1fr}.sentence{font-size:1.02rem;padding:13px}.chapter summary{padding:13px}.section{padding:10px}.reader-head h2{font-size:1.45rem}}
 @media(max-width:355px){.mode small{font-size:.6rem}.mode strong{font-size:.79rem}.top-links{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+
+
+/* GAME QUEST CARDS · V3.2 — stable sidebar, dense lesson content, real user flags only */
+:root{--quest-cyan:#73e4ff;--quest-violet:#a69aff;--quest-gold:#f4c878;--quest-mint:#72edd1}
+.reader{background:linear-gradient(155deg,#102b45,#102640 70%,#111f39);border-color:#365b8c;box-shadow:0 20px 60px #0007}
+.reader-head{padding-bottom:19px;margin-bottom:20px}
+.example-count{border-color:#5f8baf;background:linear-gradient(100deg,#1c5571,#293d72);color:#d0f8ff;font-weight:850;letter-spacing:.04em}
+.skill-comparison{border:1px solid #5674a4;background:linear-gradient(140deg,#1b3358,#132a49);border-radius:19px;padding:20px;margin:18px 0;box-shadow:0 12px 30px #050c2140}
+.compare-head .quest-overline{color:#b8a7ff}
+.compare-head h3{font-size:1.25rem;margin:9px 0 7px}
+.compare-head p{color:#b4cce7;font-size:.9rem;line-height:1.65;margin:0 0 15px}
+.compare-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.compare-item{padding:17px 18px;border-radius:15px;background:#122947;border:1px solid #536b9b;position:relative}
+.compare-item.compare-1{border-color:#5b8e8f;background:#113b48}
+.compare-index{display:block;color:#9c9df7;font-size:.7rem;letter-spacing:.12em;font-weight:850;margin-bottom:7px}
+.compare-1 .compare-index{color:#8cf0db}
+.compare-item strong{display:block;font-size:1.3rem;margin-bottom:7px}
+.compare-label{display:inline-block;color:#b9dcff;font-size:.76rem;font-weight:800;border-radius:8px;background:#254772;padding:4px 9px}
+.compare-1 .compare-label{color:#acf2dd;background:#24545e}
+.compare-item p{color:#c6daea;font-size:.86rem;line-height:1.75;margin:10px 0 0}
+.quest-progress{padding:13px 18px 15px;margin:19px 0 14px;border:1px solid #355b82;background:linear-gradient(95deg,#132e52,#113c51);border-radius:15px}
+.quest-progress-top{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:.86rem;font-weight:740}
+.quest-progress-label{color:var(--quest-mint);font-size:1rem}
+.quest-progress-track{width:100%;height:9px;border-radius:99px;background:#061d33;border:1px solid #2c5a73;overflow:hidden;margin-top:10px}
+.quest-progress-fill{display:block;width:0;height:100%;border-radius:99px;background:linear-gradient(90deg,#4ee7cb,#78dafa,#a18cff);transition:width .2s ease}
+.quest-progress-note{color:#95b5c7;font-size:.72rem;line-height:1.5;margin:8px 0 0}
+.lesson-list.game-lessons{display:grid;grid-template-columns:1fr;gap:16px;margin:16px 0 24px}
+.quest-card{position:relative;min-width:0;overflow:hidden;border:1px solid #426489;border-radius:20px;background:linear-gradient(135deg,#182f55 0%,#122a43 75%);box-shadow:0 15px 35px #020c2180;transition:border-color .18s,box-shadow .18s}
+.quest-card:hover{border-color:#6a9ace;box-shadow:0 15px 39px #071b3a99}
+.quest-card:before{content:"";display:block;height:3px;background:linear-gradient(90deg,#4edcf1 0%,#8977f4 53%,#6df4cf 100%)}
+.quest-topline{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:14px 21px;border-bottom:1px solid #3a567c;background:#172b49}
+.quest-overline{font-size:.72rem;letter-spacing:.12em;font-weight:850;color:#91c5ea}
+.quest-tags{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.quest-tier{font-size:.7rem;color:#c2b2ff;border:1px solid #6f60ab;background:#3b3660;border-radius:8px;padding:6px 9px;font-weight:800;white-space:nowrap}
+.quest-state{font-size:.7rem;color:#b7d8ec;border:1px solid #3d5f78;background:#193e58;border-radius:8px;padding:6px 9px;font-weight:800;white-space:nowrap}
+.quest-state[data-state=known]{color:#aeffe4;background:#19534e;border-color:#4cbd9e}
+.quest-state[data-state=weak]{color:#ffe2ad;background:#62452c;border-color:#ad7d43}
+.quest-state[data-state=fav]{color:#ffe5ad;background:#554b33;border-color:#a99853}
+.quest-core{display:grid;grid-template-columns:minmax(190px,30%) minmax(0,1fr)}
+.quest-identity{min-width:0;padding:25px 23px;background:radial-gradient(circle at 9% 5%,#234b7e,#182c51 65%);border-right:1px solid #3d587c;display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+.quest-subhead{font-size:.71rem;font-weight:850;letter-spacing:.1em;color:#94c5dc}
+.quest-identity .word-main{font-size:clamp(1.5rem,2vw,2rem);line-height:1.75;margin:4px 0 0}
+.quest-reading{font-size:.88rem;color:#b5cafa;line-height:1.7;overflow-wrap:anywhere}
+.quest-meaning{font-size:1.03rem;color:#f4f8ff;font-weight:730;margin:3px 0 8px;line-height:1.7}
+.quest-use{border:1px solid #586894;border-radius:11px;padding:12px 13px;background:#132d50;width:100%}
+.quest-use strong{display:block;margin-top:6px;line-height:1.65;font-size:.92rem;color:#e7e4ff}
+.quest-tip{border-left:3px solid #a597ff;padding-left:11px;color:#c3d6ea;font-size:.85rem;line-height:1.8;margin:1px 0}
+.quest-mission{padding:23px 24px;min-width:0}
+.quest-mission>.quest-subhead{color:#8ee4fa}
+.quest-sentence{font-size:clamp(1.02rem,1.4vw,1.23rem);line-height:2.65;overflow-wrap:anywhere;min-height:76px;margin-top:10px;padding:17px 19px;border:1px solid #3b668c;border-radius:13px;background:linear-gradient(130deg,#092b46,#102845);box-shadow:inset 0 1px 0 #ffffff08}
+.quest-sentence+.quest-sentence{margin-top:12px}
+.quest-sentence ruby rt,.word-main ruby rt,.quest-step ruby rt{font-size:.54em;color:#adf0ff;line-height:1.3}
+.quest-translation{font-size:.91rem;color:#d4ecf8;margin:12px 2px 0;line-height:1.75}
+.quest-breakdown{margin-top:15px;border:1px solid #3c6083;border-radius:11px;background:#182f4e}
+.quest-breakdown summary{cursor:pointer;padding:12px 14px;font-size:.83rem;font-weight:800;color:#a7ddf0}
+.quest-breakdown-grid{display:flex;flex-wrap:wrap;gap:8px;padding:3px 12px 13px}
+.quest-step{display:flex;flex-direction:column;gap:5px;max-width:100%;border:1px solid #526c94;border-radius:9px;background:#1c4361;padding:8px 12px;font-size:.88rem;line-height:2}
+.quest-step small{font-size:.72rem;color:#b4d0e1;line-height:1.5}
+.quest-footer{border-top:1px solid #3a567b;background:#11273f;padding:16px 21px 14px}
+.quest-actions{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.quest-actions .audio-row{margin:0}
+.quest-mark-actions{display:flex;gap:7px;flex-wrap:wrap}
+.quest-mark{min-height:38px;border:1px solid #4b6489;background:#213958;border-radius:10px;color:#d2e5f9;cursor:pointer;padding:9px 12px;font-weight:760;font-size:.8rem;transition:background .15s,border-color .15s}
+.quest-mark:hover{background:#30537c}
+.quest-mark.active{color:#fff;background:#41518a;border-color:#979cf5}
+.quest-mark:nth-child(1).active{background:#60502f;border-color:#edc271;color:#fff0bd}
+.quest-mark:nth-child(2).active{background:#6b442e;border-color:#e2a568;color:#ffdfbd}
+.quest-mark:nth-child(3).active{background:#246156;border-color:#65e6c0;color:#d9fff4}
+.quest-footer .audio-status{margin:8px 0 0;color:#a4d7ec;font-size:.75rem}
+.quest-feedback{font-size:.71rem;color:#86adbf;line-height:1.6;margin-top:7px}
+.quest-card .play{font-size:.8rem;min-height:38px;padding:9px 12px}
+@media(max-width:1180px){.quest-core{grid-template-columns:minmax(140px,29%) minmax(0,1fr)}.quest-identity{padding:21px 17px}.quest-mission{padding:20px 17px}.quest-actions{align-items:flex-start}.quest-topline{padding:12px 15px}}
+@media(max-width:860px){.quest-core{grid-template-columns:1fr}.quest-identity{border-right:0;border-bottom:1px solid #3d587c;padding:19px 20px}.quest-mission{padding:19px 20px}}
+@media(max-width:640px){.compare-grid{grid-template-columns:1fr}.quest-topline{align-items:flex-start}.quest-tags{justify-content:flex-start}.quest-core{grid-template-columns:1fr}.quest-identity{padding:19px 16px}.quest-mission{padding:17px 16px}.quest-footer{padding:14px 16px}.quest-sentence{padding:12px 13px}.quest-mark-actions{width:100%}.quest-mark{flex:1}.quest-progress{padding:13px 14px}.skill-comparison{padding:15px}.quest-identity .word-main{font-size:1.6rem}}
+@media(prefers-reduced-motion:reduce){.quest-card,.quest-progress-fill,.quest-mark{transition:none}}
