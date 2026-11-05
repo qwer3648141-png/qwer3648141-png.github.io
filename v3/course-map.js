@@ -98,4 +98,20 @@
     ]}
   };
   window.ENJP_COURSES={jp,en,dual,lesson};
+  // Verified Wikimedia Commons image assets; cards without a relevant image remain text-only.
+  const exampleImages={
+    apple:{src:"https://upload.wikimedia.org/wikipedia/commons/1/1f/Red_apple_on_white_background.jpg",source:"https://commons.wikimedia.org/wiki/File:Red_apple_on_white_background.jpg",alt:"白色背景上的紅蘋果",credit:"Sprinno · Wikimedia Commons",license:"CC0 1.0"},
+    water:{src:"https://thumb.wikimedia.org/wikipedia/commons/thumb/1/11/Glass-of-water.jpg/330px-Glass-of-water.jpg",source:"https://commons.wikimedia.org/wiki/File:Glass-of-water.jpg",alt:"玻璃杯裡裝著半杯清水",credit:"Derek Jensen · Wikimedia Commons",license:"公有領域"},
+    coffee:{src:"https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d8/CupofCoffee.jpg/330px-CupofCoffee.jpg",source:"https://commons.wikimedia.org/wiki/File:CupofCoffee.jpg",alt:"碟子上的白色咖啡杯，杯中裝著黑咖啡",credit:"Tijuana Brass · Wikimedia Commons",license:"公有領域"},
+    cat:{src:"https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3d/Tabby-cat.jpg/330px-Tabby-cat.jpg",source:"https://commons.wikimedia.org/wiki/File:Tabby-cat.jpg",alt:"一隻灰褐色虎斑貓的近照",credit:"Ubuntuist · Wikimedia Commons",license:"公有領域"}
+  };
+  window.ENJP_IMAGE_EXAMPLES=Object.freeze({
+    "en-life:0":exampleImages.apple,
+    "en-life:1":exampleImages.water,
+    "jp-kata:1":exampleImages.coffee,
+    "jp-kata:2":exampleImages.cat,
+    "dual-daily:0":exampleImages.apple,
+    "dual-daily:1":exampleImages.water
+  });
+
 })();
