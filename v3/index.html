@@ -1,216 +1,83 @@
 <!doctype html>
-<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ENJP Ocean 3.0 · 導覽測試版</title>
-<style>
-:root{color-scheme:dark;font-family:Inter,system-ui,-apple-system,"Noto Sans TC","Noto Sans JP",sans-serif;--night:#071827;--panel:#102f47;--edge:#2b536b;--aqua:#86dcf2;--muted:#acc6d7;color:#f3faff;background:var(--night)}
-*{box-sizing:border-box}
-body{margin:0;min-height:100vh;background:radial-gradient(ellipse 70% 50% at 88% 2%,rgba(29,102,144,.24),transparent),radial-gradient(ellipse 60% 45% at 1% 80%,rgba(12,108,132,.12),transparent),#071827}
-button,a{-webkit-tap-highlight-color:transparent}
-button{font:inherit}
-button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid #a9f0ff;outline-offset:3px}
-main{width:80vw;max-width:none;margin:0 auto;padding:40px 0 96px}
-.hero{position:relative;padding:32px clamp(25px,3vw,50px) 36px;border:1px solid #244c65;border-radius:30px;background:linear-gradient(125deg,rgba(25,66,93,.95),rgba(12,37,59,.92) 65%,rgba(15,52,75,.9));box-shadow:0 26px 65px rgba(0,5,19,.23);overflow:hidden}
-.hero:before{content:"";position:absolute;right:-75px;top:-115px;width:340px;height:340px;border-radius:50%;border:1px solid rgba(124,221,243,.15);box-shadow:0 0 0 48px rgba(115,214,236,.025),0 0 0 100px rgba(115,214,236,.02);pointer-events:none}
-.hero-top{display:flex;justify-content:space-between;align-items:center;gap:12px;position:relative}
-.eyebrow{color:#90dff0;font-size:.79rem;letter-spacing:.14em;font-weight:750}
-.hero-badge{border:1px solid #3a7491;border-radius:999px;background:rgba(92,202,229,.1);padding:7px 12px;color:#b4edfb;font-size:.74rem;font-weight:700;white-space:nowrap}
-.hero h1{font-size:clamp(2rem,3vw,3.1rem);letter-spacing:.02em;line-height:1.18;margin:25px 0 12px;position:relative}
-.hero p{color:#c0d8e7;line-height:1.85;font-size:1.04rem;max-width:850px;margin:0}
-.hero-actions{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:22px}
-.action-link{display:inline-flex;align-items:center;gap:8px;color:#102638;text-decoration:none;border:1px solid #91ddeb;background:linear-gradient(115deg,#8de0f0,#b6eff7);padding:11px 16px;border-radius:13px;font-weight:780;font-size:.92rem}
-.action-link.secondary{background:rgba(20,55,78,.65);border-color:#4d7187;color:#d2edf5}
-.intro-row{display:flex;gap:12px;flex-wrap:wrap;margin:23px 0 13px}
-.intro-pill{border:1px solid #2e566e;background:rgba(17,48,70,.72);color:#b8d8e9;border-radius:100px;padding:8px 13px;font-size:.79rem}
-.mode-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:18px 0 25px}
-.mode{display:flex;align-items:center;gap:18px;text-align:left;min-height:126px;padding:22px 24px;border-radius:23px;cursor:pointer;color:#f3faff;background:linear-gradient(138deg,#193c56,#123049);border:1px solid #365c73;box-shadow:0 14px 28px rgba(0,9,22,.12);transition:transform .18s ease,border-color .18s ease,background .18s ease}
-.mode:hover{transform:translateY(-3px);border-color:#85d8ea}
-.mode[aria-pressed=true]{border-color:#94e3f3;background:linear-gradient(145deg,#245f7b,#183f5a);box-shadow:inset 0 0 0 1px rgba(162,234,246,.25),0 15px 40px rgba(18,106,148,.15)}
-.mode-icon{flex:none;display:grid;place-items:center;width:60px;height:60px;border-radius:17px;background:rgba(140,225,248,.12);border:1px solid rgba(157,221,241,.22);font-size:1.62rem}
-.mode-copy{min-width:0;flex:1}.mode-copy strong{display:block;font-size:1.27rem;letter-spacing:.01em}.mode-copy small{display:block;font-size:.88rem;color:#bed6e3;margin-top:7px}.mode-arrow{font-size:1.5rem;color:#89d9eb}
-.panel{padding:clamp(24px,2.8vw,42px);border:1px solid #2b5268;border-radius:29px;background:linear-gradient(155deg,rgba(19,48,72,.98),rgba(13,34,55,.98));box-shadow:0 24px 64px rgba(0,4,17,.2);margin:16px 0}
-.course-top{display:flex;align-items:center;justify-content:space-between;gap:22px;flex-wrap:wrap;border-bottom:1px solid rgba(132,203,226,.16);padding-bottom:24px;margin-bottom:22px}
-.course-head h2{font-size:clamp(1.5rem,2.2vw,2.1rem);margin:8px 0 10px}.course-head p{margin:0;color:#b4cada;line-height:1.7}
-.course-tag{background:#17445a;color:#9be7f5;border:1px solid #39738a;border-radius:100px;padding:9px 14px;font-size:.84rem;font-weight:700}
-.levels{display:flex;gap:9px;margin:0 0 24px}
-.levels button{border:1px solid #386078;border-radius:14px;min-height:52px;min-width:128px;padding:10px 16px;background:#1b415b;color:#d3e8f2;font-weight:700;cursor:pointer}
-.levels button[aria-selected=true]{background:#8de0f1;border-color:#98e5f4;color:#0b3044}
-.levels[hidden]{display:none}
-#chapters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px;align-items:start}
-.chapter{border:1px solid #31546b;border-radius:18px;background:rgba(5,30,51,.42);overflow:hidden}
-.chapter[open]{border-color:#5086a0;background:rgba(17,57,80,.52)}
-.chapter summary{padding:20px 23px;cursor:pointer;list-style:none;font-size:1.07rem;font-weight:750;line-height:1.4}
-.chapter summary::-webkit-details-marker{display:none}
-.chapter summary:after{content:"⌄";float:right;color:#8dddf0;font-size:1.2rem}
-.chapter[open] summary:after{content:"⌃"}
-.chapter small{display:block;color:#aecbdc;font-size:.87rem;font-weight:400;margin-top:7px}
-.sections{padding:0 14px 14px}
-.section{border:1px solid rgba(122,180,202,.13);border-radius:12px;background:#254e69;color:#f0f8ff;text-align:left;width:100%;padding:15px 17px;margin-top:8px;font-size:1rem;min-height:54px;cursor:pointer;transition:background .15s}
-.section:hover{background:#30627f}
-#lesson{display:none;margin:24px 0 0;background:rgba(5,28,47,.64);border:1px solid #43738c;border-radius:23px;padding:clamp(17px,2.4vw,28px)}
-#lesson.visible{display:block}
-#lesson>h2{font-size:1.55rem;margin:0 0 5px}
-#lesson>p{color:#b5d0e2;margin:0 0 15px;line-height:1.7}
-.vocab-card{padding:21px;border-radius:19px;margin:14px 0;background:linear-gradient(142deg,#1c435e,#163950);border:1px solid #385f79;min-width:0}
-.vocab-title{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
-.vocab-title strong{font-size:1.55rem;line-height:1.7}.vocab-title small{font-size:.95rem;color:#9fdbed;padding-top:8px}
-.vocab-card p{color:#b6d1df;margin:6px 0 12px;line-height:1.6}
-.example{font-size:1.2rem;line-height:2.45;overflow-wrap:anywhere;background:rgba(5,26,42,.45);border-radius:12px;padding:10px 14px;margin:14px 0}
-.example-line+.example-line{border-top:1px solid #30546a;padding-top:9px;margin-top:9px}
-.lang-label{color:#99dced;font-size:.72rem;font-weight:800;letter-spacing:.08em;margin-right:12px}
-ruby rt{font-size:.58em;color:#b0e7f2;line-height:1.3}
-.play-row{display:flex;flex-wrap:wrap;gap:9px;margin-top:16px}
-.play-btn{display:inline-flex;align-items:center;justify-content:center;min-height:42px;background:#88dbea;color:#0b2b3c;border:1px solid #a5e8f3;border-radius:11px;padding:10px 14px;font-size:.9rem;font-weight:760;cursor:pointer}
-.play-btn.subtle{background:#285573;border-color:#51859f;color:#e1f5fb}
-.play-btn:hover{filter:brightness(1.09)}
-.play-btn[disabled]{opacity:.6;cursor:wait}
-.tts-status{font-size:.82rem!important;margin:11px 0 0!important;min-height:1.2em;color:#a2ddec!important}
-.legacy-link{display:inline-block;margin-top:14px;padding:12px 16px;border:1px solid #497e92;background:#1c5269;border-radius:12px;color:#bbf3fb;font-weight:700;text-decoration:none}
-.notice{border:1px solid #27516a;border-left:4px solid #80d7eb;background:rgba(19,56,78,.72);border-radius:14px;padding:15px 17px;color:#b9d6e4;line-height:1.65;font-size:.88rem;margin:24px 0 0}
-.footer{color:#83aabd;font-size:.8rem;text-align:center;margin-top:22px}
-@media(min-width:1000px){#lesson.visible{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}#lesson>h2,#lesson>p,#lesson>.legacy-link{grid-column:1/-1}#lesson .vocab-card{margin:0}}
-@media(max-width:1080px){.mode{padding:19px 17px;gap:11px}.mode-icon{width:49px;height:49px}.mode-arrow{display:none}.mode-copy strong{font-size:1.1rem}}
-@media(max-width:740px){main{width:calc(100% - 28px);padding:17px 0 65px}.hero{padding:23px 18px 26px;border-radius:22px}.hero h1{font-size:clamp(1.77rem,7vw,2.25rem);margin:20px 0 11px}.hero p{font-size:.92rem}.hero-badge{font-size:.68rem}.hero-actions{margin-top:19px}.intro-row{gap:7px}.intro-pill{font-size:.73rem;padding:7px 10px}.mode-grid{gap:9px;margin:13px 0 17px}.mode{min-height:105px;display:flex;flex-direction:column;align-items:center;text-align:center;justify-content:center;border-radius:17px;padding:12px 6px;gap:7px}.mode-icon{width:38px;height:38px;border-radius:11px;font-size:1.12rem}.mode-copy strong{font-size:.96rem}.mode-copy small{font-size:.72rem;line-height:1.4;margin-top:3px}.panel{padding:17px;border-radius:22px}.course-top{padding-bottom:18px;margin-bottom:19px}.course-head h2{font-size:1.45rem}.course-tag{font-size:.72rem}.levels{gap:7px}.levels button{flex:1;min-width:0;padding:9px 5px;font-size:.92rem;min-height:48px}#chapters{grid-template-columns:1fr;gap:12px}.chapter summary{padding:18px;font-size:1rem}.section{font-size:.96rem}.example{font-size:1.13rem}.vocab-card{padding:16px}.vocab-title strong{font-size:1.4rem}#lesson{padding:16px}}
-@media(max-width:365px){.mode-copy strong{font-size:.85rem}.mode-copy small{font-size:.65rem}.hero-top{flex-wrap:wrap}}
-@media(prefers-reduced-motion:reduce){.mode,.section{transition:none}}
-</style></head><body><main><header class="hero"><div class="hero-top"><div class="eyebrow">ENJP OCEAN · LANGUAGE JOURNEY</div><span class="hero-badge">3.0 BETA · WIDE 80%</span></div><h1>每一天，都向更遠的海域前進。🌊</h1><p>選擇你的學習路線。從日文 N5～N3、英文基礎到英日雙語練習，依照自己的步調自由探索。</p><div class="hero-actions"><a class="action-link" href="/">📚 原版完整教材</a><a class="action-link secondary" href="#modes">探索學習地圖 ↓</a></div></header><div class="intro-row"><span class="intro-pill">✦ 自由選章</span><span class="intro-pill">✦ 單字與例句</span><span class="intro-pill">✦ 英日分開朗讀</span></div><div class="mode-grid" id="modes"><button class="mode" data-mode="jp" aria-pressed="true"><span class="mode-icon" aria-hidden="true">あ</span><span class="mode-copy"><strong>日本語</strong><small>N5 · N4 · N3 分級學習</small></span><span class="mode-arrow" aria-hidden="true">↗</span></button><button class="mode" data-mode="en" aria-pressed="false"><span class="mode-icon" aria-hidden="true">Aa</span><span class="mode-copy"><strong>English</strong><small>單字 · 文法 · 聽力</small></span><span class="mode-arrow" aria-hidden="true">↗</span></button><button class="mode" data-mode="dual" aria-pressed="false"><span class="mode-icon" aria-hidden="true">⇄</span><span class="mode-copy"><strong>EN × JP</strong><small>雙語配對與情境挑戰</small></span><span class="mode-arrow" aria-hidden="true">↗</span></button></div><section class="panel"><div class="course-top"><div class="course-head"><div class="eyebrow" id="subtitle">JAPANESE COURSE</div><h2 id="course-title">日本語學習地圖</h2><p id="description">點擊章節，即可展開小節。</p></div><span class="course-tag">COURSE MAP · 自由探索</span></div><div class="levels" role="tablist" aria-label="日文程度" id="levels"><button role="tab" aria-selected="true" data-level="N5">N5 基礎</button><button role="tab" aria-selected="false" data-level="N4">N4 初級</button><button role="tab" aria-selected="false" data-level="N3">N3 中級</button></div><div id="chapters"></div><div class="panel" id="lesson" aria-live="polite"></div></section><p class="notice">目前提供部分入門示範教材；其餘章節請先使用舊版完整教材。此頁不修改既有學習進度或備份。</p><p class="footer">ENJP Ocean · 3.0 Beta · 原有教材請使用正式首頁</p></main><script>
-"use strict";
-const data={N5:[["五十音與發音","平假名、片假名、發音",["平假名","片假名","濁音、拗音與長音"]],["基礎句型","です、ます、助詞",["基本句型","常用助詞","肯定與否定"]],["動詞入門","三類動詞與活用",["三類動詞","ます形","て形"]]],N4:[["動詞活用進階","否定、過去、可能",["ない形","た形","可能形"]],["日常表達","請求、經驗、計畫",["請求與許可","經驗表達","計畫與意圖"]]],N3:[["進階文法","句型比較",["ように／ために","わけ相關句型","ばかり相關句型"]],["閱讀與聽力","短文與對話",["短文閱讀","對話聽力","重點資訊辨識"]]]};
-const otherCourses={en:[["日常高頻單字","生活、工作與常用表達",["生活詞彙","工作詞彙","常見片語"]],["英文基礎文法","句型、時態與疑問句",["基本句型","現在與過去","疑問與否定"]],["英文聽力與閱讀","短句與情境理解",["短句聽力","情境對話","短文閱讀"]]],dual:[["英日配對入門","同義詞彙與發音",["日常英日配對","情境片語配對","發音對照"]],["雙語互動挑戰","配對、辨識與回顧",["配對競速","智慧挑戰","錯題回顧"]],["雙語情境應用","工作與生活對話",["購物與餐廳","交通與旅行","職場對話"]]]};
-
-const lessonBank={
-"平假名":[["あ","a","日文平假名的「あ」","あさ、ごはんを食（た）べます。","我早上吃早餐。"],["い","i","日文平假名的「い」","いえに帰（かえ）ります。","我回家。"],["う","u","日文平假名的「う」","うみがきれいです。","海很漂亮。"]],
-"片假名":[["ア","a","日文片假名的「ア」","アイスを食（た）べます。","我吃冰淇淋。"],["コ","ko","日文片假名的「コ」","コーヒーを飲（の）みます。","我喝咖啡。"],["ネ","ne","日文片假名的「ネ」","ネコが好（す）きです。","我喜歡貓。"]],
-"基本句型":[["学生","がくせい","學生","私（わたし）は学生（がくせい）です。","我是學生。"],["先生","せんせい","老師","田中（たなか）さんは先生（せんせい）です。","田中先生是老師。"],["日本語","にほんご","日文","日本語（にほんご）を勉強（べんきょう）します。","我學習日文。"]],
-"三類動詞":[["食べる","たべる","吃／第二類動詞","朝（あさ）ご飯（はん）を食（た）べます。","我吃早餐。"],["書く","かく","寫／第一類動詞","手紙（てがみ）を書（か）きます。","我寫信。"],["する","する","做／第三類動詞","毎日（まいにち）勉強（べんきょう）します。","我每天學習。"]],
-"生活詞彙":[["apple","/ˈæp.əl/","蘋果","I eat an apple.","我吃一顆蘋果。"],["water","/ˈwɔː.tɚ/","水","I drink water every day.","我每天喝水。"],["learn","/lɝːn/","學習","I learn English.","我學英文。"]],
-"日常英日配對":[["apple · りんご","apple / りんご","蘋果","I eat an apple. ／ りんごを食（た）べます。","我吃一顆蘋果。"],["water · 水","water / みず","水","I drink water. ／ 水（みず）を飲（の）みます。","我喝水。"],["study · 勉強する","study / べんきょうする","學習","I study every day. ／ 毎日（まいにち）勉強（べんきょう）します。","我每天學習。"]]
-,
-"en:基本句型":[["am","/æm/","是（I 的 be 動詞）","I am a student.","我是一位學生。"],["is","/ɪz/","是（單數第三人稱）","She is my teacher.","她是我的老師。"],["are","/ɑːr/","是（you／複數）","You are welcome.","不客氣。"]]
-};
-
-function jpRuby(text){
-  const box=document.createElement("span");
-  const pattern=/([一-龯々]+)（([ぁ-ゖー]+)）/g;
-  let last=0,match;
-  while((match=pattern.exec(text))){
-    box.append(document.createTextNode(text.slice(last,match.index)));
-    const ruby=document.createElement("ruby");
-    ruby.append(document.createTextNode(match[1]));
-    const rt=document.createElement("rt");rt.textContent=match[2];ruby.append(rt);
-    box.append(ruby);last=pattern.lastIndex;
-  }
-  box.append(document.createTextNode(text.slice(last)));
-  return box;
-}
-function japaneseWord(word,reading){
-  if(/^[一-龯々]+$/.test(word)&&/^[ぁ-ゖー]+$/.test(reading)){
-    return jpRuby(word+"（"+reading+"）");
-  }
-  const span=document.createElement("span");span.textContent=word;return span;
-}
-let activeSpeech=null;
-function speak(text,lang,button,status){
-  const synth=window.speechSynthesis;
-  if(!synth || !("SpeechSynthesisUtterance" in window)){
-    status.textContent="目前瀏覽器不支援朗讀。";return;
-  }
-  if(activeSpeech){
-    const previous=activeSpeech;activeSpeech=null;
-    previous.button.textContent=previous.original;
-    synth.cancel();
-    if(previous.button===button){status.textContent="已停止朗讀";return;}
-  }
-  const clean=(lang==="ja-JP"?text.replace(/（[ぁ-ゖー]+）/g,""):text).trim();
-  if(!clean){status.textContent="沒有可播放的文字。";return;}
-  const voices=typeof synth.getVoices==="function"?synth.getVoices():[];
-  const prefix=lang.slice(0,2).toLowerCase();
-  const available=voices.filter(v=>String(v.lang||"").toLowerCase().startsWith(prefix));
-  const match=available.find(v=>v.lang.toLowerCase()===lang.toLowerCase()&&v.localService)
-    ||available.find(v=>v.lang.toLowerCase()===lang.toLowerCase())
-    ||available.find(v=>v.localService)||available[0];
-  if(voices.length && !match){
-    status.textContent=prefix==="ja"?"找不到日文語音，請先安裝裝置的日文朗讀語音。":"找不到英文語音，請先安裝裝置的英文朗讀語音。";
-    return;
-  }
-  const utterance=new SpeechSynthesisUtterance(clean);
-  utterance.lang=lang;utterance.rate=lang==="ja-JP"?.88:.92;utterance.pitch=1;
-  if(match)utterance.voice=match;
-  const original=button.textContent;
-  activeSpeech={utterance,button,original};
-  button.textContent="■ 停止朗讀";
-  status.textContent=(lang==="ja-JP"?"日本語":"English")+" · "+(match?match.name:"系統預設")+" · 準備播放";
-  utterance.onstart=()=>{
-    if(activeSpeech?.utterance===utterance)status.textContent=(lang==="ja-JP"?"日文":"英文")+"朗讀中…";
-  };
-  utterance.onend=()=>{
-    if(activeSpeech?.utterance!==utterance)return;
-    button.textContent=original;activeSpeech=null;status.textContent="朗讀結束";
-  };
-  utterance.onerror=e=>{
-    if(activeSpeech?.utterance!==utterance)return;
-    button.textContent=original;activeSpeech=null;
-    status.textContent="播放失敗（"+(e.error||"未知原因")+"），請檢查裝置語音設定。";
-  };
-  try{synth.speak(utterance)}catch(e){button.textContent=original;activeSpeech=null;status.textContent="語音服務目前無法使用。";}
-}
-function addSpeechButton(row,status,label,text,lang,secondary){
-  const b=document.createElement("button");b.type="button";b.className="play-btn"+(secondary?" subtle":"");
-  b.textContent="🔊 "+label;b.addEventListener("click",()=>speak(text,lang,b,status));row.append(b);
-}
-function showLesson(chapter,name){
-  if(activeSpeech){window.speechSynthesis?.cancel();activeSpeech.button.textContent=activeSpeech.original;activeSpeech=null;}
-  lesson.replaceChildren();
-  const h=document.createElement("h2");h.textContent=chapter+" · "+name;lesson.append(h);
-  const entries=mode==="jp"?lessonBank[name]:mode==="en"?(lessonBank["en:"+name]||(name==="生活詞彙"?lessonBank[name]:null)):mode==="dual"&&name==="日常英日配對"?lessonBank[name]:null;
-  const intro=document.createElement("p");
-  intro.textContent=entries?"單字、例句與繁體中文對照 · 點擊朗讀按鈕聆聽正確語言":"本節教材仍在整合中；可使用下方原版完整課程繼續學習。";
-  lesson.append(intro);
-  if(entries)entries.forEach(([word,reading,meaning,sentence,translation])=>{
-    const card=document.createElement("article");card.className="vocab-card";
-    const top=document.createElement("div");top.className="vocab-title";
-    const wordEl=document.createElement("strong"),read=document.createElement("small");
-    const dual=mode==="dual"&&sentence.includes("／");
-    if(dual){
-      const [enWord,jpWord]=word.split(" · ");
-      const jpReading=(reading.split(" / ")[1]||"").trim();
-      wordEl.append(document.createTextNode(enWord+" · "));
-      wordEl.append(japaneseWord(jpWord,jpReading));
-    }else if(mode==="jp"){wordEl.append(japaneseWord(word,reading))}
-    else{wordEl.textContent=word}
-    read.textContent=reading;top.append(wordEl,read);
-    const meaningEl=document.createElement("p");meaningEl.textContent="中文｜"+meaning;
-    const example=document.createElement("div");example.className="example";
-    const segments=dual?sentence.split(/\s*／\s*/):[sentence];
-    segments.forEach((segment,i)=>{
-      const line=document.createElement("div");line.className="example-line";
-      if(dual){const label=document.createElement("span");label.className="lang-label";label.textContent=i===0?"EN":"JP";line.append(label)}
-      if(mode==="en"||(dual&&i===0)){line.append(document.createTextNode(segment))}
-      else{line.append(jpRuby(segment))}
-      example.append(line);
-    });
-    const translationEl=document.createElement("p");translationEl.textContent="翻譯｜"+translation;
-    const buttons=document.createElement("div");buttons.className="play-row";
-    const status=document.createElement("div");status.className="tts-status";status.setAttribute("role","status");
-    if(dual){
-      const [enWord,jpWord]=word.split(" · ");
-      const jpReading=(reading.split(" / ")[1]||"").trim();
-      addSpeechButton(buttons,status,"EN 單字",enWord,"en-US",true);
-      addSpeechButton(buttons,status,"JP 單字",jpReading||jpWord,"ja-JP",true);
-      addSpeechButton(buttons,status,"EN 例句",segments[0],"en-US",false);
-      addSpeechButton(buttons,status,"JP 例句",segments[1],"ja-JP",false);
-    }else{
-      const lang=mode==="en"?"en-US":"ja-JP";
-      addSpeechButton(buttons,status,"播放單字",mode==="en"?word:reading,lang,true);
-      addSpeechButton(buttons,status,"播放例句",sentence,lang,false);
-    }
-    card.append(top,meaningEl,example,translationEl,buttons,status);lesson.append(card);
-  });
-  const link=document.createElement("a");link.href="/";link.className="legacy-link";
-  link.textContent="前往原版完整教材與練習 →";lesson.append(link);
-  lesson.classList.add("visible");lesson.scrollIntoView({behavior:"smooth",block:"nearest"});
-}
-
-let mode="jp",level="N5";
-const chapters=document.getElementById("chapters"),lesson=document.getElementById("lesson");
-function render(){lesson.classList.remove("visible");document.getElementById("levels").hidden=mode!=="jp";document.getElementById("course-title").textContent=mode==="jp"?"日本語學習地圖":mode==="en"?"English 英文學習": "EN × JP 雙語學習";document.getElementById("subtitle").textContent=mode==="jp"?"JAPANESE COURSE":mode==="en"?"ENGLISH COURSE":"BILINGUAL COURSE";document.getElementById("description").textContent=mode==="jp"?"選擇程度，點擊章節展開小節。":"選擇章節並展開小節；目前僅為導覽原型，不會更動舊資料。";chapters.replaceChildren();const courseChapters=mode==="jp"?data[level]:otherCourses[mode];courseChapters.forEach((chapter,i)=>{const d=document.createElement("details");d.className="chapter";if(i===0)d.open=true;d.addEventListener("toggle",()=>{if(d.open)chapters.querySelectorAll("details.chapter").forEach(other=>{if(other!==d)other.open=false})});const summary=document.createElement("summary");summary.textContent="第 "+(i+1)+" 章｜"+chapter[0];const small=document.createElement("small");small.textContent=chapter[1];summary.append(small);d.append(summary);const sectionBox=document.createElement("div");sectionBox.className="sections";chapter[2].forEach((name,j)=>{const b=document.createElement("button");b.className="section";b.textContent="第 "+(j+1)+" 節｜"+name;b.addEventListener("click",()=>{showLesson(chapter[0],name)});sectionBox.append(b)});d.append(sectionBox);chapters.append(d)})}
-document.querySelectorAll("[data-mode]").forEach(b=>b.addEventListener("click",()=>{mode=b.dataset.mode;document.querySelectorAll("[data-mode]").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));render()}));document.querySelectorAll("[data-level]").forEach(b=>b.addEventListener("click",()=>{level=b.dataset.level;document.querySelectorAll("[data-level]").forEach(x=>x.setAttribute("aria-selected",String(x===b)));render()}));render();
-</script></body></html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#071724">
+  <meta name="description" content="ENJP Ocean 3.0 課程導航試用版：日文 N5–N3、英文、雙語學習。">
+  <title>ENJP Ocean 3.0｜課程學習地圖</title>
+  <link rel="stylesheet" href="./ui.css?v=3.1.0">
+  <script src="./course-map.js?v=3.1.0" defer></script>
+  <script src="./audio.js?v=3.1.0" defer></script>
+  <script src="./app.js?v=3.1.0" defer></script>
+</head>
+<body>
+  <main class="wrap">
+    <div class="topbar">
+      <div class="logo"><span class="logo-symbol" aria-hidden="true">🌊</span><span>ENJP Ocean<small>LANGUAGE JOURNEY · 3.1</small></span></div>
+      <div class="top-links">
+        <a class="navlink" href="/">↗ 原版完整課程</a>
+        <a class="navlink primary" href="#audio-settings">🔊 語音設定與測試</a>
+      </div>
+    </div>
+    <header class="hero">
+      <span class="kicker">A CLEARER WAY TO LEARN · 3.1 BETA</span>
+      <h1>學習有方向，進步不迷航。</h1>
+      <p>日文、英文、英日雙語各有清楚的學習路線。課程在左邊，教材在右邊；選章不鎖定，專注每次的小進步。</p>
+    </header>
+    <nav class="mode-strip" aria-label="學習模式">
+      <button type="button" class="mode" data-mode="jp" aria-pressed="true">
+        <span class="mode-icon" aria-hidden="true">あ</span>
+        <span><strong>日本語</strong><small>N5 / N4 / N3 文法與詞彙</small></span>
+      </button>
+      <button type="button" class="mode" data-mode="en" aria-pressed="false">
+        <span class="mode-icon" aria-hidden="true">Aa</span>
+        <span><strong>English</strong><small>日常單字・英文句型</small></span>
+      </button>
+      <button type="button" class="mode" data-mode="dual" aria-pressed="false">
+        <span class="mode-icon" aria-hidden="true">⇄</span>
+        <span><strong>EN × JP</strong><small>英日配對・雙語例句</small></span>
+      </button>
+    </nav>
+    <div class="workarea" id="course-workarea">
+      <aside class="rail" aria-label="課程章節導覽">
+        <div class="kicker" id="rail-kicker">JAPANESE PATH</div>
+        <h2 id="rail-heading">日本語課程</h2>
+        <p id="rail-description" class="rail-caption">依照程度選擇課程，再點擊章節。</p>
+        <div class="levels" id="levels" role="tablist" aria-label="JLPT 等級">
+          <button type="button" class="level" data-level="N5" role="tab" aria-selected="true">N5</button>
+          <button type="button" class="level" data-level="N4" role="tab" aria-selected="false">N4</button>
+          <button type="button" class="level" data-level="N3" role="tab" aria-selected="false">N3</button>
+        </div>
+        <div class="filter-wrap">
+          <label for="filter">搜尋此模式的章節或小節</label>
+          <input type="search" id="filter" placeholder="例如：動詞、聽力、可能形" autocomplete="off">
+        </div>
+        <div id="chapters" class="chapters"></div>
+      </aside>
+      <article class="reader" id="reader" aria-label="課程教材閱讀區">
+        <div id="reader-content" aria-live="polite"></div>
+        <details class="voice-panel" id="audio-settings">
+          <summary>🔊 語音設定與發音檢查</summary>
+          <p>語音依你的電腦或手機所安裝的語音而定。日文例句優先使用教材標註的假名發音；如果音色不自然，可在此切換同語言的語音。</p>
+          <div class="voice-row">
+            <label for="voice-jp">日文語音
+              <select id="voice-jp" aria-label="選擇日文朗讀語音"><option value="">自動選擇日文語音</option></select>
+            </label>
+            <label for="voice-en">英文語音
+              <select id="voice-en" aria-label="選擇英文朗讀語音"><option value="">Auto English voice</option></select>
+            </label>
+          </div>
+          <div class="test-row">
+            <button type="button" class="play alt" id="test-jp">🔊 試聽日文</button>
+            <button type="button" class="play alt" id="test-en">🔊 Test English</button>
+          </div>
+          <div id="audio-help" class="audio-status" role="status">如果發音不自然，先試聽其他語音再回到教材。</div>
+        </details>
+      </article>
+    </div>
+    <p class="global-note">這是 3.1 課程導航測試版。章節分類已重做，但目前只有標示「試學」的項目接入示例教材；其餘完整單字、練習、備份與學習進度都保留在<a href="/">原版網站</a>，不會被此頁重設。</p>
+    <footer class="footer">ENJP Ocean · Learn steadily, explore freely · 3.1 Beta</footer>
+  </main>
+</body>
+</html>
