@@ -97,6 +97,55 @@
      grid.append(cell);
    });
    panel.append(grid);
+   const eligible=rows.filter(r=>r.key!=="辭書形"&&r.key!=="基本形");
+   if(eligible.length){
+     const quiz=el("section","conjugation-challenge");
+     quiz.append(el("h4","","⚡ 活用小挑戰｜自己寫出變化形"));
+     quiz.append(el("p","challenge-hint","輸入漢字或平假名均可。這是本次畫面的練習，不會修改舊版進度。"));
+     const question=el("p","challenge-question");
+     const row=el("div","challenge-controls");
+     const input=el("input","challenge-input");
+     input.type="text";input.autocomplete="off";
+     input.setAttribute("lang","ja");input.setAttribute("aria-label","輸入正確的日文變化形");
+     input.placeholder="在這裡輸入日文…";
+     const check=el("button","quest-mark challenge-submit","確認答案"),next=el("button","quest-mark challenge-next","下一題");
+     check.type="button";next.type="button";next.disabled=true;
+     const feedback=el("div","challenge-result","");
+     feedback.setAttribute("role","status");
+     const tally=el("p","challenge-tally","本次練習：0 / 0 題");
+     quiz.append(question,row,feedback,tally);
+     row.append(input,check,next);
+     let active=null,answered=false,correct=0,attempted=0;
+     const norm=text=>String(text||"").normalize("NFKC").replace(/[ァ-ヶ]/g,ch=>String.fromCharCode(ch.charCodeAt(0)-96)).replace(/\s/g,"");
+     function newQuestion(){
+       const pool=eligible.filter(x=>x!==active);
+       active=(pool.length?pool:eligible)[Math.floor(Math.random()*(pool.length||eligible.length))];
+       answered=false;input.value="";feedback.replaceChildren();
+       question.textContent="請寫出「"+item.word+"」的【"+active.key+"】";
+       question.dataset.key=active.key;
+       check.disabled=false;next.disabled=true;
+     }
+     function submit(){
+       if(answered)return;
+       const reply=norm(input.value);
+       if(!reply){feedback.textContent="請先輸入答案。";return}
+       answered=true;attempted++;
+       const ok=reply===norm(active.word)||reply===norm(active.reading);
+       if(ok)correct++;
+       feedback.replaceChildren(el("strong",ok?"✓ 答對了！":"✕ 答錯了，正確答案："));
+       const answer=el("span","challenge-answer");
+       answer.append(Audio.makeRuby(Forms.annotation(active.word,active.reading)));
+       feedback.append(answer,el("span","challenge-reading","｜讀音："+active.reading));
+       feedback.dataset.result=ok?"correct":"wrong";
+       tally.textContent="本次練習："+correct+" / "+attempted+" 題";
+       check.disabled=true;next.disabled=false;
+     }
+     check.addEventListener("click",submit);
+     next.addEventListener("click",()=>{if(answered)newQuestion()});
+     input.addEventListener("keydown",event=>{if(event.key==="Enter"&&!event.isComposing)submit()});
+     newQuestion();
+     panel.append(quiz);
+   }
    return panel;
  }
 
