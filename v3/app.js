@@ -50,7 +50,7 @@
       const d=el("details","chapter");
       d.dataset.chapter=chapter.id;
       const hasCurrent=sections.some(s=>s.id===state.sectionId);
-      d.open=hasCurrent||first;
+      d.open=hasCurrent||(!state.sectionId&&first);
       first=false;
       const summary=el("summary");
       append(summary,
@@ -98,6 +98,44 @@
       stats.append(append(el("div","info-box"),el("strong","",String(value)),el("span","",label)));
     }
     root.append(stats);
+    const migrated=window.ENJP_MIGRATED?.sections||{};
+    const allIds=Object.keys(migrated);
+    let shortcuts=[];
+    if(state.mode==="jp"){
+      const verb=allIds.find(id=>id.startsWith("legacy-lex-"+state.level+"-V"));
+      const adj=allIds.find(id=>id.startsWith("legacy-lex-"+state.level+"-A"));
+      shortcuts=[
+        ["📖 "+state.level+" 文法","legacy-grammar-"+state.level+"-1","句型接續、例句與中文說明"],
+        ["⚔️ "+state.level+" 動詞活用",verb,"11 種變化＋輸入挑戰"],
+        ["✨ "+state.level+" 形容詞",adj,"い形／な形與變化練習"],
+        ["🌊 英日情境單字","legacy-vocab-jp-1","原版 30 章完整英日詞彙"]
+      ];
+    }else{
+      shortcuts=[1,10,20,30].map(n=>[
+        "🗺️ Chapter "+String(n).padStart(2,"0"),
+        "legacy-vocab-"+state.mode+"-"+n,
+        "原版雙語單字、例句與中文翻譯"
+      ]);
+    }
+    shortcuts=shortcuts.filter(([_,id])=>id&&migrated[id]);
+    if(shortcuts.length){
+      const quick=el("section","course-quick-start");
+      quick.append(el("h3","","⚡ 快速進入正式教材"));
+      quick.append(el("p","",state.mode==="jp"?"選擇你想練的日語技能，不需要按照章節解鎖。":"直接挑選你感興趣的原版情境章節。"));
+      const entries=el("div","course-quick-grid");
+      shortcuts.forEach(([label,id,hint])=>{
+        const b=el("button","course-quick-item");
+        b.type="button";
+        b.append(el("strong","",label),el("small","",hint));
+        b.addEventListener("click",()=>{
+          Audio.stop();state.sectionId=id;
+          renderChapters();renderReader();
+          if(window.matchMedia("(max-width:640px)").matches)$("reader").scrollIntoView({behavior:"smooth",block:"start"});
+        });
+        entries.append(b);
+      });
+      quick.append(entries);root.append(quick);
+    }
     const welcome=el("div","welcome-grid");
     for(const [title,desc] of [["01｜選課不鎖定","N5／N4／N3 與所有章節都可以自由打開；不用先取得五顆星。"],["02｜分開顯示教材","原版資料已匯入「教材庫」章節；部分朗讀及標音持續校對，其餘未完成項目會標示。"],["03｜中英日各自朗讀","日文依教材標註讀音發聲，英文不混入日文聲線；下方可選裝置上的語音。"],["04｜保留原版學習紀錄","完整舊版教材已經可從本頁閱讀；原版測驗、複習排程與學習紀錄不會被覆寫。"]]){
       welcome.append(append(el("div","welcome-card"),el("h3","",title),el("p","",desc)));
