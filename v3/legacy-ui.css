@@ -31,3 +31,15 @@
 .legacy-mark-actions .quest-mark{min-width:112px}
 .legacy-mark-status{color:#a6cfdf;font-size:.82rem;line-height:1.6;margin:8px 0 0}
 @media(max-width:640px){.legacy-mark-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.legacy-mark-actions .quest-mark{min-width:0;padding:10px 5px;font-size:.84rem}}
+
+/* Japanese conjugation lab */
+.legacy-forms{margin-top:16px}
+.legacy-forms-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;padding:10px 13px 14px}
+.legacy-form-row{border:1px solid #466580;background:#163b58;border-radius:10px;padding:12px;min-width:0;display:flex;flex-direction:column;gap:5px}
+.legacy-form-row>strong{font-size:.83rem;color:#9bcff1}
+.legacy-form-word{font-size:1.12rem;color:#f0faff;line-height:2.1;overflow-wrap:anywhere}
+.legacy-form-word ruby rt{font-size:.55em;color:#b5edff}
+.legacy-form-row>small{font-size:.86rem;color:#bad3e4}
+.legacy-form-row .audio-row{margin-top:6px}
+.legacy-form-row .audio-status{font-size:.7rem}
+@media(max-width:640px){.legacy-forms-grid{grid-template-columns:1fr}.legacy-form-row{padding:11px}}
