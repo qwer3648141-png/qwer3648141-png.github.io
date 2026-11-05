@@ -1,0 +1,28 @@
+
+/* Full legacy lesson library within ENJP Ocean 3.3 game-themed reader */
+.legacy-deck{min-width:0;margin-top:18px}
+.legacy-intro{border:1px solid #466b91;border-left:4px solid #a48cff;background:linear-gradient(115deg,#1b3155,#13394e);border-radius:14px;padding:18px 19px;margin:0 0 16px}
+.legacy-intro strong{display:block;color:#e4e4ff;font-size:1.15rem;line-height:1.5}
+.legacy-intro p{font-size:.95rem;color:#c2daea;line-height:1.7;margin:7px 0 0}
+.legacy-toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:0 0 9px}
+.legacy-toolbar label{color:#aad6ed;font-size:.96rem;font-weight:750}
+.legacy-filter{flex:1;min-width:180px;background:#0b2c44;border:1px solid #577a98;color:#ecfaff;min-height:44px;padding:10px 14px;border-radius:11px;font-size:1rem}
+.legacy-filter::placeholder{color:#8baaba}
+.legacy-count{font-size:.9rem;color:#a9d3e2;text-align:right;margin:8px 2px 15px}
+.legacy-card .quest-core{grid-template-columns:minmax(190px,30%) minmax(0,1fr)}
+.legacy-card .quest-identity{padding:20px 21px}
+.legacy-card .quest-identity .word-main{font-size:clamp(1.5rem,2.2vw,2.15rem)}
+.legacy-card .quest-mission{padding:19px 22px}
+.legacy-card .quest-sentence{font-size:clamp(1.13rem,1.5vw,1.4rem)}
+.legacy-meta{color:#b3c9ea;font-size:.93rem;line-height:1.6;overflow-wrap:anywhere}
+.legacy-phrase-grid{padding:6px 13px 13px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:9px}
+.legacy-phrase{border-radius:9px;border:1px solid #406483;background:#153e56;padding:10px 12px;min-width:0}
+.legacy-phrase p{margin:5px 0;line-height:1.9;font-size:.94rem;color:#e3f7fc;overflow-wrap:anywhere}
+.legacy-phrase .legacy-phrase-jp{font-size:1rem;line-height:2.2}
+.legacy-phrase small{color:#b8d4e4;font-size:.88rem;line-height:1.65}
+.legacy-note{font-size:.87rem;line-height:1.8;color:#c1ccdc;margin:12px 0 0}
+.legacy-pager{display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap;margin:23px 0}
+.legacy-pager strong{font-size:.96rem;color:#aee6f6}
+.legacy-pager button[disabled],.legacy-card button[disabled]{opacity:.55;cursor:not-allowed}
+@media(max-width:1050px){.legacy-card .quest-core{grid-template-columns:1fr}.legacy-card .quest-identity{border-right:0;border-bottom:1px solid #3d587c}}
+@media(max-width:640px){.legacy-intro{padding:15px}.legacy-intro strong{font-size:1.04rem}.legacy-card .quest-mission,.legacy-card .quest-identity{padding:16px}.legacy-phrase-grid{grid-template-columns:1fr}.legacy-toolbar{display:block}.legacy-toolbar label{display:block;margin:0 0 8px}.legacy-filter{width:100%}.legacy-pager{gap:9px;justify-content:space-between}}
