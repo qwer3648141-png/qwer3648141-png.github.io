@@ -164,6 +164,30 @@
     });
     wrap.append(grid);return wrap;
   }
+  function visualExample(sectionId,index){
+    const assets=window.ENJP_IMAGE_EXAMPLES||{};
+    const asset=assets[sectionId+":"+index];
+    if(!asset)return null;
+    const figure=el("figure","quest-visual");
+    const frame=el("div","quest-visual-frame");
+    const photo=el("img","quest-picture");
+    photo.src=asset.src;photo.alt=asset.alt;
+    photo.loading="lazy";photo.decoding="async";
+    photo.setAttribute("width","330");photo.setAttribute("height","220");
+    const chip=el("span","quest-visual-chip","◈ VISUAL MEMORY");
+    frame.append(photo,chip);
+    const caption=el("figcaption","quest-photo-credit");
+    const source=el("a","",asset.credit+" · "+asset.license);
+    source.href=asset.source;source.target="_blank";source.rel="noopener noreferrer";
+    caption.append(source);
+    photo.addEventListener("error",()=>{
+      photo.hidden=true;
+      frame.classList.add("visual-unavailable");
+      chip.textContent="圖片暫時無法載入";
+    });
+    figure.append(frame,caption);
+    return figure;
+  }
   function vocabCard(entry,type,sectionId,index,level,refreshProgress){
     const card=el("section","quest-card");
     const flags=flagFor(sectionId,index);
@@ -190,6 +214,8 @@
     if(type==="jp")left.append(el("div","quest-reading","読み｜"+entry.reading));
     if(type==="dual")left.append(el("div","quest-reading","日本語｜"+entry.reading));
     left.append(el("p","quest-meaning",entry.zh));
+    const visual=visualExample(sectionId,index);
+    if(visual)left.append(visual);
     if(entry.usage){
       const usage=el("div","quest-use");
       usage.append(el("span","quest-subhead","GRAMMAR FORM / 接續形式"),el("strong","",entry.usage));
