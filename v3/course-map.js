@@ -58,21 +58,28 @@
       {term:"日本語",reading:"にほんご",zh:"日文",example:"日本語（にほんご）を勉強（べんきょう）します。",translation:"我學習日文。"}
     ]},
     "jp-verbs":{type:"jp",title:"動詞分類與常用動詞",items:[
-      {term:"食べる",reading:"たべる",zh:"吃｜第二類動詞",example:"朝（あさ）ご飯（はん）を食（た）べます。",translation:"我吃早餐。"},
-      {term:"書く",reading:"かく",zh:"寫｜第一類動詞",example:"手紙（てがみ）を書（か）きます。",translation:"我寫信。"},
+      {term:"食べる",ruby:"食（た）べる",reading:"たべる",zh:"吃｜第二類動詞",example:"朝（あさ）ご飯（はん）を食（た）べます。",translation:"我吃早餐。"},
+      {term:"書く",ruby:"書（か）く",reading:"かく",zh:"寫｜第一類動詞",example:"手紙（てがみ）を書（か）きます。",translation:"我寫信。"},
       {term:"する",reading:"する",zh:"做｜第三類動詞",example:"毎日（まいにち）勉強（べんきょう）します。",translation:"我每天學習。"}
     ]},
     "jp-adj-i":{type:"jp",title:"い形容詞",items:[
-      {term:"高い",reading:"たかい",zh:"高、昂貴",example:"この本（ほん）は高（たか）いです。",translation:"這本書很貴。"},
-      {term:"寒い",reading:"さむい",zh:"寒冷",example:"今日（きょう）は寒（さむ）いです。",translation:"今天很冷。"}
+      {term:"高い",ruby:"高（たか）い",reading:"たかい",zh:"高、昂貴",example:"この本（ほん）は高（たか）いです。",translation:"這本書很貴。"},
+      {term:"寒い",ruby:"寒（さむ）い",reading:"さむい",zh:"寒冷",example:"今日（きょう）は寒（さむ）いです。",translation:"今天很冷。"}
     ]},
     "jp-n4-potential":{type:"jp",title:"可能形",items:[
-      {term:"話せる",reading:"はなせる",zh:"會說、能說",example:"日本語（にほんご）が少（すこ）し話（はな）せます。",translation:"我會說一點日文。"},
-      {term:"行ける",reading:"いける",zh:"能去",example:"明日（あした）は行（い）けます。",translation:"明天可以去。"}
+      {term:"話せる",ruby:"話（はな）せる",reading:"はなせる",zh:"會說、能說",example:"日本語（にほんご）が少（すこ）し話（はな）せます。",translation:"我會說一點日文。"},
+      {term:"行ける",ruby:"行（い）ける",reading:"いける",zh:"能去",example:"明日（あした）は行（い）けます。",translation:"明天可以去。"}
     ]},
-    "jp-n3-purpose":{type:"jp",title:"ように／ために",items:[
-      {term:"ように",reading:"ように",zh:"為了達到某狀態",example:"忘（わす）れないようにメモします。",translation:"為了避免忘記，我會記下來。"},
-      {term:"ために",reading:"ために",zh:"為了某個目的",example:"合格（ごうかく）するために勉強（べんきょう）します。",translation:"為了考試合格而讀書。"}
+    "jp-n3-purpose":{type:"jp",title:"ように／ために",kind:"grammar",comparison:{
+      title:"技能比較｜狀態 vs. 目的",
+      intro:"兩者都有「為了」的意思，但表達的焦點不同。",
+      parts:[
+        {name:"ように",label:"目標狀態",detail:"希望達成某個狀態；常見於可能形、否定形或非意志性變化。"},
+        {name:"ために",label:"明確目的",detail:"以明確的目標為目的採取行動；常接意志動詞辭書形。"}
+      ]
+    },items:[
+      {term:"ように",reading:"ように",zh:"為了達到某狀態",usage:"Vない形／可能形 + ように",tip:"重點在想達到或避免的狀態，不只是在說一個計畫。",breakdown:[["忘（わす）れない","不忘記"],["ように","為了避免這個狀態"],["メモします","記下來"]],example:"忘（わす）れないようにメモします。",translation:"為了避免忘記，我會記下來。"},
+      {term:"ために",reading:"ために",zh:"為了某個明確目的",usage:"意志動詞辭書形 + ために",tip:"重點是有意識地為特定目的採取行動。",breakdown:[["合格（ごうかく）する","考試合格"],["ために","為了這個目的"],["勉強（べんきょう）します","用功學習"]],example:"合格（ごうかく）するために勉強（べんきょう）します。",translation:"為了考試合格而讀書。"}
     ]},
     "en-life":{type:"en",title:"生活高頻單字",items:[
       {term:"apple",ipa:"/ˈæp.əl/",zh:"蘋果",example:"I eat an apple.",translation:"我吃一顆蘋果。"},
@@ -87,7 +94,7 @@
     "dual-daily":{type:"dual",title:"生活英日配對",items:[
       {en:"apple",jp:"りんご",reading:"りんご",zh:"蘋果",enExample:"I eat an apple.",jpExample:"りんごを食（た）べます。",translation:"我吃一顆蘋果。"},
       {en:"water",jp:"水",reading:"みず",zh:"水",enExample:"I drink water.",jpExample:"水（みず）を飲（の）みます。",translation:"我喝水。"},
-      {en:"study",jp:"勉強する",reading:"べんきょうする",zh:"學習",enExample:"I study every day.",jpExample:"毎日（まいにち）勉強（べんきょう）します。",translation:"我每天學習。"}
+      {en:"study",jp:"勉強する",ruby:"勉強（べんきょう）する",reading:"べんきょうする",zh:"學習",enExample:"I study every day.",jpExample:"毎日（まいにち）勉強（べんきょう）します。",translation:"我每天學習。"}
     ]}
   };
   window.ENJP_COURSES={jp,en,dual,lesson};
