@@ -6,8 +6,17 @@
  const el=(tag,cls,text)=>{const x=document.createElement(tag);if(cls)x.className=cls;if(text!==undefined)x.textContent=String(text);return x};
  const add=(p,...items)=>{p.append(...items);return p};
  const rubyPattern=/<ruby>([^<]*)<rt>([^<]*)<\/rt><\/ruby>/g;
+ // Exact known corrections for incorrectly truncated readings in the original data.
+ const verifiedCorrections={
+   "今日|きょ":"きょう","今日|き":"きょう",
+   "預金|うよきん":"よきん","禁止|きん":"きんし",
+   "手続|んてつづ":"てつづ"
+ };
  function annotated(html){
-   return String(html||"").replace(rubyPattern,(_,surface,reading)=>/^[一-龯々]+$/.test(surface)&&/^[ぁ-ゖー]+$/.test(reading)?surface+"（"+reading+"）":surface).replace(/<[^>]*>/g,"").replaceAll("&nbsp;"," ");
+   return String(html||"").replace(rubyPattern,(_,surface,reading)=>{
+     const fixed=verifiedCorrections[surface+"|"+reading]||reading;
+     return /^[一-龯々]+$/.test(surface)&&/^[ぁ-ゖー]+$/.test(fixed)?surface+"（"+fixed+"）":surface;
+   }).replace(/<[^>]*>/g,"").replaceAll("&nbsp;"," ");
  }
  const ruby=t=>Audio.makeRuby(annotated(t));
  const safe=t=>Audio.spokenJapanese(annotated(t))?annotated(t):null;
