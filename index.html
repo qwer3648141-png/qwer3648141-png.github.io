@@ -74,6 +74,10 @@ button{cursor:pointer}
 .matchStats{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:18px;flex-wrap:wrap}
 .matchGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .tile{min-height:70px;border:1px solid var(--line);background:#fff;border-radius:15px;padding:12px;font-size:18px;display:flex;align-items:center;justify-content:center;text-align:center}
+/* Keep ruby and adjacent kana in one inline text flow inside the flex tile. */
+.match-jp-label{min-width:0;line-height:1.65}
+.match-jp-label ruby{ruby-position:over;ruby-align:center}
+.match-jp-label rt{font-size:.58em;line-height:1}
 .tile.selected{border-color:var(--blue);background:var(--blue2)}.tile.done{visibility:hidden}
 .libraryTools{display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap}.libraryTools input{flex:1;min-width:240px;border:1px solid var(--line);border-radius:13px;padding:11px 14px}
 .wordList{display:grid;gap:10px}
@@ -3255,7 +3259,21 @@ function startMatch(){
   items.forEach((v,i)=>{tiles.push({id:i,side:"en",html:v.en});tiles.push({id:i,side:"jp",html:v.jp_ruby})});
   const box=document.getElementById("matchGrid");box.innerHTML="";match={timer:null,start:performance.now(),errors:0,selected:null,done:0,items,missedIds:new Set(),masteryGain:0};
   document.getElementById("matchErrors").textContent="0";document.getElementById("matchTime").textContent="0.0s";document.getElementById("matchMasteryGain").textContent="本局有效訓練 +0";
-  shuffle(tiles).forEach(t=>{const b=document.createElement("button");b.className="tile";b.innerHTML=t.html;b.dataset.id=t.id;b.dataset.side=t.side;b.addEventListener("click",()=>clickTile(b));box.appendChild(b)});
+  shuffle(tiles).forEach(t=>{
+    const b=document.createElement("button");
+    b.className="tile";
+    if(t.side==="jp"){
+      const label=document.createElement("span");
+      label.className="match-jp-label";
+      label.lang="ja";
+      label.innerHTML=t.html;
+      b.appendChild(label);
+    }else b.innerHTML=t.html;
+    b.dataset.id=t.id;
+    b.dataset.side=t.side;
+    b.addEventListener("click",()=>clickTile(b));
+    box.appendChild(b);
+  });
   match.timer=setInterval(()=>document.getElementById("matchTime").textContent=((performance.now()-match.start)/1000+match.errors).toFixed(1)+"s",100);
 }
 function clickTile(b){
