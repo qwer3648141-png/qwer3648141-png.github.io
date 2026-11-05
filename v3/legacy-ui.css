@@ -46,3 +46,21 @@
 .conjugation-help{font-size:.82rem;line-height:1.65;color:#bdd0e1;margin:4px 0 0}
 @media(max-width:680px){.conjugation-grid{grid-template-columns:1fr;padding:0 10px 12px}.conjugation-panel>summary{font-size:.97rem;padding:14px 13px}.conjugation-rule{font-size:.9rem;margin-inline:12px}.conjugation-word{font-size:1.2rem}}
 @media(prefers-reduced-motion:reduce){.conjugation-panel{scroll-behavior:auto}}
+
+
+/* N5–N3 active-recall conjugation practice */
+.conjugation-challenge{margin:0 14px 16px;padding:16px;border-radius:14px;border:1px solid #6374ac;background:linear-gradient(140deg,#222e50,#143d53)}
+.conjugation-challenge h4{font-size:1.06rem;line-height:1.55;color:#efe9ff;margin:0 0 7px}
+.challenge-hint{font-size:.85rem;line-height:1.75;color:#b9d1e7;margin:0 0 13px}
+.challenge-question{font-size:1.12rem;font-weight:760;line-height:1.75;color:#f4f9ff;margin:0 0 14px}
+.challenge-controls{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.challenge-input{flex:1;min-width:150px;min-height:45px;border-radius:10px;padding:11px 13px;font-size:1.08rem;color:#fff;background:#0d2e47;border:1px solid #567da1}
+.challenge-controls button{font-size:.93rem;min-height:44px;padding:9px 13px}
+.challenge-controls button:disabled{opacity:.5;cursor:not-allowed}
+.challenge-result{display:flex;align-items:center;flex-wrap:wrap;gap:8px;line-height:1.85;margin-top:13px;color:#d4f5ef;font-size:.97rem}
+.challenge-result[data-result=wrong]{color:#ffd9ad}
+.challenge-result .challenge-answer{color:#fff;font-size:1.12rem;line-height:2.2}
+.challenge-result ruby rt{color:#99eaf4;font-size:.58em}
+.challenge-reading{color:#c5d9e8}
+.challenge-tally{font-size:.83rem;color:#a9c4d9;margin:10px 0 0}
+@media(max-width:680px){.conjugation-challenge{margin:0 10px 12px;padding:13px}.challenge-input{width:100%;flex-basis:100%}.challenge-controls button{flex:1}}
