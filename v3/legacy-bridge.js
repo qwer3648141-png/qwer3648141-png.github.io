@@ -12,7 +12,7 @@
   const chapter=(id,title,summary,sections)=>({id,title,summary,sections});
   const titleFor=n=>{
     const x=L.catalog[String(n)];
-    return x?(x.icon+" "+String(n).padStart(2,"0")+"｜"+x.title):("Chapter "+n);
+    return (x?.icon||"📘")+" "+String(n).padStart(2,"0")+"｜"+(x?.title||L.vocab[String(n)]?.[0]?.topic||("Chapter "+n));
   };
   function attachVocabulary(target,mode){
     for(let group=0;group<6;group++){
