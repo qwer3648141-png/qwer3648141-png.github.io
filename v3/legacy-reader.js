@@ -99,6 +99,23 @@
    }
    update();footer.append(controls,status);
  }
+ function formTable(item){
+   const entries=window.ENJP_Conjugation?.forms(item)||[];
+   if(!entries.length)return null;
+   const details=el("details","quest-breakdown legacy-forms");
+   details.append(el("summary","","▸ "+(item.kind==="verb"?"動詞變化表":"形容詞變化表")+"（"+entries.length+" 種形式，附假名發音）"));
+   const grid=el("div","legacy-forms-grid");
+   entries.forEach(entry=>{
+     const row=el("div","legacy-form-row");
+     const name=el("strong","",entry.label),text=el("span","legacy-form-word");
+     text.append(ruby(wordRuby(entry.surface,entry.reading)));
+     const read=el("small","","讀音："+entry.reading);
+     const controls=el("div","audio-row"),status=el("span","audio-status","");
+     speak(controls,status,"🔊",entry.reading,"jp");
+     row.append(name,text,read,controls,status);grid.append(row);
+   });
+   details.append(grid);return details;
+ }
  function card(type,item,mode,i,sectionId){
    const card=el("article","quest-card legacy-card");
    card.append(header(i,item.topic||item.lv||item.level||"",type.toUpperCase()));
@@ -139,7 +156,9 @@
        right.append(el("p","quest-translation","中文｜"+(item.collocationCn?.[j]||"")));
      });
      speak(controls,status,"🔊 單字",item.reading,"jp");
-     right.append(el("p","legacy-note","搭配短語的振假名與語音尚待校對，不會擅自猜讀。"));
+     const conjugation=formTable(item);
+     if(conjugation)right.append(conjugation);
+     right.append(el("p","legacy-note","搭配短語的振假名與語音尚待校對；變化表附原形、活用及假名發音。"));
    }
    core.append(left,right);
    const foot=el("div","quest-footer");foot.append(controls,status);
