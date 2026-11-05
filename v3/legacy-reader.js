@@ -15,6 +15,7 @@
  function annotated(html){
    return String(html||"").replace(rubyPattern,(_,surface,reading)=>{
      const fixed=verifiedCorrections[surface+"|"+reading]||reading;
+     if(Forms){const aligned=Forms.annotation(surface,fixed);if(aligned!==surface)return aligned}
      return /^[一-龯々]+$/.test(surface)&&/^[ぁ-ゖー]+$/.test(fixed)?surface+"（"+fixed+"）":surface;
    }).replace(/<[^>]*>/g,"").replaceAll("&nbsp;"," ");
  }
