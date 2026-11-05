@@ -181,3 +181,38 @@ a{color:#a2ebfc}
 @media(max-width:860px){.quest-core{grid-template-columns:1fr}.quest-identity{border-right:0;border-bottom:1px solid #3d587c;padding:19px 20px}.quest-mission{padding:19px 20px}}
 @media(max-width:640px){.compare-grid{grid-template-columns:1fr}.quest-topline{align-items:flex-start}.quest-tags{justify-content:flex-start}.quest-core{grid-template-columns:1fr}.quest-identity{padding:19px 16px}.quest-mission{padding:17px 16px}.quest-footer{padding:14px 16px}.quest-sentence{padding:12px 13px}.quest-mark-actions{width:100%}.quest-mark{flex:1}.quest-progress{padding:13px 14px}.skill-comparison{padding:15px}.quest-identity .word-main{font-size:1.6rem}}
 @media(prefers-reduced-motion:reduce){.quest-card,.quest-progress-fill,.quest-mark{transition:none}}
+
+
+/* V3.3 legibility and photo examples */
+.rail h2{font-size:1.5rem}.rail-caption{font-size:1rem;line-height:1.75}
+.level{font-size:1.04rem;min-height:45px}
+.filter-wrap label{font-size:.94rem}.filter-wrap input{font-size:1.03rem;min-height:48px}
+.chapter-name{font-size:1.12rem;line-height:1.55}
+.chapter-desc{font-size:.94rem;line-height:1.6}
+.section{font-size:1.07rem;line-height:1.6;min-height:53px}
+.section-tag{font-size:.78rem;padding:4px 8px}
+.reader-head h2{font-size:clamp(1.65rem,2.2vw,2.2rem)}
+.reader-head p{font-size:1.06rem}.path{font-size:.94rem}
+.quest-overline{font-size:.85rem}.quest-tier,.quest-state{font-size:.81rem}
+.quest-subhead{font-size:.87rem}
+.quest-identity .word-main{font-size:clamp(1.95rem,2.6vw,2.55rem);line-height:1.7}
+.quest-reading{font-size:1.05rem}.quest-meaning{font-size:1.2rem;line-height:1.7}
+.quest-use strong{font-size:1.08rem}.quest-tip{font-size:1.02rem}
+.quest-sentence{font-size:clamp(1.25rem,1.85vw,1.55rem);line-height:2.55}
+.sentence-label{font-size:.86rem}.quest-translation{font-size:1.08rem;line-height:1.8}
+.quest-breakdown summary{font-size:1rem}.quest-step{font-size:1.05rem}
+.quest-step small{font-size:.89rem}
+.quest-card .play,.quest-mark{font-size:1rem;min-height:44px}
+.quest-feedback{font-size:.85rem}.quest-footer .audio-status{font-size:.88rem}
+.compare-item strong{font-size:1.5rem}.compare-item p,.compare-head p{font-size:1.05rem}
+.quest-visual{width:100%;min-width:0;margin:12px 0 6px}
+.quest-visual-frame{position:relative;width:100%;aspect-ratio:16/10;max-height:200px;overflow:hidden;border:1px solid #577e9a;border-radius:14px;background:#173952}
+.quest-picture{display:block;width:100%;height:100%;object-fit:cover}
+.quest-picture[hidden]{display:none}
+.quest-visual-chip{position:absolute;top:10px;left:10px;max-width:calc(100% - 20px);padding:5px 9px;border:1px solid #a4e6f588;background:#09273fdd;border-radius:8px;font-size:.77rem;letter-spacing:.06em;font-weight:800;color:#ccf5ff}
+.quest-visual-frame.visual-unavailable{display:flex;align-items:center;justify-content:center;min-height:90px}
+.quest-visual-frame.visual-unavailable .quest-visual-chip{position:static}
+.quest-photo-credit{margin-top:7px;font-size:.8rem;line-height:1.55;overflow-wrap:anywhere}
+.quest-photo-credit a{color:#aee7f6;text-underline-offset:3px}
+@media(max-width:860px){.quest-visual-frame{max-height:190px}}
+@media(max-width:640px){.chapter-name{font-size:1.06rem}.chapter-desc{font-size:.91rem}.section{font-size:1.03rem}.quest-identity .word-main{font-size:2rem}.quest-sentence{font-size:1.24rem}.quest-card .play,.quest-mark{font-size:.95rem}.quest-topline{flex-wrap:wrap}}
