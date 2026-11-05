@@ -55,11 +55,17 @@
       "沿用原版單字讀音、詞性、中文與兩組搭配用法",sections));
   }
   for(const level of ["N5","N4","N3"]){
+    const curated=C.jp[level].splice(0); // Preserve original navigation but prioritize real imported lessons.
     attachGrammar(level);attachLexical(level,"verb");attachLexical(level,"adj");
     attachVocabulary(C.jp[level],"jp");
+    C.jp[level].push(...curated);
   }
+  const englishPreview=C.en.splice(0);
   attachVocabulary(C.en,"en");
+  C.en.push(...englishPreview);
+  const bilingualPreview=C.dual.splice(0);
   attachVocabulary(C.dual,"dual");
+  C.dual.push(...bilingualPreview);
   const summary={vocab:vocabCount,grammar:L.grammar.length,chapterGrammar:Object.keys(L.chapterGrammar).length,
     verbs:L.lexical.filter(v=>v.kind==="verb").length,
     adjectives:L.lexical.filter(v=>v.kind==="adj").length,
