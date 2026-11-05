@@ -67,7 +67,39 @@
    box.append(lang==="jp"?ruby(source):document.createTextNode(source||""));
    target.append(box);
  }
- function card(type,item,mode,i){
+ const FLAG_KEY="enjpOceanV3QuestFlagsV1"; // V3-only markers, never overwrite original site state.
+ function readMarks(){
+   try{const data=JSON.parse(window.localStorage?.getItem(FLAG_KEY)||"{}");return data&&typeof data==="object"?data:{}}catch{return {}}
+ }
+ function markActions(footer,sectionId,index){
+   const key=sectionId+":"+index,controls=el("div","legacy-mark-actions");
+   const status=el("p","legacy-mark-status","");
+   const record={favorite:false,weak:false,known:false,...(readMarks()[key]||{})};
+   function update(){
+     for(const [field,button]of Object.entries(buttons)){
+       button.setAttribute("aria-pressed",String(Boolean(record[field])));
+       button.classList.toggle("active",Boolean(record[field]));
+     }
+     buttons.favorite.textContent=record.favorite?"★ 已收藏":"☆ 收藏";
+     buttons.weak.textContent=record.weak?"◆ 待複習":"◇ 待複習";
+     buttons.known.textContent=record.known?"✓ 已會了":"✓ 我會了";
+     status.textContent="本裝置學習標記："+(record.weak?"待複習":record.known?"自評已會":record.favorite?"已收藏":"未標記")+"（不修改舊版進度）";
+   }
+   const buttons={};
+   for(const field of ["favorite","weak","known"]){
+     const b=el("button","quest-mark","");b.type="button";
+     b.addEventListener("click",()=>{
+       record[field]=!record[field];
+       if(field==="weak"&&record.weak)record.known=false;
+       if(field==="known"&&record.known)record.weak=false;
+       try{const all=readMarks();all[key]={...record};window.localStorage?.setItem(FLAG_KEY,JSON.stringify(all))}catch{}
+       update();
+     });
+     controls.append(b);buttons[field]=b;
+   }
+   update();footer.append(controls,status);
+ }
+ function card(type,item,mode,i,sectionId){
    const card=el("article","quest-card legacy-card");
    card.append(header(i,item.topic||item.lv||item.level||"",type.toUpperCase()));
    const core=el("div","quest-core"),right=el("div","quest-mission"),status=el("p","audio-status","");
@@ -111,6 +143,7 @@
    }
    core.append(left,right);
    const foot=el("div","quest-footer");foot.append(controls,status);
+   markActions(foot,sectionId,i);
    card.append(core,foot);return card;
  }
  function render(root,key,mode){
@@ -142,7 +175,7 @@
      page=Math.min(Math.max(0,page),pages-1);const start=page*size;
      counter.textContent="目前顯示 "+(rows.length?start+1:0)+"–"+Math.min(rows.length,start+size)+" / "+rows.length+" 筆";
      list.replaceChildren();
-     rows.slice(start,start+size).forEach(v=>list.append(card(data.kind,v,mode,all.indexOf(v))));
+     rows.slice(start,start+size).forEach(v=>list.append(card(data.kind,v,mode,all.indexOf(v),key)));
      if(!rows.length)list.append(el("p","legacy-note","查無結果，請換一個關鍵字。"));
      pager.replaceChildren();
      if(pages>1){
