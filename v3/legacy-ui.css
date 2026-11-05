@@ -26,3 +26,23 @@
 .legacy-pager button[disabled],.legacy-card button[disabled]{opacity:.55;cursor:not-allowed}
 @media(max-width:1050px){.legacy-card .quest-core{grid-template-columns:1fr}.legacy-card .quest-identity{border-right:0;border-bottom:1px solid #3d587c}}
 @media(max-width:640px){.legacy-intro{padding:15px}.legacy-intro strong{font-size:1.04rem}.legacy-card .quest-mission,.legacy-card .quest-identity{padding:16px}.legacy-phrase-grid{grid-template-columns:1fr}.legacy-toolbar{display:block}.legacy-toolbar label{display:block;margin:0 0 8px}.legacy-filter{width:100%}.legacy-pager{gap:9px;justify-content:space-between}}
+
+
+/* v3.5 日本語活用圖鑑 — legible RPG study panels */
+.conjugation-panel{margin-top:18px;border:1px solid #5e73b1;border-radius:15px;background:linear-gradient(140deg,#1c3056,#16364b);overflow:hidden}
+.conjugation-panel>summary{cursor:pointer;list-style:none;padding:15px 18px;font-size:1.03rem;font-weight:850;line-height:1.5;color:#e9e7ff}
+.conjugation-panel>summary::-webkit-details-marker{display:none}
+.conjugation-panel>summary::after{content:"⌄";float:right;font-weight:600;color:#c4bcff}
+.conjugation-panel[open]>summary::after{content:"⌃"}
+.conjugation-rule{color:#c9dbe9;line-height:1.85;font-size:.95rem;margin:0 17px 14px;padding:0 2px}
+.conjugation-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:0 14px 16px}
+.conjugation-cell{border-radius:12px;border:1px solid #4d658e;background:#102e4a;padding:11px 13px;min-width:0}
+.conjugation-row-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.conjugation-row-head strong{font-size:.91rem;color:#b8dff7}
+.conjugation-audio{border:1px solid #5184a6;border-radius:8px;background:#244e70;color:#e5f8ff;font-size:1rem;cursor:pointer;min-height:36px;min-width:42px}
+.conjugation-audio:focus-visible{outline:3px solid #8ee5fa;outline-offset:3px}
+.conjugation-word{font-size:1.29rem;line-height:2.6;color:#fff;font-weight:700;overflow-wrap:anywhere}
+.conjugation-word ruby rt{font-size:.55em;color:#90e2f6}
+.conjugation-help{font-size:.82rem;line-height:1.65;color:#bdd0e1;margin:4px 0 0}
+@media(max-width:680px){.conjugation-grid{grid-template-columns:1fr;padding:0 10px 12px}.conjugation-panel>summary{font-size:.97rem;padding:14px 13px}.conjugation-rule{font-size:.9rem;margin-inline:12px}.conjugation-word{font-size:1.2rem}}
+@media(prefers-reduced-motion:reduce){.conjugation-panel{scroll-behavior:auto}}
