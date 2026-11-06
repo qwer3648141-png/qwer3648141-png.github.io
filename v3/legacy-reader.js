@@ -184,7 +184,7 @@
    let page=0,query="";
    function getRows(){
      if(!query)return all;
-     return all.filter(v=>(data.kind==="vocab"?[v.en,v.jp,v.cn,v.ex_cn,v.topic]:
+     return all.filter(v=>(data.kind==="vocab"?[v.en,v.jp,v.cn,v.ex_en,v.ex_jp,v.ex_cn,v.topic,...(v.phrase_details||[]).flatMap(p=>[p.en,p.jp,p.cn])]:
        data.kind==="grammar"?[v.f,v.lv,v.m,v.p,v.c,v.x,v.j]:
        [v.word,v.reading,v.meaning,...(v.collocations||[]),...(v.collocationCn||[])])
        .some(t=>String(t||"").toLowerCase().includes(query)));
