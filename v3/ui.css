@@ -216,3 +216,22 @@ a{color:#a2ebfc}
 .quest-photo-credit a{color:#aee7f6;text-underline-offset:3px}
 @media(max-width:860px){.quest-visual-frame{max-height:190px}}
 @media(max-width:640px){.chapter-name{font-size:1.06rem}.chapter-desc{font-size:.91rem}.section{font-size:1.03rem}.quest-identity .word-main{font-size:2rem}.quest-sentence{font-size:1.24rem}.quest-card .play,.quest-mark{font-size:.95rem}.quest-topline{flex-wrap:wrap}}
+
+
+/* V3.6 voice studio: clearly readable on iPhone and Mac */
+.voice-panel{border-color:#577ba4;background:linear-gradient(130deg,#163454,#152b48);margin-top:24px}
+.voice-panel>summary{font-size:1.07rem;line-height:1.65;color:#e0f7ff}
+.voice-panel>p{font-size:.95rem;line-height:1.8;color:#bdd7e7}
+.voice-row{gap:14px;margin:15px 0 8px}
+.voice-row label,.voice-mode-row label{display:block;font-size:.98rem;line-height:1.6;font-weight:720;color:#d2ebf7}
+.voice-row select,.voice-mode-row select{display:block;width:100%;margin-top:9px;min-height:48px;padding:10px 12px;background:#09263d;border:1px solid #6289a8;border-radius:11px;color:#eef9ff;font-size:1rem}
+.voice-row select:focus-visible,.voice-mode-row select:focus-visible{outline:3px solid #89e0fb;outline-offset:2px}
+.voice-tuning{margin-top:12px}
+.voice-mode-row{margin-top:17px;border:1px solid #54719a;background:#193855;border-radius:14px;padding:15px}
+.voice-mode-row select{font-size:.95rem}
+.voice-tip{font-size:.87rem!important;line-height:1.7!important;color:#c3d9e8!important;margin:10px 0 0}
+.test-row{gap:10px;align-items:center;flex-wrap:wrap;margin:17px 0 12px}
+.test-row button{min-height:47px;font-size:.97rem;padding:11px 15px}
+.voice-diagnostic{border:1px solid #4b7291;border-radius:12px;background:#0c2e46;padding:12px 14px;font-size:.91rem;line-height:1.8;color:#bfe8ef;margin:13px 0}
+.voice-panel .audio-status{font-size:.94rem;line-height:1.75;min-height:22px}
+@media(max-width:640px){.voice-panel{padding:16px}.voice-panel>summary{font-size:1.02rem}.voice-row{grid-template-columns:1fr}.voice-row label,.voice-mode-row label{font-size:.96rem}.voice-mode-row{padding:13px}.voice-row select,.voice-mode-row select{font-size:1rem;min-height:50px}.test-row button{width:100%;font-size:.96rem}.voice-diagnostic{font-size:.9rem}}
