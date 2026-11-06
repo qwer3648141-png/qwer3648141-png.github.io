@@ -5,35 +5,35 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#071724">
   <meta name="description" content="ENJP Ocean 3.0 課程導航試用版：日文 N5–N3、英文、雙語學習。">
-  <title>ENJP Ocean 3.5｜正式教材與活用圖鑑</title>
-  <link rel="stylesheet" href="./ui.css?v=3.5.0">
-  <link rel="stylesheet" href="./legacy-ui.css?v=3.5.0">
-  <script src="./course-map.js?v=3.5.0" defer></script>
-  <script src="./data/catalog.js?v=3.5.0" defer></script>
-  <script src="./data/grammar.js?v=3.5.0" defer></script>
-  <script src="./data/lexical.js?v=3.5.0" defer></script>
-  <script src="./data/vocab-1-6.js?v=3.5.0" defer></script>
-  <script src="./data/vocab-7-12.js?v=3.5.0" defer></script>
-  <script src="./data/vocab-13-18.js?v=3.5.0" defer></script>
-  <script src="./data/vocab-19-24.js?v=3.5.0" defer></script>
-  <script src="./data/vocab-25-30.js?v=3.5.0" defer></script>
-  <script src="./legacy-bridge.js?v=3.5.0" defer></script>
-  <script src="./audio.js?v=3.5.0" defer></script>
-  <script src="./inflections.js?v=3.5.0" defer></script>
-  <script src="./legacy-reader.js?v=3.5.0" defer></script>
-  <script src="./app.js?v=3.5.0" defer></script>
+  <title>ENJP Ocean 3.6｜自然語音工作室</title>
+  <link rel="stylesheet" href="./ui.css?v=3.6.0">
+  <link rel="stylesheet" href="./legacy-ui.css?v=3.6.0">
+  <script src="./course-map.js?v=3.6.0" defer></script>
+  <script src="./data/catalog.js?v=3.6.0" defer></script>
+  <script src="./data/grammar.js?v=3.6.0" defer></script>
+  <script src="./data/lexical.js?v=3.6.0" defer></script>
+  <script src="./data/vocab-1-6.js?v=3.6.0" defer></script>
+  <script src="./data/vocab-7-12.js?v=3.6.0" defer></script>
+  <script src="./data/vocab-13-18.js?v=3.6.0" defer></script>
+  <script src="./data/vocab-19-24.js?v=3.6.0" defer></script>
+  <script src="./data/vocab-25-30.js?v=3.6.0" defer></script>
+  <script src="./legacy-bridge.js?v=3.6.0" defer></script>
+  <script src="./audio.js?v=3.6.0" defer></script>
+  <script src="./inflections.js?v=3.6.0" defer></script>
+  <script src="./legacy-reader.js?v=3.6.0" defer></script>
+  <script src="./app.js?v=3.6.0" defer></script>
 </head>
 <body>
   <main class="wrap">
     <div class="topbar">
-      <div class="logo"><span class="logo-symbol" aria-hidden="true">🌊</span><span>ENJP Ocean<small>LANGUAGE JOURNEY · 3.5</small></span></div>
+      <div class="logo"><span class="logo-symbol" aria-hidden="true">🌊</span><span>ENJP Ocean<small>LANGUAGE JOURNEY · 3.6</small></span></div>
       <div class="top-links">
         <a class="navlink" href="/">↗ 原版完整課程</a>
         <a class="navlink primary" href="#audio-settings">🔊 語音設定與測試</a>
       </div>
     </div>
     <header class="hero">
-      <span class="kicker">JAPANESE GRAMMAR & CONJUGATION · 3.5 DEV</span>
+      <span class="kicker">NATURAL VOICE STUDIO · 3.6 DEV</span>
       <h1>學習有方向，進步不迷航。</h1>
       <p>原版 30 章英日詞彙、N5～N3 文法與動詞／形容詞已導入。日本語新增完整動詞變化表與形容詞活用圖鑑；點擊左側章節即可搜尋、比較與朗讀。</p>
     </header>
@@ -70,26 +70,56 @@
       <article class="reader" id="reader" aria-label="課程教材閱讀區">
         <div id="reader-content" aria-live="polite"></div>
         <details class="voice-panel" id="audio-settings">
-          <summary>🔊 語音設定與發音檢查</summary>
-          <p>語音依你的電腦或手機所安裝的語音而定。日文例句優先使用教材標註的假名發音；如果音色不自然，可在此切換同語言的語音。</p>
+          <summary>🎙️ 語音工作室｜挑選自然聲線、比較語調</summary>
+          <p>這一版會優先排列裝置提供的較自然聲線，預設使用正常語速。可以切換日文「自然語調／讀音優先」比較。網頁語音的自然程度仍取決於你的 iPhone、Mac 或瀏覽器所提供的聲音。</p>
           <div class="voice-row">
-            <label for="voice-jp">日文語音
-              <select id="voice-jp" aria-label="選擇日文朗讀語音"><option value="">自動選擇日文語音</option></select>
+            <label for="voice-jp">日本語聲線
+              <select id="voice-jp" aria-label="選擇日文朗讀語音"><option value="">正在偵測日文聲線…</option></select>
             </label>
-            <label for="voice-en">英文語音
-              <select id="voice-en" aria-label="選擇英文朗讀語音"><option value="">Auto English voice</option></select>
+            <label for="voice-en">English 聲線
+              <select id="voice-en" aria-label="選擇英文朗讀語音"><option value="">Detecting English voices…</option></select>
             </label>
+          </div>
+          <div class="voice-row voice-tuning">
+            <label for="voice-rate-jp">日文語速
+              <select id="voice-rate-jp" aria-label="調整日文朗讀速度">
+                <option value="0.82">學習慢速 0.82×</option>
+                <option value="0.92">稍慢清楚 0.92×</option>
+                <option value="1" selected>自然速度 1.00×</option>
+                <option value="1.08">口語練習 1.08×</option>
+              </select>
+            </label>
+            <label for="voice-rate-en">英文語速
+              <select id="voice-rate-en" aria-label="調整英文朗讀速度">
+                <option value="0.82">學習慢速 0.82×</option>
+                <option value="0.92">稍慢清楚 0.92×</option>
+                <option value="1" selected>自然速度 1.00×</option>
+                <option value="1.08">口語練習 1.08×</option>
+              </select>
+            </label>
+          </div>
+          <div class="voice-mode-row">
+            <label for="voice-jp-mode">日文語音模式
+              <select id="voice-jp-mode" aria-label="切換日文自然語調與讀音優先">
+                <option value="natural" selected>自然語調｜保留漢字原文，較接近日常語氣</option>
+                <option value="reading">讀音優先｜依振假名朗讀，適合檢查讀音</option>
+              </select>
+            </label>
+            <p class="voice-tip">自然語調仍可能把多音字念錯。若遇到發音異常，請切回「讀音優先」並回報單字。</p>
           </div>
           <div class="test-row">
-            <button type="button" class="play alt" id="test-jp">🔊 試聽日文</button>
+            <button type="button" class="play alt" id="test-jp">🔊 試聽日本語</button>
             <button type="button" class="play alt" id="test-en">🔊 Test English</button>
+            <button type="button" class="play alt" id="voice-refresh">↻ 重新掃描聲線</button>
           </div>
-          <div id="audio-help" class="audio-status" role="status">如果發音不自然，先試聽其他語音再回到教材。</div>
+          <div id="voice-current" class="voice-diagnostic" role="status">正在偵測裝置聲線…</div>
+          <div id="audio-help" class="audio-status" role="status">你可以分別試聽兩種語言，選擇最喜歡的音色。</div>
+          <p class="voice-tip">在 iPhone 上，若系統有提供日文增強版語音，可到「設定 → 輔助使用 → 朗讀與語音相關設定 → 聲音」查看。下載後回來重新掃描；瀏覽器是否能使用仍依裝置而定。</p>
         </details>
       </article>
     </div>
-    <p class="global-note">開發中 3.5：沿用舊版 920 筆英日詞彙、200 筆 N5～N3 文法、240 筆動詞、160 筆形容詞及 28 筆章節文法原始資料；動詞新增 11 種變化，形容詞新增 5～6 種變化。匯入不代表逐筆人工校對；舊版資料部分振假名與整句語音仍需複核。新版技能卡的自評標記獨立存放，並不與原版進度同步。原版完整練習、備份及學習進度仍可在<a href="/">舊版網站</a>使用。</p>
-    <footer class="footer">ENJP Ocean · Learn steadily, explore freely · 3.5 Dev</footer>
+    <p class="global-note">開發中 3.6：沿用舊版 920 筆英日詞彙、200 筆 N5～N3 文法、240 筆動詞、160 筆形容詞及 28 筆章節文法原始資料；動詞新增 11 種變化，形容詞新增 5～6 種變化。匯入不代表逐筆人工校對；舊版資料部分振假名與整句語音仍需複核。新版技能卡的自評標記獨立存放，並不與原版進度同步。原版完整練習、備份及學習進度仍可在<a href="/">舊版網站</a>使用。</p>
+    <footer class="footer">ENJP Ocean · Learn steadily, explore freely · 3.6 Dev</footer>
   </main>
 </body>
 </html>
