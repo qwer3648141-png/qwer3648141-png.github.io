@@ -126,7 +126,7 @@
       status.textContent=(isJP?"日文":"英文")+"聲線尚未載入或尚未安裝。請按「重新掃描聲線」，必要時到裝置設定下載相應語音。";
       return;
     }
-    const utterance=new SpeechSynthesisUtterance(spoken);
+    const utterance=new window.SpeechSynthesisUtterance(spoken);
     utterance.lang=VOICE_LANG[type];utterance.voice=voice;
     utterance.rate=pref[type+"Rate"];utterance.pitch=1;utterance.volume=1;
     const label=button?.textContent||"";
@@ -172,7 +172,7 @@
       });
     }
     const j=$("test-jp"),e=$("test-en"),status=$("audio-help");
-    if(j)j.addEventListener("click",()=>play("きょうはいいてんきですね。あしたもいっしょににほんごをべんきょうしましょう。","jp",j,status));
+    if(j)j.addEventListener("click",()=>play("今日（きょう）はいい天気（てんき）ですね。明日（あした）も一緒（いっしょ）に日本語（にほんご）を勉強（べんきょう）しましょう。","jp",j,status));
     if(e)e.addEventListener("click",()=>play("Good morning! It's a lovely day to practice English together.","en",e,status));
     const scan=$("voice-refresh");
     if(scan)scan.addEventListener("click",()=>{
