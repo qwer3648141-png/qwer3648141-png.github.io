@@ -145,6 +145,8 @@
     catch(e){state.active=null;if(button)button.textContent=label;status.textContent="無法啟動語音，請檢查裝置語音設定。"}
   }
   function init(){
+    const jump=document.querySelector?.('a[href="#audio-settings"]');
+    if(jump)jump.addEventListener("click",()=>{const panel=$("audio-settings");if(panel)panel.open=true});
     for(const type of ["jp","en"]){
       const select=$("voice-"+type);
       if(select)select.addEventListener("change",()=>{
