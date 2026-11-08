@@ -79,13 +79,14 @@
     const all=voices(type);
     const selected=state.selection[type];
     const exact=all.filter(v=>canon(v.lang)===canon(VOICE_LANG[type]));
-    const choice=all.find(v=>v.voiceURI===selected) || exact.find(v=>v.localService) || exact[0] || all.find(v=>v.localService)||all[0]||null;
+    const natural=v=>/premium|enhanced|natural|neural|siri|kyoko|otoya|haruka|nanami|jenny|aria|samantha/i.test(v.name);
+    const choice=all.find(v=>v.voiceURI===selected) || exact.find(natural) || all.find(natural) || exact.find(v=>v.localService) || exact[0] || all.find(v=>v.localService)||all[0]||null;
     const availableCount=(()=>{try{return speechSynthesis.getVoices().length}catch{return 0}})();
     if(availableCount>0&&!choice){
       status.textContent=isJP?"這台裝置未提供日文朗讀語音。請先安裝日文語音。":"這台裝置未提供英文朗讀語音。請先安裝英文語音。";return
     }
     const u=new SpeechSynthesisUtterance(text);
-    u.lang=VOICE_LANG[type];u.rate=isJP?.82:.90;u.pitch=1;
+    u.lang=VOICE_LANG[type];u.rate=isJP?.92:.96;u.pitch=1;
     if(choice)u.voice=choice;
     const label=button?button.textContent:"";
     const current={u,button,label};state.active=current;
