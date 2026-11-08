@@ -109,7 +109,13 @@
         sounds.append(voice.btn,voice.status);
       }
       const target=answerId(current),unique=[];
-      for(const option of [current,...shuffle(rows.filter(x=>answerId(x)!==target))]){
+      // Weak review may contain only one marked card. Borrow distractors from
+      // the existing, verified lesson pool without adding them to review progress.
+      const pool=rows.length>1?rows:
+        [current,...(lesson.items||[]),...Object.values(window.ENJP_COURSES?.lesson||{})
+          .filter(x=>x.type===lesson.type&&Array.isArray(x.items))
+          .flatMap(x=>x.items)];
+      for(const option of [current,...shuffle(pool.filter(x=>x&&answerId(x)&&answerId(x)!==target))]){
         if(!unique.some(x=>answerId(x)===answerId(option)))unique.push(option);
         if(unique.length===4)break;
       }
