@@ -28,7 +28,7 @@
     const oldIndex=legacyPreferred[type].findIndex(n=>name.includes(n));
     if(oldIndex>=0)score+=180-oldIndex;
     // Avoid the novelty Eddy voice in automatic mode; user may still pick it manually.
-    if(/\\beddy\\b/i.test(name))score-=150;
+    if(name.includes("eddy"))score-=150;
     return score;
   }
   function chooseVoice(type,list){
