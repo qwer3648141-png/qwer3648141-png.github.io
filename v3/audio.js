@@ -4,6 +4,51 @@
   const VOICE_LANG={jp:"ja-JP",en:"en-US"};
   const state={active:null,selection:{jp:"",en:""},lastVoiceList:[],status:null};
   const canon=lang=>String(lang||"").replace(/_/g,"-").toLowerCase();
+  // The original site saves voice preferences inside enjpQuestState.
+  // Read only the EN/JP voice choices and speeds; never rewrite old progress.
+  const legacyVoice=(()=>{
+    try{
+      const old=JSON.parse(window.localStorage?.getItem("enjpQuestState")||"{}");
+      return {
+        en:typeof old?.voiceEn==="string"?old.voiceEn:"",
+        jp:typeof old?.voiceJp==="string"?old.voiceJp:"",
+        enRate:Number(old?.voiceRateEn)||.90,
+        jpRate:Number(old?.voiceRateJp)||.82
+      };
+    }catch{return {en:"",jp:"",enRate:.90,jpRate:.82}}
+  })();
+  const legacyPreferred={en:["samantha","alex","ava","allison","susan","tom","zoe"],jp:["kyoko","otoya","hattori"]};
+  function voiceScore(v,type){
+    const lang=canon(v.lang),wanted=canon(VOICE_LANG[type]);
+    let score=lang===wanted?100:45;
+    if(lang===wanted)score+=type==="en"?35:40;
+    if(v.localService)score+=20;
+    if(v.default)score+=2;
+    const name=String(v.name||"").toLowerCase();
+    const oldIndex=legacyPreferred[type].findIndex(n=>name.includes(n));
+    if(oldIndex>=0)score+=180-oldIndex;
+    // Avoid the novelty Eddy voice in automatic mode; user may still pick it manually.
+    if(/\\beddy\\b/i.test(name))score-=150;
+    return score;
+  }
+  function chooseVoice(type,list){
+    const chosen=state.selection[type];
+    if(chosen){
+      const explicit=list.find(v=>v.voiceURI===chosen);
+      if(explicit)return explicit;
+    }
+    const original=legacyVoice[type];
+    if(original){
+      const same=list.find(v=>v.name===original);
+      if(same)return same;
+    }
+    return [...list].sort((a,b)=>voiceScore(b,type)-voiceScore(a,type))[0]||null;
+  }
+  function voiceRate(type){
+    const n=Number(legacyVoice[type+"Rate"]);
+    return n>=.6&&n<=1.15?n:(type==="jp"?.82:.90);
+  }
+
   const matches=(voice,type)=>canon(voice.lang).split("-")[0]===(type==="jp"?"ja":"en");
   function spokenJapanese(annotated){
     const spoken=String(annotated||"").replace(/([一-龯々]+)（([ぁ-ゖー]+)）/g,"$2");
@@ -77,16 +122,13 @@
       status.textContent="這個瀏覽器沒有提供文字朗讀功能。";return
     }
     const all=voices(type);
-    const selected=state.selection[type];
-    const exact=all.filter(v=>canon(v.lang)===canon(VOICE_LANG[type]));
-    const natural=v=>/premium|enhanced|natural|neural|siri|kyoko|otoya|haruka|nanami|jenny|aria|samantha/i.test(v.name);
-    const choice=all.find(v=>v.voiceURI===selected) || exact.find(natural) || all.find(natural) || exact.find(v=>v.localService) || exact[0] || all.find(v=>v.localService)||all[0]||null;
+    const choice=chooseVoice(type,all);
     const availableCount=(()=>{try{return speechSynthesis.getVoices().length}catch{return 0}})();
     if(availableCount>0&&!choice){
       status.textContent=isJP?"這台裝置未提供日文朗讀語音。請先安裝日文語音。":"這台裝置未提供英文朗讀語音。請先安裝英文語音。";return
     }
     const u=new SpeechSynthesisUtterance(text);
-    u.lang=VOICE_LANG[type];u.rate=isJP?.92:.96;u.pitch=1;
+    u.lang=VOICE_LANG[type];u.rate=voiceRate(type);u.pitch=1;
     if(choice)u.voice=choice;
     const label=button?button.textContent:"";
     const current={u,button,label};state.active=current;
