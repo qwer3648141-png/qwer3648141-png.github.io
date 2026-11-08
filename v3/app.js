@@ -33,7 +33,7 @@
     });
     $("levels").hidden=state.mode!=="jp";
     $("rail-heading").textContent=modeTitles[state.mode];
-    $("rail-description").textContent=state.mode==="jp"?"依程度選章。章節只會在左側展開，右邊閱讀區不移動。":"自由選擇主題，已整合教材會標註「試學」。";
+    $("rail-description").textContent=state.mode==="jp"?"依程度選章。章節只會在左側展開，右邊閱讀區不移動。":"自由選擇主題；自學內容附練習與雙語試聽。";
     $("rail-kicker").textContent=state.mode==="jp"?"JAPANESE PATH":state.mode==="en"?"ENGLISH PATH":"BILINGUAL PATH";
     $("filter").value=state.filter;
   }
@@ -64,7 +64,9 @@
         const b=el("button","section");
         b.type="button";b.dataset.section=section.id;
         b.setAttribute("aria-current",String(state.sectionId===section.id));
-        append(b,el("span","section-name",section.title),el("span","section-tag"+(available?" ready":""),imported?"教材庫 · "+imported.items.length:available?"試學":"規劃中"));
+        const study=database.lesson[section.id]?.selfStudy;
+        const tag=imported?"教材庫 · "+imported.items.length:study?"自學 · "+database.lesson[section.id].items.length+" 卡":available?"教材 · "+database.lesson[section.id].items.length+" 卡":"規劃中";
+        append(b,el("span","section-name",section.title),el("span","section-tag"+(available?" ready":""),tag));
         b.addEventListener("click",()=>{
           Audio.stop();state.sectionId=section.id;
           document.querySelectorAll(".section").forEach(item=>item.setAttribute("aria-current",String(item===b)));
@@ -314,13 +316,15 @@
       note.append(el("h3","","此主題尚未接入 3.0 教材"),el("p","","這是新的課程規劃入口，不代表整章已完成。原有單字、文法、動詞及練習仍可從舊版網站使用，學習進度不會被重置。"));
       root.append(note,makeLegacyLink());return;
     }
-    root.append(el("span","example-count","可試學 · "+lesson.items.length+" 張技能卡"));
+    root.append(el("span","example-count",(lesson.selfStudy?"自學教材 · ":"已接入教材 · ")+lesson.items.length+" 張技能卡"));
     if(lesson.comparison)root.append(skillComparison(lesson.comparison));
     const progress=sectionProgress(section.id,lesson.items.length);
     root.append(progress.node);
     const list=el("div","lesson-list game-lessons");
     lesson.items.forEach((entry,index)=>list.append(vocabCard(entry,lesson.type,section.id,index,state.level,progress.refresh)));
-    root.append(list,makeLegacyLink());
+    root.append(list);
+    if(lesson.selfStudy)window.ENJP_SelfStudyPractice?.render(root,lesson,section.id);
+    root.append(makeLegacyLink());
   }
   function renderAll(){
     Audio.stop();
