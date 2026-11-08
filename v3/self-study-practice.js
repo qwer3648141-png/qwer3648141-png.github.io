@@ -102,8 +102,9 @@
       else prompt.textContent="🎧 聽題模式：作答前先不顯示原文";
       sounds.replaceChildren();
       if(listen){
-        const language=lesson.type==="jp"?"jp":lesson.type==="dual"?(pos%2?"jp":"en"):"en";
-        const spoken=lesson.type==="dual"?(language==="jp"?current.jpExample:current.enExample):question;
+        // Dual listening uses English audio so it never reads the Japanese answer aloud.
+        const language=lesson.type==="jp"?"jp":"en";
+        const spoken=dual?current.enExample:question;
         const voice=voiceButton(spoken,language);
         sounds.append(voice.btn,voice.status);
       }
@@ -131,8 +132,8 @@
           feedback.textContent=ok?"答對了！":("正確答案："+(dual?current.en+" → "+current.jp:current.translation));
           if(listen){
             prompt.replaceChildren();
-            const shown=lesson.type==="dual"?(pos%2?current.jpExample:current.enExample):question;
-            asText(prompt,shown,lesson.type==="jp"||(dual&&pos%2)?"jp":"en");
+            const shown=dual?current.enExample:question;
+            asText(prompt,shown,lesson.type==="jp"?"jp":"en");
           }
           header.textContent="第 "+(pos+1)+" / "+rows.length+" 題 · 正確 "+correct+" 題";
           next.textContent=pos===rows.length-1?"查看成績":"下一題 →";
