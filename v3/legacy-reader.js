@@ -158,6 +158,18 @@
      speak(controls,status,"🔊 單字",item.reading,"jp");
      const conjugation=formTable(item);
      if(conjugation)right.append(conjugation);
+     const practice=window.ENJP_VERIFIED_EXAMPLES?.[item.kind+"|"+item.word];
+     if(practice){
+       const block=el("section","legacy-extra-example");
+       block.append(el("span","quest-subhead","MORE PRACTICE / 新增情境例句"));
+       example(block,"jp",practice.jp);
+       example(block,"en",practice.en);
+       block.append(el("p","quest-translation","中文｜"+practice.cn));
+       const sampleRow=el("div","audio-row");
+       speak(sampleRow,status,"🔊 JP 情境例句",safe(practice.jp),"jp");
+       block.append(sampleRow);
+       right.append(block);
+     }
      right.append(el("p","legacy-note","搭配短語的振假名與語音尚待校對；變化表附原形、活用及假名發音。"));
    }
    core.append(left,right);
@@ -186,7 +198,7 @@
      if(!query)return all;
      return all.filter(v=>(data.kind==="vocab"?[v.en,v.jp,v.cn,v.ex_en,v.ex_jp,v.ex_cn,v.topic,...(v.phrase_details||[]).flatMap(p=>[p.en,p.jp,p.cn])]:
        data.kind==="grammar"?[v.f,v.lv,v.m,v.p,v.c,v.x,v.j]:
-       [v.word,v.reading,v.meaning,...(v.collocations||[]),...(v.collocationCn||[])])
+       [v.word,v.reading,v.meaning,...(v.collocations||[]),...(v.collocationCn||[]),...Object.values(window.ENJP_VERIFIED_EXAMPLES?.[v.kind+"|"+v.word]||{})])
        .some(t=>String(t||"").toLowerCase().includes(query)));
    }
    function draw(){
