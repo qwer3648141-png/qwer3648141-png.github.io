@@ -108,7 +108,7 @@
         sounds.append(voice.btn,voice.status);
       }
       const target=answerId(current),unique=[];
-      for(const option of shuffle([current,...rows.filter(x=>answerId(x)!==target)])){
+      for(const option of [current,...shuffle(rows.filter(x=>answerId(x)!==target))]){
         if(!unique.some(x=>answerId(x)===answerId(option)))unique.push(option);
         if(unique.length===4)break;
       }
