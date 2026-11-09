@@ -391,6 +391,13 @@
     }));
     $("filter").addEventListener("input",e=>{state.filter=e.target.value;renderChapters()});
     Audio.init();renderAll();
+    // Allow a safe direct link to the new N4 giving/receiving lesson.
+    try{
+      const lessonId=decodeURIComponent(window.location?.hash?.slice(1)||"");
+      if(lessonId.startsWith("jp-n4-giving-")&&window.ENJP_GivingReceiving){
+        state.mode="jp";state.level="N4";updateModeButtons();goToSection(lessonId);
+      }
+    }catch{}
   }
   window.ENJP_3={state,init,renderAll,renderReader,goToSection,listChapters,lookupSection};
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);
