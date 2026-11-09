@@ -107,10 +107,10 @@
     const allIds=Object.keys(migrated);
     let shortcuts=[];
     if(state.mode==="jp"){
-      if(state.level==="N4"){
-        if(window.ENJP_Particles)shortcuts.push(["🧩 助詞組合精講","jp-particle-overview","14 組助詞、125 句＋24 題練習"]);
-        if(window.ENJP_GivingReceiving)shortcuts.push(["🧭 授受表現","jp-n4-giving-overview","あげる・くれる・もらう"]);
-      }
+      if(window.ENJP_Particles)
+        shortcuts.push(["🧩 助詞組合精講","jp-particle-overview","14 組助詞、125 句＋20 組對照＋24 題練習"]);
+      if(state.level==="N4"&&window.ENJP_GivingReceiving)
+        shortcuts.push(["🧭 授受表現","jp-n4-giving-overview","あげる・くれる・もらう"]);
       const verb=allIds.find(id=>id.startsWith("legacy-lex-"+state.level+"-V"));
       const adj=allIds.find(id=>id.startsWith("legacy-lex-"+state.level+"-A"));
       shortcuts.push(
