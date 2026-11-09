@@ -5,12 +5,17 @@
  const D=window.ENJP_PARTICLE_DATA,P=window.ENJP_PARTICLE_PRACTICE,C=window.ENJP_COURSES,Audio=window.ENJP_Audio;
  if(!D?.groups?.length||!P?.pairs?.length||!C?.jp?.N4||!Audio)return;
  const ROOT="jp-particle-";
+ // Compare the original 13 single-vs-double examples plus 7 carefully authored は-vs-も pairs.
+ const extendedPairs=(D.comparisons||[]).map(([name,ja,zh,jb,zb,note],i)=>({
+   id:"focus-wa-mo-"+i,name:"は ⇄ も｜"+name,left:[ja,zh],right:[jb,zb],note
+ }));
+ const comparisonPairs=[...P.pairs,...extendedPairs];
  const groupIds=D.groups.map(g=>g.id);
  const guide=[
   ["overview","🧭 先懂原理｜助詞為什麼能疊加？"],
   ...D.groups.slice(0,7).map(g=>[g.id,"は系列｜"+g.form+" · "+g.title]),
   ...D.groups.slice(7).map(g=>[g.id,"も系列｜"+g.form+" · "+g.title]),
-  ["compare","⚖️ 13 組助詞差異對照"],
+  ["compare","⚖️ 20 組助詞差異對照"],
   ["pitfalls","🚧 特殊用法與常見陷阱"],
   ["quiz","🎯 24 題情境挑戰"]
  ];
@@ -102,13 +107,13 @@
        el("p","","同一個前置助詞，換後面的「は／も」會怎樣？"),
        routeButton(r.id,"切換比較："+g.form+" ⇄ "+r.form)));
    }
-   root.append(routeButton("compare","查看全部 13 組並排對照"));
+   root.append(routeButton("compare","查看全部 20 組並排對照"));
    return true;
  }
  function contrastLesson(root){
    root.append(add(el("div","pc-hero"),
      el("h3","","⚖️ 同一句話，為什麼換個助詞就變了？"),
-     el("p","","左邊是普通說法，右邊加入 は 或 も。比較時不要硬翻譯，先找話題和追加的對象。")));
+     el("p","","前 13 組比較原本助詞與加上 は／も 後的語氣；後 7 組直接比較 は 和 も。不能硬翻譯，先找話題和追加的對象。")));
    const search=el("input","pc-search");
    search.type="search";search.placeholder="搜尋 に、で、も、中文情境…";
    search.setAttribute("aria-label","搜尋助詞對照");root.append(search);
@@ -116,8 +121,8 @@
    root.append(count,holder);
    function draw(){
      const q=String(search.value||"").trim().toLocaleLowerCase();
-     const all=P.pairs.filter(x=>!q||[x.name,x.note,...x.left,...x.right].join(" ").toLocaleLowerCase().includes(q));
-     count.textContent="顯示 "+all.length+" / "+P.pairs.length+" 組對照";
+     const all=comparisonPairs.filter(x=>!q||[x.name,x.note,...x.left,...x.right].join(" ").toLocaleLowerCase().includes(q));
+     count.textContent="顯示 "+all.length+" / "+comparisonPairs.length+" 組對照";
      holder.replaceChildren();
      all.forEach((x,i)=>{
        const d=el("details","pc-comparison");d.open=i<2&&!q;
@@ -224,8 +229,8 @@
    else if(id==="quiz")quizLesson(wrap);
    root.append(wrap);return true;
  }
- const count=D.groups.reduce((s,g)=>s+g.examples.length,0)+P.pairs.length*2+
+ const count=D.groups.reduce((s,g)=>s+g.examples.length,0)+comparisonPairs.length*2+
    P.extras.reduce((s,x)=>s+x.examples.length,0);
- window.ENJP_Particles={render,root:ROOT,groups:D.groups,pairs:P.pairs,quiz:P.quiz,
+ window.ENJP_Particles={render,root:ROOT,groups:D.groups,pairs:comparisonPairs,quiz:P.quiz,
    count,sections:guide.length};
 })();
