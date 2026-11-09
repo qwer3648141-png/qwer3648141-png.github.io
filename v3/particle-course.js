@@ -172,10 +172,10 @@
      if(locked)return;locked=true;
      const item=P.quiz[index],ok=chosen===item[1];
      if(ok)score++;else wrong.push({index,correct:item[1],chosen});
-     answers.children.forEach(b=>{
+     for(const b of answers.children){
        b.disabled=true;if(b.textContent===item[1])b.classList.add("right");
        else if(b.textContent===chosen)b.classList.add("incorrect");
-     });
+     }
      feedback.append(el("strong","",ok?"✓ 答對！":"✕ 正確答案："+item[1]),el("p","",item[3]));
      progress.textContent="第 "+(index+1)+" / "+P.quiz.length+" 題 · 答對 "+score+" 題";
      next.disabled=false;
