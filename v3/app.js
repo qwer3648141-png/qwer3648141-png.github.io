@@ -60,11 +60,12 @@
       const sub=el("div","sections");
       sections.forEach(section=>{
         const imported=window.ENJP_MIGRATED?.sections?.[section.id];
-        const available=Boolean(database.lesson[section.id]||imported);
+        const special=section.id.startsWith("jp-n4-giving-")&&Boolean(window.ENJP_GivingReceiving);
+        const available=Boolean(database.lesson[section.id]||imported||special);
         const b=el("button","section");
         b.type="button";b.dataset.section=section.id;
         b.setAttribute("aria-current",String(state.sectionId===section.id));
-        append(b,el("span","section-name",section.title),el("span","section-tag"+(available?" ready":""),imported?"教材庫 · "+imported.items.length:available?"試學":"規劃中"));
+        append(b,el("span","section-name",section.title),el("span","section-tag"+(available?" ready":""),special?"新專題":imported?"教材庫 · "+imported.items.length:available?"試學":"規劃中"));
         b.addEventListener("click",()=>{
           Audio.stop();state.sectionId=section.id;
           document.querySelectorAll(".section").forEach(item=>item.setAttribute("aria-current",String(item===b)));
@@ -91,7 +92,7 @@
   }
   function showWelcome(root){
     const chapters=listChapters(),all=chapters.flatMap(c=>c.sections);
-    const ready=all.filter(s=>database.lesson[s.id]||window.ENJP_MIGRATED?.sections?.[s.id]).length;
+    const ready=all.filter(s=>database.lesson[s.id]||window.ENJP_MIGRATED?.sections?.[s.id]||s.id.startsWith("jp-n4-giving-")&&window.ENJP_GivingReceiving).length;
     root.append(renderHeader("從左側挑選章節開始","右邊是固定的教材閱讀區。切換章節或縮放電腦畫面時，不會把教材推到整頁最下方。",[modeTitles[state.mode],"學習總覽"]));
     const stats=el("div","info-grid");
     for(const [value,label] of [[chapters.length,"課程章節"],[all.length,"主題入口"],[ready,"已接入教材主題"]]){
@@ -102,6 +103,8 @@
     const allIds=Object.keys(migrated);
     let shortcuts=[];
     if(state.mode==="jp"){
+      if(state.level==="N4"&&window.ENJP_GivingReceiving)
+        shortcuts.push(["🧭 N4 授受表現","jp-n4-giving-overview","あげる・くれる・もらう｜30例句＋12題"]);
       const verb=allIds.find(id=>id.startsWith("legacy-lex-"+state.level+"-V"));
       const adj=allIds.find(id=>id.startsWith("legacy-lex-"+state.level+"-A"));
       shortcuts=[
@@ -117,7 +120,7 @@
         "原版雙語單字、例句與中文翻譯"
       ]);
     }
-    shortcuts=shortcuts.filter(([_,id])=>id&&migrated[id]);
+    shortcuts=shortcuts.filter(([_,id])=>id&&(migrated[id]||id.startsWith("jp-n4-giving-")&&window.ENJP_GivingReceiving));
     if(shortcuts.length){
       const quick=el("section","course-quick-start");
       quick.append(el("h3","","⚡ 快速進入正式教材"));
@@ -340,6 +343,7 @@
     const lesson=database.lesson[section.id];
     const imported=window.ENJP_MIGRATED?.sections?.[section.id];
     root.append(renderHeader(section.title,chapter.summary,[state.mode==="jp"?jpLabels[state.level]:modeTitles[state.mode],chapter.title,section.title]));
+    if(window.ENJP_GivingReceiving?.render(root,section.id))return;
     if(imported){
       root.append(el("span","example-count","已匯入原版完整教材 · "+imported.items.length+" 筆"));
       if(!window.ENJP_LegacyReader?.render(root,section.id,state.mode)){
@@ -360,6 +364,15 @@
     lesson.items.forEach((entry,index)=>list.append(vocabCard(entry,lesson.type,section.id,index,state.level,progress.refresh)));
     root.append(list,makeLegacyLink());
   }
+  function goToSection(id){
+    if(!lookupSection(id))return false;
+    Audio.stop();
+    state.sectionId=id;
+    renderChapters();
+    renderReader();
+    if(window.matchMedia("(max-width:640px)").matches)$("reader").scrollIntoView({behavior:"smooth",block:"start"});
+    return true;
+  }
   function renderAll(){
     Audio.stop();
     state.sectionId=null;
@@ -379,7 +392,7 @@
     $("filter").addEventListener("input",e=>{state.filter=e.target.value;renderChapters()});
     Audio.init();renderAll();
   }
-  window.ENJP_3={state,init,renderAll,renderReader,listChapters,lookupSection};
+  window.ENJP_3={state,init,renderAll,renderReader,goToSection,listChapters,lookupSection};
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);
   else init();
 })();
