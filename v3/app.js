@@ -60,7 +60,9 @@
       const sub=el("div","sections");
       sections.forEach(section=>{
         const imported=window.ENJP_MIGRATED?.sections?.[section.id];
-        const special=section.id.startsWith("jp-n4-giving-")&&Boolean(window.ENJP_GivingReceiving);
+        const specialGiving=section.id.startsWith("jp-n4-giving-")&&Boolean(window.ENJP_GivingReceiving);
+        const specialParticle=section.id.startsWith("jp-particle-")&&Boolean(window.ENJP_Particles);
+        const special=specialGiving||specialParticle;
         const available=Boolean(database.lesson[section.id]||imported||special);
         const b=el("button","section");
         b.type="button";b.dataset.section=section.id;
@@ -92,7 +94,9 @@
   }
   function showWelcome(root){
     const chapters=listChapters(),all=chapters.flatMap(c=>c.sections);
-    const ready=all.filter(s=>database.lesson[s.id]||window.ENJP_MIGRATED?.sections?.[s.id]||s.id.startsWith("jp-n4-giving-")&&window.ENJP_GivingReceiving).length;
+    const ready=all.filter(s=>database.lesson[s.id]||window.ENJP_MIGRATED?.sections?.[s.id]||
+      (s.id.startsWith("jp-n4-giving-")&&window.ENJP_GivingReceiving)||
+      (s.id.startsWith("jp-particle-")&&window.ENJP_Particles)).length;
     root.append(renderHeader("從左側挑選章節開始","右邊是固定的教材閱讀區。切換章節或縮放電腦畫面時，不會把教材推到整頁最下方。",[modeTitles[state.mode],"學習總覽"]));
     const stats=el("div","info-grid");
     for(const [value,label] of [[chapters.length,"課程章節"],[all.length,"主題入口"],[ready,"已接入教材主題"]]){
@@ -103,16 +107,18 @@
     const allIds=Object.keys(migrated);
     let shortcuts=[];
     if(state.mode==="jp"){
-      if(state.level==="N4"&&window.ENJP_GivingReceiving)
-        shortcuts.push(["🧭 N4 授受表現","jp-n4-giving-overview","あげる・くれる・もらう｜30例句＋12題"]);
+      if(state.level==="N4"){
+        if(window.ENJP_Particles)shortcuts.push(["🧩 助詞組合精講","jp-particle-overview","14 組助詞、111 句＋24 題練習"]);
+        if(window.ENJP_GivingReceiving)shortcuts.push(["🧭 授受表現","jp-n4-giving-overview","あげる・くれる・もらう"]);
+      }
       const verb=allIds.find(id=>id.startsWith("legacy-lex-"+state.level+"-V"));
       const adj=allIds.find(id=>id.startsWith("legacy-lex-"+state.level+"-A"));
-      shortcuts=[
+      shortcuts.push(
         ["📖 "+state.level+" 文法","legacy-grammar-"+state.level+"-1","句型接續、例句與中文說明"],
         ["⚔️ "+state.level+" 動詞活用",verb,"11 種變化＋輸入挑戰"],
         ["✨ "+state.level+" 形容詞",adj,"い形／な形與變化練習"],
         ["🌊 英日情境單字","legacy-vocab-jp-1","原版 30 章完整英日詞彙"]
-      ];
+      );
     }else{
       shortcuts=[1,10,20,30].map(n=>[
         "🗺️ Chapter "+String(n).padStart(2,"0"),
@@ -120,7 +126,9 @@
         "原版雙語單字、例句與中文翻譯"
       ]);
     }
-    shortcuts=shortcuts.filter(([_,id])=>id&&(migrated[id]||id.startsWith("jp-n4-giving-")&&window.ENJP_GivingReceiving));
+    shortcuts=shortcuts.filter(([_,id])=>id&&(migrated[id]||
+      (id.startsWith("jp-n4-giving-")&&window.ENJP_GivingReceiving)||
+      (id.startsWith("jp-particle-")&&window.ENJP_Particles)));
     if(shortcuts.length){
       const quick=el("section","course-quick-start");
       quick.append(el("h3","","⚡ 快速進入正式教材"));
@@ -344,6 +352,7 @@
     const imported=window.ENJP_MIGRATED?.sections?.[section.id];
     root.append(renderHeader(section.title,chapter.summary,[state.mode==="jp"?jpLabels[state.level]:modeTitles[state.mode],chapter.title,section.title]));
     if(window.ENJP_GivingReceiving?.render(root,section.id))return;
+    if(window.ENJP_Particles?.render(root,section.id))return;
     if(imported){
       root.append(el("span","example-count","已匯入原版完整教材 · "+imported.items.length+" 筆"));
       if(!window.ENJP_LegacyReader?.render(root,section.id,state.mode)){
@@ -394,7 +403,9 @@
     // Allow a safe direct link to the new N4 giving/receiving lesson.
     try{
       const lessonId=decodeURIComponent(window.location?.hash?.slice(1)||"");
-      if(lessonId.startsWith("jp-n4-giving-")&&window.ENJP_GivingReceiving){
+      const giving=lessonId.startsWith("jp-n4-giving-")&&window.ENJP_GivingReceiving;
+      const particle=lessonId.startsWith("jp-particle-")&&window.ENJP_Particles;
+      if(giving||particle){
         state.mode="jp";state.level="N4";updateModeButtons();goToSection(lessonId);
       }
     }catch{}
