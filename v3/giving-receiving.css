@@ -1,0 +1,55 @@
+
+/* ENJP Ocean 3.7: Japanese giving/receiving masterclass */
+.gr-lesson{margin:16px 0;color:#ecf7ff;min-width:0}
+.gr-label{color:#91e6ef;font-size:.86rem;letter-spacing:.12em;font-weight:800}
+.gr-title{font-size:clamp(1.42rem,3vw,2rem);line-height:1.6;margin:5px 0 8px;overflow-wrap:anywhere}
+.gr-subtitle{color:#b7d5e5;line-height:1.8;font-size:1rem;margin:0 0 16px}
+.gr-navigation{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 20px}
+.gr-tab{border:1px solid #547b97;background:#1b3d5b;color:#dff6ff;border-radius:11px;padding:11px 13px;font-size:.92rem;line-height:1.45;min-height:46px;cursor:pointer}
+.gr-tab.selected{border-color:#91e6ef;background:#2a6081;font-weight:800;box-shadow:inset 3px 0 0 #8ae5eb}
+.gr-tab:hover,.gr-jump:hover{border-color:#8fe4f0}
+.gr-intro{border:1px solid #577cab;background:linear-gradient(125deg,#213d67,#153953);border-radius:15px;padding:20px;margin:18px 0}
+.gr-intro h3{font-size:1.23rem;line-height:1.55;color:#f0f0ff;margin:0 0 9px}
+.gr-intro p{font-size:1rem;color:#d1e6f2;line-height:1.85;margin:0}
+.gr-arrows{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:18px 0 22px}
+.gr-arrow-card{background:#132d49;border:1px solid #5576a5;border-radius:14px;padding:16px;text-align:center;min-width:0}
+.gr-arrow-card strong{font-size:1.35rem;color:#dac9ff}
+.gr-flow{font-weight:800;font-size:1.13rem;line-height:1.7;margin:12px 0;color:#a1eaf0}
+.gr-arrow-card p{color:#c5d9e8;font-size:.88rem;line-height:1.7;margin:0}
+.gr-h3{font-size:1.17rem;line-height:1.65;margin:23px 0 13px;color:#d9f3ff}
+.gr-rule{padding:15px 18px;background:#12344b;border-left:4px solid #9a90ff;border-radius:11px;margin:15px 0 22px;line-height:1.8}
+.gr-rule strong{font-size:1.02rem;color:#d1c4ff}
+.gr-rule p{margin:8px 0;color:#edfbff;font-size:1.06rem;overflow-wrap:anywhere}
+.gr-rule small{display:block;font-size:.92rem;color:#bad6e4}
+.gr-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.gr-sample{border:1px solid #496f8e;background:linear-gradient(140deg,#172f51,#143346);border-radius:16px;padding:17px 18px;min-width:0}
+.gr-number{display:inline-block;color:#d1bcff;background:#323963;border:1px solid #7667a6;border-radius:8px;padding:4px 9px;font-size:.78rem;font-weight:800}
+.gr-japanese{font-size:clamp(1.12rem,1.8vw,1.42rem);line-height:2.45;color:#fff;font-weight:700;margin:14px 0 9px;overflow-wrap:anywhere;word-break:normal}
+.gr-japanese ruby{ruby-position:over}
+.gr-japanese rt{font-size:.57em;color:#a5ebfa;font-weight:550}
+.gr-meaning{font-size:1rem;color:#eff9ff;line-height:1.85;margin:0 0 9px}
+.gr-point{font-size:.9rem;color:#b6d6e6;border-top:1px solid #43627f;padding-top:10px;line-height:1.75;margin:8px 0 10px}
+.gr-sound-area{display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+.gr-sound,.gr-jump,.gr-next,.gr-choice{font:inherit;min-height:45px;cursor:pointer}
+.gr-sound,.gr-jump,.gr-next{border:1px solid #7da4c1;border-radius:10px;background:#235b7c;color:#edfaff;padding:9px 13px;font-size:.95rem}
+.gr-sound:disabled{opacity:.55;cursor:not-allowed}
+.gr-sound-status{font-size:.82rem;color:#b9ddeb;line-height:1.7}
+.gr-note{background:#223755;border-left:3px solid #9e91ff;color:#d8e7f2;font-size:.95rem;line-height:1.9;padding:13px 16px;margin:13px 0;border-radius:9px}
+.gr-unit{border-top:1px solid #416580;margin:27px 0 0;padding-top:12px}
+.gr-quiz{border:1px solid #6379a9;background:linear-gradient(135deg,#1a3259,#123647);border-radius:16px;padding:20px}
+.gr-count{color:#9ee6f4;font-size:.94rem;font-weight:700;margin:0 0 17px}
+.gr-question{font-size:clamp(1.14rem,2vw,1.4rem);line-height:2.1;font-weight:700;color:#fff;margin:0 0 20px}
+.gr-question ruby rt{color:#a5ecfa;font-size:.6em}
+.gr-choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.gr-choice{text-align:center;padding:13px 10px;background:#264767;border:1px solid #6888aa;border-radius:11px;color:#f0f9ff;font-size:1.08rem;font-weight:700}
+.gr-choice.correct{background:#1d604f;border-color:#66cb9b;color:#d6ffed}
+.gr-choice.wrong{background:#673b49;border-color:#e88d9b;color:#fff1f3}
+.gr-choice:disabled{cursor:default}
+.gr-feedback{min-height:55px;line-height:1.8;margin:15px 0;color:#d8eef6;font-size:.98rem}
+.gr-feedback strong{display:block;font-size:1.04rem}
+.gr-feedback p{margin:3px 0}
+.gr-next:disabled{opacity:.5;cursor:not-allowed}
+.gr-tab:focus-visible,.gr-next:focus-visible,.gr-sound:focus-visible,.gr-choice:focus-visible,.gr-jump:focus-visible{outline:3px solid #99ecfc;outline-offset:3px}
+@media(max-width:1020px){.gr-arrows{grid-template-columns:1fr}.gr-arrow-card{padding:13px}.gr-grid{grid-template-columns:1fr}}
+@media(max-width:640px){.gr-intro{padding:16px}.gr-intro h3{font-size:1.12rem}.gr-navigation{display:grid;grid-template-columns:1fr 1fr;gap:7px}.gr-tab{padding:10px 8px;font-size:.87rem}.gr-sample{padding:16px 14px}.gr-japanese{font-size:1.19rem;line-height:2.6}.gr-meaning{font-size:1.02rem}.gr-quiz{padding:15px}.gr-choices{grid-template-columns:1fr}.gr-choice{min-height:49px;font-size:1.1rem}.gr-title{font-size:1.45rem}.gr-rule{padding:13px 15px}.gr-rule p{font-size:1rem}}
+@media(max-width:360px){.gr-navigation{grid-template-columns:1fr}.gr-tab{font-size:.95rem}}
