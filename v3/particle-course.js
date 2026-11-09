@@ -214,7 +214,7 @@
    const wrap=el("section","pc-course");
    wrap.append(el("span","pc-kicker","N4–N3｜助詞的組合與語氣"),
      el("h2","pc-title","には・では・へは・とは…"),
-     el("p","pc-subtitle","14 組助詞｜大量實際例句｜13 組同句對比｜24 題小挑戰"));
+     el("p","pc-subtitle","14 組助詞｜大量實際例句｜20 組句型對照｜24 題小挑戰"));
    const header=el("nav","pc-tabs");header.setAttribute("aria-label","助詞組合學習分頁");
    [["overview","原理"],["niwa","は系列"],["nimo","も系列"],["compare","句子對照"],["pitfalls","易混淆"],["quiz","測驗"]]
      .forEach(([key,title])=>{
