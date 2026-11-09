@@ -27,6 +27,12 @@
   {id:"particle-mo",title:"09｜助詞組合 · も系列",summary:"也、甚至、追加與比較｜不要死背「也」",sections:secs(titles2)},
   {id:"particle-challenge",title:"10｜助詞深度對照與練習",summary:"同句比較、特殊用法、24 題混合測驗",sections:secs(["compare","pitfalls","quiz"])}
  );
+ // N3 students can reach the same completed material directly without duplicating the data.
+ if(C.jp.N3)C.jp.N3.push({
+   id:"particle-review-n3",title:"07｜N3 助詞語氣精修",
+   summary:"進階 8 組助詞、20 組語意比較、24 題混合情境練習",
+   sections:secs(["overview","towa","karawa","madewa","yoriwa","demo","tomo","mademo","yorimo","compare","pitfalls","quiz"])
+ });
  const el=(tag,cls,text)=>{
    const n=document.createElement(tag);if(cls)n.className=cls;
    if(text!==undefined)n.textContent=String(text);
