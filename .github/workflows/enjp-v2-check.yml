@@ -30,3 +30,4 @@ jobs:
       - run: node v3/verify-transfer-lab-integration.js
       - run: node v3/verify-grammar-vocab-separation.js
       - run: node v3/verify-n4n3-completion.js
+      - run: node v3/verify-example-expansion.js
