@@ -127,7 +127,12 @@
      const idx=indices[pos],q=lesson.quiz[idx];
      count.textContent="第 "+(pos+1)+" / "+indices.length+" 題｜本輪答對 "+score+" 題";
      question.replaceChildren(el("strong","",q.prompt));
-     for(const option of q.choices){
+     const shuffled=[...q.choices];
+     for(let i=shuffled.length-1;i>0;i--){
+       const j=Math.floor(Math.random()*(i+1));
+       [shuffled[i],shuffled[j]]=[shuffled[j],shuffled[i]];
+     }
+     for(const option of shuffled){
        const b=el("button","nl-choice",option);b.type="button";
        b.addEventListener("click",()=>{
          if(locked)return;
