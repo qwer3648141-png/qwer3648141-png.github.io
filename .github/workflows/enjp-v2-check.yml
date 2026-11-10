@@ -32,3 +32,4 @@ jobs:
       - run: node v3/verify-n4n3-completion.js
       - run: node v3/verify-example-expansion.js
       - run: node v3/verify-n5-foundation.js
+      - run: node v3/verify-curated-vocab.js
