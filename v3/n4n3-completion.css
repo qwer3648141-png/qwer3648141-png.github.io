@@ -1,0 +1,48 @@
+/* N4–N3 completed learning path · no layout shifts to existing materials */
+.nl-lesson{min-width:0;max-width:100%;margin-top:16px;color:#effaff}
+.nl-kicker{display:inline-block;color:#94e6f2;letter-spacing:.13em;font-size:.78rem;font-weight:800}
+.nl-title{font-size:clamp(1.34rem,2.35vw,1.88rem);line-height:1.6;margin:8px 0 10px}
+.nl-intro,.nl-context{color:#c1dce9;font-size:.95rem;line-height:1.85;margin:8px 0 17px}
+.nl-heading{font-size:1.21rem;line-height:1.6;margin:0 0 13px;color:#e3f6ff}
+.nl-units{margin:24px 0}
+.nl-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.nl-card{background:linear-gradient(136deg,#183d5b,#122f49);border:1px solid #4e758d;padding:19px;border-radius:16px;min-width:0}
+.nl-index{display:inline-block;background:#214d67;border:1px solid #527d92;border-radius:8px;padding:4px 9px;color:#a8edf5;font-size:.75rem;letter-spacing:.07em;font-weight:750}
+.nl-card h4{font-size:1.16rem;line-height:1.65;margin:12px 0 9px;color:#f4fbff}
+.nl-form{font-size:.98rem;line-height:1.8;background:#102a3f;border-left:3px solid #89c9db;border-radius:8px;color:#e6f8ff;padding:10px 13px;margin:9px 0}
+.nl-explain{font-size:.93rem;line-height:1.8;color:#c3dbe8;margin:10px 0 17px}
+.nl-example{background:#0c2a41;border:1px solid #335c76;border-radius:12px;padding:14px;margin:10px 0 0}
+.nl-jp{font-size:clamp(1.14rem,2vw,1.32rem);line-height:2.8;color:#fff;font-weight:680;margin:3px 0 7px;overflow-wrap:anywhere;word-break:normal}
+.nl-jp ruby{ruby-position:over}
+.nl-jp rt{font-size:.57em;color:#9de7fa;line-height:1.4;font-weight:520}
+.nl-zh{font-size:.98rem;line-height:1.9;color:#e0f2fa;margin:3px 0 9px}
+.nl-audio{display:flex;align-items:center;flex-wrap:wrap;gap:9px}
+.nl-sound,.nl-primary,.nl-secondary{font:inherit;cursor:pointer;min-height:44px;border-radius:10px;padding:9px 13px;font-size:.9rem;line-height:1.45}
+.nl-sound{border:1px solid #6d99b1;background:#265e7c;color:#e6faff}
+.nl-primary{background:#90e2ed;border:1px solid #b3f3ff;color:#092d40;font-weight:800}
+.nl-secondary{background:#284c68;border:1px solid #5b849d;color:#e6faff}
+.nl-sound:disabled,.nl-primary:disabled{opacity:.54;cursor:not-allowed}
+.nl-status{color:#a8d7e7;font-size:.83rem;line-height:1.6}
+.nl-scene,.nl-quiz{border:1px solid #466f8c;border-radius:17px;padding:21px;margin:23px 0;background:linear-gradient(145deg,#123852,#0f2c45);min-width:0}
+.nl-transcript{margin-top:16px}
+.nl-transcript[hidden]{display:none}
+.nl-line{display:grid;grid-template-columns:50px minmax(0,1fr);gap:11px;align-items:start;margin:10px 0;padding:14px;border:1px solid #345d78;border-radius:13px;background:#16374f}
+.nl-speaker{display:grid;place-items:center;border:1px solid #5c8ca2;border-radius:10px;min-height:38px;padding:5px 7px;background:#225571;color:#d7f4ff;font-size:.81rem;overflow-wrap:anywhere}
+.nl-line-body{min-width:0}
+.nl-line-body .nl-jp{margin:0 0 4px}
+.nl-caution{color:#cfe6f0;background:#163b55;border-left:3px solid #a49cf2;border-radius:9px;padding:11px 14px;font-size:.88rem;line-height:1.8}
+.nl-quiz-actions{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:18px}
+.nl-count{color:#a8eef5;font-weight:760;font-size:.92rem}
+.nl-question{font-size:1.2rem;line-height:1.8;font-weight:730;margin:17px 0;color:#fff}
+.nl-choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-bottom:15px}
+.nl-choice{border:1px solid #638fa9;border-radius:12px;background:#274e6d;color:#f1fbff;cursor:pointer;min-height:56px;padding:11px 8px;font-size:1rem;line-height:1.6;font-weight:730;overflow-wrap:anywhere}
+.nl-choice.correct{background:#216352;border-color:#72d6ad}
+.nl-choice.incorrect{background:#743e52;border-color:#e993a6}
+.nl-choice:disabled{cursor:default}
+.nl-feedback{min-height:52px;margin:14px 0;color:#cfe8f3;font-size:.97rem;line-height:1.8}
+.nl-feedback p{margin:4px 0}
+.nl-warning{border:1px solid #ba987b;background:#533e36;border-radius:10px;padding:11px 13px;color:#fff0dd;font-size:.89rem;line-height:1.8}
+.nl-sound:focus-visible,.nl-primary:focus-visible,.nl-secondary:focus-visible,.nl-choice:focus-visible{outline:3px solid #b4f4ff;outline-offset:3px}
+@media(max-width:1050px){.nl-grid{grid-template-columns:1fr}}
+@media(max-width:640px){.nl-card{padding:16px}.nl-scene,.nl-quiz{padding:15px}.nl-line{grid-template-columns:1fr;gap:5px;padding:13px}.nl-speaker{width:max-content;min-width:43px}.nl-choices{grid-template-columns:1fr}.nl-choice{font-size:1.02rem;min-height:51px}.nl-jp{font-size:1.19rem}.nl-quiz-actions{display:grid;grid-template-columns:1fr 1fr}.nl-quiz-actions button{font-size:.84rem;padding:9px 8px}}
+@media(max-width:360px){.nl-quiz-actions{grid-template-columns:1fr}}
