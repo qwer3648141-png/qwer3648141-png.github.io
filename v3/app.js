@@ -5,9 +5,9 @@
   const Audio=window.ENJP_Audio;
   if(!database||!Audio){document.body.textContent="課程模組載入失敗，請重新整理。";return}
   const $=id=>document.getElementById(id);
-  const state={mode:"jp",level:"N5",sectionId:null,filter:""};
+  const state={mode:"jp",level:"N5",vocabLang:"jp",sectionId:null,filter:""};
   const jpLabels={N5:"N5 基礎",N4:"N4 進階初級",N3:"N3 中級"};
-  const modeTitles={jp:"日本語課程",en:"English 英文課程",dual:"EN × JP 雙語課程"};
+  const modeTitles={jp:"日本語課程",en:"English 英文課程",dual:"EN × JP 雙語課程",vocab:"📚 情境單字庫"};
   const el=(tag,className,text)=>{
     const node=document.createElement(tag);
     if(className)node.className=className;
@@ -15,7 +15,7 @@
     return node;
   };
   const append=(parent,...children)=>{parent.append(...children);return parent};
-  function listChapters(){return state.mode==="jp"?database.jp[state.level]:database[state.mode]}
+  function listChapters(){return state.mode==="jp"?database.jp[state.level]:state.mode==="vocab"?(database.vocab?.[state.vocabLang]||[]):database[state.mode]}
   function lookupSection(id){
     for(const chapter of listChapters()){
       const section=chapter.sections.find(s=>s.id===id);
@@ -32,9 +32,11 @@
       button.setAttribute("aria-selected",String(button.dataset.level===state.level));
     });
     $("levels").hidden=state.mode!=="jp";
+    $("vocab-langs").hidden=state.mode!=="vocab";
+    document.querySelectorAll("[data-vocab-lang]").forEach(b=>b.setAttribute("aria-selected",String(b.dataset.vocabLang===state.vocabLang)));
     $("rail-heading").textContent=modeTitles[state.mode];
-    $("rail-description").textContent=state.mode==="jp"?"依程度選章。章節只會在左側展開，右邊閱讀區不移動。":"自由選擇主題，已整合教材會標註「試學」。";
-    $("rail-kicker").textContent=state.mode==="jp"?"JAPANESE PATH":state.mode==="en"?"ENGLISH PATH":"BILINGUAL PATH";
+    $("rail-description").textContent=state.mode==="jp"?"依程度選章；完整 30 章單字請到「📚 情境單字」。":state.mode==="vocab"?"30 章完整情境單字集中在這裡，可切換日文、英文與英日配對。":"自由選擇主題，已整合教材會標註「試學」。";
+    $("rail-kicker").textContent=state.mode==="jp"?"JAPANESE PATH":state.mode==="en"?"ENGLISH PATH":state.mode==="vocab"?"VOCABULARY LIBRARY":"BILINGUAL PATH";
     $("filter").value=state.filter;
   }
   function renderChapters(){
@@ -118,16 +120,29 @@
       shortcuts.push(
         ["📖 "+state.level+" 文法","legacy-grammar-"+state.level+"-1","句型接續、例句與中文說明"],
         ["⚔️ "+state.level+" 動詞活用",verb,"11 種變化＋輸入挑戰"],
-        ["✨ "+state.level+" 形容詞",adj,"い形／な形與變化練習"],
-        ["🌊 英日情境單字","legacy-vocab-jp-1","原版 30 章完整英日詞彙"]
+        ["✨ "+state.level+" 形容詞",adj,"い形／な形與變化練習"]
       );
+    }else if(state.mode==="vocab"){
+      shortcuts=[1,10,20,30].map(n=>[
+        "📚 "+(state.vocabLang==="jp"?"日文":state.vocabLang==="en"?"英文":"英日配對")+" Chapter "+String(n).padStart(2,"0"),
+        "legacy-vocab-"+state.vocabLang+"-"+n,
+        "完整情境單字與例句"
+      ]);
     }else{
+      shortcuts=[];
+      /* English and bilingual course landing pages stay focused on their lessons. */
+      /* Legacy 30-chapter vocabulary is available under the dedicated vocabulary mode. */
+      /* previously: shortcuts=[1,10,20,30].map(n=>[ */
+      /* disabled old duplicated vocabulary shortcuts */
+    }
+    /*
       shortcuts=[1,10,20,30].map(n=>[
         "🗺️ Chapter "+String(n).padStart(2,"0"),
         "legacy-vocab-"+state.mode+"-"+n,
         "原版雙語單字、例句與中文翻譯"
       ]);
     }
+    */
     shortcuts=shortcuts.filter(([_,id])=>id&&(migrated[id]||
       (id.startsWith("jp-n4-giving-")&&window.ENJP_GivingReceiving)||
       (id.startsWith("jp-particle-")&&window.ENJP_Particles)));
@@ -352,7 +367,7 @@
     const {chapter,section}=found;
     const lesson=database.lesson[section.id];
     const imported=window.ENJP_MIGRATED?.sections?.[section.id];
-    root.append(renderHeader(section.title,chapter.summary,[state.mode==="jp"?jpLabels[state.level]:modeTitles[state.mode],chapter.title,section.title]));
+    root.append(renderHeader(section.title,chapter.summary,[state.mode==="jp"?jpLabels[state.level]:state.mode==="vocab"?"情境單字 · "+({jp:"日文",en:"英文",dual:"英日配對"}[state.vocabLang]):modeTitles[state.mode],chapter.title,section.title]));
     if(window.ENJP_GivingReceiving?.render(root,section.id))return;
     if(window.ENJP_Particles?.render(root,section.id))return;
     if(imported){
@@ -395,6 +410,10 @@
     document.querySelectorAll("[data-mode]").forEach(b=>b.addEventListener("click",()=>{
       const next=b.dataset.mode;if(next===state.mode)return;
       state.mode=next;state.filter="";renderAll();
+    }));
+    document.querySelectorAll("[data-vocab-lang]").forEach(b=>b.addEventListener("click",()=>{
+      const next=b.dataset.vocabLang;if(next===state.vocabLang)return;
+      state.vocabLang=next;state.filter="";renderAll();
     }));
     document.querySelectorAll("[data-level]").forEach(b=>b.addEventListener("click",()=>{
       const next=b.dataset.level;if(next===state.level)return;
