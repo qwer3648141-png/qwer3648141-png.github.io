@@ -235,3 +235,9 @@ a{color:#a2ebfc}
 .voice-diagnostic{border:1px solid #4b7291;border-radius:12px;background:#0c2e46;padding:12px 14px;font-size:.91rem;line-height:1.8;color:#bfe8ef;margin:13px 0}
 .voice-panel .audio-status{font-size:.94rem;line-height:1.75;min-height:22px}
 @media(max-width:640px){.voice-panel{padding:16px}.voice-panel>summary{font-size:1.02rem}.voice-row{grid-template-columns:1fr}.voice-row label,.voice-mode-row label{font-size:.96rem}.voice-mode-row{padding:13px}.voice-row select,.voice-mode-row select{font-size:1rem;min-height:50px}.test-row button{width:100%;font-size:.96rem}.voice-diagnostic{font-size:.9rem}}
+
+/* 3.9 — independent full vocabulary library, no duplicate 30-chapter entries in JLPT lanes. */
+.mode-strip{grid-template-columns:repeat(4,minmax(0,1fr))}
+.vocab-langs[hidden]{display:none}
+@media(max-width:640px){.mode-strip{grid-template-columns:repeat(2,minmax(0,1fr))}.mode{min-height:85px;flex-direction:row;justify-content:flex-start;text-align:left;padding:12px 10px}.mode-icon{flex:none}.mode strong{font-size:.92rem}.mode small{font-size:.68rem}}
+@media(max-width:360px){.mode{gap:5px}.mode-icon{width:29px;height:29px;font-size:.84rem}}
