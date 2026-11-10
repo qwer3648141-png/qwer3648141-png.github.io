@@ -1,0 +1,22 @@
+/* N5 completion · sound-focused 46 kana tables and accessible controls. */
+.nf-foundation{min-width:0}
+.nf-kana-module{margin:24px 0;padding:18px;border:1px solid #50758e;background:linear-gradient(136deg,#13384e,#102a45);border-radius:16px}
+.nf-kana-group{margin:10px 0;border:1px solid #507995;border-radius:13px;background:#103149;overflow:hidden}
+.nf-kana-group>summary{cursor:pointer;padding:13px 15px;font-size:1rem;line-height:1.6;font-weight:800;color:#bfefff}
+.nf-kana-group>summary:focus-visible,.nf-kana-item:focus-visible{outline:3px solid #9bf0ff;outline-offset:3px}
+.nf-kana-group[open]>summary{border-bottom:1px solid #3c627e;background:#1a3e56}
+.nf-kana-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;padding:14px}
+.nf-kana-cell{min-width:0;display:flex;flex-direction:column;align-items:center;gap:2px}
+.nf-kana-item{width:100%;min-height:79px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;cursor:pointer;border:1px solid #5d8aa7;border-radius:11px;background:#1d4761;color:#f0faff;transition:background .15s}
+.nf-kana-item:hover{background:#275873;border-color:#89cbdd}
+.nf-kana-item:active{background:#326b83}
+.nf-kana-item strong{font-size:clamp(1.38rem,2.5vw,1.7rem);font-weight:750;line-height:1.4}
+.nf-kana-item small{font-size:.81rem;color:#afdee8}
+.nf-kana-status{font-size:.7rem;line-height:1.25;color:#b1cedc;min-height:0;text-align:center}
+.nf-kana-module .nl-context{margin:7px 0 16px}
+.nf-foundation .nl-lesson{min-width:0}
+.nf-foundation .nl-card{min-width:0}
+@media(max-width:900px){.nf-kana-grid{grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}}
+@media(max-width:640px){.nf-kana-module{padding:12px}.nf-kana-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;padding:10px}.nf-kana-item{min-height:72px}.nf-kana-item strong{font-size:1.5rem}.nf-kana-item small{font-size:.72rem}.nf-kana-group>summary{font-size:.92rem;padding:12px}.nf-foundation .nl-intro{font-size:.9rem}}
+@media(max-width:345px){.nf-kana-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(prefers-reduced-motion:reduce){.nf-kana-item{transition:none}}
