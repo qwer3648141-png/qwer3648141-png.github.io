@@ -64,7 +64,8 @@
         const imported=window.ENJP_MIGRATED?.sections?.[section.id];
         const specialGiving=section.id.startsWith("jp-n4-giving-")&&Boolean(window.ENJP_GivingReceiving);
         const specialParticle=section.id.startsWith("jp-particle-")&&Boolean(window.ENJP_Particles);
-        const special=specialGiving||specialParticle;
+        const specialContrast=section.id.startsWith("jp-contrast-")&&Boolean(window.ENJP_ContrastGrammar);
+        const special=specialGiving||specialParticle||specialContrast;
         const available=Boolean(database.lesson[section.id]||imported||special);
         const b=el("button","section");
         b.type="button";b.dataset.section=section.id;
@@ -98,8 +99,9 @@
     const chapters=listChapters(),all=chapters.flatMap(c=>c.sections);
     const ready=all.filter(s=>database.lesson[s.id]||window.ENJP_MIGRATED?.sections?.[s.id]||
       (s.id.startsWith("jp-n4-giving-")&&window.ENJP_GivingReceiving)||
-      (s.id.startsWith("jp-particle-")&&window.ENJP_Particles)).length;
-    root.append(renderHeader("從左側挑選章節開始","右邊是固定的教材閱讀區。切換章節或縮放電腦畫面時，不會把教材推到整頁最下方。",[modeTitles[state.mode],"學習總覽"]));
+      (s.id.startsWith("jp-particle-")&&window.ENJP_Particles)||
+      (s.id.startsWith("jp-contrast-")&&window.ENJP_ContrastGrammar)).length;
+    root.append(renderHeader("從左側挑選章節開始",state.mode==="vocab"?"完整情境詞彙已移到獨立單字區；先選日本語、English 或 EN × JP，再選 30 個章節。":"右邊是固定的教材閱讀區。切換章節或縮放電腦畫面時，不會把教材推到整頁最下方。",[modeTitles[state.mode],"學習總覽"]));
     const stats=el("div","info-grid");
     for(const [value,label] of [[chapters.length,"課程章節"],[all.length,"主題入口"],[ready,"已接入教材主題"]]){
       stats.append(append(el("div","info-box"),el("strong","",String(value)),el("span","",label)));
@@ -109,6 +111,8 @@
     const allIds=Object.keys(migrated);
     let shortcuts=[];
     if(state.mode==="jp"){
+      if(window.ENJP_ContrastGrammar&&["N4","N3"].includes(state.level))
+        shortcuts.push(["🧠 易混淆文法精講","jp-contrast-requests","5 組句型、64 例句與 25 題挑戰"]);
       if(window.ENJP_Particles)
         shortcuts.push(["🧩 助詞組合精講","jp-particle-overview","14 組助詞、125 句＋20 組對照＋24 題練習"]);
       if(state.level==="N4"&&window.ENJP_GivingReceiving)
@@ -129,23 +133,13 @@
         "完整情境單字與例句"
       ]);
     }else{
+      // Language learning courses stay focused; vocabulary has its own mode.
       shortcuts=[];
-      /* English and bilingual course landing pages stay focused on their lessons. */
-      /* Legacy 30-chapter vocabulary is available under the dedicated vocabulary mode. */
-      /* previously: shortcuts=[1,10,20,30].map(n=>[ */
-      /* disabled old duplicated vocabulary shortcuts */
     }
-    /*
-      shortcuts=[1,10,20,30].map(n=>[
-        "🗺️ Chapter "+String(n).padStart(2,"0"),
-        "legacy-vocab-"+state.mode+"-"+n,
-        "原版雙語單字、例句與中文翻譯"
-      ]);
-    }
-    */
     shortcuts=shortcuts.filter(([_,id])=>id&&(migrated[id]||
       (id.startsWith("jp-n4-giving-")&&window.ENJP_GivingReceiving)||
-      (id.startsWith("jp-particle-")&&window.ENJP_Particles)));
+      (id.startsWith("jp-particle-")&&window.ENJP_Particles)||
+      (id.startsWith("jp-contrast-")&&window.ENJP_ContrastGrammar)));
     if(shortcuts.length){
       const quick=el("section","course-quick-start");
       quick.append(el("h3","","⚡ 快速進入正式教材"));
@@ -165,7 +159,7 @@
       quick.append(entries);root.append(quick);
     }
     const welcome=el("div","welcome-grid");
-    for(const [title,desc] of [["01｜選課不鎖定","N5／N4／N3 與所有章節都可以自由打開；不用先取得五顆星。"],["02｜分開顯示教材","原版資料已匯入「教材庫」章節；部分朗讀及標音持續校對，其餘未完成項目會標示。"],["03｜中英日各自朗讀","日文依教材標註讀音發聲，英文不混入日文聲線；下方可選裝置上的語音。"],["04｜保留原版學習紀錄","完整舊版教材已經可從本頁閱讀；原版測驗、複習排程與學習紀錄不會被覆寫。"]]){
+    for(const [title,desc] of [["01｜選課不鎖定","N5／N4／N3 與所有章節都可以自由打開；不用先取得五顆星。"],["02｜單字與文法分開","30 章完整情境單字已搬到「📚 情境單字」，N5～N3 主要顯示文法與動詞等技能課。"],["03｜中英日各自朗讀","日文依教材標註讀音發聲，英文不混入日文聲線；下方可選裝置上的語音。"],["04｜保留原版學習紀錄","完整舊版教材已經可從本頁閱讀；原版測驗、複習排程與學習紀錄不會被覆寫。"]]){
       welcome.append(append(el("div","welcome-card"),el("h3","",title),el("p","",desc)));
     }
     root.append(welcome);
@@ -370,9 +364,10 @@
     root.append(renderHeader(section.title,chapter.summary,[state.mode==="jp"?jpLabels[state.level]:state.mode==="vocab"?"情境單字 · "+({jp:"日文",en:"英文",dual:"英日配對"}[state.vocabLang]):modeTitles[state.mode],chapter.title,section.title]));
     if(window.ENJP_GivingReceiving?.render(root,section.id))return;
     if(window.ENJP_Particles?.render(root,section.id))return;
+    if(window.ENJP_ContrastGrammar?.render(root,section.id))return;
     if(imported){
       root.append(el("span","example-count","已匯入原版完整教材 · "+imported.items.length+" 筆"));
-      if(!window.ENJP_LegacyReader?.render(root,section.id,state.mode)){
+      if(!window.ENJP_LegacyReader?.render(root,section.id,state.mode==="vocab"?state.vocabLang:state.mode)){
         root.append(el("p","legacy-note","教材載入異常。可先使用原版課程。"));
       }
       return;
@@ -425,8 +420,13 @@
     try{
       const lessonId=decodeURIComponent(window.location?.hash?.slice(1)||"");
       const giving=lessonId.startsWith("jp-n4-giving-")&&window.ENJP_GivingReceiving;
+      const contrast=lessonId.startsWith("jp-contrast-")&&window.ENJP_ContrastGrammar;
+      const vocab=lessonId.startsWith("legacy-vocab-")&&Boolean(window.ENJP_MIGRATED?.sections?.[lessonId]);
       const particle=lessonId.startsWith("jp-particle-")&&window.ENJP_Particles;
-      if(giving||particle){
+      if(vocab){
+        state.mode="vocab";state.vocabLang=lessonId.split("-")[2]||"jp";
+        updateModeButtons();goToSection(lessonId);
+      }else if(giving||particle||contrast){
         state.mode="jp";state.level="N4";updateModeButtons();goToSection(lessonId);
       }
     }catch{}
