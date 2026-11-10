@@ -36,7 +36,7 @@ assert.equal(db.words.length,180);
 assert.equal(db.topics.filter(t=>t.level==="N5").length,4);
 assert.equal(db.topics.filter(t=>t.level==="N4").length,3);
 assert.equal(db.topics.filter(t=>t.level==="N3").length,3);
-assert.deepEqual(db.topics.map(t=>t.words.length),Array(10).fill(18));
+assert.deepEqual(Array.from(db.topics,t=>t.words.length),Array(10).fill(18));
 const uniqueIds=new Set(),terms=new Set(),examples=new Set();
 for(const w of db.words){
  assert(!uniqueIds.has(w.id),"unique persistent ID "+w.id);uniqueIds.add(w.id);
