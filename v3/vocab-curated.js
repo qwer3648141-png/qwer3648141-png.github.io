@@ -317,7 +317,7 @@
    const shell=el("section","cv-home");
    const home=()=>{
      shell.replaceChildren();
-     countStats(shell,"📚 N5～N3 主題單字 · 第一批",scope);
+     countStats(shell,"📚 "+(level==="all"?"N5～N3":level)+" 主題單字 · 第一批",scope);
      shell.append(el("p","cv-help","先選左側主題閱讀，再用智慧抽考複習。新單字與到期錯題會優先出題；三個等級可自由切換。"));
      const guide=el("p","cv-help","複習間隔依答題結果安排：1／2／4／7／14／30 天等；答錯會回到今日並列入待加強。每天可做多回合，不用連續打卡。");
      shell.append(guide);
@@ -327,6 +327,12 @@
        b.type="button";b.addEventListener("click",()=>createQuiz(shell,scope,{source,listening,title:label,onBack:home}));
        buttons.append(b);
      }
+     if(level!=="all"){
+       const cross=el("button","cv-secondary","🌊 N5～N3 跨級綜合");
+       cross.type="button";
+       cross.addEventListener("click",()=>createQuiz(shell,words,{source:"smart",title:"N5～N3 跨級綜合 10 題",onBack:home}));
+       buttons.append(cross);
+     }
      shell.append(buttons);
      const topicGrid=el("div","cv-theme-grid");
      for(const topic of themes.filter(t=>level==="all"||t.level===level)){
@@ -334,10 +340,7 @@
        b.type="button";
        b.append(el("span","cv-theme-grade",topic.level),
          el("strong","",topic.title),el("small","",topic.words.length+" 個單字｜"+topic.description));
-       b.addEventListener("click",()=>{
-         window.ENJP_3?.state&&(window.ENJP_3.state.sectionId=topic.id);
-         window.ENJP_3?.renderReader?.();
-       });
+       b.addEventListener("click",()=>window.ENJP_3?.goToSection?.(topic.id));
        topicGrid.append(b);
      }
      shell.append(el("h3","cv-home-subtitle","按主題選擇單字課程"),topicGrid);
