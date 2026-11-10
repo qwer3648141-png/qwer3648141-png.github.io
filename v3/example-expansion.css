@@ -1,0 +1,23 @@
+/* Added examples for N4/N3 and the 11 verb-form panels. */
+.nl-more-examples{margin-top:13px;border:1px solid #47718b;border-radius:12px;background:#12354c;overflow:hidden}
+.nl-more-examples>summary{cursor:pointer;list-style:none;padding:12px 14px;line-height:1.6;font-size:.94rem;font-weight:750;color:#b9f4f9}
+.nl-more-examples>summary::-webkit-details-marker{display:none}
+.nl-more-examples[open]>summary{border-bottom:1px solid #365f79;background:#1c455c}
+.nl-more-list{padding:0 12px 12px}
+.nl-more-list .nl-example{margin-top:12px}
+.vf-context-note{font-size:.9rem;line-height:1.75;margin:0 15px 14px;padding:11px 13px;color:#c9e6ef;background:#153b4d;border-left:3px solid #8be1ed;border-radius:8px}
+.vf-examples{margin-top:11px;border:1px solid #46758f;border-radius:10px;background:#173b52;overflow:hidden}
+.vf-examples>summary{cursor:pointer;list-style:none;font-size:.86rem;line-height:1.55;padding:9px 11px;color:#bfeefa;font-weight:760}
+.vf-examples>summary::-webkit-details-marker{display:none}
+.vf-examples[open]>summary{border-bottom:1px solid #547b98;background:#23445e}
+.vf-example-list{display:grid;gap:9px;padding:10px}
+.vf-example{background:#0d2d45;border:1px solid #315a76;border-radius:10px;padding:10px}
+.vf-japanese{font-size:1.08rem;color:#f0faff;line-height:2.65;overflow-wrap:anywhere;word-break:normal;margin:0 0 7px;font-weight:650}
+.vf-japanese ruby{ruby-position:over}
+.vf-japanese rt{font-size:.57em;color:#a4eafb;font-weight:520}
+.vf-chinese{font-size:.91rem;color:#c8e5f0;line-height:1.75;margin:4px 0 9px}
+.vf-audio{border:1px solid #6e9bb0;border-radius:9px;background:#255d78;color:#edfbff;padding:7px 11px;min-height:38px;font-size:.83rem;font-weight:700;cursor:pointer}
+.vf-audio:disabled{cursor:not-allowed;opacity:.5}
+.vf-audio-status{font-size:.76rem;margin-left:8px;color:#abcdda;line-height:1.55}
+.nl-more-examples>summary:focus-visible,.vf-examples>summary:focus-visible,.vf-audio:focus-visible{outline:3px solid #a7eefa;outline-offset:2px}
+@media(max-width:700px){.vf-example-list{padding:9px}.vf-context-note{margin:0 11px 12px}.vf-japanese{font-size:1.13rem}.nl-more-examples>summary{min-height:46px}}
