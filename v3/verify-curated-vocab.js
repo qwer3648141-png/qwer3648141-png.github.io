@@ -100,6 +100,26 @@ assert(app.includes('ENJP_CuratedVocab?.chapters?.[state.vocabLevel]'),"topic si
 assert(app.includes('ENJP_CuratedVocab?.render(root,section.id)'),"curated reader");
 assert(app.includes('state.vocabLang="jlpt";state.vocabLevel=curated.level;'),"deep links");
 assert(app.includes('state.vocabLang=next;state.filter="";renderAll();'),"old JP/EN vocabulary still selectable");
+// Exercise actual V3 navigation with the curated library, not just string checks.
+container.document.readyState="loading";
+container.document.addEventListener=()=>{};
+const readerContent=node("div");
+container.document.getElementById=id=>id==="reader-content"?readerContent:node("div");
+vm.runInNewContext(read("v3/course-map.js"),container);
+vm.runInNewContext(read("v3/app.js"),container);
+const nav=container.window.ENJP_3;
+assert(nav&&typeof nav.listChapters==="function","main app controller exists");
+nav.state.mode="vocab";nav.state.vocabLang="jlpt";
+for(const level of ["N5","N4","N3"]){
+ nav.state.vocabLevel=level;
+ assert.equal(nav.listChapters().length,db.chapters[level].length,level+" topic sidebar");
+ const id=db.chapters[level][0].sections[0].id;
+ assert(nav.lookupSection(id),"topic appears in sidebar "+id);
+ nav.state.sectionId=id;
+ nav.renderReader();
+ assert(flatten(readerContent).some(x=>String(x.className).includes("cv-word-card")),"topic renders its actual cards for "+level);
+}
+
 assert(read("v3/vocab-curated.css").includes("@media(max-width:640px)"),"mobile layout");
 // Malformed storage must not be overwritten.
 const corruptWrites=[],
