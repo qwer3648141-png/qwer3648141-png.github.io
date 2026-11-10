@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#071724">
   <meta name="description" content="ENJP Ocean 3.0 課程導航試用版：日文 N5–N3、英文、雙語學習。">
-  <title>ENJP Ocean 4.0｜N5～N3 完整自學課程</title>
+  <title>ENJP Ocean 4.1｜N5～N3 主題單字與智慧抽考</title>
   <link rel="stylesheet" href="./ui.css?v=3.6.0">
   <link rel="stylesheet" href="./legacy-ui.css?v=3.6.0">
   <link rel="stylesheet" href="./giving-receiving.css?v=3.8.1">
@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="./n4n3-completion.css?v=3.9.2">
   <link rel="stylesheet" href="./example-expansion.css?v=3.9.3">
   <link rel="stylesheet" href="./n5-foundation.css?v=4.0.0">
+  <link rel="stylesheet" href="./vocab-curated.css?v=4.1.0">
   <script src="./course-map.js?v=3.6.0" defer></script>
   <script src="./data/catalog.js?v=3.6.0" defer></script>
   <script src="./data/grammar.js?v=3.6.0" defer></script>
@@ -45,21 +46,25 @@
   <script src="./n5-foundation-3.js?v=4.0.0" defer></script>
   <script src="./n4n3-trial-upgrades.js?v=4.0.0" defer></script>
   <script src="./n5-foundation.js?v=4.0.0" defer></script>
-  <script src="./app.js?v=4.0.0" defer></script>
+  <script src="./vocab-batch-n5.js?v=4.1.0" defer></script>
+  <script src="./vocab-batch-n4.js?v=4.1.0" defer></script>
+  <script src="./vocab-batch-n3.js?v=4.1.0" defer></script>
+  <script src="./vocab-curated.js?v=4.1.0" defer></script>
+  <script src="./app.js?v=4.1.0" defer></script>
 </head>
 <body>
   <main class="wrap">
     <div class="topbar">
-      <div class="logo"><span class="logo-symbol" aria-hidden="true">🌊</span><span>ENJP Ocean<small>LANGUAGE JOURNEY · 4.0</small></span></div>
+      <div class="logo"><span class="logo-symbol" aria-hidden="true">🌊</span><span>ENJP Ocean<small>LANGUAGE JOURNEY · 4.1</small></span></div>
       <div class="top-links">
         <a class="navlink" href="/">↗ 原版完整課程</a>
         <a class="navlink primary" href="#audio-settings">🔊 語音設定與測試</a>
       </div>
     </div>
     <header class="hero">
-      <span class="kicker">N5 × N4 × N3 FULL LEARNING PATH · 4.0 DEV</span>
+      <span class="kicker">JLPT VOCABULARY LAB · 4.1 DEV</span>
       <h1>學習有方向，進步不迷航。</h1>
-      <p>N5 全 17 個課程小節及 N4「可能形」、N3「ように／ために」已加入完整規則、例句、假名語音、中文翻譯與理解練習。原有 N4、N3 課程及獨立 30 章情境單字繼續保留。</p>
+      <p>N5、N4、N3 主題單字第一批 180 字正式加入：每個單字有獨立情境例句、中文、漢字振假名與日文朗讀。新增每輪 10 題智慧抽考、到期複習、錯題衝刺與聽力測驗，並完整保留原版情境單字庫。</p>
     </header>
     <nav class="mode-strip" aria-label="學習模式">
       <button type="button" class="mode" data-mode="jp" aria-pressed="true">
@@ -76,7 +81,7 @@
       </button>
       <button type="button" class="mode" data-mode="vocab" aria-pressed="false">
         <span class="mode-icon" aria-hidden="true">📚</span>
-        <span><strong>情境單字</strong><small>獨立 30 章完整詞彙庫</small></span>
+        <span><strong>情境單字</strong><small>N5–N3 新單字・原版 30 章</small></span>
       </button>
     </nav>
     <div class="workarea" id="course-workarea">
@@ -89,10 +94,16 @@
           <button type="button" class="level" data-level="N4" role="tab" aria-selected="false">N4</button>
           <button type="button" class="level" data-level="N3" role="tab" aria-selected="false">N3</button>
         </div>
-        <div class="levels vocab-langs" id="vocab-langs" role="tablist" aria-label="情境單字語言" hidden>
-          <button type="button" class="level" data-vocab-lang="jp" role="tab" aria-selected="true">日本語</button>
-          <button type="button" class="level" data-vocab-lang="en" role="tab" aria-selected="false">English</button>
-          <button type="button" class="level" data-vocab-lang="dual" role="tab" aria-selected="false">EN × JP</button>
+        <div class="levels vocab-langs cv-vocab-langs" id="vocab-langs" role="tablist" aria-label="單字庫分類" hidden>
+          <button type="button" class="level" data-vocab-lang="jlpt" role="tab" aria-selected="true">N5–N3 新單字</button>
+          <button type="button" class="level" data-vocab-lang="jp" role="tab" aria-selected="false">原版日文</button>
+          <button type="button" class="level" data-vocab-lang="en" role="tab" aria-selected="false">原版英文</button>
+          <button type="button" class="level" data-vocab-lang="dual" role="tab" aria-selected="false">原版雙語</button>
+        </div>
+        <div class="levels cv-levels" id="vocab-levels" role="tablist" aria-label="單字 JLPT 建議程度" hidden>
+          <button type="button" class="level" data-vocab-level="N5" role="tab" aria-selected="true">N5</button>
+          <button type="button" class="level" data-vocab-level="N4" role="tab" aria-selected="false">N4</button>
+          <button type="button" class="level" data-vocab-level="N3" role="tab" aria-selected="false">N3</button>
         </div>
         <div class="filter-wrap">
           <label for="filter">搜尋此模式的章節或小節</label>
@@ -152,7 +163,7 @@
       </article>
     </div>
     <p class="global-note">開發中 4.0：沿用舊版 920 筆英日詞彙、200 筆 N5～N3 文法、240 筆動詞、160 筆形容詞及 28 筆章節文法原始資料；動詞新增 11 種變化，形容詞新增 5～6 種變化。匯入不代表逐筆人工校對；舊版資料部分振假名與整句語音仍需複核。新版技能卡的自評標記獨立存放，並不與原版進度同步。原版完整練習、備份及學習進度仍可在<a href="/">舊版網站</a>使用。</p>
-    <footer class="footer">ENJP Ocean · Learn steadily, explore freely · 4.0 Dev</footer>
+    <footer class="footer">ENJP Ocean · Learn steadily, explore freely · 4.1 Dev</footer>
   </main>
 </body>
 </html>
