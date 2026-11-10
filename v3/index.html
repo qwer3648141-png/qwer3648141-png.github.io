@@ -19,7 +19,7 @@
   <script src="./data/vocab-13-18.js?v=3.6.0" defer></script>
   <script src="./data/vocab-19-24.js?v=3.6.0" defer></script>
   <script src="./data/vocab-25-30.js?v=3.6.0" defer></script>
-  <script src="./legacy-bridge.js?v=3.6.0" defer></script>
+  <script src="./legacy-bridge.js?v=3.9.0" defer></script>
   <script src="./audio.js?v=3.6.0" defer></script>
   <script src="./inflections.js?v=3.6.0" defer></script>
   <script src="./legacy-reader.js?v=3.6.0" defer></script>
@@ -28,7 +28,7 @@
   <script src="./particle-data.js?v=3.8.0" defer></script>
   <script src="./particle-practice-data.js?v=3.8.0" defer></script>
   <script src="./particle-course.js?v=3.8.0" defer></script>
-  <script src="./app.js?v=3.8.1" defer></script>
+  <script src="./app.js?v=3.9.0" defer></script>
 </head>
 <body>
   <main class="wrap">
@@ -47,7 +47,7 @@
     <nav class="mode-strip" aria-label="學習模式">
       <button type="button" class="mode" data-mode="jp" aria-pressed="true">
         <span class="mode-icon" aria-hidden="true">あ</span>
-        <span><strong>日本語</strong><small>N5 / N4 / N3 文法與詞彙</small></span>
+        <span><strong>日本語</strong><small>N5 / N4 / N3 文法與動詞</small></span>
       </button>
       <button type="button" class="mode" data-mode="en" aria-pressed="false">
         <span class="mode-icon" aria-hidden="true">Aa</span>
@@ -56,6 +56,10 @@
       <button type="button" class="mode" data-mode="dual" aria-pressed="false">
         <span class="mode-icon" aria-hidden="true">⇄</span>
         <span><strong>EN × JP</strong><small>英日配對・雙語例句</small></span>
+      </button>
+      <button type="button" class="mode" data-mode="vocab" aria-pressed="false">
+        <span class="mode-icon" aria-hidden="true">📚</span>
+        <span><strong>情境單字</strong><small>獨立 30 章完整詞彙庫</small></span>
       </button>
     </nav>
     <div class="workarea" id="course-workarea">
@@ -67,6 +71,11 @@
           <button type="button" class="level" data-level="N5" role="tab" aria-selected="true">N5</button>
           <button type="button" class="level" data-level="N4" role="tab" aria-selected="false">N4</button>
           <button type="button" class="level" data-level="N3" role="tab" aria-selected="false">N3</button>
+        </div>
+        <div class="levels vocab-langs" id="vocab-langs" role="tablist" aria-label="情境單字語言" hidden>
+          <button type="button" class="level" data-vocab-lang="jp" role="tab" aria-selected="true">日本語</button>
+          <button type="button" class="level" data-vocab-lang="en" role="tab" aria-selected="false">English</button>
+          <button type="button" class="level" data-vocab-lang="dual" role="tab" aria-selected="false">EN × JP</button>
         </div>
         <div class="filter-wrap">
           <label for="filter">搜尋此模式的章節或小節</label>
