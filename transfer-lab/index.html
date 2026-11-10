@@ -47,9 +47,16 @@
 @media(max-width:700px){.tabs{grid-template-columns:repeat(6,minmax(0,1fr))}.tab{font-size:.65rem;padding:7px 1px}.tab span:first-child{font-size:1.06rem}.aux-topics,.aux-examples{grid-template-columns:1fr}.aux-mode-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.aux-mode-tabs button{padding:10px 9px}.aux-compare{padding:12px}.aux-example .jp{line-height:2.8}.aux-arrow{padding:13px}.start-cards{grid-template-columns:1fr}}
 @media(max-width:380px){.tabs{display:flex;overflow-x:auto;scroll-snap-type:x mandatory}.tab{min-width:64px;flex:1 0 auto;scroll-snap-align:start}.aux-mode-tabs{grid-template-columns:1fr}}
 
+/* Embedded mode leaves the full standalone site untouched for regular visits. */
+body.is-embedded{min-height:0;background:transparent}
+body.is-embedded:before,body.is-embedded>.topbar,body.is-embedded main>.hero,body.is-embedded>.footer{display:none}
+body.is-embedded main{width:100%;max-width:none;padding:0 0 18px}
+body.is-embedded .tabs{position:relative;top:auto;margin:0 0 15px;grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:360px){body.is-embedded .tabs{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
 </head>
 <body>
+<script>if(new URLSearchParams(location.search).get("embed")==="1")document.body.classList.add("is-embedded");</script>
 <header class="topbar">
   <div class="brand"><div class="logo" aria-hidden="true">🌊</div><div><strong>授受・借貸動詞研究所</strong><small>ENJP TRANSFER LAB · STANDALONE 1.1</small></div></div>
   <div class="top-actions"><span class="tiny-tag">獨立網站 · 不影響 ENJP Ocean</span><button type="button" class="btn ghost" data-to="audio">🎙️ 語音設定</button></div>
