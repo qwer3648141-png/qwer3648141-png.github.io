@@ -7,6 +7,15 @@
  const items=D.headings.map(([id,title])=>({id:ROOT_ID+"-"+id,title}));
  C.jp.N4.push({id:ROOT_ID,title:"07｜授受表現：あげる・くれる・もらう",
   summary:"完整方向圖、30 個中文例句、て形應用與 12 題混淆練習",sections:items});
+ // Keep the short giving lesson; add a separate, full Transfer Lab chapter in N4 and N3.
+ for(const level of ["N4","N3"]){
+   C.jp[level].push({
+     id:"jp-transfer-lab-"+level.toLowerCase(),
+     title:"特別篇｜授受・借貸動詞研究所",
+     summary:"10 個核心動詞、110 個例句、60 題基礎與進階挑戰",
+     sections:[{id:ROOT_ID+"-lab",title:"🔬 完整研究所 1.1｜借貸・授受・補助動詞"}]
+   });
+ }
  const e=(tag,cls,text)=>{
    const n=document.createElement(tag);if(cls)n.className=cls;
    if(text!==undefined)n.textContent=String(text);return n;
@@ -152,9 +161,49 @@
    });
    widget.append(count,question,choices,feedback,next);root.append(widget);draw();
  }
+ let labResizeObserver=null;
+ function renderLab(root){
+   const panel=e("section","gr-lesson gr-embedded-lab");
+   panel.append(
+     e("span","gr-label","JLPT N4–N3 · 完整自學特別篇"),
+     e("h2","gr-title","授受・借貸動詞研究所 1.1"),
+     e("p","gr-subtitle","10 個核心動詞、110 個日文例句、60 題基礎及進階練習。保留完整語音、振假名、中文與本機錯題記錄。")
+   );
+   const note=e("p","gr-lab-notice","研究所直接嵌入本課程。學習記錄使用獨立儲存鍵，不會覆寫 ENJP Ocean 原版進度。");
+   const frame=e("iframe","gr-lab-frame");
+   frame.title="授受・借貸動詞研究所完整互動教材";
+   frame.src="../transfer-lab/index.html?embed=1";
+   frame.loading="lazy";
+   const updateHeight=()=>{
+     try{
+       const doc=frame.contentDocument;
+       if(!doc?.body)return;
+       const height=Math.ceil(Math.max(doc.body.scrollHeight,doc.documentElement.scrollHeight));
+       if(height>=400)frame.style.height=(height+12)+"px";
+     }catch{ /* A separate preview origin can fall back to iframe scrolling. */ }
+   };
+   frame.addEventListener("load",()=>{
+     updateHeight();
+     try{
+       if(typeof ResizeObserver==="function"&&frame.contentDocument?.body){
+         labResizeObserver=new ResizeObserver(updateHeight);
+         labResizeObserver.observe(frame.contentDocument.body);
+       }
+     }catch{ /* Browsers without same-origin iframe access keep default scrolling. */ }
+   });
+   const fallback=e("a","gr-lab-open","如果內嵌無法顯示，可開啟完整獨立版");
+   fallback.href="../transfer-lab/index.html";
+   fallback.target="_blank";
+   fallback.rel="noopener noreferrer";
+   panel.append(note,frame,fallback);
+   root.append(panel);
+ }
  function render(root,sectionId){
+   labResizeObserver?.disconnect();
+   labResizeObserver=null;
    if(!sectionId?.startsWith(ROOT_ID+"-"))return false;
    const key=sectionId.slice(ROOT_ID.length+1);
+   if(key==="lab"){renderLab(root);return true;}
    if(!D.headings.some(x=>x[0]===key))return false;
    const panel=e("section","gr-lesson");
    panel.append(e("span","gr-label","JLPT N4 · 授受表現"),
