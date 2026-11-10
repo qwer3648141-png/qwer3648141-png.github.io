@@ -53,3 +53,10 @@
 @media(max-width:1020px){.gr-arrows{grid-template-columns:1fr}.gr-arrow-card{padding:13px}.gr-grid{grid-template-columns:1fr}}
 @media(max-width:640px){.gr-intro{padding:16px}.gr-intro h3{font-size:1.12rem}.gr-navigation{display:grid;grid-template-columns:1fr 1fr;gap:7px}.gr-tab{padding:10px 8px;font-size:.87rem}.gr-sample{padding:16px 14px}.gr-japanese{font-size:1.19rem;line-height:2.6}.gr-meaning{font-size:1.02rem}.gr-quiz{padding:15px}.gr-choices{grid-template-columns:1fr}.gr-choice{min-height:49px;font-size:1.1rem}.gr-title{font-size:1.45rem}.gr-rule{padding:13px 15px}.gr-rule p{font-size:1rem}}
 @media(max-width:360px){.gr-navigation{grid-template-columns:1fr}.gr-tab{font-size:.95rem}}
+
+/* Full Transfer Lab embedded in the N4/N3 study reader; preserve its own controls and storage. */
+.gr-embedded-lab{min-width:0}
+.gr-lab-notice{padding:12px 15px;border-radius:12px;border:1px solid #4a738c;background:#173b50;color:#c8e9f3;font-size:.94rem;line-height:1.8}
+.gr-lab-frame{display:block;width:100%;height:920px;min-height:600px;border:1px solid #547b94;border-radius:15px;background:#071524;overflow:auto}
+.gr-lab-open{display:inline-block;margin:14px 0 6px;font-size:.93rem;line-height:1.6;color:#a9edf7}
+@media(max-width:640px){.gr-lab-frame{border-radius:10px;min-height:760px}.gr-embedded-lab .gr-subtitle{font-size:.94rem}}
