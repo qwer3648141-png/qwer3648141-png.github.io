@@ -1,0 +1,45 @@
+/* ENJP Ocean · responsive contrast grammar learning cards. */
+.cg-lesson{min-width:0;color:#edfaff;margin-top:18px}
+.cg-lesson>h2{font-size:clamp(1.4rem,3vw,2rem);line-height:1.45;margin:6px 0}
+.cg-kicker{font-size:.77rem;font-weight:800;letter-spacing:.09em;color:#a0eaf0}
+.cg-sub{color:#c3dce9;line-height:1.75;font-size:.97rem;margin:9px 0 15px}
+.cg-nav{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 22px}
+.cg-navbtn{cursor:pointer;background:#1b3d58;border:1px solid #507e98;color:#dff5ff;border-radius:11px;font-size:.86rem;line-height:1.45;padding:10px 12px;min-height:44px}
+.cg-navbtn.active{background:#2c6580;border-color:#a0edfc;font-weight:800}
+.cg-patterns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.cg-pattern{background:linear-gradient(140deg,#163a58,#172c48);border:1px solid #4b738b;border-radius:15px;padding:18px;min-width:0}
+.cg-pattern>h3{font-size:1.32rem;color:#eaf9ff;margin:8px 0;line-height:1.5}
+.cg-meaning{display:block;color:#c4ebd9;font-size:1rem;line-height:1.5}
+.cg-rule{background:#112f46;border-radius:9px;padding:10px 12px;color:#e5f7ff;font-size:.92rem;line-height:1.75}
+.cg-note{color:#b7d2e0;font-size:.89rem;line-height:1.75}
+.cg-example{background:#0d293f;border:1px solid #345d78;border-radius:12px;padding:12px 13px;margin-top:12px}
+.cg-ja{font-size:clamp(1.08rem,2vw,1.3rem);line-height:2.65;word-break:normal;overflow-wrap:anywhere;margin:0 0 6px;color:#f9feff;font-weight:680}
+.cg-ja ruby{ruby-position:over}
+.cg-ja rt{font-size:.57em;color:#a8ebff;font-weight:500}
+.cg-zh{color:#dceef6;line-height:1.75;font-size:.94rem;margin:4px 0 9px}
+.cg-audio{display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+.cg-speak,.cg-next,.cg-secondary{min-height:42px;font:inherit;border:1px solid #6096ad;background:#22607c;color:#f0fbff;padding:9px 13px;border-radius:10px;cursor:pointer;font-size:.91rem}
+.cg-speak:disabled,.cg-next:disabled{opacity:.5;cursor:not-allowed}
+.cg-status{color:#b3d5e5;font-size:.81rem;line-height:1.5}
+.cg-compare,.cg-quiz{margin:25px 0 12px;padding:19px;background:#102f48;border:1px solid #4c7594;border-radius:17px;min-width:0}
+.cg-compare>h3,.cg-quiz>h3{font-size:1.22rem;margin:0 0 8px}
+.cg-compare-row{display:grid;grid-template-columns:minmax(100px,24%) minmax(0,1fr);gap:14px;background:#163c55;border:1px solid #416f86;border-radius:12px;margin:9px 0;padding:15px}
+.cg-compare-form{color:#cbbaff;font-size:.98rem;line-height:1.55;overflow-wrap:anywhere}
+.cg-compare-main{min-width:0}
+.cg-compare-main .cg-ja{margin:0;font-size:1.14rem}
+.cg-count{color:#a2e9ef;font-size:.95rem;font-weight:750}
+.cg-question{font-size:1.18rem;line-height:1.8;font-weight:780;color:#fff}
+.cg-choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.cg-choice{border-radius:11px;background:#285271;border:1px solid #658fab;color:#f1fdff;min-height:53px;padding:10px;font-size:1rem;font-weight:720;cursor:pointer}
+.cg-choice.correct{background:#236454;border-color:#81dcbb}
+.cg-choice.incorrect{background:#6d3b4a;border-color:#df9daa}
+.cg-choice:disabled{cursor:default}
+.cg-feedback{min-height:47px;line-height:1.75;color:#dfedfa;margin:15px 0}
+.cg-feedback p{margin:4px 0}
+.cg-actions{display:flex;flex-wrap:wrap;gap:9px}
+.cg-secondary{background:#263c63;border-color:#6677aa}
+.cg-warning{border:1px solid #a07c5e;background:#553c34;padding:12px;border-radius:10px;font-size:.86rem;line-height:1.7}
+.cg-navbtn:focus-visible,.cg-choice:focus-visible,.cg-speak:focus-visible,.cg-next:focus-visible,.cg-secondary:focus-visible{outline:3px solid #abf0fc;outline-offset:3px}
+@media(max-width:1000px){.cg-patterns{grid-template-columns:1fr}}
+@media(max-width:640px){.cg-nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.cg-navbtn{font-size:.86rem;padding:9px 8px}.cg-compare,.cg-quiz{padding:15px}.cg-pattern{padding:15px}.cg-compare-row{grid-template-columns:1fr;gap:6px}.cg-choices{grid-template-columns:1fr}.cg-choice{font-size:1.04rem}.cg-ja{font-size:1.2rem}}
+@media(max-width:355px){.cg-nav{grid-template-columns:1fr}}
