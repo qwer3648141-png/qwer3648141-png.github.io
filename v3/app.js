@@ -5,7 +5,7 @@
   const Audio=window.ENJP_Audio;
   if(!database||!Audio){document.body.textContent="課程模組載入失敗，請重新整理。";return}
   const $=id=>document.getElementById(id);
-  const state={mode:"jp",level:"N5",vocabLang:"jp",sectionId:null,filter:""};
+  const state={mode:"jp",level:"N5",vocabLang:"jlpt",vocabLevel:"N5",sectionId:null,filter:""};
   const jpLabels={N5:"N5 基礎",N4:"N4 進階初級",N3:"N3 中級"};
   const modeTitles={jp:"日本語課程",en:"English 英文課程",dual:"EN × JP 雙語課程",vocab:"📚 情境單字庫"};
   const el=(tag,className,text)=>{
@@ -15,7 +15,7 @@
     return node;
   };
   const append=(parent,...children)=>{parent.append(...children);return parent};
-  function listChapters(){return state.mode==="jp"?database.jp[state.level]:state.mode==="vocab"?(database.vocab?.[state.vocabLang]||[]):database[state.mode]}
+  function listChapters(){return state.mode==="jp"?database.jp[state.level]:state.mode==="vocab"?(state.vocabLang==="jlpt"?(window.ENJP_CuratedVocab?.chapters?.[state.vocabLevel]||[]):(database.vocab?.[state.vocabLang]||[])):database[state.mode]}
   function lookupSection(id){
     for(const chapter of listChapters()){
       const section=chapter.sections.find(s=>s.id===id);
@@ -33,9 +33,11 @@
     });
     $("levels").hidden=state.mode!=="jp";
     $("vocab-langs").hidden=state.mode!=="vocab";
+    $("vocab-levels").hidden=state.mode!=="vocab"||state.vocabLang!=="jlpt";
+    document.querySelectorAll("[data-vocab-level]").forEach(b=>b.setAttribute("aria-selected",String(b.dataset.vocabLevel===state.vocabLevel)));
     document.querySelectorAll("[data-vocab-lang]").forEach(b=>b.setAttribute("aria-selected",String(b.dataset.vocabLang===state.vocabLang)));
     $("rail-heading").textContent=modeTitles[state.mode];
-    $("rail-description").textContent=state.mode==="jp"?"依程度選章；完整 30 章單字請到「📚 情境單字」。":state.mode==="vocab"?"30 章完整情境單字集中在這裡，可切換日文、英文與英日配對。":"自由選擇主題，已整合教材會標註「試學」。";
+    $("rail-description").textContent=state.mode==="jp"?"文法、動詞和聽力在此；N5～N3 主題單字請到「📚 情境單字」。":state.mode==="vocab"?(state.vocabLang==="jlpt"?"依 JLPT 建議程度 N5～N3 選主題，每字有獨立例句與智慧抽考。":"原版 30 章日英單字保留，與新版複習紀錄分開。"):"自由選擇主題，已整合教材會標註「試學」。";
     $("rail-kicker").textContent=state.mode==="jp"?"JAPANESE PATH":state.mode==="en"?"ENGLISH PATH":state.mode==="vocab"?"VOCABULARY LIBRARY":"BILINGUAL PATH";
     $("filter").value=state.filter;
   }
@@ -67,12 +69,13 @@
         const specialContrast=section.id.startsWith("jp-contrast-")&&Boolean(window.ENJP_ContrastGrammar);
         const specialCompletion=Boolean(window.ENJP_N4N3_Complete?.has(section.id));
         const specialFoundation=Boolean(window.ENJP_Foundation?.has(section.id));
+        const curated=window.ENJP_CuratedVocab?.sections?.[section.id];
         const special=specialGiving||specialParticle||specialContrast||specialCompletion||specialFoundation;
-        const available=Boolean(database.lesson[section.id]||imported||special);
+        const available=Boolean(database.lesson[section.id]||imported||special||curated);
         const b=el("button","section");
         b.type="button";b.dataset.section=section.id;
         b.setAttribute("aria-current",String(state.sectionId===section.id));
-        append(b,el("span","section-name",section.title),el("span","section-tag"+(available?" ready":""),specialFoundation||specialCompletion?"完整教材":special?"新專題":imported?"教材庫 · "+imported.items.length:available?"試學":"規劃中"));
+        append(b,el("span","section-name",section.title),el("span","section-tag"+(available?" ready":""),curated?"主題 · "+curated.words.length: specialFoundation||specialCompletion?"完整教材":special?"新專題":imported?"教材庫 · "+imported.items.length:available?"試學":"規劃中"));
         b.addEventListener("click",()=>{
           Audio.stop();state.sectionId=section.id;
           document.querySelectorAll(".section").forEach(item=>item.setAttribute("aria-current",String(item===b)));
@@ -98,6 +101,7 @@
     return header;
   }
   function showWelcome(root){
+    if(state.mode==="vocab"&&state.vocabLang==="jlpt"&&window.ENJP_CuratedVocab?.home){window.ENJP_CuratedVocab.home(root,state.vocabLevel);return}
     const chapters=listChapters(),all=chapters.flatMap(c=>c.sections);
     const ready=all.filter(s=>database.lesson[s.id]||window.ENJP_MIGRATED?.sections?.[s.id]||
       (s.id.startsWith("jp-n4-giving-")&&window.ENJP_GivingReceiving)||
@@ -376,7 +380,8 @@
     const {chapter,section}=found;
     const lesson=database.lesson[section.id];
     const imported=window.ENJP_MIGRATED?.sections?.[section.id];
-    root.append(renderHeader(section.title,chapter.summary,[state.mode==="jp"?jpLabels[state.level]:state.mode==="vocab"?"情境單字 · "+({jp:"日文",en:"英文",dual:"英日配對"}[state.vocabLang]):modeTitles[state.mode],chapter.title,section.title]));
+    root.append(renderHeader(section.title,chapter.summary,[state.mode==="jp"?jpLabels[state.level]:state.mode==="vocab"?(state.vocabLang==="jlpt"?"主題單字 · "+state.vocabLevel:"原版情境單字 · "+({jp:"日文",en:"英文",dual:"英日配對"}[state.vocabLang])):modeTitles[state.mode],chapter.title,section.title]));
+    if(window.ENJP_CuratedVocab?.render(root,section.id))return;
     if(window.ENJP_GivingReceiving?.render(root,section.id))return;
     if(window.ENJP_Particles?.render(root,section.id))return;
     if(window.ENJP_ContrastGrammar?.render(root,section.id))return;
@@ -427,6 +432,10 @@
       const next=b.dataset.vocabLang;if(next===state.vocabLang)return;
       state.vocabLang=next;state.filter="";renderAll();
     }));
+    document.querySelectorAll("[data-vocab-level]").forEach(b=>b.addEventListener("click",()=>{
+      const next=b.dataset.vocabLevel;if(next===state.vocabLevel)return;
+      state.vocabLevel=next;state.filter="";renderAll();
+    }));
     document.querySelectorAll("[data-level]").forEach(b=>b.addEventListener("click",()=>{
       const next=b.dataset.level;if(next===state.level)return;
       state.level=next;state.filter="";renderAll();
@@ -441,8 +450,12 @@
       const completed=Boolean(window.ENJP_N4N3_Complete?.has(lessonId));
       const foundation=Boolean(window.ENJP_Foundation?.has(lessonId));
       const vocab=lessonId.startsWith("legacy-vocab-")&&Boolean(window.ENJP_MIGRATED?.sections?.[lessonId]);
+      const curated=window.ENJP_CuratedVocab?.sections?.[lessonId];
       const particle=lessonId.startsWith("jp-particle-")&&window.ENJP_Particles;
-      if(vocab){
+      if(curated){
+        state.mode="vocab";state.vocabLang="jlpt";state.vocabLevel=curated.level;
+        updateModeButtons();goToSection(lessonId);
+      }else if(vocab){
         state.mode="vocab";state.vocabLang=lessonId.split("-")[2]||"jp";
         updateModeButtons();goToSection(lessonId);
       }else if(giving||particle||contrast||completed||foundation){
