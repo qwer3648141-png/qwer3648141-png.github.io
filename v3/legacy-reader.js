@@ -2,6 +2,7 @@
 /* Read-only legacy lesson viewer. Do not mutate or reset original progress. */
 (function(){
  const bank=window.ENJP_MIGRATED,Audio=window.ENJP_Audio,Forms=window.ENJP_Inflections;
+ const verbExamples=window.ENJP_VERB_FORM_EXAMPLES||{};
  if(!bank||!Audio)return;
  const el=(tag,cls,text)=>{const x=document.createElement(tag);if(cls)x.className=cls;if(text!==undefined)x.textContent=String(text);return x};
  const add=(p,...items)=>{p.append(...items);return p};
@@ -88,6 +89,7 @@
      item.type==="i"?"い形容詞：い→くない／かった／く。注意「いい」會變成「よ」。":
      "な形容詞：連接名詞要加「な」，過去形用「だった」，副詞形用「に」。");
    panel.append(summary,hint);
+   if(item.kind==="verb")panel.append(el("p","vf-context-note","每種變化都可展開 4 個完整例句。下方是同一種變化形式的示範，使用的動詞不一定是目前這個單字；請把它們和上面的變化結果一起比較。"));
    const grid=el("div","conjugation-grid");
    rows.forEach(row=>{
      const cell=el("div","conjugation-cell");
@@ -101,6 +103,33 @@
      const expression=el("div","conjugation-word");
      expression.append(Audio.makeRuby(Forms.annotation(row.word,row.reading)));
      cell.append(top,expression,el("p","conjugation-help",row.hint||""));
+     if(item.kind==="verb"&&Array.isArray(verbExamples[row.key])&&verbExamples[row.key].length){
+       const details=el("details","vf-examples");
+       details.append(el("summary","","📚 4 個"+row.key+"情境例句"));
+       // Build the four samples only after opening this form, keeping pages with many verbs responsive.
+       let populated=false;
+       details.addEventListener("toggle",()=>{
+         if(!details.open||populated)return;
+         populated=true;
+         const box=el("div","vf-example-list");
+         for(const [ja,zh]of verbExamples[row.key]){
+           const sample=el("div","vf-example");
+           const sentence=el("p","vf-japanese");
+           sentence.append(Audio.makeRuby(ja));
+           sample.append(sentence,el("p","vf-chinese",zh));
+           const button=el("button","vf-audio","🔊 播放這句");
+           button.type="button";
+           const voiceStatus=el("span","vf-audio-status","");
+           voiceStatus.setAttribute("role","status");
+           if(!Audio.spokenJapanese(ja)){
+             button.disabled=true;button.title="這句尚未具備可驗證的完整漢字讀音";
+           }else button.addEventListener("click",()=>Audio.play(ja,"jp",button,voiceStatus));
+           sample.append(button,voiceStatus);box.append(sample);
+         }
+         details.append(box);
+       });
+       cell.append(details);
+     }
      grid.append(cell);
    });
    panel.append(grid);
