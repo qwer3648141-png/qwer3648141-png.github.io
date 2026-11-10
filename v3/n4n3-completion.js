@@ -49,7 +49,7 @@
    const p=el("p",className);
    p.append(T(ja));parent.append(p);return p;
  }
- function unitCards(parent,lesson){
+ function unitCards(parent,lesson,lessonId){
    const section=el("section","nl-units");
    section.append(el("h3","nl-heading","📖 核心教材與實用例句"));
    const cards=el("div","nl-grid");
@@ -58,12 +58,22 @@
      card.append(el("span","nl-index","重點 "+String(index+1).padStart(2,"0")),
        el("h4","",unit.title),el("p","nl-form",unit.form),
        el("p","nl-explain",unit.explain));
-     for(const [ja,zh]of unit.examples){
+     function addExample(target,ja,zh){
        const example=el("div","nl-example");
        japanese(example,ja);
        example.append(el("p","nl-zh",zh));
        speak(example,ja);
-       card.append(example);
+       target.append(example);
+     }
+     unit.examples.forEach(([ja,zh])=>addExample(card,ja,zh));
+     const more=window.ENJP_N4N3_EXTRA_EXAMPLES?.[lessonId]?.[index]||[];
+     if(more.length){
+       const details=el("details","nl-more-examples");
+       details.append(el("summary","","＋ 再看 "+more.length+" 句不同情境例句"));
+       const holder=el("div","nl-more-list");
+       for(const [ja,zh] of more)addExample(holder,ja,zh);
+       details.append(holder);
+       card.append(details);
      }
      cards.append(card);
    });
@@ -190,7 +200,7 @@
    wrap.append(el("span","nl-kicker",level+" · 已完成的自學教材"),
      el("h2","nl-title",lesson.goal),
      el("p","nl-intro","學習順序：理解規則 → 查看日文例句與中文 → 聽日文 → 做情境題。"));
-   unitCards(wrap,lesson);
+   unitCards(wrap,lesson,id);
    sceneLesson(wrap,lesson);
    quiz(wrap,lesson,id);
    root.append(wrap);return true;
