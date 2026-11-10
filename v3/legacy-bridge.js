@@ -54,12 +54,12 @@
       (kind==="verb"?"⚔️ ":"✨ ")+level+(kind==="verb"?" 動詞圖鑑":" 形容詞圖鑑"),
       "沿用原版單字讀音、詞性、中文與兩組搭配用法",sections));
   }
+  // Vocabulary is indexed once, outside the N5/N4/N3 grammar paths.
+  C.vocab={jp:[],en:[],dual:[]};
   for(const level of ["N5","N4","N3"]){
     attachGrammar(level);attachLexical(level,"verb");attachLexical(level,"adj");
-    attachVocabulary(C.jp[level],"jp");
   }
-  attachVocabulary(C.en,"en");
-  attachVocabulary(C.dual,"dual");
+  for(const mode of ["jp","en","dual"])attachVocabulary(C.vocab[mode],mode);
   const summary={vocab:vocabCount,grammar:L.grammar.length,chapterGrammar:Object.keys(L.chapterGrammar).length,
     verbs:L.lexical.filter(v=>v.kind==="verb").length,
     adjectives:L.lexical.filter(v=>v.kind==="adj").length,
