@@ -1,0 +1,71 @@
+/* ENJP Ocean 4.2 · Sentence connector academy. No changes to legacy styles. */
+.sc-course{min-width:0;max-width:100%;margin-top:19px;color:#e9faff}
+.sc-kicker{display:inline-block;font-size:.78rem;color:#9fe4f5;font-weight:800;letter-spacing:.09em;margin-bottom:6px}
+.sc-title{font-size:clamp(1.4rem,2.25vw,1.9rem);line-height:1.55;margin:8px 0}
+.sc-meaning{color:#b5f2e5;font-size:1.08rem;line-height:1.8}
+.sc-intro,.sc-lead,.sc-context{color:#bfdae6;line-height:1.85;font-size:.96rem;margin:8px 0 16px}
+.sc-section{margin:23px 0 27px;min-width:0}
+.sc-heading{font-size:1.18rem;color:#e9faff;margin:0 0 14px;line-height:1.6}
+.sc-table-scroll{max-width:100%;overflow-x:auto;border-radius:15px;border:1px solid #47728a}
+.sc-rules{border-collapse:collapse;width:100%;min-width:570px;font-size:.93rem;line-height:1.7;table-layout:fixed}
+.sc-rules th{background:#23506b;color:#d5f2f8;text-align:left;padding:13px;border-bottom:1px solid #4a7c97}
+.sc-rules th:nth-child(1){width:18%}
+.sc-rules th:nth-child(2){width:28%}
+.sc-rules td{vertical-align:top;padding:14px 13px;border-bottom:1px solid #335e76;color:#e3f2f8;background:#16364e;overflow-wrap:anywhere}
+.sc-rules tr:last-child td{border-bottom:0}
+.sc-rules tr:nth-child(2n) td{background:#123047}
+.sc-rules .sc-rule-pos{font-weight:850;color:#b6f0f6}
+.sc-rules tr.sc-not-applicable td{color:#aabecb;background:#243a4b}
+.sc-rule-detail strong{display:block;color:#e9fbff;font-weight:760}
+.sc-rule-note{display:block;color:#bed6e2;margin:6px 0 0;font-size:.85rem;line-height:1.75}
+.sc-sample{font-size:1rem;color:#defbff;line-height:2.3;margin:6px 0}
+.sc-sample ruby rt,.sc-ja ruby rt,.sc-from ruby rt,.sc-to ruby rt{font-size:.57em;color:#9ce6fa;font-weight:530;line-height:1.5}
+.sc-changes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.sc-change{display:flex;align-items:center;flex-wrap:wrap;gap:9px;border:1px solid #466f88;background:#15374f;border-radius:12px;padding:12px;min-width:0}
+.sc-from,.sc-to{font-size:1.1rem;line-height:2.5;margin:0;overflow-wrap:anywhere}
+.sc-to{color:#aaf8d8;font-weight:800}
+.sc-arrow{color:#91cddd;font-size:1.1rem}
+.sc-change-note{flex-basis:100%;color:#c5dbe8;font-size:.85rem;line-height:1.6}
+.sc-examples{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:12px 0}
+.sc-example,.sc-contrast-card{border:1px solid #446c85;border-radius:15px;background:linear-gradient(135deg,#163c57,#103047);padding:17px;min-width:0}
+.sc-num{display:inline-block;color:#a5e8f2;font-size:.8rem;font-weight:790;line-height:1.6}
+.sc-ja{font-size:clamp(1.12rem,1.9vw,1.25rem);font-weight:650;color:white;line-height:2.8;overflow-wrap:anywhere;word-break:normal;margin:10px 0}
+.sc-chinese{font-size:.97rem;color:#d2e9f4;line-height:1.9;margin:0 0 13px}
+.sc-speech{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.sc-speak,.sc-primary,.sc-secondary,.sc-answer,.sc-token{font:inherit;cursor:pointer;min-height:44px;border-radius:10px;line-height:1.55}
+.sc-speak{padding:9px 13px;border:1px solid #5997af;background:#205772;color:#effaff;font-weight:730;font-size:.9rem}
+.sc-speak:disabled,.sc-primary:disabled,.sc-secondary:disabled,.sc-answer:disabled{opacity:.64;cursor:not-allowed}
+.sc-voice-status{font-size:.8rem;color:#bfdbe7}
+.sc-more,.sc-notes{margin:14px 0;border:1px solid #426c82;border-radius:13px;background:#163750}
+.sc-more summary,.sc-notes summary{padding:13px 15px;cursor:pointer;color:#bcecf6;font-weight:750;line-height:1.7}
+.sc-more[open],.sc-notes[open]{padding-bottom:10px}
+.sc-more .sc-examples{padding:0 11px}
+.sc-notes ul{margin:0;padding:2px 20px 6px 35px;color:#d5e9f1;line-height:1.9}
+.sc-comparisons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.sc-contrast-type{font-size:.88rem;color:#b9f0e9}
+.sc-context{font-size:.9rem}
+.sc-assembly,.sc-quiz{margin:25px 0;border:1px solid #4a7591;background:linear-gradient(135deg,#123953,#102e47);border-radius:17px;padding:21px;min-width:0}
+.sc-bank,.sc-selected{display:flex;flex-wrap:wrap;gap:10px;margin:13px 0;border:1px dashed #496f88;border-radius:12px;padding:14px;min-height:80px}
+.sc-selected{border-style:solid;background:#0c293f}
+.sc-token{padding:10px 14px;max-width:100%;overflow-wrap:anywhere;border:1px solid #6497b0;background:#245973;color:#eafaff;text-align:left;font-size:.96rem}
+.sc-picked{background:#326e65;border-color:#79c9b5}
+.sc-actions{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}
+.sc-primary{border:1px solid #b7f7ff;background:#91e7e9;color:#0b2b3e;font-weight:830;padding:11px 15px}
+.sc-secondary{border:1px solid #598ca7;background:#254e69;color:#effaff;font-weight:750;padding:10px 14px}
+.sc-answers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:14px 0}
+.sc-answer{border:1px solid #578ba9;background:#1d4b68;color:#f1fbff;padding:12px;font-size:1rem;line-height:1.7;min-height:62px;overflow-wrap:anywhere}
+.sc-answer.sc-correct{background:#205e51;border-color:#8ddbb5}
+.sc-answer.sc-incorrect{background:#663b4a;border-color:#e7a0ad}
+.sc-kicker{font-size:.83rem;font-weight:800;color:#a5e9f0;margin:9px 0}
+.sc-question{font-size:1.15rem;font-weight:750;line-height:1.7;color:#f1fcff}
+.sc-feedback{line-height:1.85;color:#d9edf5;min-height:20px;margin:16px 0}
+.sc-feedback p{margin:5px 0}
+.sc-answer-feedback{color:#d7f2ff;line-height:1.8}
+.sc-result{color:#b5f6e4;font-size:1.2rem}
+.sc-warning{color:#ffe0c3;border:1px solid #bc8f69;border-radius:10px;background:#4b3931;padding:12px;line-height:1.7}
+.sc-built{border-radius:12px;border:1px solid #3f7a77;background:#163f49;padding:12px;margin-top:12px}
+.sc-speak:focus-visible,.sc-primary:focus-visible,.sc-secondary:focus-visible,.sc-answer:focus-visible,.sc-token:focus-visible,.sc-more summary:focus-visible{outline:3px solid #aef8ff;outline-offset:3px}
+@media(max-width:1020px){.sc-changes,.sc-examples,.sc-comparisons{grid-template-columns:1fr}}
+@media(max-width:640px){.sc-section{margin:19px 0 21px}.sc-example,.sc-contrast-card,.sc-assembly,.sc-quiz{padding:14px}.sc-ja{font-size:1.18rem}.sc-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.sc-actions button{padding:10px 7px;font-size:.86rem}.sc-answers{grid-template-columns:1fr}.sc-answer{min-height:54px}.sc-bank,.sc-selected{padding:10px}}
+@media(max-width:350px){.sc-actions{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.sc-answer,.sc-primary,.sc-secondary,.sc-token{transition:none}}
