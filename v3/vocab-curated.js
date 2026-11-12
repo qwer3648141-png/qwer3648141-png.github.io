@@ -35,7 +35,7 @@
    const prepared=item.rows.map((r,index)=>{
      const idWord="cv-"+item.level.toLowerCase()+"-"+item.slug+"-"+String(index+1).padStart(3,"0");
      if(wordById[idWord])throw Error("Duplicate word ID "+idWord);
-     const w={id:idWord,level:item.level,topicId:id,term:r[0],reading:r[1],zh:r[2],example:r[3],translation:r[4]};
+     const w={id:idWord,level:item.level,topicId:id,term:r[0],reading:r[1],zh:r[2],example:r[3],translation:r[4],kind:r[5]||null,formType:r[6]||null};
      wordById[idWord]=w;words.push(w);
      return w;
    });
@@ -247,6 +247,33 @@
    };
    draw();
  }
+ const typeName=w=>{
+   if(w.kind==="verb")return ({godan:"第一類動詞（五段）",ichidan:"第二類動詞（一段）",suru:"第三類動詞（する）",kuru:"第三類動詞（来る）"})[w.formType]||"動詞";
+   if(w.kind==="adj")return w.formType==="na"?"な形容詞":"い形容詞";
+   return w.kind==="noun"?"名詞":"";
+ };
+ function inflectionPanel(card,w){
+   if(!["verb","adj"].includes(w.kind))return;
+   const engine=window.ENJP_Inflections;
+   if(!engine)return;
+   const item={word:w.term,reading:w.reading,type:w.formType};
+   const forms=w.kind==="verb"?engine.verbForms(item):engine.adjectiveForms(item);
+   if(!Array.isArray(forms)||!forms.length)return;
+   const details=el("details","cv-conjugations");
+   const summary=el("summary","","📖 展開"+typeName(w)+"變化 · "+forms.length+" 種");
+   details.append(summary);
+   const grid=el("div","cv-form-grid");
+   for(const form of forms){
+     const cell=el("div","cv-form-item");
+     cell.append(el("span","cv-form-label",form.key));
+     const reading=engine.annotation(form.word,form.reading);
+     japanese(cell,reading,"cv-form-jp");
+     if(form.hint)cell.append(el("small","cv-form-tip",form.hint));
+     voice(cell,form.reading,"🔊 讀音");
+     grid.append(cell);
+   }
+   details.append(grid);card.append(details);
+ }
  function wordCard(word){
    const card=el("article","cv-word-card");
    const head=el("div","cv-card-head");
@@ -257,6 +284,7 @@
    const review=reviewOf(word),status=el("span","cv-status",
      !review?"未抽考":isDue(word)?"到期複習":review.streak>=3?"熟練":"學習中");
    head.append(status);card.append(head);
+   if(typeName(word))card.append(el("span","cv-pos-tag",typeName(word)));
    card.append(el("p","cv-meaning",word.zh));
    voice(card,word.reading,"🔊 單字");
    const ex=el("div","cv-example");
@@ -264,6 +292,7 @@
    ex.append(el("p","cv-translation",word.translation));
    voice(ex,word.example,"🔊 例句");
    card.append(ex);
+   inflectionPanel(card,word);
    return card;
  }
  function topicView(host,topic){
@@ -317,7 +346,7 @@
    const shell=el("section","cv-home");
    const home=()=>{
      shell.replaceChildren();
-     countStats(shell,"📚 "+(level==="all"?"N5～N3":level)+" 主題單字 · 第一批",scope);
+     countStats(shell,"📚 "+(level==="all"?"N5～N3":level)+" 主題單字 · 持續擴充",scope);
      shell.append(el("p","cv-help","先選左側主題閱讀，再用智慧抽考複習。新單字與到期錯題會優先出題；三個等級可自由切換。"));
      const guide=el("p","cv-help","複習間隔依答題結果安排：1／2／4／7／14／30 天等；答錯會回到今日並列入待加強。每天可做多回合，不用連續打卡。");
      shell.append(guide);
