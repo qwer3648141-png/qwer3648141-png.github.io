@@ -72,3 +72,18 @@
 @media(max-width:640px){.cv-quiz{padding:15px}.cv-word-card{padding:14px}.cv-answers,.cv-options{grid-template-columns:1fr}.cv-option{font-size:1.04rem;min-height:60px}.cv-word{font-size:1.46rem}.cv-example-ja{font-size:1.2rem}.cv-actions-home{display:grid;grid-template-columns:1fr 1fr}.cv-actions-home button{font-size:.84rem;padding:10px 7px}.cv-theme{min-height:112px}.cv-levels{margin:12px 0}}
 @media(max-width:360px){.cv-actions-home{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){.cv-primary,.cv-secondary,.cv-option,.cv-theme,.cv-voice,.cv-progress-fill{transition:none}}
+
+/* 4.3 — optional conjugation reference for the newly tagged words */
+.cv-pos-tag{display:inline-block;margin:2px 0 8px;padding:5px 10px;border-radius:9px;border:1px solid #5f98a8;background:#20546a;color:#bcf1e7;font-weight:770;font-size:.79rem;line-height:1.5}
+.cv-conjugations{border:1px solid #487d90;border-radius:12px;margin-top:13px;background:#113a50}
+.cv-conjugations>summary{padding:13px 14px;color:#abecf4;font-size:.92rem;line-height:1.7;font-weight:800;cursor:pointer}
+.cv-conjugations[open]{padding-bottom:12px}
+.cv-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;padding:4px 10px}
+.cv-form-item{background:#0c2a40;border:1px solid #355f71;border-radius:11px;padding:10px 11px;min-width:0}
+.cv-form-label{display:block;color:#a8e7ef;font-size:.78rem;font-weight:800;line-height:1.5}
+.cv-form-jp{font-size:1.08rem;font-weight:700;color:#fff;line-height:2.65;margin:4px 0;overflow-wrap:anywhere}
+.cv-form-jp ruby rt{font-size:.58em;font-weight:530;color:#98dff6}
+.cv-form-tip{display:block;color:#bdd6e2;font-size:.8rem;line-height:1.65;margin-bottom:8px}
+.cv-form-item .cv-voice{font-size:.77rem;min-height:36px;padding:6px 9px}
+.cv-conjugations>summary:focus-visible{outline:3px solid #bcfaff;outline-offset:2px}
+@media(max-width:760px){.cv-form-grid{grid-template-columns:1fr}}
