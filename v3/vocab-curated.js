@@ -347,6 +347,14 @@
    const home=()=>{
      shell.replaceChildren();
      countStats(shell,"📚 "+(level==="all"?"N5～N3":level)+" 主題單字 · 持續擴充",scope);
+     if(window.ENJP_LexicalAtlas?.has?.("jp-vocabulary-overview")){
+       const directory=el("button","cv-primary","📚 開啟單字總目錄｜新版＋原版全部詞條");
+       directory.type="button";
+       directory.addEventListener("click",()=>window.ENJP_3?.goToSection?.("jp-vocabulary-overview"));
+       const entry=el("div","cv-actions");
+       entry.append(directory);
+       shell.append(entry);
+     }
      shell.append(el("p","cv-help","先選左側主題閱讀，再用智慧抽考複習。新單字與到期錯題會優先出題；三個等級可自由切換。"));
      const guide=el("p","cv-help","複習間隔依答題結果安排：1／2／4／7／14／30 天等；答錯會回到今日並列入待加強。每天可做多回合，不用連續打卡。");
      shell.append(guide);
