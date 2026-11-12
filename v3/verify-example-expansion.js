@@ -51,9 +51,12 @@ const n4n3=read("v3/n4n3-completion.js"),legacy=read("v3/legacy-reader.js");
 assert(n4n3.includes("ENJP_N4N3_EXTRA_EXAMPLES"),"N4/N3 additional examples wired");
 assert(n4n3.includes("nl-more-examples"),"collapsed extra examples");
 assert(n4n3.includes("speak(example,ja)"),"new sentences inherit JP speech");
-assert(legacy.includes("ENJP_VERB_FORM_EXAMPLES"),"conjugation examples wired");
-assert(legacy.includes("populated=true"),"lazy loading avoids building all examples at once");
-assert(legacy.includes("Audio.play(ja,\"jp\""),"speech enabled on example buttons");
+// Generic form examples remain in their own data module, but are no longer
+// presented as if they belong to every individual lexical verb.
+assert(!legacy.includes('const verbExamples=window.ENJP_VERB_FORM_EXAMPLES'),"generic examples detached from each lexical entry");
+assert(!legacy.includes("vf-example-list"),"unrelated generic verbs do not leak into vocabulary cards");
+assert(legacy.includes("Audio.play(row.reading,\"jp\""),"each conjugation has its own word-specific audio");
+assert(legacy.includes("item.collocations||[]"),"each legacy word keeps its own reviewed collocations");
 const style=read("v3/example-expansion.css");
 assert(style.includes(".nl-more-examples")&&style.includes(".vf-examples"));
 console.log(JSON.stringify({status:"PASS",lessons:Object.keys(lessons).length,units,original,added,verbForms:keys.length,verbExampleSentences:formCount,totalNewSentences:added+formCount,oldProgressKeysUntouched:true}));
