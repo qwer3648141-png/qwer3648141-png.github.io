@@ -42,7 +42,7 @@ for(const path of paths)vm.runInNewContext(read(path),ctx);
 const a=ctx.window.ENJP_VerbAtlas,C=ctx.window.ENJP_COURSES;
 assert(a,"atlas installed");assert.equal(a.list.length,276);
 assert.equal(a.sourceCount.old,240);assert.equal(a.sourceCount.new,36);
-assert.deepEqual(a.problems,[],"no verb-source mismatch or invalid conjugation");
+assert.deepEqual(Array.from(a.problems),[],"no verb-source mismatch or invalid conjugation");
 assert.equal(new Set(a.list.map(w=>w.word)).size,276,"all 276 headwords unique");
 for(const [level,count] of [["N5",68],["N4",91],["N3",117]]){
  assert.equal(a.filterRows({level}).length,count,"grade "+level);
