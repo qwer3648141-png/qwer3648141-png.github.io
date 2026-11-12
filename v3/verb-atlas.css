@@ -1,0 +1,54 @@
+/* ENJP Ocean 4.4 · compact verb atlas: search first, no endless card list. */
+.va-atlas{color:#f1fbff;min-width:0;margin:14px 0 22px}
+.va-kicker{color:#a1ebf5;font-size:.78rem;letter-spacing:.1em;font-weight:800}
+.va-title{font-size:clamp(1.38rem,2.4vw,1.82rem);line-height:1.55;margin:7px 0}
+.va-intro,.va-hint,.va-note{font-size:.94rem;line-height:1.8;color:#c8e0ea;margin:8px 0 15px}
+.va-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin:16px 0}
+.va-stat{padding:11px;border:1px solid #386982;border-radius:12px;background:#153950;text-align:center;display:flex;flex-direction:column;gap:4px;min-width:0}
+.va-stat strong{font-size:1.3rem;font-variant-numeric:tabular-nums;color:#b2f5dd}
+.va-stat span{font-size:.81rem;color:#c3e7f2}
+.va-controls{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,.8fr) minmax(0,1fr);gap:11px;margin:18px 0}
+.va-field{display:flex;flex-direction:column;gap:7px;color:#c8e5f0;font-size:.84rem;font-weight:770}
+.va-field input,.va-field select{width:100%;min-width:0;border:1px solid #6793a9;background:#102c42;color:#fff;border-radius:11px;min-height:48px;padding:10px 11px;font-size:1rem}
+.va-field input::placeholder{color:#91abb9}
+.va-kana{display:flex;flex-wrap:wrap;gap:6px;margin:15px 0}
+.va-kana-button{background:#1b425c;color:#d9f0fa;border:1px solid #4a7992;border-radius:9px;padding:8px 10px;min-height:42px;font-weight:700;cursor:pointer;font-size:.88rem}
+.va-kana-button[aria-pressed="true"]{background:#a1e5e6;color:#0b303e;border-color:#d3ffff}
+.va-result-status{font-size:.9rem;line-height:1.6;color:#c9eaf4;margin:14px 0 8px}
+.va-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.va-item{display:flex;flex-direction:column;justify-content:center;text-align:left;gap:4px;min-height:88px;min-width:0;padding:11px 12px;border:1px solid #3f7892;border-radius:12px;background:#153a52;color:#f4fcff;cursor:pointer}
+.va-item:hover{border-color:#8ce4ed;background:#1d5068}
+.va-item-jp{margin:0;font-size:1.15rem;font-weight:800;line-height:2.1;overflow-wrap:anywhere}
+.va-item-jp ruby rt,.va-detail-word ruby rt,.va-form-word ruby rt,.va-jp ruby rt{font-size:.55em;color:#a2eaf5;line-height:1.25;font-weight:550}
+.va-item-cn{font-size:.88rem;color:#d9eaf4;line-height:1.4;overflow-wrap:anywhere}
+.va-item-type{font-size:.72rem;color:#a7cfde;line-height:1.4}
+.va-pagination{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:13px 0}
+.va-page{min-height:43px;padding:9px 16px;border:1px solid #568ba6;background:#1f4a68;border-radius:10px;color:#fff;font-weight:750;cursor:pointer}
+.va-page:disabled,.va-audio:disabled{opacity:.45;cursor:not-allowed}
+.va-page-num{color:#d0eef7;font-variant-numeric:tabular-nums;font-weight:750}
+.va-empty{grid-column:1/-1;color:#d4e7f0;padding:24px}
+.va-dialog{width:min(790px,96vw);max-width:96vw;max-height:88vh;max-height:88dvh;overflow:auto;border:1px solid #6399b7;border-radius:19px;background:#0b2940;color:#f2fcff;padding:19px;box-shadow:0 25px 80px #0009}
+.va-dialog::backdrop{background:#010b14d9}
+.va-dialog:not([open]){display:none}
+.va-detail-header{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
+.va-detail-word{font-size:1.5rem;line-height:2.3;margin:4px 0 0;font-weight:820}
+.va-reading{color:#bcdfec;line-height:1.5;margin:0}
+.va-close{flex:none;border:1px solid #79b7c8;background:#1d5168;color:#fff;border-radius:10px;min-height:44px;padding:8px 13px;cursor:pointer}
+.va-meaning{font-size:1.1rem;color:#bdf3db;font-weight:750;line-height:1.5}
+.va-section{margin:22px 0 0}
+.va-section h3{font-size:1.04rem;color:#f7fcff;line-height:1.6;margin:0 0 9px}
+.va-example{border:1px solid #346a84;border-radius:12px;background:#12374e;padding:12px;margin:9px 0}
+.va-jp{font-size:1.1rem;line-height:2.5;margin:3px 0;overflow-wrap:anywhere}
+.va-translation{color:#cce6f0;line-height:1.75;margin:0}
+.va-voice-row{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:8px 0}
+.va-voice-status{font-size:.78rem;color:#c1dfea}
+.va-audio{border-radius:9px;border:1px solid #70a8b4;background:#265d73;color:#eefaff;padding:8px 12px;min-height:42px;cursor:pointer}
+.va-forms{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.va-form{background:#123a53;border:1px solid #3f7490;border-radius:12px;padding:12px;min-width:0}
+.va-form-name{color:#a5ecf5;font-weight:800;font-size:.84rem}
+.va-form-word{font-size:1.09rem;line-height:2.5;margin:6px 0;font-weight:700;overflow-wrap:anywhere}
+.va-form-hint{color:#c3dce6;font-size:.82rem;line-height:1.65;display:block}
+.va-field input:focus-visible,.va-field select:focus-visible,.va-item:focus-visible,.va-page:focus-visible,.va-kana-button:focus-visible,.va-close:focus-visible,.va-audio:focus-visible{outline:3px solid #b7f5ff;outline-offset:2px}
+@media(max-width:1100px){.va-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:700px){.va-controls{grid-template-columns:repeat(2,minmax(0,1fr))}.va-field:first-child{grid-column:1/-1}.va-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.va-item{min-height:85px;padding:10px}.va-stats{gap:6px}.va-stat{padding:9px 4px}.va-dialog{padding:15px}.va-forms{grid-template-columns:1fr}.va-item-jp{font-size:1.1rem}.va-kana-button{padding:8px;font-size:.83rem}}
+@media(max-width:350px){.va-controls{grid-template-columns:1fr}.va-field:first-child{grid-column:auto}.va-page{padding:8px}.va-stat span{font-size:.72rem}}
