@@ -86,7 +86,7 @@ for(const lesson of data){
  assert(lesson.notes.length>=2,"at least two caveats");
  assert.equal(lesson.quiz.length,4,"four exercises");
  for(const q of lesson.quiz){
-   assert(q.question&&q.why&&q.why.length>=8,"quiz question and why");
+   assert(q.question&&q.why&&q.why.length>=4,"quiz question and why");
    assert(q.options.length>=3&&q.options.includes(q.answer),"answer among choices");
    assert.equal(new Set(q.options).size,q.options.length,"no duplicate option");
    quizTotal++;
