@@ -70,13 +70,14 @@
         const specialCompletion=Boolean(window.ENJP_N4N3_Complete?.has(section.id));
         const specialFoundation=Boolean(window.ENJP_Foundation?.has(section.id));
         const specialConnection=Boolean(window.ENJP_ConnectionLesson?.has(section.id));
+        const specialAtlas=Boolean(window.ENJP_VerbAtlas?.has(section.id));
         const curated=window.ENJP_CuratedVocab?.sections?.[section.id];
-        const special=specialGiving||specialParticle||specialContrast||specialCompletion||specialFoundation||specialConnection;
+        const special=specialGiving||specialParticle||specialContrast||specialCompletion||specialFoundation||specialConnection||specialAtlas;
         const available=Boolean(database.lesson[section.id]||imported||special||curated);
         const b=el("button","section");
         b.type="button";b.dataset.section=section.id;
         b.setAttribute("aria-current",String(state.sectionId===section.id));
-        append(b,el("span","section-name",section.title),el("span","section-tag"+(available?" ready":""),curated?"主題 · "+curated.words.length: specialFoundation||specialCompletion||specialConnection?"完整教材":special?"新專題":imported?"教材庫 · "+imported.items.length:available?"試學":"規劃中"));
+        append(b,el("span","section-name",section.title),el("span","section-tag"+(available?" ready":""),curated?"主題 · "+curated.words.length:specialAtlas?"動詞總表":specialFoundation||specialCompletion||specialConnection?"完整教材":special?"新專題":imported?"教材庫 · "+imported.items.length:available?"試學":"規劃中"));
         b.addEventListener("click",()=>{
           Audio.stop();state.sectionId=section.id;
           document.querySelectorAll(".section").forEach(item=>item.setAttribute("aria-current",String(item===b)));
@@ -110,7 +111,8 @@
       (s.id.startsWith("jp-contrast-")&&window.ENJP_ContrastGrammar)||
       window.ENJP_N4N3_Complete?.has(s.id)||
       window.ENJP_Foundation?.has(s.id)||
-      window.ENJP_ConnectionLesson?.has(s.id)).length;
+      window.ENJP_ConnectionLesson?.has(s.id)||
+      window.ENJP_VerbAtlas?.has(s.id)).length;
     root.append(renderHeader("從左側挑選章節開始",state.mode==="vocab"?"完整情境詞彙已移到獨立單字區；先選日本語、English 或 EN × JP，再選 30 個章節。":"右邊是固定的教材閱讀區。切換章節或縮放電腦畫面時，不會把教材推到整頁最下方。",[modeTitles[state.mode],"學習總覽"]));
     const stats=el("div","info-grid");
     for(const [value,label] of [[chapters.length,"課程章節"],[all.length,"主題入口"],[ready,"已接入教材主題"]]){
@@ -121,6 +123,7 @@
     const allIds=Object.keys(migrated);
     let shortcuts=[];
     if(state.mode==="jp"){
+      if(window.ENJP_VerbAtlas)shortcuts.push(["📖 全 N5～N3 動詞一覽","jp-verb-overview","276 個動詞集中搜尋、按類別篩選、不用逐張往下滑"]);
       if(window.ENJP_ConnectionLesson){
         const linkId=state.level==="N5"?"jp-link-n5-adj":state.level==="N4"?"jp-link-n4-shi":"jp-link-n3-dakenaku";
         shortcuts.push(["🔗 "+state.level+" 句子連接教室",linkId,"詞性＋型態＋接續公式、語音、組句與抽考"]);
@@ -165,7 +168,8 @@
       (id.startsWith("jp-particle-")&&window.ENJP_Particles)||
       (id.startsWith("jp-contrast-")&&window.ENJP_ContrastGrammar)||
       window.ENJP_Foundation?.has(id)||
-      window.ENJP_ConnectionLesson?.has(id)));
+      window.ENJP_ConnectionLesson?.has(id)||
+      window.ENJP_VerbAtlas?.has(id)));
     if(shortcuts.length){
       const quick=el("section","course-quick-start");
       quick.append(el("h3","","⚡ 快速進入正式教材"));
@@ -388,6 +392,7 @@
     const lesson=database.lesson[section.id];
     const imported=window.ENJP_MIGRATED?.sections?.[section.id];
     root.append(renderHeader(section.title,chapter.summary,[state.mode==="jp"?jpLabels[state.level]:state.mode==="vocab"?(state.vocabLang==="jlpt"?"主題單字 · "+state.vocabLevel:"原版情境單字 · "+({jp:"日文",en:"英文",dual:"英日配對"}[state.vocabLang])):modeTitles[state.mode],chapter.title,section.title]));
+    if(window.ENJP_VerbAtlas?.render(root,section.id))return;
     if(window.ENJP_CuratedVocab?.render(root,section.id))return;
     if(window.ENJP_GivingReceiving?.render(root,section.id))return;
     if(window.ENJP_Particles?.render(root,section.id))return;
@@ -458,6 +463,7 @@
       const completed=Boolean(window.ENJP_N4N3_Complete?.has(lessonId));
       const foundation=Boolean(window.ENJP_Foundation?.has(lessonId));
       const connection=window.ENJP_ConnectionLesson?.get(lessonId);
+      const atlas=Boolean(window.ENJP_VerbAtlas?.has(lessonId));
       const vocab=lessonId.startsWith("legacy-vocab-")&&Boolean(window.ENJP_MIGRATED?.sections?.[lessonId]);
       const curated=window.ENJP_CuratedVocab?.sections?.[lessonId];
       const particle=lessonId.startsWith("jp-particle-")&&window.ENJP_Particles;
@@ -466,6 +472,9 @@
         updateModeButtons();goToSection(lessonId);
       }else if(vocab){
         state.mode="vocab";state.vocabLang=lessonId.split("-")[2]||"jp";
+        updateModeButtons();goToSection(lessonId);
+      }else if(atlas){
+        state.mode="jp";state.level="N5";
         updateModeButtons();goToSection(lessonId);
       }else if(connection){
         state.mode="jp";state.level=connection.level;
