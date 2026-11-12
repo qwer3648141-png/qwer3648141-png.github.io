@@ -133,7 +133,7 @@
    const shell=element("section","va-atlas");
    shell.append(element("div","va-kicker","N5～N3 · READ-ONLY VERB INDEX"),
      element("h2","va-title","📖 動詞一覽｜快速查字"),
-     element("p","va-intro","把舊版 240 個動詞與新版 36 個不重複動詞集中成清單。不需要一張張往下滑；先搜尋或選類別，每頁最多 32 字，點一下才展開變化和專屬用法。"));
+     element("p","va-intro","把舊版 240 個動詞與新版 36 個不重複動詞集中成清單。不需要一張張往下滑；先搜尋或選類別，手機每頁 16 字、電腦每頁 32 字；點一下才展開變化和專屬用法。"));
    const stats=element("div","va-stats");
    for(const [name,number]of [["全部動詞",list.length],...["N5","N4","N3"].map(l=>[l,list.filter(x=>x.level===l).length])]){
      stats.append(add(element("div","va-stat"),element("strong","",number),element("span","",name)));
@@ -171,9 +171,9 @@
    dialog.addEventListener("close",()=>Audio.stop());
    let page=0;
    function redraw(){
-     const filtered=filterRows(selection),size=32,total=Math.max(1,Math.ceil(filtered.length/size));
+     const filtered=filterRows(selection),size=window.matchMedia?.("(max-width:700px)")?.matches?16:32,total=Math.max(1,Math.ceil(filtered.length/size));
      if(page>=total)page=total-1;
-     status.textContent="找到 "+filtered.length+" 個動詞｜第 "+(page+1)+"／"+total+" 頁（每頁最多 32 字）";
+     status.textContent="找到 "+filtered.length+" 個動詞｜第 "+(page+1)+"／"+total+" 頁（本頁最多 "+size+" 字）";
      grid.replaceChildren();pages.replaceChildren();
      for(const [i,verb]of filtered.slice(page*size,(page+1)*size).entries()){
        const item=button("","va-item");
