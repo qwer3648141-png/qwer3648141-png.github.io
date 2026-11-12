@@ -116,7 +116,7 @@
      originalEntries++;
      if(!w.jp||!w.jp_ruby)wordProblems.push("原版缺少日文："+chapter+":"+i);
      pushVocab({source:"legacy",id:"legacy-"+chapter+"-"+i,
-       word:w.jp,reading:rubyReading(w.jp_ruby),meaning:w.cn,
+       word:w.jp,wordRuby:rubyText(w.jp_ruby),reading:rubyReading(w.jp_ruby),meaning:w.cn,
        level:"ungraded",topicLabel:"Chapter "+String(chapter).padStart(2,"0")+"｜"+(w.topic||"原版教材"),
        category:groupForChapter(chapter),english:w.en,kk:w.kk,
        chapter:Number(chapter),example: w.ex_jp,exampleRuby:w.ex_jp_ruby,translation:w.ex_cn});
@@ -217,8 +217,7 @@
  function vocabDetail(root,x){
    root.append(make("span","la-kicker",x.level==="ungraded"?"原版來源 · 尚未標記 JLPT 等級":x.level+" · 分級主題"));
    jp(root,x.records.some(r=>r.source==="curated")?annotated(x.word,x.reading):
-      rubyText(x.records.find(r=>r.source==="legacy")?.exampleRuby&&x.records.find(r=>r.source==="legacy")?.word===x.word?
-        x.records.find(r=>r.source==="legacy")?.wordRuby||"": "")||x.word,"la-detail-term");
+      (x.records.find(r=>r.source==="legacy")?.wordRuby||x.word),"la-detail-term");
    root.append(make("p","la-reading",x.reading||"讀音待校"),
      make("p","la-meaning",x.meaning));
    const primary=x.records.find(r=>r.source==="legacy");
