@@ -34,4 +34,5 @@ jobs:
       - run: node v3/verify-n5-foundation.js
       - run: node v3/verify-curated-vocab.js
       - run: node v3/verify-verb-atlas.js
+      - run: node v3/verify-lexical-atlas.js
       - run: node v3/verify-connection-lessons.js
