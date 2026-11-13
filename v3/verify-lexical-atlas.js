@@ -136,6 +136,21 @@ assert.equal(searches.length,1,"search field available");
 const search=searches[0];search.value="履歴書";search.events.input[0]();
 assert(findClass(vocabHost,"la-tile").some(x=>walk(x).some(y=>String(y.textContent).includes("履歴書"))),
  "search original Japanese word across 30 chapters");
+// The combined dictionary must include the original adjective and all verb
+// dictionary and conjugated forms, not only the 30 English/Japanese chapters.
+search.value="汚";search.events.input[0]();
+const allMatchLabels=findClass(vocabHost,"la-tile").map(x=>x.attrs["aria-label"]);
+for(const term of ["汚い","汚れる","汚す","汚れ","汚染"])
+ assert(allMatchLabels.some(label=>label?.includes(term)),"full dictionary searches 汚 and finds "+term);
+search.value="汚れて";search.events.input[0]();
+assert.equal(findClass(vocabHost,"la-tile").length,1,"whole-library 汚れて resolves a single verb");
+const dirtyTile=findClass(vocabHost,"la-tile")[0];
+assert(dirtyTile.attrs["aria-label"].includes("汚れる"),"辞書形 汚れる shown when searching 汚れて");
+dirtyTile.events.click[0]();
+const dirtyDialog=walk(vocabHost).find(x=>x.tagName==="dialog");
+assert(dirtyDialog.open&&findClass(dirtyDialog,"la-form").length===11,
+ "selected て form opens correct 11 conjugation forms");
+walk(dirtyDialog).find(x=>x.className==="la-close").events.click[0]();
 search.value="";search.events.input[0]();
 const japaneseTiles=findClass(vocabHost,"la-tile");
 assert.equal(japaneseTiles.length,16);
