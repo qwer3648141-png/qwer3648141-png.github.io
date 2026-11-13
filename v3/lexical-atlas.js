@@ -296,8 +296,8 @@
      searchField=make("label","la-field la-search-field"),
      search=make("input");
    search.type="search";search.autocomplete="off";
-   search.placeholder="搜尋日文、假名或中文…";search.setAttribute("aria-label","搜尋日文、讀音或中文");
-   searchField.append(make("span","","搜尋漢字／平假名／中文"),search);
+   search.placeholder=mode==="vocab"?"搜尋全部：汚、汚れて、よごれる…":"搜尋日文、假名或中文…";search.setAttribute("aria-label","搜尋日文、讀音或中文");
+   searchField.append(make("span","",mode==="vocab"?"搜尋全站（原版、動詞及活用形）":"搜尋漢字／平假名／中文"),search);
    controls.append(searchField);
    function selectControl(title,choices,name){
      const field=make("label","la-field"),s=make("select");
@@ -342,6 +342,7 @@
    const pageSize=()=>window.matchMedia?.("(max-width:700px)")?.matches?16:36;
    let page=0;
    function filtered(){
+     if(mode==="vocab"&&selection.query.trim()&&window.ENJP_GlobalSearch)return window.ENJP_GlobalSearch.search(selection.query);
      const q=normalize(selection.query.trim());
      return items.filter(x=>{
        if(selection.level!=="all"&&x.level!==selection.level)return false;
@@ -365,20 +366,22 @@
    function draw(){
      const rows=filtered(),size=pageSize(),pages=Math.max(1,Math.ceil(rows.length/size));
      if(page>=pages)page=pages-1;
-     counter.textContent="找到 "+rows.length+" 個詞條 · 第 "+(page+1)+"／"+pages+" 頁（"+(window.matchMedia?.("(max-width:700px)")?.matches?"手機":"電腦")+"每頁最多 "+size+" 個）";
+     counter.textContent=(mode==="vocab"&&selection.query.trim()?"全站搜尋找到 ":"找到 ")+rows.length+" 個詞條 · 第 "+(page+1)+"／"+pages+" 頁（"+(window.matchMedia?.("(max-width:700px)")?.matches?"手機":"電腦")+"每頁最多 "+size+" 個）";
      grid.replaceChildren();pager.replaceChildren();
      for(const item of rows.slice(page*size,(page+1)*size)){
        const tile=button("","la-tile");
        tile.setAttribute("aria-label","查看 "+item.word+" 詳情");
-       jp(tile,mode==="adj"?annotated(item.word,item.reading):
+       jp(tile,mode==="adj"||item.data?annotated(item.word,item.reading):
          (item.records.some(r=>r.source==="curated"||r.source==="advanced")?annotated(item.word,item.reading):
            rubyText(item.records.find(r=>r.source==="legacy")?.wordRuby||"")||item.word),"la-tile-ja");
        tile.append(make("span","la-tile-zh",item.meaning),
          make("small","la-tile-meta",mode==="adj"?
-           item.level+" · "+TYPES[item.type]:sourceLabel(item)+(item.level==="ungraded"?"":" · "+item.level)));
+           item.level+" · "+TYPES[item.type]:(item.data?item.sourceLabel:sourceLabel(item))+(item.level==="ungraded"?" · 未分級":" · "+item.level)));
        tile.addEventListener("click",()=>{
          body.replaceChildren();
-         if(mode==="adj")adjectiveDetail(body,item);else vocabDetail(body,item);
+         if(mode==="adj")adjectiveDetail(body,item);
+          else if(item.data)window.ENJP_GlobalSearch.renderDetail(body,item);
+          else vocabDetail(body,item);
          if(typeof dialog.showModal==="function"){
            if(dialog.open)dialog.close();
            dialog.showModal();
