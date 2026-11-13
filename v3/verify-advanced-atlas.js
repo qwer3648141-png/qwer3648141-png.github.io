@@ -9,7 +9,7 @@ const scripts=["v3/course-map.js","v3/data/catalog.js","v3/data/lexical.js",
  "v3/data/vocab-19-24.js","v3/data/vocab-25-30.js","v3/inflections.js",
  "v3/vocab-batch-n5.js","v3/vocab-batch-n4.js","v3/vocab-batch-n3.js",
  "v3/vocab-expansion-n5.js","v3/vocab-expansion-n4.js","v3/vocab-expansion-n3.js",
- "v3/advanced-words-a.js","v3/advanced-words-b.js","v3/vocab-curated.js",
+ "v3/advanced-words-a.js","v3/advanced-words-b.js","v3/advanced-verbs-c.js","v3/advanced-verbs-d.js","v3/vocab-curated.js",
  "v3/advanced-atlas.js","v3/lexical-atlas.js"];
 for(const file of scripts)new vm.Script(read(file),{filename:file});
 function node(tag){
@@ -41,10 +41,10 @@ const ctx={window:{ENJP_Audio:Audio,localStorage:storage,matchMedia:()=>({matche
 for(const file of scripts)vm.runInNewContext(read(file),ctx);
 const A=ctx.window.ENJP_AdvancedAtlas,L=ctx.window.ENJP_LexicalAtlas,F=ctx.window.ENJP_Inflections;
 assert(A&&L,"both advanced and all-word indices registered");
-assert.equal(A.words.length,52);
-assert.equal(A.themes.length,6);
+assert.equal(A.words.length,76);
+assert.equal(A.themes.length,10);
 assert.deepEqual(Array.from(A.issues),[],"dataset passes internal validation");
-const levels={N3:8,N2:34,N1:10};
+const levels={N3:8,N2:52,N1:16};
 for(const [level,count]of Object.entries(levels))assert.equal(A.filterRows({level}).length,count,level+" count");
 for(const theme of A.themes){
  assert.equal(A.filterRows({theme:theme.id}).length,theme.items.length,"theme count "+theme.id);
@@ -52,7 +52,7 @@ for(const theme of A.themes){
 }
 assert.equal(A.filterRows({kind:"i"}).length,9);
 assert.equal(A.filterRows({kind:"na"}).length,22);
-assert.equal(A.filterRows({kind:"verb"}).length,3);
+assert.equal(A.filterRows({kind:"verb"}).length,27);
 assert.equal(A.filterRows({kind:"noun"}).length,13);
 assert.equal(A.filterRows({kind:"adverb"}).length,3);
 assert.equal(A.filterRows({kind:"phrase"}).length,2);
@@ -83,10 +83,10 @@ for(const x of A.words){
  else assert.equal(forms.length,0,"do not invent inflections for noun/idiom "+x.word);
  formCount+=forms.length;
 }
-assert.equal(sentences,104);
+assert.equal(sentences,152);
 assert.equal(L.adjectiveRows.length,227,"previous 196 + 31 advanced adjectives");
-assert.equal(L.vocabularyRows.length,1119,"old 1067 + 52 new unique entries");
-assert.equal(L.counts.advancedVocabulary,52);
+assert.equal(L.vocabularyRows.length,1143,"old 1067 + 76 new unique entries");
+assert.equal(L.counts.advancedVocabulary,76);
 for(const x of A.words){
  const entry=L.vocabularyRows.find(w=>w.word===x.word&&w.reading===x.reading);
  assert(entry,"word appears in common atlas "+x.word);
@@ -127,9 +127,9 @@ mobile=false;query.events.input[0]();
 assert.equal(get(root,"av-tile").length,32,"desktop shows max 32 words");
 assert.deepEqual(storage.writes,[],"no existing learning records overwritten");
 const html=read("v3/index.html"),app=read("v3/app.js");
-for(const name of ["advanced-words-a.js","advanced-words-b.js","advanced-atlas.js","advanced-atlas.css"])
+for(const name of ["advanced-words-a.js","advanced-words-b.js","advanced-verbs-c.js","advanced-verbs-d.js","advanced-atlas.js","advanced-atlas.css"])
  assert(html.includes(name),"all advanced assets loaded");
-assert(html.indexOf("advanced-words-b.js")<html.indexOf("advanced-atlas.js"),"advanced data loaded before renderer");
+assert(html.indexOf("advanced-verbs-d.js")<html.indexOf("advanced-atlas.js"),"advanced data loaded before renderer");
 assert(html.indexOf("advanced-atlas.js")<html.indexOf("lexical-atlas.js"),"specialized and aggregate atlases order");
 assert(html.indexOf("advanced-atlas.js")<html.indexOf("app.js"),"atlas before main app");
 assert(app.includes("ENJP_AdvancedAtlas?.render(root,section.id)"),"reader includes advanced page");
