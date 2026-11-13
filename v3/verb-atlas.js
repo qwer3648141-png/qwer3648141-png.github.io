@@ -6,9 +6,10 @@
  */
 (function(){
  const C=window.ENJP_COURSES,L=window.ENJP_LEGACY,V=window.ENJP_CuratedVocab;
+ const advanced=(window.ENJP_ADVANCED_THEMES||[]).flatMap(t=>t.items).filter(x=>x.kind?.startsWith("verb:"));
  const Inf=window.ENJP_Inflections,Audio=window.ENJP_Audio;
  if(!C?.jp||!Array.isArray(L?.lexical)||!Inf||!Audio)return;
- const ID="jp-verb-overview",levels=["all","N5","N4","N3"];
+ const ID="jp-verb-overview",levels=["all","N5","N4","N3","N2","N1"];
  const typeName={godan:"第一類動詞",ichidan:"第二類動詞",suru:"第三類動詞",kuru:"第三類動詞"};
  const kanaGroups=[
   ["all","全部"],["あ","あ行"],["か","か行"],["さ","さ行"],["た","た行"],
@@ -18,6 +19,7 @@
  const headword=(word,reading)=>Inf.annotation(word,reading);
  const ownExamples=verb=>{
    if(verb.source==="curated")return [{ja:verb.example,zh:verb.translation,full:true}];
+   if(verb.source==="advanced")return (verb.examples||[]).map(e=>({ja:e.ja,zh:e.zh,full:true}));
    return (verb.collocations||[]).map((ja,i)=>({ja,zh:verb.collocationCn?.[i]||"",full:false}))
      .filter(x=>x.ja.includes(verb.word)); // never show a phrase about another headword
  };
@@ -38,10 +40,15 @@
    word:w.term,reading:w.reading,level:w.level,type:w.formType,meaning:w.zh,
    example:w.example,translation:w.translation,source:"curated"
  });
+ for(const w of advanced)collect({
+   word:w.word,reading:w.reading,level:w.level,type:w.kind.slice(5),meaning:w.zh,
+   examples:w.examples,nuance:w.nuance,transitivity:w.transitivity,pattern:w.pattern,related:w.related,
+   source:"advanced"
+ });
  list.sort((a,b)=>a.reading.localeCompare(b.reading,"ja")||a.word.localeCompare(b.word,"ja"));
  for(const level of ["N5","N4","N3"])C.jp[level].unshift({
-   id:"verb-atlas-"+level.toLowerCase(),title:"📖 動詞一覽｜N5～N3 全部動詞",
-   summary:"全部動詞直接搜尋、快速篩選、每頁 32 字；點開才看活用和專屬例句",
+   id:"verb-atlas-"+level.toLowerCase(),title:"📖 動詞一覽｜N5～N1 全部動詞",
+   summary:"全部動詞直接搜尋、N5～N1 與三類活用篩選，手機每頁 16 字",
    sections:[{id:ID,title:"⚡ 動詞總目錄（"+list.length+" 字）"}]
  });
  const element=(tag,cls,text)=>{
@@ -96,6 +103,15 @@
    title.append(left,close);root.append(title);
    root.append(element("p","va-meaning",verb.meaning));
    play(root,verb.reading,"🔊 朗讀單字");
+   if(verb.source==="advanced"){
+     const note=element("section","va-section va-usage");
+     note.append(element("h3","","💡 常見助詞、用法與語感"),
+       element("p","va-note","自／他動詞："+verb.transitivity),
+       element("p","va-note","常見搭配："+verb.pattern),
+       element("p","va-note",verb.nuance));
+     if(verb.related?.length)note.append(element("p","va-note","相似詞："+verb.related.join("、")));
+     root.append(note);
+   }
    const examples=ownExamples(verb);
    const section=element("section","va-section");
    section.append(element("h3","","📚 只顯示「"+verb.word+"」本身的"+(verb.source==="legacy"?"搭配用法":"完整例句")));
@@ -131,11 +147,11 @@
  function render(host,id){
    if(id!==ID)return false;
    const shell=element("section","va-atlas");
-   shell.append(element("div","va-kicker","N5～N3 · READ-ONLY VERB INDEX"),
+   shell.append(element("div","va-kicker","N5～N1 · READ-ONLY VERB INDEX"),
      element("h2","va-title","📖 動詞一覽｜快速查字"),
-     element("p","va-intro","把舊版 240 個動詞與新版 36 個不重複動詞集中成清單。不需要一張張往下滑；先搜尋或選類別，手機每頁 16 字、電腦每頁 32 字；點一下才展開變化和專屬用法。"));
+     element("p","va-intro","整合原版 240 個動詞、新版 36 個與進階 "+advanced.length+" 個動詞，共 "+list.length+" 個不重複詞頭。可搜尋與篩選 N5～N1、第一／二／三類、五十音；手機每頁 16 字、電腦每頁 32 字，點擊再看 11 種活用與本詞專屬例句。"));
    const stats=element("div","va-stats");
-   for(const [name,number]of [["全部動詞",list.length],...["N5","N4","N3"].map(l=>[l,list.filter(x=>x.level===l).length])]){
+   for(const [name,number]of [["全部動詞",list.length],...["N5","N4","N3","N2","N1"].map(l=>[l,list.filter(x=>x.level===l).length])]){
      stats.append(add(element("div","va-stat"),element("strong","",number),element("span","",name)));
    }
    shell.append(stats);
@@ -145,7 +161,7 @@
    typeLabel.append(element("span","","動詞類別"),element("select"));
    searchLabel.append(element("span","","輸入漢字、假名或中文"),element("input"));
    const level=levelLabel.children[1],type=typeLabel.children[1],search=searchLabel.children[1];
-   for(const [val,name]of [["all","全部 N5～N3"],["N5","N5"],["N4","N4"],["N3","N3"]]){
+   for(const [val,name]of [["all","全部 N5～N1"],["N5","N5"],["N4","N4"],["N3","N3"],["N2","N2"],["N1","N1"]]){
      const opt=element("option","",name);opt.value=val;level.append(opt);
    }
    for(const [val,name]of [["all","全部類別"],["godan","第一類・五段"],["ichidan","第二類・一段"],["third","第三類・不規則"]]){
@@ -211,6 +227,6 @@
    redraw();host.append(shell);return true;
  }
  window.ENJP_VerbAtlas={id:ID,has:id=>id===ID,render,list,filterRows,ownExamples,kanaGroup,problems,sourceCount:{
-   old:list.filter(x=>x.source==="legacy").length,new:list.filter(x=>x.source==="curated").length
+   old:list.filter(x=>x.source==="legacy").length,new:list.filter(x=>x.source==="curated").length,advanced:list.filter(x=>x.source==="advanced").length
  }};
 })();
