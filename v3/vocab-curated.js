@@ -355,6 +355,13 @@
        entry.append(directory);
        shell.append(entry);
      }
+     if(level==="N3"&&window.ENJP_AdvancedAtlas?.has("jp-advanced-vocab-overview")){
+       const advanced=el("button","cv-primary","🌙 進階語彙圖鑑｜N3～N1 性格・情緒・溝通");
+       advanced.type="button";
+       advanced.addEventListener("click",()=>window.ENJP_3?.goToSection?.("jp-advanced-vocab-overview"));
+       const wrap=el("div","cv-actions");
+       wrap.append(advanced);shell.append(wrap);
+     }
      shell.append(el("p","cv-help","先選左側主題閱讀，再用智慧抽考複習。新單字與到期錯題會優先出題；三個等級可自由切換。"));
      const guide=el("p","cv-help","複習間隔依答題結果安排：1／2／4／7／14／30 天等；答錯會回到今日並列入待加強。每天可做多回合，不用連續打卡。");
      shell.append(guide);
