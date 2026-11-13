@@ -3,7 +3,7 @@
 .va-kicker{color:#a1ebf5;font-size:.78rem;letter-spacing:.1em;font-weight:800}
 .va-title{font-size:clamp(1.38rem,2.4vw,1.82rem);line-height:1.55;margin:7px 0}
 .va-intro,.va-hint,.va-note{font-size:.94rem;line-height:1.8;color:#c8e0ea;margin:8px 0 15px}
-.va-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin:16px 0}
+.va-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:16px 0}
 .va-stat{padding:11px;border:1px solid #386982;border-radius:12px;background:#153950;text-align:center;display:flex;flex-direction:column;gap:4px;min-width:0}
 .va-stat strong{font-size:1.3rem;font-variant-numeric:tabular-nums;color:#b2f5dd}
 .va-stat span{font-size:.81rem;color:#c3e7f2}
