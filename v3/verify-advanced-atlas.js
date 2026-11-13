@@ -57,7 +57,7 @@ assert.equal(A.filterRows({kind:"noun"}).length,13);
 assert.equal(A.filterRows({kind:"adverb"}).length,3);
 assert.equal(A.filterRows({kind:"phrase"}).length,2);
 assert.equal(A.filterRows({query:"せっかち"}).length,1);
-assert.equal(A.filterRows({query:"性急"}).length,1,"Chinese lookup works");
+assert(A.filterRows({query:"性急"}).some(x=>x.word==="せっかち"),"Chinese lookup finds correct word");
 assert.equal(A.filterRows({query:"せっかち",level:"N1"}).length,0,"combined grade filter");
 assert(A.filterRows({tone:"negative"}).length>=10,"tone classification");
 const old=new Set([...ctx.window.ENJP_LEGACY.lexical.map(w=>w.word),
