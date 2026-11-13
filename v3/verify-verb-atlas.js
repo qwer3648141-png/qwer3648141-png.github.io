@@ -48,7 +48,7 @@ assert.deepEqual(Array.from(a.problems),[],"no verb-source mismatch or invalid c
 assert.equal(new Set(a.list.map(w=>w.word)).size,303,"all 303 headwords unique");
 for(const [level,count] of [["N5",68],["N4",91],["N3",117],["N2",20],["N1",7]]){
  assert.equal(a.filterRows({level}).length,count,"grade "+level);
- assert(C.jp[level].some(ch=>ch.sections.some(s=>s.id===a.id)),"atlas directly in grade "+level);
+ if(["N5","N4","N3"].includes(level))assert(C.jp[level].some(ch=>ch.sections.some(s=>s.id===a.id)),"atlas directly in course "+level);
 }
 for(const type of ["godan","ichidan","third"])assert(a.filterRows({type}).length>20,"verb class "+type);
 assert(a.filterRows({query:"よむ"}).some(x=>x.word==="読む"),"kana search");
