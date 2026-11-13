@@ -62,7 +62,7 @@
  };
  const compare=(a,b)=>normalize(a.reading).localeCompare(normalize(b.reading),"ja")||
    a.word.localeCompare(b.word,"ja");
- const advancedGroup={personality:"daily",relationships:"daily",emotions:"health",thinking:"society",workstyle:"work",socialnuance:"society","emotion-verbs":"health","relationship-verbs":"daily","work-verbs":"technology","growth-verbs":"work"};
+ const advancedGroup={personality:"daily",relationships:"daily",emotions:"health",thinking:"society",workstyle:"work",socialnuance:"society","emotion-verbs":"health","relationship-verbs":"daily","work-verbs":"technology","growth-verbs":"work","nuanced-feelings":"daily","quality-analysis":"technology","nuanced-adverbs":"society","reasoning-nouns":"work"};
  const adjectiveRows=[];
  for(const src of L.lexical.filter(x=>x.kind==="adj")){
    const word=src.type==="na"?src.word.replace(/な$/,""):src.word;
@@ -121,7 +121,7 @@
    pushVocab({source:"advanced",id:w.id,word:w.word,reading:w.reading,level:w.level,
      meaning:w.zh,kind:w.kind,topicLabel:"🌙 "+w.themeName,
      category:advancedGroup[w.themeId]||"society",examples:w.examples,
-     nuance:w.nuance,tone:w.tone});
+     nuance:w.nuance,tone:w.tone,pattern:w.pattern});
  let originalEntries=0;
  for(const [chapter,rows]of Object.entries(L.vocab)){
    for(const [i,w]of rows.entries()){
@@ -135,7 +135,7 @@
    }
  }
  const vocabularyRows=[...vocabularyMap.values()].sort(compare);
- const levelCounts=items=>Object.fromEntries(["N5","N4","N3"].map(l=>[l,items.filter(w=>w.level===l).length]));
+ const levelCounts=items=>Object.fromEntries(["N5","N4","N3","N2","N1"].map(l=>[l,items.filter(w=>w.level===l).length]));
  for(const level of ["N5","N4","N3"]){
    C.jp[level].unshift({
      id:"adjective-atlas-"+level.toLowerCase(),
@@ -243,6 +243,12 @@
    say(root,sound,"🔊 日文單字");
    const sources=[...x.sourceKinds].map(s=>s==="curated"?"新版分級詞庫":s==="advanced"?"進階日語圖鑑":"原版30章").join("＋");
    root.append(make("p","la-note","來源："+sources+"。原版的英文字性不等於日文詞性，未校對前不強行分類。進階詞的 JLPT 程度屬教學建議。"));
+   const advanced=x.records.find(r=>r.source==="advanced"&&r.nuance);
+   if(advanced){
+     root.append(make("h3","la-subheading","💬 進階語感與使用提醒"));
+     root.append(make("p","la-note",advanced.nuance));
+     if(advanced.pattern)root.append(make("p","la-note","常見搭配："+advanced.pattern));
+   }
    const legacy=x.records.filter(r=>r.source==="legacy");
    if(legacy.length){
      const english=make("section","la-english");
