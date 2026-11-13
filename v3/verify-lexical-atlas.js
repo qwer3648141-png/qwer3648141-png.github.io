@@ -9,7 +9,8 @@ const files=[
  "v3/data/vocab-19-24.js","v3/data/vocab-25-30.js","v3/inflections.js",
  "v3/vocab-batch-n5.js","v3/vocab-batch-n4.js","v3/vocab-batch-n3.js",
  "v3/vocab-expansion-n5.js","v3/vocab-expansion-n4.js","v3/vocab-expansion-n3.js",
- "v3/vocab-curated.js","v3/lexical-atlas.js","v3/app.js"
+ "v3/advanced-words-a.js","v3/advanced-words-b.js",
+ "v3/vocab-curated.js","v3/advanced-atlas.js","v3/lexical-atlas.js","v3/app.js"
 ];
 for(const f of files)new vm.Script(read(f),{filename:f});
 function node(tag){
@@ -43,12 +44,13 @@ const A=W.ENJP_LexicalAtlas,V=W.ENJP_CuratedVocab;
 assert(A,"module registered");
 assert.equal(A.counts.legacyAdjectives,160,"all original adjectives retained");
 assert.equal(A.counts.curatedAdjectives,36,"36 curated adjectives");
-assert.equal(A.adjectiveRows.length,196,"196 adjective headwords");
+assert.equal(A.adjectiveRows.length,227,"196 existing + 31 advanced adjective headwords");
 assert.equal(A.counts.legacyVocabulary,920,"all legacy vocabulary present");
 assert.equal(A.counts.curatedVocabulary,V.words.length,"all curated words represented");
-assert(A.vocabularyRows.length>=1067,"combined index deduplicates without losing word records");
+assert.equal(A.vocabularyRows.length,1119,"1067 existing + 52 nonduplicate advanced headwords");
+assert.equal(A.counts.advancedVocabulary,52,"advanced word source counted");
 assert.equal(A.vocabularyRows.reduce((n,x)=>n+x.records.length,0),
- A.counts.legacyVocabulary+A.counts.curatedVocabulary,"all 1208 source rows available after merging repeated words");
+ A.counts.legacyVocabulary+A.counts.curatedVocabulary+A.counts.advancedVocabulary,"all 1260 source rows available after merging repeated words");
 assert.deepEqual(Array.from(A.adjProblems),[],"all adjective forms valid");
 assert.deepEqual(Array.from(A.wordProblems),[],"no malformed source rows");
 const adjectiveTerms=new Set();
@@ -64,16 +66,19 @@ for(const x of A.adjectiveRows){
  assert.equal(rows.length,x.source==="curated"?1:2,"two original collocations or one new full example");
 }
 const vocabKeys=new Set();
-let originalOnly=0,graded=0,hiddenOriginal=0;
+let originalOnly=0,graded=0,advanced=0,hiddenOriginal=0;
 for(const x of A.vocabularyRows){
  assert(!vocabKeys.has(x.key),"vocab unique "+x.key);vocabKeys.add(x.key);
  assert(x.word&&x.meaning&&x.records.length>0,"all entries have useful text");
  const curated=x.records.some(r=>r.source==="curated"),legacy=x.records.some(r=>r.source==="legacy");
- if(curated){graded++;assert(["N5","N4","N3"].includes(x.level),"new lexeme has real grade")}
+ const advancedEntry=x.records.some(r=>r.source==="advanced");
+ if(curated){graded++;assert(["N5","N4","N3"].includes(x.level),"base lexeme has its teaching grade")}
+ else if(advancedEntry){advanced++;assert(["N3","N2","N1"].includes(x.level),"advanced learning grade")}
  else{originalOnly++;assert.equal(x.level,"ungraded","old 30-chapter items never assigned guessed JLPT")}
  const ex=A.vocabExamples(x);
  if(!ex.length)hiddenOriginal++;
  if(curated)assert(ex.some(t=>t.source==="curated"),"own curated example persists");
+ if(advancedEntry)assert.equal(ex.filter(t=>t.source==="advanced").length,2,"both original advanced example sentences appear");
  for(const e of ex){
    assert(e.ja&&e.zh,"example has Japanese and Traditional Chinese");
    if(e.source==="legacy"){
@@ -83,7 +88,7 @@ for(const x of A.vocabularyRows){
    }
  }
 }
-assert(originalOnly>500&&graded>=288,"both independently labelled sources");
+assert(originalOnly>500&&graded>=288&&advanced===52,"all old/new/advanced source categories preserved");
 assert(hiddenOriginal>0,"unmatched legacy phrases are held back instead of displayed with wrong words");
 assert(W.ENJP_COURSES.jp.N5[0].sections[0].id===A.IDS.adjective,"adjective index first JP chapter");
 assert(V.chapters.N5[0].sections[0].id===A.IDS.vocabulary,"all-word index first vocab chapter");
@@ -115,6 +120,8 @@ const vocabHost=node("div");
 assert(A.render(vocabHost,A.IDS.vocabulary),"render word directory");
 assert.equal(findClass(vocabHost,"la-tile").length,16,"vocabulary also compact on phone");
 const source=findControl(vocabHost,"來源");
+source.value="advanced";source.events.change[0]();
+assert(findClass(vocabHost,"la-tile").length===16,"52 advanced terms available in combined index");
 source.value="legacy";source.events.change[0]();
 assert.equal(findClass(vocabHost,"la-tile").length,16,"original 30 chapter items searchable");
 const degree=findControl(vocabHost,"學習程度");
@@ -150,7 +157,7 @@ assert(app.includes("const adjective=lessonId===")&&app.includes("const vocabula
  "direct hash navigation exists for both");
 assert(app.includes('document.querySelectorAll(".top-links a[href'),"topbar links work without page refresh");
 assert(read("v3/lexical-atlas.css").includes("@media(max-width:700px)"),"mobile grid");
-console.log(JSON.stringify({status:"PASS",adjectives:A.adjectiveRows.length,uniqueVocabulary:A.vocabularyRows.length,
+console.log(JSON.stringify({status:"PASS",adjectives:A.adjectiveRows.length,advancedAdjectives:31,advancedWords:advanced,uniqueVocabulary:A.vocabularyRows.length,
   originalSources:A.counts.legacyVocabulary,newSources:A.counts.curatedVocabulary,
   unlabeledOriginal:originalOnly,hiddenMismatchedOriginalExamples:hiddenOriginal,
   mobilePage:16,desktopPage:36,historyUntouched:true}));
