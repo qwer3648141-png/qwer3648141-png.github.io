@@ -77,7 +77,11 @@
    if(x.kind.startsWith("verb:"))return F.verbForms(item)||[];
    return [];
  };
- const grammar=x=>x.kind==="i"?
+ const grammar=x=>x.kind==="adverb"&&x.pattern?
+   "副詞：修飾動詞、形容詞或整句語氣，不一定能接「する」。常見搭配："+x.pattern:
+   x.kind==="noun"&&x.pattern?
+   "名詞：依句型使用「が／を／に／の」等助詞，請整組記憶搭配："+x.pattern:
+   x.kind==="i"?
    "い形容詞：辭書形＋し／けど；去掉最後的「い」＋くて。例：怒りっぽい→怒りっぽくて":
    x.kind==="na"?
    "な形容詞：詞幹＋で；普通形＋し為「だし」；接「のに」通常用「なのに」。":
@@ -95,6 +99,11 @@
    const nuance=el("section","av-nuance");
    nuance.append(el("strong","","💬 "+TONES[word.tone]+"｜語感與使用提醒"),el("p","",word.nuance));
    root.append(nuance);
+   if(word.pattern&&!word.kind.startsWith("verb:")){
+     const usage=el("section","av-nuance av-collocation");
+     usage.append(el("strong","","🔗 常見搭配與句型"),el("p","",word.pattern));
+     root.append(usage);
+   }
    if(word.kind.startsWith("verb:")&&word.pattern){
      const usage=el("section","av-nuance av-verb-usage");
      usage.append(el("strong","","🔗 動詞接續與助詞搭配"),
@@ -168,7 +177,7 @@
    const shell=el("section","av-atlas");
    shell.append(el("span","av-kicker","ENJP OCEAN · ADVANCED VOCABULARY"),
      el("h2","av-title","🌙 進階詞彙圖鑑"),
-     el("p","av-intro","目前共有 "+words.length+" 個 N3～N1 建議程度詞彙，分成 "+themes.length+" 個主題，包含個性、情緒、溝通、思考、職場及進階動詞。每字兩句專屬原創例句與中文翻譯，原版進度和語音設定不變。"));
+     el("p","av-intro","目前共有 "+words.length+" 個 N3～N1 建議程度詞彙，分成 "+themes.length+" 個主題，包含個性、情緒、溝通、思考、職場、進階動詞、抽象名詞及副詞。每字兩句專屬原創例句與中文翻譯，原版進度和語音設定不變。"));
    const stats=el("div","av-stats");
    for(const [l,name]of [["all","全部"],["N3","N3"],["N2","N2"],["N1","N1"]])
      stats.append(add(el("div","av-stat"),el("strong","",filterRows({level:l}).length),el("small","",name)));
