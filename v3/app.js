@@ -127,9 +127,9 @@
     const allIds=Object.keys(migrated);
     let shortcuts=[];
     if(state.mode==="jp"){
-      if(state.level==="N3"&&window.ENJP_AdvancedAtlas)shortcuts.push(["🌙 N3～N1 進階語彙圖鑑","jp-advanced-vocab-overview","52 個詞：性格、情緒、溝通、思考與語感比較"]);
+      if(state.level==="N3"&&window.ENJP_AdvancedAtlas)shortcuts.push(["🌙 N3～N1 進階語彙圖鑑","jp-advanced-vocab-overview",window.ENJP_AdvancedAtlas.words.length+" 個詞｜性格、情緒、進階動詞與語感比較"]);
       if(window.ENJP_LexicalAtlas)shortcuts.push(["✨ 全 N5～N3 形容詞一覽","jp-adjective-overview","196 個形容詞｜い／な、級別、主題與變化查詢"]);
-      if(window.ENJP_VerbAtlas)shortcuts.push(["📖 全 N5～N3 動詞一覽","jp-verb-overview","276 個動詞集中搜尋、按類別篩選、不用逐張往下滑"]);
+      if(window.ENJP_VerbAtlas)shortcuts.push(["📖 全 N5～N1 動詞一覽","jp-verb-overview",window.ENJP_VerbAtlas.list.length+" 個動詞｜按等級和類別篩選，不必逐張滑動"]);
       if(window.ENJP_ConnectionLesson){
         const linkId=state.level==="N5"?"jp-link-n5-adj":state.level==="N4"?"jp-link-n4-shi":"jp-link-n3-dakenaku";
         shortcuts.push(["🔗 "+state.level+" 句子連接教室",linkId,"詞性＋型態＋接續公式、語音、組句與抽考"]);
