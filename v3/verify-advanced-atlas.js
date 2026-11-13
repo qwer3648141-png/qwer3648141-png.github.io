@@ -40,8 +40,17 @@ const document={readyState:"loading",createElement:node,createTextNode:s=>({text
 const ctx={window:{ENJP_Audio:Audio,localStorage:storage,matchMedia:()=>({matches:mobile}),
  location:{hash:""}},document};
 for(const file of scripts)vm.runInNewContext(read(file),ctx);
-const A=ctx.window.ENJP_AdvancedAtlas,L=ctx.window.ENJP_LexicalAtlas,F=ctx.window.ENJP_Inflections;
-assert(A&&L,"both advanced and all-word indices registered");
+const A=ctx.window.ENJP_AdvancedAtlas,L=ctx.window.ENJP_LexicalAtlas,F=ctx.window.ENJP_Inflections,
+  Global=ctx.window.ENJP_GlobalSearch;
+assert(A&&L&&Global,"advanced, all-word and shared global search installed");
+assert(Global.entries.length>L.vocabularyRows.length+200,"global index includes original lexical verbs and adjectives");
+for(const term of ["汚れる","汚す","汚れ","汚い","汚染"])
+  assert(Global.search("汚").some(x=>x.word===term),"single-kanji global search finds "+term);
+assert.equal(Global.search("汚れて")[0]?.word,"汚れる","て form resolves to dictionary form");
+assert.equal(Global.search("よごれて")[0]?.word,"汚れる","kana て form resolves to dictionary form");
+assert.equal(Global.search("汚して")[0]?.word,"汚す","transitive て form resolves separately");
+assert(Global.search("きたない").some(x=>x.word==="汚い"),"original N5 adjective searched by kana");
+assert(Global.search("取り除く").some(x=>x.word==="取り除く"),"original verb included");
 assert.equal(A.words.length,103);
 assert.equal(A.themes.length,15);
 assert.deepEqual(Array.from(A.issues),[],"dataset passes internal validation");
@@ -130,6 +139,23 @@ related[0].events.click[0]();
 assert.equal(get(dialog,"av-example").length,2,"related word opens its own examples");
 const close=get(dialog,"av-close")[0];close.events.click[0]();
 assert(!dialog.open,"popup can close");
+query.value="汚";query.events.input[0]();
+const visible=get(root,"av-tile");
+assert(visible.length>=5,"user screenshot search 汚 now returns results from all courses");
+const oldAdj=visible.find(x=>x.attrs["aria-label"]?.includes("汚い"));
+assert(oldAdj,"original adjective 汚い visible in advanced search");
+oldAdj.events.click[0]();
+assert(dialog.open&&get(dialog,"la-detail-term").length===1,
+  "cross-library result opens its own original-adjective details");
+close.events.click[0]();
+query.value="汚れて";query.events.input[0]();
+assert.equal(get(root,"av-tile").length,1,"inflected-form search narrows to one result");
+assert(get(root,"av-tile")[0].attrs["aria-label"].includes("汚れる"),
+  "search 汚れて displays 汚れる as dictionary form");
+get(root,"av-tile")[0].events.click[0]();
+assert(dialog.open&&get(dialog,"av-example").length===2,
+  "inflected-form result opens its own bilingual examples");
+close.events.click[0]();
 query.value="";query.events.input[0]();
 const themeSelect=walk(root).find(n=>n.tagName==="select"&&n.attrs["aria-label"]==="學習主題");
 assert(themeSelect,"theme selector available");
