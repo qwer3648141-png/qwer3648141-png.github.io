@@ -6,6 +6,8 @@
  */
 (function(){
  const C=window.ENJP_COURSES,L=window.ENJP_LEGACY,V=window.ENJP_CuratedVocab;
+ const advancedThemes=window.ENJP_ADVANCED_THEMES||[];
+ const advancedWords=advancedThemes.flatMap(t=>t.items.map(x=>({...x,themeId:t.id,themeName:t.title})));
  const Forms=window.ENJP_Inflections,Audio=window.ENJP_Audio;
  if(!C?.jp?.N5||!L?.lexical||!L?.vocab||!V?.words||!Forms||!Audio)return;
  const IDS={adjective:"jp-adjective-overview",vocabulary:"jp-vocabulary-overview"};
@@ -60,6 +62,7 @@
  };
  const compare=(a,b)=>normalize(a.reading).localeCompare(normalize(b.reading),"ja")||
    a.word.localeCompare(b.word,"ja");
+ const advancedGroup={personality:"daily",relationships:"daily",emotions:"health",thinking:"society",workstyle:"work",socialnuance:"society"};
  const adjectiveRows=[];
  for(const src of L.lexical.filter(x=>x.kind==="adj")){
    const word=src.type==="na"?src.word.replace(/な$/,""):src.word;
@@ -76,6 +79,10 @@
      topicLabel:theme?.title||"新版形容詞",source:"curated",
      example:src.example,translation:src.translation});
  }
+ for(const w of advancedWords.filter(x=>x.kind==="i"||x.kind==="na"))
+   adjectiveRows.push({id:w.id,word:w.word,reading:w.reading,level:w.level,
+     type:w.kind,meaning:w.zh,topicId:"advanced-"+w.themeId,
+     topicLabel:"🌙 "+w.themeName,source:"advanced",examples:w.examples});
  const adjProblems=[],adjId=new Set(),adjTerm=new Set();
  for(const x of adjectiveRows){
    const key=x.word+"|"+x.reading;
@@ -96,11 +103,11 @@
    }
    cur.records.push(row);
    cur.sourceKinds.add(row.source);
-   if(row.source==="curated"){
+   if(row.source==="curated"||row.source==="advanced"){
      // Curated cards carry an explicitly reviewed learning grade.
      cur.level=row.level;cur.category=row.category;cur.topicLabel=row.topicLabel;
      cur.meaning=row.meaning;cur.kind=row.kind;
-     cur.example={ja:row.example,zh:row.translation,source:"curated",isFull:true};
+     if(row.source==="curated")cur.example={ja:row.example,zh:row.translation,source:"curated",isFull:true};
      cur.reading=row.reading;cur.word=row.word;
    }
  }
@@ -110,6 +117,11 @@
      meaning:w.zh,kind:w.kind,topicLabel:theme?.title||"新版主題",
      category:groupForTopic(theme?.slug),example:w.example,translation:w.translation});
  }
+ for(const w of advancedWords)
+   pushVocab({source:"advanced",id:w.id,word:w.word,reading:w.reading,level:w.level,
+     meaning:w.zh,kind:w.kind,topicLabel:"🌙 "+w.themeName,
+     category:advancedGroup[w.themeId]||"society",examples:w.examples,
+     nuance:w.nuance,tone:w.tone});
  let originalEntries=0;
  for(const [chapter,rows]of Object.entries(L.vocab)){
    for(const [i,w]of rows.entries()){
@@ -161,6 +173,7 @@
  const badge=(parent,label)=>parent.append(make("span","la-badge",label));
  function adjExamples(x){
    if(x.source==="curated")return[{ja:x.example,zh:x.translation,full:true}];
+   if(x.source==="advanced")return x.examples.map(e=>({...e,full:true}));
    // Original material provides phrases, not necessarily full sentences.
    return x.collocations.map((ja,i)=>({ja,zh:x.collocationCn[i]||"",full:false}));
  }
@@ -171,6 +184,10 @@
  }
  function vocabExamples(x){
    const res=[];
+   for(const rec of x.records.filter(r=>r.source==="advanced")){
+     for(const ex of rec.examples||[])if(!res.some(item=>item.ja===ex.ja))
+       res.push({ja:ex.ja,zh:ex.zh,source:"advanced",isFull:true});
+   }
    if(x.example)res.push(x.example);
    // Only show original examples actually containing a headword or one of its
    // explicit Japanese alternatives; avoid unrelated English→Japanese glosses.
@@ -215,17 +232,17 @@
    root.append(make("p","la-note",explain));
  }
  function vocabDetail(root,x){
-   root.append(make("span","la-kicker",x.level==="ungraded"?"原版來源 · 尚未標記 JLPT 等級":x.level+" · 分級主題"));
-   jp(root,x.records.some(r=>r.source==="curated")?annotated(x.word,x.reading):
+   root.append(make("span","la-kicker",x.level==="ungraded"?"原版來源 · 尚未標記 JLPT 等級":x.level+" · 建議程度"));
+   jp(root,x.records.some(r=>r.source==="curated"||r.source==="advanced")?annotated(x.word,x.reading):
       (x.records.find(r=>r.source==="legacy")?.wordRuby||x.word),"la-detail-term");
    root.append(make("p","la-reading",x.reading||"讀音待校"),
      make("p","la-meaning",x.meaning));
    const primary=x.records.find(r=>r.source==="legacy");
-   const sound=x.records.some(r=>r.source==="curated")?annotated(x.word,x.reading):
+   const sound=x.records.some(r=>r.source==="curated"||r.source==="advanced")?annotated(x.word,x.reading):
      (primary?.wordRuby||x.word);
    say(root,sound,"🔊 日文單字");
-   const sources=[...x.sourceKinds].map(s=>s==="curated"?"新版分級詞庫":"原版30章").join("＋");
-   root.append(make("p","la-note","來源："+sources+"；原版的英文字性不等於日文詞性，未校對前不強行分類。"));
+   const sources=[...x.sourceKinds].map(s=>s==="curated"?"新版分級詞庫":s==="advanced"?"進階日語圖鑑":"原版30章").join("＋");
+   root.append(make("p","la-note","來源："+sources+"。原版的英文字性不等於日文詞性，未校對前不強行分類。進階詞的 JLPT 程度屬教學建議。"));
    const legacy=x.records.filter(r=>r.source==="legacy");
    if(legacy.length){
      const english=make("section","la-english");
@@ -244,14 +261,14 @@
    if(!examples.length)root.append(make("p","la-note","此詞原版示例與日文詞頭的對應尚待校對，先不顯示可能錯置的例句。"));
    for(const ex of examples.slice(0,6)){
      const card=make("div","la-example");
-     card.append(make("span","la-example-kicker",ex.source==="curated"?"新版原創例句":"原版 Chapter "+String(ex.chapter).padStart(2,"0")));
+     card.append(make("span","la-example-kicker",ex.source==="curated"?"新版原創例句":ex.source==="advanced"?"進階原創例句":"原版 Chapter "+String(ex.chapter).padStart(2,"0")));
      jp(card,ex.ja,"la-example-ja");
      card.append(make("p","la-translation",ex.zh));
      say(card,ex.ja,"🔊 朗讀");
      root.append(card);
    }
  }
- const sourceLabel=item=>item.sourceKinds?.has("curated")?(item.sourceKinds.size>1?"新版＋原版":"新版分級"):"原版未分級";
+ const sourceLabel=item=>item.sourceKinds?.has("advanced")?"🌙 進階詞彙":item.sourceKinds?.has("curated")?(item.sourceKinds.size>1?"新版＋原版":"新版分級"):"原版未分級";
  function render(host,id){
    const mode=id===IDS.adjective?"adj":id===IDS.vocabulary?"vocab":null;
    if(!mode)return false;
@@ -260,12 +277,12 @@
    root.append(make("span","la-kicker",mode==="adj"?"ADJECTIVE ATLAS · N5–N3":"VOCABULARY ATLAS · ALL SOURCES"),
      make("h2","la-title",mode==="adj"?"✨ 形容詞一覽":"📚 單字總目錄"),
      make("p","la-intro",mode==="adj"?
-       "全部 い形容詞、な形容詞一次集中。先搜尋或按等級、類別、主題和五十音過濾，再點詞查看用法與變化。":
-       "將新版 288 個分級詞彙與原版 920 筆英日詞條一起整理。重複詞條合併顯示；原版尚未分級的單字不會被誤標 N5～N3。"));
+       "N5～N1 的い形容詞、な形容詞集中查找。按程度、類別、主題和五十音過濾，點選才看專屬用法與變化。":
+       "整合新版 288 筆、進階 "+advancedWords.length+" 筆與原版 920 筆英日資料，重複詞條合併；未經判定的原版詞條仍標示未分級。"));
    const stats=make("div","la-stats");
    const statRows=mode==="adj"?
      [["全部形容詞",items.length],...["N5","N4","N3"].map(l=>[l,items.filter(x=>x.level===l).length])]:
-     [["去重詞條",items.length],["新版分級",V.words.length],["原版來源",originalEntries],["合併重複",V.words.length+originalEntries-items.length]];
+     [["去重詞條",items.length],["新版分級",V.words.length],["原版來源",originalEntries],["進階詞彙",advancedWords.length]];
    for(const [name,n]of statRows)stats.append(add(make("div","la-stat"),make("strong","",n),make("span","",name)));
    root.append(stats);
    const selection={query:"",level:"all",type:"all",source:"all",category:"all",topic:"all",kana:"all"};
@@ -285,9 +302,9 @@
      return s;
    }
    selectControl("學習程度",
-     [["all","全部等級"],["N5","N5"],["N4","N4"],["N3","N3"],...(mode==="vocab"?[["ungraded","原版未分級"]]:[])],"level");
+     [["all","全部等級"],["N5","N5"],["N4","N4"],["N3","N3"],["N2","N2"],["N1","N1"],...(mode==="vocab"?[["ungraded","原版未分級"]]:[])],"level");
    if(mode==="adj")selectControl("形容詞類別",[["all","い＋な 全部"],["i","い形容詞"],["na","な形容詞"]],"type");
-   else selectControl("來源",[["all","全部來源"],["curated","新版分級"],["legacy","原版30章"]],"source");
+   else selectControl("來源",[["all","全部來源"],["curated","新版分級"],["advanced","🌙 進階詞彙"],["legacy","原版30章"]],"source");
    const categories=mode==="adj"?
      [...new Map(items.map(x=>[x.topicId,x.topicLabel])).entries()].map(([k,label])=>[k,label]):
      Object.entries(categoryNames).map(([k,v])=>[k,v]);
@@ -348,7 +365,7 @@
        const tile=button("","la-tile");
        tile.setAttribute("aria-label","查看 "+item.word+" 詳情");
        jp(tile,mode==="adj"?annotated(item.word,item.reading):
-         (item.records.some(r=>r.source==="curated")?annotated(item.word,item.reading):
+         (item.records.some(r=>r.source==="curated"||r.source==="advanced")?annotated(item.word,item.reading):
            rubyText(item.records.find(r=>r.source==="legacy")?.wordRuby||"")||item.word),"la-tile-ja");
        tile.append(make("span","la-tile-zh",item.meaning),
          make("small","la-tile-meta",mode==="adj"?
@@ -382,6 +399,7 @@
      curatedAdjectives:V.words.filter(x=>x.kind==="adj").length,
      curatedVocabulary:V.words.length,
      legacyVocabulary:originalEntries,
+     advancedVocabulary:advancedWords.length,
      uniqueVocabulary:vocabularyRows.length
    }
  };
