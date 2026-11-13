@@ -95,6 +95,13 @@
    const nuance=el("section","av-nuance");
    nuance.append(el("strong","","💬 "+TONES[word.tone]+"｜語感與使用提醒"),el("p","",word.nuance));
    root.append(nuance);
+   if(word.kind.startsWith("verb:")&&word.pattern){
+     const usage=el("section","av-nuance av-verb-usage");
+     usage.append(el("strong","","🔗 動詞接續與助詞搭配"),
+       el("p","","自／他動詞："+(word.transitivity||"依用法判斷")),
+       el("p","","常見句型："+word.pattern));
+     root.append(usage);
+   }
    const examples=el("section","av-examples");
    examples.append(el("h3","","📚 "+word.word+" 的兩個專屬例句"));
    for(const [i,ex]of word.examples.entries()){
@@ -161,7 +168,7 @@
    const shell=el("section","av-atlas");
    shell.append(el("span","av-kicker","ENJP OCEAN · ADVANCED VOCABULARY"),
      el("h2","av-title","🌙 進階詞彙圖鑑"),
-     el("p","av-intro","這一批新增 "+words.length+" 個 N3～N1 建議程度詞彙，依性格、溝通、情緒、判斷、處事與社會語感分類。所有例句獨立撰寫，原版進度與語音設定不變。"));
+     el("p","av-intro","目前共有 "+words.length+" 個 N3～N1 建議程度詞彙，分成 "+themes.length+" 個主題，包含個性、情緒、溝通、思考、職場及進階動詞。每字兩句專屬原創例句與中文翻譯，原版進度和語音設定不變。"));
    const stats=el("div","av-stats");
    for(const [l,name]of [["all","全部"],["N3","N3"],["N2","N2"],["N1","N1"]])
      stats.append(add(el("div","av-stat"),el("strong","",filterRows({level:l}).length),el("small","",name)));
