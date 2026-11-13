@@ -44,7 +44,7 @@ assert(A&&L,"both advanced and all-word indices registered");
 assert.equal(A.words.length,52);
 assert.equal(A.themes.length,6);
 assert.deepEqual(Array.from(A.issues),[],"dataset passes internal validation");
-const levels={N3:11,N2:32,N1:9};
+const levels={N3:8,N2:34,N1:10};
 for(const [level,count]of Object.entries(levels))assert.equal(A.filterRows({level}).length,count,level+" count");
 for(const theme of A.themes){
  assert.equal(A.filterRows({theme:theme.id}).length,theme.items.length,"theme count "+theme.id);
