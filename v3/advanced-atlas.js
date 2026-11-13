@@ -185,8 +185,8 @@
    const filters=el("div","av-filters"),selection={level:"all",theme:"all",kind:"all",tone:"all",kana:"all",query:""};
    const searchField=el("label","av-field av-wide");
    const input=el("input");input.type="search";input.autocomplete="off";
-   input.placeholder="漢字、假名、中文、語感…";input.setAttribute("aria-label","搜尋進階日語詞彙");
-   searchField.append(el("span","","搜尋單字與語感"),input);filters.append(searchField);
+   input.placeholder="全站搜尋：汚、汚れて、よごれる…";input.setAttribute("aria-label","搜尋全站日文單字和動詞變化");
+   searchField.append(el("span","","搜尋全站（含原版、動詞、變化形）"),input);filters.append(searchField);
    let page=0;
    function select(label,name,choices){
      const field=el("label","av-field"),s=el("select");
@@ -224,22 +224,37 @@
        if(!dialog.open)dialog.showModal();
      }else dialog.setAttribute("open","");
    };
+   const openGlobal=hit=>{
+     const known=byWord.get(hit.word);
+     if(known&&hit.source==="advanced"){openWord(known);return}
+     window.ENJP_GlobalSearch?.renderDetail(body,hit);
+     if(typeof dialog.showModal==="function"){
+       if(!dialog.open)dialog.showModal();
+     }else dialog.setAttribute("open","");
+   };
    function draw(){
-     const found=filterRows(selection),size=window.matchMedia?.("(max-width:700px)")?.matches?16:32,
-        total=Math.max(1,Math.ceil(found.length/size));
+     const global=window.ENJP_GlobalSearch,
+       searching=Boolean(selection.query.trim()&&global);
+     // A typed query always searches every library; category filters apply only
+     // while browsing, so a hidden N2/N3 selection never produces false zeroes.
+     const found=searching?global.search(selection.query):filterRows(selection),
+       size=window.matchMedia?.("(max-width:700px)")?.matches?16:32,
+       total=Math.max(1,Math.ceil(found.length/size));
      page=Math.min(page,total-1);
-     count.textContent="找到 "+found.length+" 個進階詞彙 · "+(page+1)+"／"+total+" 頁";
+     count.textContent=(searching?"全站搜尋找到 ":"找到 ")+found.length+(searching?" 個相關詞條":" 個進階詞彙")+" · "+(page+1)+"／"+total+" 頁"+(searching?"（搜尋時不受上方篩選限制）":"");
      grid.replaceChildren();pager.replaceChildren();
      for(const word of found.slice(page*size,(page+1)*size)){
        const tile=button("","av-tile");
        tile.setAttribute("aria-label","查看 "+word.word+" 的語感與例句");
        jp(tile,F.annotation(word.word,word.reading),"av-tile-word");
-       tile.append(el("span","av-tile-zh",word.zh),
-         el("small","av-tile-level",word.level+" · "+POS[word.kind]));
-       tile.addEventListener("click",()=>openWord(word));
+       tile.append(el("span","av-tile-zh",searching?word.meaning:word.zh),
+         el("small","av-tile-level",
+           (word.level==="ungraded"?"未分級":word.level)+" · "+
+           (searching?word.sourceLabel:(POS[word.kind]||"進階詞彙"))));
+       tile.addEventListener("click",()=>searching?openGlobal(word):openWord(word));
        grid.append(tile);
      }
-     if(!found.length)grid.append(el("p","av-empty","沒有找到符合條件的詞，請清除部分篩選條件。"));
+     if(!found.length)grid.append(el("p","av-empty",searching?"全站資料庫沒有符合的詞，請改查辭書形、假名或中文意思。":"沒有找到符合條件的詞，請清除部分篩選條件。"));
      const prev=button("← 上一頁","av-page"),next=button("下一頁 →","av-page");
      prev.disabled=page===0;next.disabled=page>=total-1;
      prev.addEventListener("click",()=>{if(page>0){page--;draw()}});
