@@ -10,7 +10,7 @@ const scripts=["v3/course-map.js","v3/data/catalog.js","v3/data/lexical.js",
  "v3/vocab-batch-n5.js","v3/vocab-batch-n4.js","v3/vocab-batch-n3.js",
  "v3/vocab-expansion-n5.js","v3/vocab-expansion-n4.js","v3/vocab-expansion-n3.js",
  "v3/advanced-words-a.js","v3/advanced-words-b.js","v3/advanced-verbs-c.js","v3/advanced-verbs-d.js",
- "v3/advanced-lexicon-e.js","v3/advanced-lexicon-f.js","v3/advanced-cleanliness-words.js","v3/vocab-curated.js",
+ "v3/advanced-lexicon-e.js","v3/advanced-lexicon-f.js","v3/advanced-cleanliness-words.js","v3/vocab-curated.js","v3/verb-atlas.js",
  "v3/advanced-atlas.js","v3/lexical-atlas.js","v3/global-search.js"];
 for(const file of scripts)new vm.Script(read(file),{filename:file});
 function node(tag){
