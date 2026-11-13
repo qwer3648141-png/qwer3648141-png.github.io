@@ -8,7 +8,7 @@ const paths=[
  "v3/course-map.js","v3/data/lexical.js","v3/inflections.js",
  "v3/vocab-batch-n5.js","v3/vocab-batch-n4.js","v3/vocab-batch-n3.js",
  "v3/vocab-expansion-n5.js","v3/vocab-expansion-n4.js","v3/vocab-expansion-n3.js",
- "v3/advanced-words-a.js","v3/advanced-words-b.js","v3/advanced-verbs-c.js","v3/advanced-verbs-d.js",
+ "v3/advanced-words-a.js","v3/advanced-words-b.js","v3/advanced-verbs-c.js","v3/advanced-verbs-d.js","v3/advanced-cleanliness-words.js",
  "v3/vocab-curated.js","v3/verb-atlas.js"
 ];
 for(const path of paths)new vm.Script(read(path),{filename:path});
@@ -41,12 +41,12 @@ const ctx={document:doc,window:{
 }};
 for(const path of paths)vm.runInNewContext(read(path),ctx);
 const a=ctx.window.ENJP_VerbAtlas,C=ctx.window.ENJP_COURSES;
-assert(a,"atlas installed");assert.equal(a.list.length,303);
+assert(a,"atlas installed");assert.equal(a.list.length,305);
 assert.equal(a.sourceCount.old,240);assert.equal(a.sourceCount.new,36);
-assert.equal(a.sourceCount.advanced,27,"3 prior + 24 newly added advanced verbs");
+assert.equal(a.sourceCount.advanced,29,"27 previous + 2 cleanliness verbs");
 assert.deepEqual(Array.from(a.problems),[],"no verb-source mismatch or invalid conjugation");
-assert.equal(new Set(a.list.map(w=>w.word)).size,303,"all 303 headwords unique");
-for(const [level,count] of [["N5",68],["N4",91],["N3",117],["N2",20],["N1",7]]){
+assert.equal(new Set(a.list.map(w=>w.word)).size,305,"all 303 headwords unique");
+for(const [level,count] of [["N5",68],["N4",91],["N3",119],["N2",20],["N1",7]]){
  assert.equal(a.filterRows({level}).length,count,"grade "+level);
  if(["N5","N4","N3"].includes(level))assert(C.jp[level].some(ch=>ch.sections.some(s=>s.id===a.id)),"atlas directly in course "+level);
 }
@@ -115,5 +115,5 @@ assert(!legacy.includes("vf-example-list")&&!legacy.includes("verbExamples[row.k
  "legacy verb card cannot display other verbs' example sentences");
 assert(legacy.includes("item.collocations||[]"),"legacy own collocations preserved");
 assert(read("v3/verb-atlas.css").includes("@media(max-width:700px)"),"responsive compact layout");
-console.log(JSON.stringify({status:"PASS",verbs:a.list.length,legacy:240,curated:36,advanced:27,originalPhrases:480,fullNewExamples:90,
+console.log(JSON.stringify({status:"PASS",verbs:a.list.length,legacy:240,curated:36,advanced:29,originalPhrases:480,fullNewExamples:94,
   mobilePage:16,desktopPage:32,noMismatchedExamples:true,historyUntouched:true}));
