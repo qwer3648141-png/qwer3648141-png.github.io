@@ -10,8 +10,8 @@ const scripts=["v3/course-map.js","v3/data/catalog.js","v3/data/lexical.js",
  "v3/vocab-batch-n5.js","v3/vocab-batch-n4.js","v3/vocab-batch-n3.js",
  "v3/vocab-expansion-n5.js","v3/vocab-expansion-n4.js","v3/vocab-expansion-n3.js",
  "v3/advanced-words-a.js","v3/advanced-words-b.js","v3/advanced-verbs-c.js","v3/advanced-verbs-d.js",
- "v3/advanced-lexicon-e.js","v3/advanced-lexicon-f.js","v3/vocab-curated.js",
- "v3/advanced-atlas.js","v3/lexical-atlas.js"];
+ "v3/advanced-lexicon-e.js","v3/advanced-lexicon-f.js","v3/advanced-cleanliness-words.js","v3/vocab-curated.js",
+ "v3/advanced-atlas.js","v3/lexical-atlas.js","v3/global-search.js"];
 for(const file of scripts)new vm.Script(read(file),{filename:file});
 function node(tag){
  const e={tagName:tag,className:"",children:[],events:{},dataset:{},attrs:{},
@@ -42,10 +42,10 @@ const ctx={window:{ENJP_Audio:Audio,localStorage:storage,matchMedia:()=>({matche
 for(const file of scripts)vm.runInNewContext(read(file),ctx);
 const A=ctx.window.ENJP_AdvancedAtlas,L=ctx.window.ENJP_LexicalAtlas,F=ctx.window.ENJP_Inflections;
 assert(A&&L,"both advanced and all-word indices registered");
-assert.equal(A.words.length,100);
-assert.equal(A.themes.length,14);
+assert.equal(A.words.length,103);
+assert.equal(A.themes.length,15);
 assert.deepEqual(Array.from(A.issues),[],"dataset passes internal validation");
-const levels={N3:8,N2:64,N1:28};
+const levels={N3:11,N2:64,N1:28};
 for(const [level,count]of Object.entries(levels))assert.equal(A.filterRows({level}).length,count,level+" count");
 for(const theme of A.themes){
  assert.equal(A.filterRows({theme:theme.id}).length,theme.items.length,"theme count "+theme.id);
@@ -53,8 +53,8 @@ for(const theme of A.themes){
 }
 assert.equal(A.filterRows({kind:"i"}).length,9);
 assert.equal(A.filterRows({kind:"na"}).length,22);
-assert.equal(A.filterRows({kind:"verb"}).length,27);
-assert.equal(A.filterRows({kind:"noun"}).length,31);
+assert.equal(A.filterRows({kind:"verb"}).length,29);
+assert.equal(A.filterRows({kind:"noun"}).length,32);
 assert.equal(A.filterRows({kind:"adverb"}).length,9);
 assert.equal(A.filterRows({kind:"phrase"}).length,2);
 assert.equal(A.filterRows({query:"せっかち"}).length,1);
@@ -96,10 +96,10 @@ for(const word of added){
    assert(original.includes(word.word),"own headword present in sentence "+word.word);
  }
 }
-assert.equal(sentences,200);
+assert.equal(sentences,206);
 assert.equal(L.adjectiveRows.length,227,"previous 196 + 31 advanced adjectives");
-assert.equal(L.vocabularyRows.length,1167,"old 1067 + 100 new unique entries");
-assert.equal(L.counts.advancedVocabulary,100);
+assert.equal(L.vocabularyRows.length,1170,"old 1067 + 103 new unique entries");
+assert.equal(L.counts.advancedVocabulary,103);
 for(const x of A.words){
  const entry=L.vocabularyRows.find(w=>w.word===x.word&&w.reading===x.reading);
  assert(entry,"word appears in common atlas "+x.word);
@@ -140,9 +140,9 @@ mobile=false;query.events.input[0]();
 assert.equal(get(root,"av-tile").length,32,"desktop shows max 32 words");
 assert.deepEqual(storage.writes,[],"no existing learning records overwritten");
 const html=read("v3/index.html"),app=read("v3/app.js");
-for(const name of ["advanced-words-a.js","advanced-words-b.js","advanced-verbs-c.js","advanced-verbs-d.js","advanced-lexicon-e.js","advanced-lexicon-f.js","advanced-atlas.js","advanced-atlas.css"])
+for(const name of ["advanced-words-a.js","advanced-words-b.js","advanced-verbs-c.js","advanced-verbs-d.js","advanced-lexicon-e.js","advanced-lexicon-f.js","advanced-cleanliness-words.js","global-search.js","advanced-atlas.js","advanced-atlas.css"])
  assert(html.includes(name),"all advanced assets loaded");
-assert(html.indexOf("advanced-lexicon-f.js")<html.indexOf("advanced-atlas.js"),"advanced data loaded before renderer");
+assert(html.indexOf("advanced-cleanliness-words.js")<html.indexOf("advanced-atlas.js"),"advanced data loaded before renderer");
 assert(html.indexOf("advanced-atlas.js")<html.indexOf("lexical-atlas.js"),"specialized and aggregate atlases order");
 assert(html.indexOf("advanced-atlas.js")<html.indexOf("app.js"),"atlas before main app");
 assert(app.includes("ENJP_AdvancedAtlas?.render(root,section.id)"),"reader includes advanced page");
