@@ -62,7 +62,7 @@
  };
  const compare=(a,b)=>normalize(a.reading).localeCompare(normalize(b.reading),"ja")||
    a.word.localeCompare(b.word,"ja");
- const advancedGroup={personality:"daily",relationships:"daily",emotions:"health",thinking:"society",workstyle:"work",socialnuance:"society"};
+ const advancedGroup={personality:"daily",relationships:"daily",emotions:"health",thinking:"society",workstyle:"work",socialnuance:"society","emotion-verbs":"health","relationship-verbs":"daily","work-verbs":"technology","growth-verbs":"work"};
  const adjectiveRows=[];
  for(const src of L.lexical.filter(x=>x.kind==="adj")){
    const word=src.type==="na"?src.word.replace(/な$/,""):src.word;
