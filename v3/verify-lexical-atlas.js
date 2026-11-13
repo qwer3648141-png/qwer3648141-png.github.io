@@ -59,7 +59,7 @@ for(const x of A.adjectiveRows){
  assert(!adjectiveTerms.has(id),"adjectives unique by Japanese and reading "+id);
  adjectiveTerms.add(id);
  assert(["i","na"].includes(x.type),"adj grammar subtype");
- assert(["N5","N4","N3"].includes(x.level),"published adjective level");
+ assert(["N5","N4","N3","N2","N1"].includes(x.level),"published adjective learning level");
  assert.equal(W.ENJP_Inflections.adjectiveForms(x.original||{word:x.word,reading:x.reading,type:x.type})?.length,
   x.type==="i"?5:6,"five or six conjugations "+x.word);
  const rows=A.adjExamples(x);
