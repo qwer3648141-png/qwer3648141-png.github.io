@@ -142,14 +142,18 @@
  const filterRows=(opts={})=>{
    const {level="all",theme="all",kind="all",tone="all",kana="all",query=""}=opts,
      q=norm(query.trim());
+   // Exact Japanese headword / kana reading takes priority over
+   // fuzzy meanings and related-word matches, so direct lookup shows only itself.
+   const exact=q?words.filter(w=>norm(w.word)===q||norm(w.reading)===q):[];
    return words.filter(w=>
      (level==="all"||w.level===level)&&
      (theme==="all"||w.themeId===theme)&&
      (kind==="all"||w.kind===kind||(kind==="verb"&&w.kind.startsWith("verb:")))&&
      (tone==="all"||w.tone===tone)&&
      (kana==="all"||firstGroup(w.reading)===kana)&&
-     (!q||[w.word,w.reading,w.zh,w.nuance,w.themeName,...w.related]
-        .some(text=>norm(text).includes(q)))
+     (!q||(exact.length?exact.includes(w):
+        [w.word,w.reading,w.zh,w.nuance,w.themeName,...w.related]
+          .some(text=>norm(text).includes(q))))
    );
  };
  function render(host,id){
