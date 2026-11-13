@@ -10,7 +10,7 @@ const scripts=["v3/course-map.js","v3/data/catalog.js","v3/data/lexical.js",
  "v3/vocab-batch-n5.js","v3/vocab-batch-n4.js","v3/vocab-batch-n3.js",
  "v3/vocab-expansion-n5.js","v3/vocab-expansion-n4.js","v3/vocab-expansion-n3.js",
  "v3/advanced-words-a.js","v3/advanced-words-b.js","v3/advanced-verbs-c.js","v3/advanced-verbs-d.js",
- "v3/advanced-lexicon-e.js","v3/advanced-lexicon-f.js","v3/advanced-cleanliness-words.js","v3/vocab-curated.js","v3/verb-atlas.js",
+ "v3/advanced-lexicon-e.js","v3/advanced-lexicon-f.js","v3/advanced-cleanliness-words.js","v3/advanced-lexicon-g.js","v3/advanced-lexicon-h.js","v3/vocab-curated.js","v3/verb-atlas.js",
  "v3/advanced-atlas.js","v3/lexical-atlas.js","v3/global-search.js"];
 for(const file of scripts)new vm.Script(read(file),{filename:file});
 function node(tag){
@@ -51,20 +51,20 @@ assert.equal(Global.search("よごれて")[0]?.word,"汚れる","kana て form r
 assert.equal(Global.search("汚して")[0]?.word,"汚す","transitive て form resolves separately");
 assert(Global.search("きたない").some(x=>x.word==="汚い"),"original N5 adjective searched by kana");
 assert(Global.search("取り除く").some(x=>x.word==="取り除く"),"original verb included");
-assert.equal(A.words.length,103);
-assert.equal(A.themes.length,15);
+assert.equal(A.words.length,139);
+assert.equal(A.themes.length,21);
 assert.deepEqual(Array.from(A.issues),[],"dataset passes internal validation");
-const levels={N3:11,N2:64,N1:28};
+const levels={N3:12,N2:91,N1:36};
 for(const [level,count]of Object.entries(levels))assert.equal(A.filterRows({level}).length,count,level+" count");
 for(const theme of A.themes){
  assert.equal(A.filterRows({theme:theme.id}).length,theme.items.length,"theme count "+theme.id);
  assert(theme.title&&theme.description,"theme presentation");
 }
-assert.equal(A.filterRows({kind:"i"}).length,9);
-assert.equal(A.filterRows({kind:"na"}).length,22);
+assert.equal(A.filterRows({kind:"i"}).length,11);
+assert.equal(A.filterRows({kind:"na"}).length,26);
 assert.equal(A.filterRows({kind:"verb"}).length,29);
-assert.equal(A.filterRows({kind:"noun"}).length,32);
-assert.equal(A.filterRows({kind:"adverb"}).length,9);
+assert.equal(A.filterRows({kind:"noun"}).length,56);
+assert.equal(A.filterRows({kind:"adverb"}).length,15);
 assert.equal(A.filterRows({kind:"phrase"}).length,2);
 assert.equal(A.filterRows({query:"せっかち"}).length,1);
 assert(A.filterRows({query:"性急"}).some(x=>x.word==="せっかち"),"Chinese lookup finds correct word");
@@ -96,19 +96,26 @@ for(const x of A.words){
 // Each new advanced noun/adverb must keep both of its original examples
 // attached to the actual Japanese headword, not another vocabulary card.
 const added=A.words.filter(x=>x.id.startsWith("advlex-"));
-assert.equal(added.length,24,"24 new non-duplicated advanced nouns and adverbs");
+assert.equal(added.length,60,"24 prior + 36 new nonduplicated advanced words");
 for(const word of added){
- assert(["noun","adverb"].includes(word.kind),"new vocabulary is not reclassified as a verb");
+ assert(["noun","adverb","i","na"].includes(word.kind),"new vocabulary is typed correctly");
  assert(word.pattern&&word.nuance&&word.zh,"meaning and real-world collocation "+word.word);
  for(const example of word.examples){
    const original=example.ja.replace(/（[ぁ-ゖー]+）/g,"");
    assert(original.includes(word.word),"own headword present in sentence "+word.word);
  }
 }
-assert.equal(sentences,206);
-assert.equal(L.adjectiveRows.length,227,"previous 196 + 31 advanced adjectives");
-assert.equal(L.vocabularyRows.length,1170,"old 1067 + 103 new unique entries");
-assert.equal(L.counts.advancedVocabulary,103);
+const currentBatch=A.words.filter(w=>/^advlex-(emotion-precision|conversation-nuance|engineering-judgment|planning-and-decisions|speech-adverbs|expressive-descriptions)-/.test(w.id));
+assert.equal(currentBatch.length,36,"36 unique newly added 5.0 advanced words");
+assert.equal(currentBatch.reduce((n,w)=>n+w.examples.length,0),72,"72 new dedicated bilingual examples");
+for(const w of currentBatch){
+ assert(A.filterRows({query:w.word}).some(result=>result.id===w.id),"headword searchable in advanced atlas "+w.word);
+ assert(w.pattern&&w.nuance,"real usage and nuance "+w.word);
+}
+assert.equal(sentences,278);
+assert.equal(L.adjectiveRows.length,233,"227 prior adjectives + six new advanced adjectives");
+assert.equal(L.vocabularyRows.length,1206,"old 1067 + 139 unique advanced entries");
+assert.equal(L.counts.advancedVocabulary,139);
 for(const x of A.words){
  const entry=L.vocabularyRows.find(w=>w.word===x.word&&w.reading===x.reading);
  assert(entry,"word appears in common atlas "+x.word);
@@ -166,9 +173,9 @@ mobile=false;query.events.input[0]();
 assert.equal(get(root,"av-tile").length,32,"desktop shows max 32 words");
 assert.deepEqual(storage.writes,[],"no existing learning records overwritten");
 const html=read("v3/index.html"),app=read("v3/app.js");
-for(const name of ["advanced-words-a.js","advanced-words-b.js","advanced-verbs-c.js","advanced-verbs-d.js","advanced-lexicon-e.js","advanced-lexicon-f.js","advanced-cleanliness-words.js","global-search.js","advanced-atlas.js","advanced-atlas.css"])
+for(const name of ["advanced-words-a.js","advanced-words-b.js","advanced-verbs-c.js","advanced-verbs-d.js","advanced-lexicon-e.js","advanced-lexicon-f.js","advanced-cleanliness-words.js","advanced-lexicon-g.js","advanced-lexicon-h.js","global-search.js","advanced-atlas.js","advanced-atlas.css"])
  assert(html.includes(name),"all advanced assets loaded");
-assert(html.indexOf("advanced-cleanliness-words.js")<html.indexOf("advanced-atlas.js"),"advanced data loaded before renderer");
+assert(html.indexOf("advanced-lexicon-h.js")<html.indexOf("advanced-atlas.js"),"advanced data loaded before renderer");
 assert(html.indexOf("advanced-atlas.js")<html.indexOf("lexical-atlas.js"),"specialized and aggregate atlases order");
 assert(html.indexOf("advanced-atlas.js")<html.indexOf("app.js"),"atlas before main app");
 assert(app.includes("ENJP_AdvancedAtlas?.render(root,section.id)"),"reader includes advanced page");
