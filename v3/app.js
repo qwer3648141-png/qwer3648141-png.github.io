@@ -72,13 +72,14 @@
         const specialConnection=Boolean(window.ENJP_ConnectionLesson?.has(section.id));
         const specialAtlas=Boolean(window.ENJP_VerbAtlas?.has(section.id));
         const specialLexical=Boolean(window.ENJP_LexicalAtlas?.has(section.id));
+        const specialAdvanced=Boolean(window.ENJP_AdvancedAtlas?.has(section.id));
         const curated=window.ENJP_CuratedVocab?.sections?.[section.id];
-        const special=specialGiving||specialParticle||specialContrast||specialCompletion||specialFoundation||specialConnection||specialAtlas||specialLexical;
+        const special=specialGiving||specialParticle||specialContrast||specialCompletion||specialFoundation||specialConnection||specialAtlas||specialLexical||specialAdvanced;
         const available=Boolean(database.lesson[section.id]||imported||special||curated);
         const b=el("button","section");
         b.type="button";b.dataset.section=section.id;
         b.setAttribute("aria-current",String(state.sectionId===section.id));
-        append(b,el("span","section-name",section.title),el("span","section-tag"+(available?" ready":""),curated?"主題 · "+curated.words.length:specialAtlas?"動詞總表":specialLexical?"快速總表":specialFoundation||specialCompletion||specialConnection?"完整教材":special?"新專題":imported?"教材庫 · "+imported.items.length:available?"試學":"規劃中"));
+        append(b,el("span","section-name",section.title),el("span","section-tag"+(available?" ready":""),curated?"主題 · "+curated.words.length:specialAtlas?"動詞總表":specialAdvanced?"進階字庫":specialLexical?"快速總表":specialFoundation||specialCompletion||specialConnection?"完整教材":special?"新專題":imported?"教材庫 · "+imported.items.length:available?"試學":"規劃中"));
         b.addEventListener("click",()=>{
           Audio.stop();state.sectionId=section.id;
           document.querySelectorAll(".section").forEach(item=>item.setAttribute("aria-current",String(item===b)));
@@ -114,7 +115,8 @@
       window.ENJP_Foundation?.has(s.id)||
       window.ENJP_ConnectionLesson?.has(s.id)||
       window.ENJP_VerbAtlas?.has(s.id)||
-      window.ENJP_LexicalAtlas?.has(s.id)).length;
+      window.ENJP_LexicalAtlas?.has(s.id)||
+      window.ENJP_AdvancedAtlas?.has(s.id)).length;
     root.append(renderHeader("從左側挑選章節開始",state.mode==="vocab"?"完整情境詞彙已移到獨立單字區；先選日本語、English 或 EN × JP，再選 30 個章節。":"右邊是固定的教材閱讀區。切換章節或縮放電腦畫面時，不會把教材推到整頁最下方。",[modeTitles[state.mode],"學習總覽"]));
     const stats=el("div","info-grid");
     for(const [value,label] of [[chapters.length,"課程章節"],[all.length,"主題入口"],[ready,"已接入教材主題"]]){
@@ -125,6 +127,7 @@
     const allIds=Object.keys(migrated);
     let shortcuts=[];
     if(state.mode==="jp"){
+      if(state.level==="N3"&&window.ENJP_AdvancedAtlas)shortcuts.push(["🌙 N3～N1 進階語彙圖鑑","jp-advanced-vocab-overview","52 個詞：性格、情緒、溝通、思考與語感比較"]);
       if(window.ENJP_LexicalAtlas)shortcuts.push(["✨ 全 N5～N3 形容詞一覽","jp-adjective-overview","196 個形容詞｜い／な、級別、主題與變化查詢"]);
       if(window.ENJP_VerbAtlas)shortcuts.push(["📖 全 N5～N3 動詞一覽","jp-verb-overview","276 個動詞集中搜尋、按類別篩選、不用逐張往下滑"]);
       if(window.ENJP_ConnectionLesson){
@@ -173,7 +176,8 @@
       window.ENJP_Foundation?.has(id)||
       window.ENJP_ConnectionLesson?.has(id)||
       window.ENJP_VerbAtlas?.has(id)||
-      window.ENJP_LexicalAtlas?.has(id)));
+      window.ENJP_LexicalAtlas?.has(id)||
+      window.ENJP_AdvancedAtlas?.has(id)));
     if(shortcuts.length){
       const quick=el("section","course-quick-start");
       quick.append(el("h3","","⚡ 快速進入正式教材"));
@@ -396,6 +400,7 @@
     const lesson=database.lesson[section.id];
     const imported=window.ENJP_MIGRATED?.sections?.[section.id];
     root.append(renderHeader(section.title,chapter.summary,[state.mode==="jp"?jpLabels[state.level]:state.mode==="vocab"?(state.vocabLang==="jlpt"?"主題單字 · "+state.vocabLevel:"原版情境單字 · "+({jp:"日文",en:"英文",dual:"英日配對"}[state.vocabLang])):modeTitles[state.mode],chapter.title,section.title]));
+    if(window.ENJP_AdvancedAtlas?.render(root,section.id))return;
     if(window.ENJP_LexicalAtlas?.render(root,section.id))return;
     if(window.ENJP_VerbAtlas?.render(root,section.id))return;
     if(window.ENJP_CuratedVocab?.render(root,section.id))return;
@@ -471,6 +476,7 @@
       const atlas=Boolean(window.ENJP_VerbAtlas?.has(lessonId));
       const adjective=lessonId===window.ENJP_LexicalAtlas?.IDS?.adjective;
       const vocabulary=lessonId===window.ENJP_LexicalAtlas?.IDS?.vocabulary;
+      const advanced=Boolean(window.ENJP_AdvancedAtlas?.has(lessonId));
       const vocab=lessonId.startsWith("legacy-vocab-")&&Boolean(window.ENJP_MIGRATED?.sections?.[lessonId]);
       const curated=window.ENJP_CuratedVocab?.sections?.[lessonId];
       const particle=lessonId.startsWith("jp-particle-")&&window.ENJP_Particles;
@@ -479,6 +485,9 @@
         updateModeButtons();goToSection(lessonId);
       }else if(vocab){
         state.mode="vocab";state.vocabLang=lessonId.split("-")[2]||"jp";
+        updateModeButtons();goToSection(lessonId);
+      }else if(advanced){
+        state.mode="jp";state.level="N3";
         updateModeButtons();goToSection(lessonId);
       }else if(vocabulary){
         state.mode="vocab";state.vocabLang="jlpt";state.vocabLevel="N5";
@@ -506,11 +515,12 @@
         const id=link.getAttribute("href")?.slice(1);
         const kind=id==="jp-verb-overview"?"verb":
           id==="jp-adjective-overview"?"adj":
-          id==="jp-vocabulary-overview"?"vocab":null;
+          id==="jp-vocabulary-overview"?"vocab":
+          id==="jp-advanced-vocab-overview"?"advanced":null;
         if(!kind)return;
         event.preventDefault();
         if(kind==="vocab"){state.mode="vocab";state.vocabLang="jlpt";state.vocabLevel="N5"}
-        else{state.mode="jp";state.level="N5"}
+        else{state.mode="jp";state.level=kind==="advanced"?"N3":"N5"}
         updateModeButtons();goToSection(id);
         if(window.location&&window.location.hash!=="#"+id)window.location.hash=id;
       });
