@@ -88,7 +88,8 @@
    return list.filter(x=>(level==="all"||x.level===level)&&
      (type==="all"||x.type===type||(type==="third"&&["suru","kuru"].includes(x.type)))&&
      (kana==="all"||kanaGroup(x.reading)===kana)&&
-     (!q||[x.word,x.reading,x.meaning,x.level,...ownExamples(x).map(y=>y.zh)]
+     (!q||[x.word,x.reading,x.meaning,x.level,...ownExamples(x).map(y=>y.zh),
+       ...(Inf.verbForms(x)||[]).flatMap(form=>[form.word,form.reading])]
        .some(s=>normalize(s).includes(q))));
  }
  function detail(root,verb){
