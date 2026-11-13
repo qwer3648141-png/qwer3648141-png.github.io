@@ -55,6 +55,11 @@ assert(a.filterRows({query:"よむ"}).some(x=>x.word==="読む"),"kana search");
 assert(a.filterRows({query:"よむ",level:"N3"}).length===0,"grade filter combines with search");
 assert(a.filterRows({query:"読む"}).some(x=>x.word==="読む"),"kanji search");
 assert(a.filterRows({query:"閱讀"}).some(x=>x.word==="読む"),"Chinese search");
+assert(a.filterRows({query:"汚れて"}).some(x=>x.word==="汚れる"),"conjugation 汚れて returns dictionary form 汚れる");
+assert(a.filterRows({query:"よごれて"}).some(x=>x.word==="汚れる"),"kana conjugation recognized");
+assert(a.filterRows({query:"汚して"}).some(x=>x.word==="汚す"),"transitive form 汚して points to 汚す");
+assert(a.filterRows({query:"汚"}).some(x=>x.word==="汚れる"),"single kanji prefix search");
+
 assert(a.filterRows({kana:"あ"}).every(v=>a.kanaGroup(v.reading)==="あ"),"gojuon initial filter");
 for(const entry of a.list){
  const forms=ctx.window.ENJP_Inflections.verbForms(entry);
