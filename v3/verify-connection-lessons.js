@@ -7,7 +7,7 @@ const read=p=>fs.readFileSync(p,"utf8");
 const paths=[
  "v3/course-map.js","v3/connection-n5-data.js","v3/connection-n4-data-a.js",
  "v3/connection-n4-data-b.js","v3/connection-n3-data.js",
- "v3/connection-lessons.js","v3/app.js"
+ "v3/adjective-adverb-lessons-data.js","v3/connection-lessons.js","v3/app.js"
 ];
 paths.forEach(p=>new vm.Script(read(p),{filename:p}));
 function makeNode(tag){
@@ -42,13 +42,13 @@ const mock={
  }},
  document:doc,localStorage:storage
 };
-for(const path of paths.slice(0,6))vm.runInNewContext(read(path),mock);
+for(const path of paths.slice(0,-1))vm.runInNewContext(read(path),mock);
 const data=mock.window.ENJP_CONNECTION_LESSONS,
  engine=mock.window.ENJP_ConnectionLesson,
  course=mock.window.ENJP_COURSES;
-assert(engine&&data.length===13,"13 lessons registered");
+assert(engine&&data.length===16,"13 original lessons + three new adjective/adverb lessons");
 assert.equal(engine.storageKey,"enjpSentenceConnectorQuizV1");
-for(const [level,count]of [["N5",4],["N4",7],["N3",2]]){
+for(const [level,count]of [["N5",5],["N4",9],["N3",2]]){
  assert.equal(data.filter(x=>x.level===level).length,count,level+" count");
  const chapters=course.jp[level].filter(x=>x.id==="sentence-connectors-"+level.toLowerCase());
  assert.equal(chapters.length,1,level+" chapter appended once");
@@ -70,21 +70,21 @@ for(const lesson of data){
    if(row.formula==="不能直接接續")assert(row.note.length>10,"explain inapplicability");
  }
  assert(lesson.changes.length>=3,"separate inflection comparison");
- assert.equal(lesson.examples.length,6,"six distinct examples per lesson");
+ assert(lesson.examples.length>=6,"at least six distinct examples per lesson");
  for(const x of lesson.examples){
    assert(x.focus&&x.ja&&x.zh,"meaningful original scenario");
    assert(japaneseSafe(x.ja),"every kanji has kana annotation: "+x.ja);
    assert(!seenExamples.has(x.ja),"no repeated example "+x.ja);seenExamples.add(x.ja);
    examples++;
  }
- assert.equal(lesson.comparison.rows.length,2,"two contrasting sentences");
+ assert(lesson.comparison.rows.length>=2,"multiple contrasting sentences");
  for(const x of lesson.comparison.rows){
    assert(x.kind&&x.note&&x.zh,"contextual comparison");
    assert(japaneseSafe(x.ja),"ruby-safe contrasting sentence");
    comparisons++;
  }
  assert(lesson.notes.length>=2,"at least two caveats");
- assert.equal(lesson.quiz.length,4,"four exercises");
+ assert(lesson.quiz.length>=4,"at least four exercises");
  for(const q of lesson.quiz){
    assert(q.question&&q.why&&q.why.length>=4,"quiz question and why");
    assert(q.options.length>=3&&q.options.includes(q.answer),"answer among choices");
@@ -96,10 +96,34 @@ for(const lesson of data){
  for(const piece of lesson.builder.parts)assert(japaneseSafe(piece),"ruby in assembly");
  builders++;
 }
-assert.equal(examples,78);
-assert.equal(comparisons,26);
-assert.equal(quizTotal,52);
-assert.equal(builders,13);
+assert.equal(examples,132,"78 original and 54 new bilingual sentences");
+assert.equal(comparisons,38,"26 original and 12 new contrast sentences");
+assert.equal(quizTotal,76,"52 original and 24 new grammar practice questions");
+assert.equal(builders,16);
+const extraLessons=["jp-link-n5-adverb-action","jp-link-n4-easy-hard","jp-link-n4-adjective-change"];
+for(const id of extraLessons){
+ const lesson=data.find(x=>x.id===id);
+ assert(lesson&&lesson.examples.length===18&&lesson.quiz.length===8,
+   "new grammar lesson has 18 original examples and 8 exercises "+id);
+ assert(lesson.comparison.rows.length===4&&lesson.changes.length>=5,
+   "contrasts and adjective form tables "+id);
+ const dest=makeNode("article");
+ assert(engine.render(dest,id),"grammar course renders on mobile-like DOM "+id);
+ assert(flatten(dest).filter(x=>x.className==="sc-example").length===18,
+   "all 18 example cards available in expanded detail "+id);
+ assert(flatten(dest).filter(x=>x.className==="sc-speak").length>=22,
+   "all example and comparison audio controls available "+id);
+}
+const adverbLesson=data.find(x=>x.id==="jp-link-n5-adverb-action");
+assert(adverbLesson.examples.some(x=>x.ja.includes("静（しず）かに食（た）べます")),"user requested 静かに食べる");
+assert(adverbLesson.examples.some(x=>x.ja.includes("早（はや）く起（お）きます")),"i-adjective adverbization");
+const easeLesson=data.find(x=>x.id==="jp-link-n4-easy-hard");
+assert(easeLesson.examples.some(x=>x.ja.includes("緊張（きんちょう）しやすい")),"user requested 緊張しやすい");
+assert(easeLesson.notes.some(s=>s.includes("安く緊張")),"reject incorrect 安く緊張");
+const becoming=data.find(x=>x.id==="jp-link-n4-adjective-change");
+assert(becoming.examples.some(x=>x.ja.includes("緊張（きんちょう）しやすくなりました")),"compound i-adjective inflection");
+assert(becoming.examples.some(x=>x.ja.includes("緊張（きんちょう）しにくくなりました")),"opposite ease inflection");
+
 const parent=makeNode("div");
 assert(engine.render(parent,"jp-link-n4-shi"),"render N4 list-reason lesson");
 assert(!engine.render(makeNode("div"),"does-not-exist"),"do not claim unknown content");
@@ -128,10 +152,10 @@ assert(check&&!check.disabled,"complete assembly enables checking");
 check.events.click[0]();
 assert.equal(JSON.parse(storage.data[engine.storageKey]).assembly["jp-link-n4-shi"],true,"completed builder stored");
 const html=read("v3/index.html"),app=read("v3/app.js");
-for(const file of ["connection-n5-data.js","connection-n4-data-a.js","connection-n4-data-b.js","connection-n3-data.js","connection-lessons.js","connection-lessons.css"]){
+for(const file of ["connection-n5-data.js","connection-n4-data-a.js","connection-n4-data-b.js","connection-n3-data.js","adjective-adverb-lessons-data.js","connection-lessons.js","connection-lessons.css"]){
  assert(html.includes(file),"html asset loaded "+file);
 }
-assert(html.indexOf("connection-n3-data.js")<html.indexOf("connection-lessons.js"),"all data before reader");
+assert(html.indexOf("adjective-adverb-lessons-data.js")<html.indexOf("connection-lessons.js"),"all data before reader");
 assert(html.indexOf("connection-lessons.js")<html.indexOf("app.js"),"module before app");
 assert(app.includes("ENJP_ConnectionLesson?.has(section.id)"),"full status in menu");
 assert(app.includes("ENJP_ConnectionLesson?.render(root,section.id)"),"actual reader connection");
@@ -139,7 +163,7 @@ assert(app.includes("ENJP_ConnectionLesson?.get(lessonId)"),"deep link grade det
 vm.runInNewContext(read("v3/app.js"),mock);
 const nav=mock.window.ENJP_3;
 assert(nav&&typeof nav.listChapters==="function","app navigation available");
-for(const [level,id] of [["N5","jp-link-n5-adj"],["N4","jp-link-n4-shi"],["N3","jp-link-n3-ueni"]]){
+for(const [level,id] of [["N5","jp-link-n5-adj"],["N4","jp-link-n4-shi"],["N3","jp-link-n3-ueni"],["N5","jp-link-n5-adverb-action"],["N4","jp-link-n4-easy-hard"],["N4","jp-link-n4-adjective-change"]]){
  nav.state.mode="jp";nav.state.level=level;nav.state.sectionId=id;
  assert(nav.lookupSection(id),"right grade has direct course "+id);
  assert(nav.listChapters().some(ch=>ch.sections.some(s=>s.id===id)),"visible in course sidebar");
@@ -156,4 +180,4 @@ assert(alternate.window.ENJP_ConnectionLesson.render(art,"jp-link-n5-adj"),"corr
 const bad=flatten(art).find(x=>x.className==="sc-answer");
 bad.events.click[0]();
 assert.deepEqual(corrupt,[],"damaged user data not overwritten");
-console.log(JSON.stringify({status:"PASS",lessons:data.length,n5:4,n4:7,n3:2,examples,comparisons,quizTotal,builders,isolatedStorage:true,htmlAndNavigation:true}));
+console.log(JSON.stringify({status:"PASS",lessons:data.length,n5:5,n4:9,n3:2,examples,comparisons,quizTotal,builders,isolatedStorage:true,htmlAndNavigation:true}));
