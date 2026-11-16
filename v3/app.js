@@ -127,8 +127,14 @@
     const allIds=Object.keys(migrated);
     let shortcuts=[];
     if(state.mode==="jp"){
+      if(window.ENJP_ConnectionLesson&&state.level==="N5")
+        shortcuts.push(["🎯 形容詞變副詞｜に・く","jp-link-n5-adverb-action","静かに食べる／早く起きる，18 例句＋8 題練習"]);
+      if(window.ENJP_ConnectionLesson&&state.level==="N4"){
+        shortcuts.push(["🧠 容易／難以｜〜やすい・にくい","jp-link-n4-easy-hard","緊張しやすい／話しにくい，18 例句＋8 題練習"]);
+        shortcuts.push(["🔄 變得／讓它變得｜なる・する","jp-link-n4-adjective-change","緊張しやすくなった，18 例句＋8 題練習"]);
+      }
       if(state.level==="N3"&&window.ENJP_AdvancedAtlas)shortcuts.push(["🌙 N3～N1 進階語彙圖鑑","jp-advanced-vocab-overview",window.ENJP_AdvancedAtlas.words.length+" 個詞｜性格、情緒、進階動詞與語感比較"]);
-      if(window.ENJP_LexicalAtlas)shortcuts.push(["✨ 全 N5～N3 形容詞一覽","jp-adjective-overview","196 個形容詞｜い／な、級別、主題與變化查詢"]);
+      if(window.ENJP_LexicalAtlas)shortcuts.push(["✨ 全 N5～N1 形容詞一覽","jp-adjective-overview",window.ENJP_LexicalAtlas.adjectiveRows.length+" 個形容詞｜い／な、級別、主題與變化查詢"]);
       if(window.ENJP_VerbAtlas)shortcuts.push(["📖 全 N5～N1 動詞一覽","jp-verb-overview",window.ENJP_VerbAtlas.list.length+" 個動詞｜按等級和類別篩選，不必逐張滑動"]);
       if(window.ENJP_ConnectionLesson){
         const linkId=state.level==="N5"?"jp-link-n5-adj":state.level==="N4"?"jp-link-n4-shi":"jp-link-n3-dakenaku";
