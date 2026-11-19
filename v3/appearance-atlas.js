@@ -31,7 +31,7 @@
    sections:[{id:ID,title:"👤 身材、肌肉、姿勢與穿搭用語"}]});
  V.chapters.N3.unshift({id:"appearance-vocab-index",title:"👤 人物外觀圖鑑｜身高・身材",
    summary:raw.length+" 大分類・"+words.length+" 個單字・兩句專屬例句・語感與抽考",
-   sections:[{id:ID,title:"👤 身高・胖瘦・身體比例・健身用語"}]});
+   sections:[{id:ID,title:"👤 身高・胖瘦・身體比例・健身用語"}},...raw.map((t,i)=>({id:"jp-appearance-"+t.id,title:"12.":"+(i+1)+"｜"+t.title}))]});
  let writable=true,wrong=new Set(),message="";
  try{
    const s=window.localStorage?.getItem(KEY);
@@ -72,7 +72,8 @@
    return a;
  };
  function render(host,id){
-   if(id!==ID)return false;
+   const selectedTopic=raw.find(x=>id==="jp-appearance-"+x.id)||null;
+    if(id!==ID&&!selectedTopic)return false;
    const root=el("section","ap-atlas");
    root.append(el("span","ap-eyebrow","ENJP OCEAN · PEOPLE & APPEARANCE"),
      el("h2","ap-title","👤 人物外觀圖鑑｜身高・體型・身材"),
@@ -85,11 +86,12 @@
    const filters=el("div","ap-filters"),searchField=el("label","ap-field ap-search-field");
    const search=el("input");search.type="search";search.placeholder="搜尋 ちび、スリム、グラマー、苗條、slender…";search.setAttribute("aria-label","搜尋人物外觀日文單字");
    searchField.append(el("span","","搜尋日／中文／英文"),search);filters.append(searchField);
-   const opts={query:"",category:"all",level:"all",tone:"all"};
+   const opts={query:"",category:selectedTopic?.id||"all",level:"all",tone:"all"};
    function select(label,key,choices){
      const field=el("label","ap-field"),s=el("select");s.setAttribute("aria-label",label);
      for(const [val,text]of choices){const option=el("option","",text);option.value=val;s.append(option)}
-     field.append(el("span","",label),s);filters.append(field);
+     s.value=opts[key]||"all";
+      field.append(el("span","",label),s);filters.append(field);
      s.addEventListener("change",()=>{opts[key]=s.value;page=0;draw()});
    }
    select("主題分類","category",[["all","全部分類"],...raw.map(x=>[x.id,x.title])]);
@@ -203,6 +205,6 @@
    review.addEventListener("click",()=>showQuiz(words.filter(w=>wrong.has(w.id)),true));
    draw();host.append(root);return true;
  }
- window.ENJP_AppearanceAtlas={id:ID,has:id=>id===ID,render,words,themes:raw,tones:TONES,matching,issues,
+ window.ENJP_AppearanceAtlas={id:ID,has:id=>id===ID||raw.some(x=>id==="jp-appearance-"+x.id),render,words,themes:raw,tones:TONES,matching,issues,
    progressKey:KEY,wrongWords:()=>words.filter(w=>wrong.has(w.id))};
 })();
