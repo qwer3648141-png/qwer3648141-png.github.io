@@ -40,3 +40,4 @@ jobs:
       - run: node v3/verify-inference-grammar.js
       - run: node v3/verify-appearance-atlas.js
       - run: node v3/verify-weather-atlas.js
+      - run: node v3/verify-voice-grammar.js
