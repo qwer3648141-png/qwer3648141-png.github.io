@@ -105,8 +105,8 @@
      if(socialLegacy.has(n))return "14";
      return "15";
    }
-   if(id==="jp-weather-atlas")return "13";
-   if(id==="jp-appearance-atlas")return "12";
+   if(id.startsWith("jp-weather-"))return "13";
+   if(id.startsWith("jp-appearance-"))return "12";
    if(id==="jp-advanced-vocab-overview"||id==="jp-vocabulary-overview")return "15";
    if(id.startsWith("curated-vocab-")){
      if(/天氣|自然|季節|環境|健康|氣象|防災|weather|nature|health/.test(t+" "+origin))return "13";
