@@ -53,7 +53,8 @@
  };
  const byMode={jp:[],en:[],dual:[]},byKey=new Map();
  const has=id=>Boolean(C.lesson?.[id]||M[id]||V.sections?.[id]||
-   window.ENJP_GivingReceiving?.has?.(id)||window.ENJP_Particles?.has?.(id)||
+   (id.startsWith("jp-n4-giving-")&&window.ENJP_GivingReceiving)||
+   (id.startsWith("jp-particle-")&&window.ENJP_Particles)||
    (id.startsWith("jp-contrast-")&&window.ENJP_ContrastGrammar)||
    window.ENJP_N4N3_Complete?.has?.(id)||window.ENJP_Foundation?.has?.(id)||
    window.ENJP_ConnectionLesson?.has?.(id)||window.ENJP_VerbAtlas?.has?.(id)||
