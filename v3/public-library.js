@@ -260,6 +260,7 @@
    for(const v of ["全部難度","N5","N4","N3"]){
      const opt=el("option","",v);opt.value=v;level.append(opt);
    }
+   level.value="全部難度";
    options.append(el("label","", "篩選程度"),level);host.append(options);
    const list=el("div","pl-lesson-list"),count=el("p","pl-count");
    const draw=()=>{
