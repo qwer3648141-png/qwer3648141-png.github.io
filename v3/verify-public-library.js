@@ -17,6 +17,8 @@ function node(tag){
  e.addEventListener=(name,fn)=>{(e.events[name]||(e.events[name]=[])).push(fn)};
  e.setAttribute=(k,v)=>{e.attrs[k]=String(v)};
  e.getAttribute=k=>e.attrs[k]||null;
+ Object.defineProperty(e,"childNodes",{get(){return this.children}});
+ e.querySelector=selector=>walk(e).find(x=>selector===".placeholder"&&x.className==="placeholder")||null;
  return e;
 }
 const walk=e=>[e,...(e.children||[]).flatMap(x=>x?.children?walk(x):[])];
@@ -61,7 +63,14 @@ for(const [id,level,mode,vocabLevel,expectedClass]of [
 
 const app={state:{mode:"jp",level:"N5",vocabLang:"jlpt",vocabLevel:"N5",sectionId:null,filter:""},
  renderAll(){this.state.sectionId=null},
- goToSection(id){this.state.sectionId=id;return true}};
+ goToSection(id){
+   this.state.sectionId=id;
+   if(id.startsWith("jp-voice-")){
+     const placeholder=node("div");placeholder.className="placeholder";
+     ids["reader-content"].replaceChildren(placeholder);
+   }
+   return true;
+ }};
 w.ENJP_3=app;
 const before={reads:accesses,writes};
 vm.runInContext(read("v3/public-library.js"),ctx);
@@ -108,6 +117,13 @@ assert(lesson?.events.click?.length,"Available section opens");
 lesson.events.click[0]();
 assert.equal(P.getView(),"lesson","Read open lesson");
 assert.equal(app.state.sectionId,"jp-hira");
+// Simulate mismatched CDN assets: the older reader has a registered module but
+// renders the generic placeholder. The public library must repair this view.
+const voiceItem=P.byMode.jp.find(x=>x.id==="jp-voice-passive");
+assert(voiceItem&&P.route(voiceItem,{hash:false,scroll:false}));
+const recovered=walk(ids["reader-content"]);
+assert(recovered.some(x=>x.className==="vg-lab"),"Cached placeholder replaced with actual passive lesson");
+assert(!recovered.some(x=>x.className==="placeholder"),"No stale placeholder remains");
 assert.equal(writes,before.writes,"Navigation must never persist personal progress");
 assert(read("v3/public-library.css").includes("body.pl-active .quest-progress"),"Hide old individual progress");
 assert(read("v3/public-library.css").includes("@media(max-width:640px)"),"Mobile layout styles");
