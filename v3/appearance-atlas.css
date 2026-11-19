@@ -1,0 +1,53 @@
+/* ENJP Ocean · responsive night-ocean people-and-appearance atlas */
+.ap-atlas{color:#eaf9ff;margin:16px 0 32px;min-width:0}
+.ap-eyebrow{display:block;color:#9fe4f4;font-size:.78rem;font-weight:800;letter-spacing:.08em;margin:8px 0}
+.ap-title{font-size:clamp(1.42rem,2.6vw,2rem);line-height:1.55;margin:8px 0}
+.ap-intro,.ap-note{font-size:.97rem;line-height:1.85;color:#c5dfed;margin:12px 0 18px}
+.ap-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin:16px 0}
+.ap-stat{border:1px solid #447991;border-radius:13px;background:#163b55;text-align:center;padding:12px 5px}
+.ap-stat strong{display:block;font-size:1.45rem;font-variant-numeric:tabular-nums;color:#b2f4ec}
+.ap-stat small{display:block;color:#c6e2f1;font-size:.84rem}
+.ap-filters{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px;margin:18px 0}
+.ap-field{display:flex;flex-direction:column;gap:7px;min-width:0;color:#c4e6f2;font-size:.89rem;font-weight:700}
+.ap-search-field{grid-column:1/-1}
+.ap-field select,.ap-field input{font:inherit;font-size:1rem;min-width:0;width:100%;min-height:48px;padding:9px 12px;border:1px solid #55829b;background:#0e2d43;color:#f4ffff;border-radius:11px}
+.ap-actions{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}
+.ap-btn,.ap-open,.ap-option,.ap-speak{font:inherit;cursor:pointer;border-radius:10px;min-height:43px;line-height:1.5}
+.ap-btn{border:1px solid #bbf5f0;background:#9be4df;color:#0b2e42;font-weight:800;padding:10px 14px}
+.ap-btn-secondary{border-color:#6495ab;background:#244c66;color:#e9f9ff}
+.ap-open,.ap-speak{border:1px solid #5f91a7;background:#214861;color:#e8faff;padding:9px 12px}
+.ap-btn:disabled,.ap-option:disabled,.ap-speak:disabled{opacity:.55;cursor:not-allowed}
+.ap-count{color:#b5e0eb;margin:14px 0;font-size:.94rem}
+.ap-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.ap-card,.ap-detail,.ap-quiz{min-width:0;border:1px solid #486f89;border-radius:15px;padding:17px;background:linear-gradient(145deg,#153851,#142b45)}
+.ap-card{display:flex;flex-direction:column;align-items:flex-start}
+.ap-grade{font-size:.79rem;font-weight:700;color:#8bd4e3}
+.ap-word,.ap-detail-word{font-size:clamp(1.2rem,2vw,1.5rem);font-weight:800;line-height:2.1;margin:8px 0 3px;overflow-wrap:anywhere}
+.ap-meaning{font-size:1.08rem;font-weight:700;margin:8px 0}
+.ap-english{font-size:.86rem;color:#bdd6e5;margin:5px 0 15px}
+.ap-card .ap-open{margin-top:auto}
+.ap-jp{font-size:1.2rem;line-height:2.65;font-weight:650;margin:12px 0;overflow-wrap:anywhere;word-break:normal}
+.ap-jp ruby rt,.ap-word ruby rt,.ap-detail-word ruby rt,.ap-option-text ruby rt{font-size:.56em;color:#a1e6f5;font-weight:550}
+.ap-pager{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:17px 0;color:#d1eff8}
+.ap-detail{grid-column:1/-1;margin:16px 0;padding:20px}
+.ap-detail[hidden]{display:none}
+.ap-detail-word{font-size:1.65rem}
+.ap-detail-reading,.ap-detail-meaning,.ap-zh{line-height:1.8;color:#cde5ef;margin:7px 0}
+.ap-detail-meaning{font-weight:700;color:#d4f6ec}
+.ap-nuance,.ap-example{border:1px solid #3a6f85;background:#0e2c44;border-radius:12px;padding:13px 15px;margin:13px 0}
+.ap-nuance p{line-height:1.8;color:#c7e6f0;margin:8px 0}
+.ap-subtitle{font-size:1.15rem;line-height:1.5;margin:15px 0}
+.ap-audio{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:10px 0}
+.ap-status{font-size:.8rem;color:#b8dae6}
+.ap-quiz{grid-column:1/-1}
+.ap-question{font-size:1.25rem;line-height:1.6;font-weight:800}
+.ap-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.ap-option{border:1px solid #59839f;background:#1b4059;color:#f4ffff;padding:14px;text-align:left}
+.ap-option.correct{background:#245947;border-color:#8de9bc}
+.ap-option.incorrect{background:#6c3742;border-color:#e8a4af}
+.ap-option-text{font-size:1.11rem;font-weight:700;line-height:2;margin:0}
+.ap-feedback{margin:15px 0;line-height:1.8}
+.ap-feedback strong{display:block;margin-bottom:6px}
+.ap-atlas button:focus-visible,.ap-atlas select:focus-visible,.ap-atlas input:focus-visible{outline:3px solid #b8f5fa;outline-offset:2px}
+@media(max-width:780px){.ap-filters{grid-template-columns:repeat(2,minmax(0,1fr))}.ap-field:last-child{grid-column:1/-1}}
+@media(max-width:580px){.ap-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.ap-grid,.ap-options{grid-template-columns:1fr}.ap-card{padding:15px}.ap-filters{grid-template-columns:1fr}.ap-field:last-child{grid-column:auto}.ap-pager .ap-btn{padding:9px 11px}.ap-word,.ap-jp{font-size:1.22rem}}
