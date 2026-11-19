@@ -38,3 +38,4 @@ jobs:
       - run: node v3/verify-advanced-atlas.js
       - run: node v3/verify-connection-lessons.js
       - run: node v3/verify-inference-grammar.js
+      - run: node v3/verify-appearance-atlas.js

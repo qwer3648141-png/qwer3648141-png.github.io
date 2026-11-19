@@ -10,7 +10,7 @@
  const norm=s=>String(s||"").normalize("NFKC").toLowerCase()
    .replace(/[ァ-ヶ]/g,c=>String.fromCharCode(c.charCodeAt(0)-96));
  const map=new Map(),entries=[];
- const sourceName=src=>src==="advanced"?"進階教材":src==="curated"?"新版分級":
+ const sourceName=src=>src==="appearance"?"人物外觀圖鑑":src==="advanced"?"進階教材":src==="curated"?"新版分級":
    src==="legacy"?"原版教材":"全部教材";
  const verbs=new Map(Verbs.list.map(w=>[norm(w.word)+"|"+norm(w.reading),w]));
  const adjs=new Map(Lex.adjectiveRows.map(w=>[norm(w.word)+"|"+norm(w.reading),w]));
@@ -39,6 +39,17 @@
  Lex.vocabularyRows.forEach(w=>add(w,"vocabulary"));
  Lex.adjectiveRows.forEach(w=>add(w,"adjective"));
  Verbs.list.forEach(w=>add(w,"verb"));
+ // Read-only index for appearance lessons; keep all original lexical records unchanged.
+ for(const w of window.ENJP_AppearanceAtlas?.words||[]){
+   const key=norm(w.word)+"|"+norm(w.reading);
+   if(map.has(key))continue;
+   const item={key,word:w.word,reading:w.reading,meaning:w.zh,level:w.level,
+     mode:"appearance",source:"appearance",sourceLabel:sourceName("appearance"),
+     kind:"phrase",data:w,verb:null,adj:null,forms:[],
+     head:[norm(w.word),norm(w.reading)],inflected:[],
+     meaningTerms:[norm(w.zh),norm(w.en),norm(w.nuance),norm(w.themeName)]};
+   map.set(key,item);entries.push(item);
+ }
  function search(query){
    const q=norm(query).trim();
    if(!q)return [];
@@ -90,6 +101,9 @@
    ruby(root,item.word,item.reading,"la-detail-term");
    root.append(el("p","la-reading",item.reading),el("p","la-meaning",item.meaning));
    say(root,item.reading);
+   if(item.mode==="appearance"){
+     root.append(el("h3","la-subheading","語感與使用場合"),el("p","la-note",item.data.nuance));
+   }
    const advanced=item.mode==="vocabulary"?
      item.data.records.find(r=>r.source==="advanced"&&r.nuance):null;
    if(advanced){
@@ -99,6 +113,7 @@
      if(advanced.transitivity)root.append(el("p","la-note","自／他動詞："+advanced.transitivity));
    }
    let examples=[];
+   if(item.mode==="appearance")examples=item.data.examples.map(e=>({...e,full:true,source:"appearance"}));
    if(item.mode==="vocabulary")examples=Lex.vocabExamples(item.data);
    else if(item.mode==="adjective")examples=Lex.adjExamples(item.data);
    else if(item.mode==="verb")examples=Verbs.ownExamples(item.data);
@@ -108,7 +123,7 @@
      const panel=el("div","la-example");
      ruby(panel,ex.ja,undefined,"la-example-ja");
      panel.append(el("p","la-translation",ex.zh||""));
-     if(ex.full||ex.source==="curated"||ex.source==="advanced")say(panel,ex.ja);
+     if(ex.full||ex.source==="curated"||ex.source==="advanced"||ex.source==="appearance")say(panel,ex.ja);
      else panel.append(el("small","la-note","原版搭配片語，尚未逐字檢查朗讀。"));
      root.append(panel);
    }
