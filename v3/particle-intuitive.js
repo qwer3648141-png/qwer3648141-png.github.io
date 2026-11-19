@@ -164,6 +164,12 @@
      const card=e("div","pbi-key");card.append(e("strong","",a),e("b","",b),e("small","",c));key.append(card);
    }
    host.append(key);
+   const important=e("section","pbi-important");
+   important.append(e("h3","pbi-subtitle","⭐ 『には』與『では』，為什麼不能隨便換？"),
+     e("p","pbi-tips","這兩句都提到『家』，但不是同一種意思。動詞決定了基本助詞。"));
+   sentence(important,["家（いえ）には猫（ねこ）がいます。","家裡有貓。","有沒有東西／人存在 → に。"]);
+   sentence(important,["家（いえ）では猫（ねこ）と遊（あそ）びます。","在家會跟貓玩。","動作在什麼地方發生 → で。"]);
+   host.append(important);
    host.append(e("h3","pbi-subtitle","👇 點選你想比較的助詞"));
    const tabs=e("div","pbi-tabs");tabs.setAttribute("role","group");tabs.setAttribute("aria-label","基本助詞情境對照");
    const area=e("div","pbi-live");
@@ -176,12 +182,6 @@
      b.addEventListener("click",()=>show(x.id));tabs.append(b);
    }
    host.append(tabs,area);show("de");
-   const important=e("section","pbi-important");
-   important.append(e("h3","pbi-subtitle","⭐ 『には』與『では』，為什麼不能隨便換？"),
-     e("p","pbi-tips","這兩句都提到『家』，但不是同一種意思。動詞決定了基本助詞。"));
-   sentence(important,["家（いえ）には猫（ねこ）がいます。","家裡有貓。","有沒有東西／人存在 → に。"]);
-   sentence(important,["家（いえ）では猫（ねこ）と遊（あそ）びます。","在家會跟貓玩。","動作在什麼地方發生 → で。"]);
-   host.append(important);
    trapCards(host);practice(host);references(host);return true;
  }
  function renderGroup(host,g){
