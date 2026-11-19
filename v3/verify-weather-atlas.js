@@ -21,9 +21,9 @@ const audio={makeRuby:s=>{const e=node("span");e.textContent=String(s);return e}
  play(){},stop(){}};
 const C={jp:{N3:[]}},V={chapters:{N3:[]}};
 const mock={window:{ENJP_Audio:audio,ENJP_COURSES:C,ENJP_CuratedVocab:V,localStorage:storage},
- document:{createElement:node},console};
+ document:{createElement:node,createTextNode:text=>({textContent:text,children:[]})},console};
 vm.createContext(mock);
-for(const path of paths.slice(0,3))vm.runInContext(read(path),mock);
+for(const path of paths.slice(0,5))vm.runInContext(read(path),mock);
 const atlas=mock.window.ENJP_WeatherAtlas;
 assert(atlas&&atlas.issues.length===0,"Unmarked kanji, duplicate entries, or invalid tone: "+atlas?.issues);
 assert.equal(atlas.themes.length,8,"Eight thematic units");
@@ -68,7 +68,7 @@ assert.equal(new Set(options.map(x=>x.dataset.id)).size,4);
 options[0].events.click[0]();
 assert(storage.writes.every(k=>k==="enjpWeatherWrongV1"),"Other saved history keys never modified");
 const html=read("v3/index.html"),app=read("v3/app.js");
-for(const file of ["weather-words-a.js","weather-words-b.js","weather-atlas.js","weather-atlas.css"])
+for(const file of ["weather-words-a.js","weather-words-b.js","weather-words-c.js","weather-words-d.js","weather-atlas.js","weather-atlas.css"])
  assert(html.includes(file),"Asset not linked: "+file);
 assert(html.indexOf("weather-words-a.js")<html.indexOf("weather-atlas.js"));
 assert(html.indexOf("weather-words-b.js")<html.indexOf("weather-atlas.js"));
