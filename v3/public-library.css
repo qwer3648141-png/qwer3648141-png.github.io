@@ -1,0 +1,94 @@
+/* ENJP Ocean 5.6 — public textbook library UI. All existing modules/data remain loaded. */
+body.pl-active{background:#071723}
+body.pl-active .wrap{width:min(84vw,1320px);max-width:none}
+body.pl-active .topbar{padding-bottom:9px}
+body.pl-active .top-links,body.pl-active .hero,body.pl-active .mode-strip,
+body.pl-active .rail,body.pl-active .global-note{display:none!important}
+body.pl-active .workarea{display:none!important;min-height:0}
+body.pl-active.pl-reading .workarea{display:block!important;margin-top:14px}
+body.pl-active.pl-reading .reader{min-height:0;max-width:1100px;margin:0 auto}
+body.pl-active .quest-progress,body.pl-active .quest-mark-actions,
+body.pl-active .quest-state,body.pl-active .cv-stats,
+body.pl-active .cv-status,body.pl-active .cv-progress,
+body.pl-active .cg-quiz-info-best{display:none!important}
+.pl-shell{border:1px solid #36627f;background:linear-gradient(150deg,#0e2a42,#10253f);border-radius:23px;padding:clamp(17px,2.5vw,28px);box-shadow:0 16px 55px #0004;min-width:0;margin:17px 0 18px;color:#ecf8ff}
+.pl-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.pl-brand .pl-eyebrow{font-size:.7rem;color:#92d8ef;letter-spacing:.1em;font-weight:800}
+.pl-heading{font-size:clamp(1.6rem,2.7vw,2rem);margin:6px 0 4px}
+.pl-subheading{color:#b7d7e7;font-size:.9rem;margin:5px 0;line-height:1.6}
+.pl-old{white-space:nowrap;color:#c5e7f2;border:1px solid #48788e;padding:9px 12px;border-radius:11px;text-decoration:none;font-size:.84rem}
+.pl-languages{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:20px 0 14px}
+.pl-lang{min-height:49px;border:1px solid #44728e;background:#14374f;color:#e8f9ff;border-radius:12px;font:inherit;font-weight:800;cursor:pointer;font-size:1.02rem}
+.pl-lang[aria-pressed=true]{background:#a0e3eb;border-color:#c7fcff;color:#0e2b3c}
+.pl-search{display:flex;gap:9px;align-items:end;margin:14px 0 20px}
+.pl-search-label{display:flex;flex-direction:column;gap:7px;flex:1;font-size:.86rem;font-weight:730;color:#b6dce8;min-width:0}
+.pl-search-input{display:block;font:inherit;font-size:1rem;border:1px solid #55839d;border-radius:12px;color:#f9ffff;background:#0c2940;width:100%;min-width:0;min-height:51px;padding:12px 14px}
+.pl-search-input::placeholder{color:#97b9c9}
+.pl-search-button,.pl-button{font:inherit;font-size:.95rem;min-height:46px;background:#a4e5e6;color:#092e43;border:1px solid #c8f9f8;border-radius:10px;padding:10px 17px;font-weight:800;cursor:pointer}
+.pl-button.pl-subtle{background:#1c4964;border-color:#5788a3;color:#e7f8ff}
+.pl-button:disabled{opacity:.45;cursor:not-allowed}
+.pl-view-heading{font-size:clamp(1.2rem,2.1vw,1.5rem);line-height:1.6;margin:16px 0 5px}
+.pl-section-heading{font-size:1.1rem;margin:23px 0 11px}
+.pl-explain{color:#bfd9e7;line-height:1.8;font-size:.93rem;margin:6px 0 20px}
+.pl-part-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.pl-part,.pl-chapter{display:flex;flex-direction:column;gap:7px;min-width:0;text-align:left;border:1px solid #42718b;border-radius:15px;background:#12354d;color:#eafaff;padding:17px;cursor:pointer;font:inherit;min-height:135px}
+.pl-part:first-child{grid-column:1/-1;min-height:110px}
+.pl-part:hover,.pl-chapter:hover,.pl-lesson:hover,.pl-search-word:hover{background:#1b4965;border-color:#7fc6dc}
+.pl-part-index{font-size:.76rem;color:#98d5e8;font-weight:800}
+.pl-part strong,.pl-chapter strong{font-size:1.07rem;line-height:1.5}
+.pl-part small,.pl-chapter small{font-size:.88rem;color:#bdd9e9;line-height:1.6}
+.pl-part-count,.pl-chapter-count{color:#95d9e4;font-size:.78rem;margin-top:auto}
+.pl-breadcrumbs{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin:9px 0 14px;font-size:.84rem;color:#a9cfdd}
+.pl-text-button{font:inherit;border:0;background:transparent;color:#a2eaf0;cursor:pointer;text-align:left;padding:7px 0;min-height:36px;font-weight:740}
+.pl-chapter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+.pl-chapter{min-height:125px}
+.pl-chapter-number{font-weight:850;color:#a0e9ee;font-size:.81rem}
+.pl-filter{display:flex;gap:9px;align-items:center;margin:14px 0;font-size:.83rem;color:#c8e7f3}
+.pl-filter select{font:inherit;min-height:43px;background:#102f48;border:1px solid #53839b;border-radius:10px;padding:8px 11px;color:#fff}
+.pl-count{font-size:.9rem;color:#addae5;margin:12px 0}
+.pl-lesson-list{display:grid;gap:8px}
+.pl-lesson{font:inherit;cursor:pointer;color:#f0fbff;border:1px solid #426d86;background:#112f48;border-radius:11px;text-align:left;padding:13px 14px;display:grid;grid-template-columns:60px minmax(0,1fr) auto;gap:13px;align-items:center;min-height:55px}
+.pl-lesson-index{color:#9bd8e9;font-size:.77rem;font-weight:800}
+.pl-lesson-name{font-size:.99rem;font-weight:730;line-height:1.65;overflow-wrap:anywhere}
+.pl-lesson-level{color:#a8d6e2;font-size:.75rem;white-space:nowrap}
+.pl-empty{border:1px dashed #4c7790;background:#0e2b43;padding:18px;border-radius:12px;color:#c8dfeb;line-height:1.7}
+.pl-search-words{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.pl-search-word{font:inherit;display:flex;flex-direction:column;gap:4px;text-align:left;border:1px solid #436f88;border-radius:11px;background:#112f46;color:#efffff;padding:14px;cursor:pointer;min-height:96px}
+.pl-search-word strong{font-size:1.13rem}
+.pl-search-word small{color:#bddde9;font-size:.84rem;line-height:1.5}
+.pl-lesson-context{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;border:1px solid #3f6f84;border-radius:13px;background:#0d2b42;padding:10px 13px}
+.pl-lesson-breadcrumb{display:flex;flex-direction:column;gap:2px;color:#b6dfeb;font-size:.86rem}
+.pl-lesson-toolbar{display:flex;gap:8px}
+.pl-bottom{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;border-top:1px solid #426a82;margin-top:24px;padding-top:13px}
+.pl-bottom-button{font:inherit;min-height:47px;background:#143950;color:#d1ebf3;border:1px solid #3e6a7e;border-radius:10px;cursor:pointer;font-size:.91rem}
+.pl-bottom-button[aria-current=true]{background:#82d8dc;color:#08283b;font-weight:800}
+.pl-shell button:focus-visible,.pl-shell input:focus-visible,.pl-shell select:focus-visible,.pl-shell a:focus-visible{outline:3px solid #b1f0f7;outline-offset:2px}
+@media(max-width:900px){body.pl-active .wrap{width:calc(100% - 26px)}.pl-shell{padding:18px}.pl-part-grid{grid-template-columns:1fr}.pl-part:first-child{grid-column:auto}.pl-part{min-height:105px}.pl-chapter-grid{grid-template-columns:1fr}.pl-chapter{min-height:110px}}
+@media(max-width:640px){
+ body.pl-active .wrap{width:calc(100% - 20px)}
+ body.pl-active .topbar{margin:12px 0 2px}
+ body.pl-active .pl-shell{padding:15px;border-radius:19px;margin:9px 0 15px}
+ body.pl-active .pl-top{align-items:center}
+ .pl-old{font-size:.75rem;padding:7px}
+ .pl-subheading{font-size:.82rem}
+ .pl-languages{gap:6px;margin:14px 0 13px}
+ .pl-lang{font-size:.9rem;min-height:47px;padding:7px 4px}
+ .pl-search{gap:7px}
+ .pl-search-button{padding:9px 11px;font-size:.88rem}
+ .pl-search-input{font-size:.96rem;padding:11px}
+ .pl-view-heading{font-size:1.22rem}
+ .pl-part{min-height:90px;padding:14px}
+ .pl-chapter{min-height:91px;padding:14px}
+ .pl-lesson{grid-template-columns:46px minmax(0,1fr);padding:11px 10px;gap:8px}
+ .pl-lesson-level{grid-column:2;white-space:normal}
+ .pl-lesson-name{font-size:1.03rem}
+ .pl-search-words{grid-template-columns:1fr}
+ .pl-bottom{position:fixed;left:0;right:0;bottom:0;z-index:30;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;background:#0a2436ed;backdrop-filter:blur(12px);padding:9px 12px calc(10px + env(safe-area-inset-bottom));margin:0;border-top:1px solid #416d85}
+ .pl-bottom-button{min-height:48px;border-radius:10px;font-size:.88rem}
+ body.pl-active{padding-bottom:85px}
+ body.pl-active.pl-reading .workarea{margin-top:10px}
+ body.pl-active.pl-reading .reader{padding:17px 14px}
+ body.pl-active .pl-main{padding-bottom:8px}
+ body.pl-active.pl-reading .pl-search{margin-bottom:7px}
+ }
+@media(prefers-reduced-motion:reduce){.pl-shell *{scroll-behavior:auto!important}}
