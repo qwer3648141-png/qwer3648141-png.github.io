@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#071724">
   <meta name="description" content="ENJP Ocean 3.0 課程導航試用版：日文 N5–N3、英文、雙語學習。">
-  <title>ENJP Ocean 5.1｜形容詞副詞化・緊張しやすい・なる／する 互動文法</title>
+  <title>ENJP Ocean｜日英雙語公共互動教科書</title>
   <link rel="stylesheet" href="./ui.css?v=3.6.0">
   <link rel="stylesheet" href="./legacy-ui.css?v=3.6.0">
   <link rel="stylesheet" href="./giving-receiving.css?v=3.8.1">
@@ -22,6 +22,7 @@
   <link rel="stylesheet" href="./appearance-atlas.css?v=5.3.0">
   <link rel="stylesheet" href="./weather-atlas.css?v=5.4.0">
   <link rel="stylesheet" href="./voice-grammar.css?v=5.5.0">
+  <link rel="stylesheet" href="./public-library.css?v=5.6.0">
   <script src="./course-map.js?v=3.6.0" defer></script>
   <script src="./data/catalog.js?v=3.6.0" defer></script>
   <script src="./data/grammar.js?v=3.6.0" defer></script>
@@ -90,11 +91,12 @@
   <script src="./lexical-atlas.js?v=5.0.0" defer></script>
   <script src="./global-search.js?v=5.4.0" defer></script>
   <script src="./app.js?v=5.5.0" defer></script>
+  <script src="./public-library.js?v=5.6.0" defer></script>
 </head>
 <body>
   <main class="wrap">
     <div class="topbar">
-      <div class="logo"><span class="logo-symbol" aria-hidden="true">🌊</span><span>ENJP Ocean<small>LANGUAGE JOURNEY · 5.1</small></span></div>
+      <div class="logo"><span class="logo-symbol" aria-hidden="true">🌊</span><span>ENJP Ocean<small>OPEN LANGUAGE LIBRARY · 5.6</small></span></div>
       <div class="top-links">
         <a class="navlink" href="/">↗ 原版完整課程</a>
         <a class="navlink" href="#jp-verb-overview">📖 動詞一覽</a>
@@ -127,6 +129,7 @@
         <span><strong>情境單字</strong><small>N5–N3 新單字・原版 30 章</small></span>
       </button>
     </nav>
+    <div id="public-library" role="region" aria-label="ENJP Ocean 公共教科書目錄"></div>
     <div class="workarea" id="course-workarea">
       <aside class="rail" aria-label="課程章節導覽">
         <div class="kicker" id="rail-kicker">JAPANESE PATH</div>
