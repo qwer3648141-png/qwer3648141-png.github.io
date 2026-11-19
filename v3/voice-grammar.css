@@ -1,0 +1,42 @@
+/* ENJP Ocean · public verb voice lab, mobile-first night ocean */
+.vg-lab{margin:12px 0 32px;color:#e9f8ff;min-width:0}
+.vg-kicker{display:block;color:#9fe4ed;font-size:.8rem;font-weight:800;letter-spacing:.06em;margin:8px 0}
+.vg-title{font-size:clamp(1.5rem,2.3vw,2rem);line-height:1.55;margin:9px 0}
+.vg-intro,.vg-tip,.vg-lead{line-height:1.9;color:#c7deee;font-size:1rem}
+.vg-lead{font-weight:650;color:#e3f6ff}
+.vg-nav{display:flex;gap:8px;flex-wrap:wrap;margin:17px 0 22px}
+.vg-nav-btn,.vg-button,.vg-play,.vg-option{font:inherit;cursor:pointer;border-radius:11px;min-height:44px}
+.vg-nav-btn{border:1px solid #547e97;background:#1b405b;color:#effaff;padding:10px 12px;font-size:.91rem}
+.vg-nav-btn[aria-current=true]{background:#9bdcdd;color:#10283c;font-weight:800}
+.vg-compare-card,.vg-pattern,.vg-convert,.vg-quiz{background:#12314b;border:1px solid #3c6a84;border-radius:15px;margin:15px 0;padding:17px;min-width:0}
+.vg-comparison{display:grid;grid-template-columns:1fr;gap:10px}
+.vg-compare-card{margin:0}
+.vg-subtitle{font-size:1.13rem;line-height:1.6;color:#f4fbff;margin:10px 0}
+.vg-formula{padding:15px;border-radius:12px;background:#123d57;border-left:3px solid #7ad7e2}
+.vg-formula p,.vg-rule{line-height:1.9;color:#d4f0f8;white-space:pre-wrap}
+.vg-rule{font-weight:750}
+.vg-example{background:#0d263d;border:1px solid #315a76;border-radius:12px;padding:13px 15px;margin:12px 0}
+.vg-japanese{font-size:clamp(1.1rem,1.8vw,1.3rem);line-height:2.75;font-weight:650;margin:5px 0;overflow-wrap:anywhere;word-break:normal}
+.vg-japanese ruby rt,.vg-form-word ruby rt{font-size:.57em;color:#9de5f4;font-weight:500}
+.vg-zh{font-size:.95rem;line-height:1.8;color:#cfebf5;margin:4px 0 9px}
+.vg-audio{display:flex;align-items:center;flex-wrap:wrap;gap:9px}
+.vg-play{background:#204865;color:#ebf9ff;border:1px solid #608ca4;padding:7px 12px}
+.vg-audio-status{font-size:.83rem;color:#a9d7e5}
+.vg-selector{display:flex;flex-direction:column;gap:10px;color:#cff1f9;font-weight:700;margin:18px 0}
+.vg-selector select{font:inherit;font-size:1rem;border:1px solid #60849e;background:#092941;color:#f5ffff;border-radius:10px;min-height:49px;max-width:100%;padding:10px}
+.vg-convert-output{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.vg-convert-output>.vg-tip{grid-column:1/-1;margin:0}
+.vg-form-row{border:1px solid #37657d;border-radius:11px;background:#102c43;padding:12px;min-width:0}
+.vg-form-label{color:#a7dce9;font-size:.79rem;line-height:1.6;display:block}
+.vg-form-word{font-size:1.2rem;font-weight:750;line-height:2.8;overflow-wrap:anywhere}
+.vg-button{border:1px solid #bbeef1;background:#97e0e5;color:#092c41;padding:10px 15px;font-weight:800}
+.vg-option{background:#1b405c;color:#fff;border:1px solid #517e9d;text-align:left;padding:13px 14px;min-height:55px}
+.vg-options{display:grid;grid-template-columns:1fr;gap:9px;margin:14px 0}
+.vg-option.correct{background:#225e4b;border-color:#9ee0b8}
+.vg-option.incorrect{background:#6b3642;border-color:#e7a5b4}
+.vg-option:disabled,.vg-button:disabled,.vg-play:disabled{opacity:.6;cursor:not-allowed}
+.vg-question{font-size:1.1rem;line-height:1.7;font-weight:800}
+.vg-quiz-status,.vg-feedback{line-height:1.8;color:#cce8f5;margin:13px 0}
+.vg-feedback strong{display:block;color:#fff}
+.vg-lab button:focus-visible,.vg-lab select:focus-visible{outline:3px solid #9deef4;outline-offset:2px}
+@media(max-width:660px){.vg-convert-output{grid-template-columns:1fr}.vg-pattern,.vg-quiz,.vg-convert{padding:14px}.vg-nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.vg-nav-btn{font-size:.88rem;padding:10px 7px}.vg-japanese{font-size:1.17rem}.vg-form-word{font-size:1.25rem}}
