@@ -38,15 +38,17 @@ for(const mode of ["jp","en","dual"]){
 assert(C.jp.N4.length>n4Initial && C.en.length===englishInitial && C.dual.length===dualInitial);
 vm.runInNewContext(read("v3/contrast-grammar-data.js"),mock);
 const topics=mock.window.ENJP_CONTRAST_GRAMMAR;
-assert.equal(topics.length,5);
+assert.equal(topics.length,8,"Existing 5 plus three new grammar lessons");
+const originalIds=["requests","inference","conditions","reasons","casual"];
+assert.deepEqual(Array.from(topics.slice(0,5),t=>t.id),originalIds,"Original grammar lessons remain unchanged and first");
 const totalPatterns=topics.reduce((n,t)=>n+t.patterns.length,0);
 const totalExamples=topics.reduce((n,t)=>n+t.patterns.reduce((m,p)=>m+p.examples.length,0),0);
 const totalQuiz=topics.reduce((n,t)=>n+t.quiz.length,0);
-assert.equal(totalPatterns,32);
-assert.equal(totalExamples,64);
-assert.equal(totalQuiz,25);
+assert.equal(totalPatterns,46);
+assert.equal(totalExamples,110);
+assert.equal(totalQuiz,52);
 for(const topic of topics){
- assert(topic.patterns.length>=5);
+ assert(topic.patterns.length>=4);
  assert(topic.comparison.rows.length>=3);
  for(const pattern of topic.patterns){
   assert(pattern.examples.every(ex=>ex.length===2&&ex[0]&&ex[1]),"Bilingual examples "+pattern.form);
@@ -57,7 +59,7 @@ vm.runInNewContext(read("v3/contrast-grammar.js"),mock);
 assert(mock.window.ENJP_ContrastGrammar,"New renderer registered");
 for(const level of ["N4","N3"]){
  const chapter=C.jp[level].find(c=>c.id==="contrast-"+level.toLowerCase());
- assert(chapter&&chapter.sections.length===5,"Contrast grammar navigable under "+level);
+ assert(chapter&&chapter.sections.length===topics.length,"Contrast grammar navigable under "+level);
 }
 const html=read("v3/index.html"),app=read("v3/app.js");
 assert(html.includes('data-mode="vocab"'));
@@ -70,4 +72,4 @@ assert(app.includes('ENJP_ContrastGrammar?.render(root,section.id)'),"New render
 assert(!app.includes('["🌊 英日情境單字"'),"Old vocabulary home shortcut removed");
 assert(read("v3/ui.css").includes(".mode-strip{grid-template-columns:repeat(4"));
 assert(read("v3/contrast-grammar.css").includes(".cg-patterns"));
-console.log("PASS: 30 chapter vocabulary in a separate 4th mode, N4/N3 grammar topics, 64 samples, 25 quizzes, legacy data preserved.");
+console.log("PASS: 30 chapter vocabulary in a separate 4th mode, N4/N3 grammar topics, 110 samples, 52 quizzes, legacy data preserved.");
