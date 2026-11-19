@@ -77,7 +77,7 @@ assert(html.indexOf("n3-lessons-data.js")<html.indexOf("n4n3-completion.js"));
 assert(html.indexOf("n4n3-completion.js")<html.indexOf("app.js"));
 assert(app.includes("ENJP_N4N3_Complete?.has(section.id)"),"menu ready-state");
 assert(app.includes("ENJP_N4N3_Complete?.render(root,section.id)"),"lesson renderer");
-assert(app.includes('state.level=lessonId.startsWith("jp-n3-")?"N3":'),"direct N3 links routed correctly");
+assert(app.includes('state.level=contrastTopic?.level||(lessonId.startsWith("jp-n3-")?"N3":'),"direct N3 links routed correctly, including contrast topics");
 assert(app.includes('lessonId.startsWith("jp-n4-")||giving||particle||contrast?"N4":"N5"'),"N5/N4/N3 deep links share grade-aware routing");
 assert(read("v3/n4n3-completion.js").includes('enjpN4N3LessonProgressV1'),"isolated saving");
 assert(!read("v3/n4n3-completion.js").includes("enjpQuestState"),"no legacy save mutation");
