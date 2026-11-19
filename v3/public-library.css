@@ -1,7 +1,7 @@
 /* ENJP Ocean 5.6 — public textbook library UI. All existing modules/data remain loaded. */
 body.pl-active{background:#071723}
 body.pl-active .wrap{width:min(84vw,1320px);max-width:none}
-body.pl-active .topbar{padding-bottom:9px}
+body.pl-active .topbar{display:none!important}
 body.pl-active .top-links,body.pl-active .hero,body.pl-active .mode-strip,
 body.pl-active .rail,body.pl-active .global-note{display:none!important}
 body.pl-active .workarea{display:none!important;min-height:0}
@@ -66,7 +66,6 @@ body.pl-active .cg-quiz-info-best{display:none!important}
 @media(max-width:900px){body.pl-active .wrap{width:calc(100% - 26px)}.pl-shell{padding:18px}.pl-part-grid{grid-template-columns:1fr}.pl-part:first-child{grid-column:auto}.pl-part{min-height:105px}.pl-chapter-grid{grid-template-columns:1fr}.pl-chapter{min-height:110px}}
 @media(max-width:640px){
  body.pl-active .wrap{width:calc(100% - 20px)}
- body.pl-active .topbar{margin:12px 0 2px}
  body.pl-active .pl-shell{padding:15px;border-radius:19px;margin:9px 0 15px}
  body.pl-active .pl-top{align-items:center}
  .pl-old{font-size:.75rem;padding:7px}
