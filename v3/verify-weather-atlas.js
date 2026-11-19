@@ -33,7 +33,7 @@ assert.equal(new Set(atlas.words.map(w=>w.id)).size,115,"Stable IDs");
 const examples=new Set();
 for(const w of atlas.words){
  assert(w.word&&w.reading&&w.zh&&w.en&&w.nuance,w.word+" has full bilingual/nuance fields");
- assert(["positive","neutral","contextual","caution"].includes(w.tone),"Tone classification "+w.word);
+ assert(["basic","conversation","forecast","safety"].includes(w.tone),"Tone classification "+w.word);
  assert(["N5","N4","N3","N2"].includes(w.level),"Grade classification "+w.word);
  assert.equal(w.examples.length,2,w.word+" must have two exclusive examples");
  assert(audio.spokenJapanese(w.head),w.word+" reading annotation");
