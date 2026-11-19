@@ -74,13 +74,14 @@
         const specialLexical=Boolean(window.ENJP_LexicalAtlas?.has(section.id));
         const specialAdvanced=Boolean(window.ENJP_AdvancedAtlas?.has(section.id));
          const specialAppearance=Boolean(window.ENJP_AppearanceAtlas?.has(section.id));
+         const specialWeather=Boolean(window.ENJP_WeatherAtlas?.has(section.id));
         const curated=window.ENJP_CuratedVocab?.sections?.[section.id];
-        const special=specialGiving||specialParticle||specialContrast||specialCompletion||specialFoundation||specialConnection||specialAtlas||specialLexical||specialAdvanced||specialAppearance;
+        const special=specialGiving||specialParticle||specialContrast||specialCompletion||specialFoundation||specialConnection||specialAtlas||specialLexical||specialAdvanced||specialAppearance||specialWeather;
         const available=Boolean(database.lesson[section.id]||imported||special||curated);
         const b=el("button","section");
         b.type="button";b.dataset.section=section.id;
         b.setAttribute("aria-current",String(state.sectionId===section.id));
-        append(b,el("span","section-name",section.title),el("span","section-tag"+(available?" ready":""),curated?"主題 · "+curated.words.length:specialAtlas?"動詞總表":specialAppearance?"人物外觀圖鑑":specialAdvanced?"進階字庫":specialLexical?"快速總表":specialFoundation||specialCompletion||specialConnection?"完整教材":special?"新專題":imported?"教材庫 · "+imported.items.length:available?"試學":"規劃中"));
+        append(b,el("span","section-name",section.title),el("span","section-tag"+(available?" ready":""),curated?"主題 · "+curated.words.length:specialAtlas?"動詞總表":specialAppearance?"人物外觀圖鑑":specialWeather?"天氣圖鑑":specialAdvanced?"進階字庫":specialLexical?"快速總表":specialFoundation||specialCompletion||specialConnection?"完整教材":special?"新專題":imported?"教材庫 · "+imported.items.length:available?"試學":"規劃中"));
         b.addEventListener("click",()=>{
           Audio.stop();state.sectionId=section.id;
           document.querySelectorAll(".section").forEach(item=>item.setAttribute("aria-current",String(item===b)));
@@ -108,6 +109,15 @@
   function showWelcome(root){
     if(state.mode==="vocab"&&state.vocabLang==="jlpt"&&window.ENJP_CuratedVocab?.home){
       window.ENJP_CuratedVocab.home(root,state.vocabLevel);
+      if(state.vocabLevel==="N3"&&window.ENJP_WeatherAtlas){
+        const featured=el("section","course-quick-start");
+        featured.append(el("h3","","🌦️ 天氣日語圖鑑｜晴雨・氣溫・預報"),
+          el("p","","N5～N2 延伸 "+window.ENJP_WeatherAtlas.words.length+" 詞｜雨勢、酷暑、颱風、氣象廳預報與錯題測驗"));
+        const go=el("button","course-quick-item");go.type="button";
+        go.append(el("strong","","開啟天氣日語圖鑑"),el("small","","晴れ・土砂降り・酷暑日・一時／時々・台風"));
+        go.addEventListener("click",()=>goToSection(window.ENJP_WeatherAtlas.id));
+        featured.append(go);root.append(featured);
+      }
       if(state.vocabLevel==="N3"&&window.ENJP_AppearanceAtlas){
         const featured=el("section","course-quick-start");
         featured.append(el("h3","","👤 人物外觀圖鑑｜身高・體型・身材"),
@@ -130,7 +140,8 @@
       window.ENJP_VerbAtlas?.has(s.id)||
       window.ENJP_LexicalAtlas?.has(s.id)||
       window.ENJP_AdvancedAtlas?.has(s.id)||
-       window.ENJP_AppearanceAtlas?.has(s.id)).length;
+       window.ENJP_AppearanceAtlas?.has(s.id)||
+       window.ENJP_WeatherAtlas?.has(s.id)).length;
     root.append(renderHeader("從左側挑選章節開始",state.mode==="vocab"?"完整情境詞彙已移到獨立單字區；先選日本語、English 或 EN × JP，再選 30 個章節。":"右邊是固定的教材閱讀區。切換章節或縮放電腦畫面時，不會把教材推到整頁最下方。",[modeTitles[state.mode],"學習總覽"]));
     const stats=el("div","info-grid");
     for(const [value,label] of [[chapters.length,"課程章節"],[all.length,"主題入口"],[ready,"已接入教材主題"]]){
@@ -147,6 +158,7 @@
         shortcuts.push(["🧠 容易／難以｜〜やすい・にくい","jp-link-n4-easy-hard","緊張しやすい／話しにくい，18 例句＋8 題練習"]);
         shortcuts.push(["🔄 變得／讓它變得｜なる・する","jp-link-n4-adjective-change","緊張しやすくなった，18 例句＋8 題練習"]);
       }
+      if(state.level==="N3"&&window.ENJP_WeatherAtlas)shortcuts.push(["🌦️ 天氣日語圖鑑","jp-weather-atlas",window.ENJP_WeatherAtlas.words.length+" 詞｜晴雨、氣溫、颱風與預報語法"]);
       if(state.level==="N3"&&window.ENJP_AppearanceAtlas)shortcuts.push(["👤 人物外觀圖鑑","jp-appearance-atlas","112 詞｜身高・體型・姿勢・穿搭與例句測驗"]);
       if(state.level==="N3"&&window.ENJP_AdvancedAtlas)shortcuts.push(["🌙 N3～N1 進階語彙圖鑑","jp-advanced-vocab-overview",window.ENJP_AdvancedAtlas.words.length+" 個詞｜性格、情緒、進階動詞與語感比較"]);
       if(window.ENJP_LexicalAtlas)shortcuts.push(["✨ 全 N5～N1 形容詞一覽","jp-adjective-overview",window.ENJP_LexicalAtlas.adjectiveRows.length+" 個形容詞｜い／な、級別、主題與變化查詢"]);
@@ -199,7 +211,8 @@
       window.ENJP_VerbAtlas?.has(id)||
       window.ENJP_LexicalAtlas?.has(id)||
       window.ENJP_AdvancedAtlas?.has(id)||
-      window.ENJP_AppearanceAtlas?.has(id)));
+      window.ENJP_AppearanceAtlas?.has(id)||
+      window.ENJP_WeatherAtlas?.has(id)));
     if(shortcuts.length){
       const quick=el("section","course-quick-start");
       quick.append(el("h3","","⚡ 快速進入正式教材"));
@@ -422,7 +435,8 @@
     const lesson=database.lesson[section.id];
     const imported=window.ENJP_MIGRATED?.sections?.[section.id];
     root.append(renderHeader(section.title,chapter.summary,[state.mode==="jp"?jpLabels[state.level]:state.mode==="vocab"?(state.vocabLang==="jlpt"?"主題單字 · "+state.vocabLevel:"原版情境單字 · "+({jp:"日文",en:"英文",dual:"英日配對"}[state.vocabLang])):modeTitles[state.mode],chapter.title,section.title]));
-    if(window.ENJP_AppearanceAtlas?.render(root,section.id))return;
+    if(window.ENJP_WeatherAtlas?.render(root,section.id))return;
+     if(window.ENJP_AppearanceAtlas?.render(root,section.id))return;
      if(window.ENJP_AdvancedAtlas?.render(root,section.id))return;
     if(window.ENJP_LexicalAtlas?.render(root,section.id))return;
     if(window.ENJP_VerbAtlas?.render(root,section.id))return;
@@ -501,10 +515,14 @@
       const vocabulary=lessonId===window.ENJP_LexicalAtlas?.IDS?.vocabulary;
       const advanced=Boolean(window.ENJP_AdvancedAtlas?.has(lessonId));
       const appearance=Boolean(window.ENJP_AppearanceAtlas?.has(lessonId));
+      const weather=Boolean(window.ENJP_WeatherAtlas?.has(lessonId));
       const vocab=lessonId.startsWith("legacy-vocab-")&&Boolean(window.ENJP_MIGRATED?.sections?.[lessonId]);
       const curated=window.ENJP_CuratedVocab?.sections?.[lessonId];
       const particle=lessonId.startsWith("jp-particle-")&&window.ENJP_Particles;
-      if(appearance){
+      if(weather){
+        state.mode="vocab";state.vocabLang="jlpt";state.vocabLevel="N3";
+        updateModeButtons();goToSection(lessonId);
+      }else if(appearance){
         state.mode="vocab";state.vocabLang="jlpt";state.vocabLevel="N3";
         updateModeButtons();goToSection(lessonId);
       }else if(curated){
