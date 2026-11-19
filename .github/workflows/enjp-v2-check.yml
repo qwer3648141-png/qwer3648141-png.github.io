@@ -42,3 +42,4 @@ jobs:
       - run: node v3/verify-weather-atlas.js
       - run: node v3/verify-voice-grammar.js
       - run: node v3/verify-public-library.js
+      - run: node v3/verify-particle-intuitive.js
