@@ -69,7 +69,7 @@ assert(html.indexOf("n5-foundation.js")<html.indexOf("app.js"),"load renderer be
 assert(app.includes("ENJP_Foundation?.has(section.id)"),"ready tags reflect N5 lessons");
 assert(app.includes("ENJP_Foundation?.render(root,section.id)"),"N5 full renderer wired in");
 assert(app.includes("specialFoundation||specialCompletion||specialConnection?\"完整教材\""),"N5, N4/N3 trials and new connection lessons labeled complete");
-assert(app.includes("state.level=lessonId.startsWith(\"jp-n3-\")"),"deep links route to N3");
+assert(app.includes('lessonId.startsWith("jp-n3-")?"N3":')&&app.includes("contrastTopic?.level"),"deep links route to N3 and preserve topic level");
 const implementation=read("v3/n5-foundation.js");
 assert(implementation.includes("A.play(record.kana"),"kana have clickable Japanese pronunciation");
 assert(implementation.includes('transcript.hidden=true'),"listening transcript hidden until revealed");
