@@ -151,7 +151,7 @@
       if(state.level==="N3"&&window.ENJP_Foundation)
         shortcuts.push(["🧭 N3 目的文法","jp-n3-purpose","ために・ように，4 組完整比較"]);
       if(window.ENJP_ContrastGrammar&&["N4","N3"].includes(state.level))
-        shortcuts.push(["🧠 易混淆文法精講","jp-contrast-requests","5 組句型、64 例句與 25 題挑戰"]);
+        shortcuts.push(["🧠 易混淆文法精講","jp-contrast-requests",`${window.ENJP_ContrastGrammar.stats.topics} 主題、${window.ENJP_ContrastGrammar.stats.examples} 例句與 ${window.ENJP_ContrastGrammar.stats.quizzes} 題挑戰`],["🌦️ そう・らしい・みたい精講","jp-contrast-so-two-uses","N4～N3｜傳聞、樣態、推測與語感 3 堂課"]);
       if(window.ENJP_Particles)
         shortcuts.push(["🧩 助詞組合精講","jp-particle-overview","14 組助詞、125 句＋20 組對照＋24 題練習"]);
       if(state.level==="N4"&&window.ENJP_GivingReceiving)
@@ -509,8 +509,9 @@
         updateModeButtons();goToSection(lessonId);
       }else if(giving||particle||contrast||completed||foundation){
         state.mode="jp";
-        state.level=lessonId.startsWith("jp-n3-")?"N3":
-          lessonId.startsWith("jp-n4-")||giving||particle||contrast?"N4":"N5";
+        const contrastTopic=contrast&&window.ENJP_CONTRAST_GRAMMAR?.find(t=>lessonId==="jp-contrast-"+t.id);
+        state.level=contrastTopic?.level||(lessonId.startsWith("jp-n3-")?"N3":
+          lessonId.startsWith("jp-n4-")||giving||particle||contrast?"N4":"N5");
         updateModeButtons();goToSection(lessonId);
       }
     }catch{}

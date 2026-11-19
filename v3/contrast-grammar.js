@@ -1,14 +1,15 @@
 "use strict";
-/* ENJP Ocean: five comparison-led Japanese grammar lessons, separate from legacy progress. */
+/* ENJP Ocean: comparison-led Japanese grammar lessons, separate from legacy progress. */
 (function(){
  const D=window.ENJP_CONTRAST_GRAMMAR,C=window.ENJP_COURSES,Audio=window.ENJP_Audio;
  if(!Array.isArray(D)||!C?.jp?.N4||!C?.jp?.N3||!Audio)return;
  const PREFIX="jp-contrast-",STORE_KEY="enjpContrastGrammarWrongV1";
+ const stats={topics:D.length,patterns:D.reduce((n,t)=>n+t.patterns.length,0),examples:D.reduce((n,t)=>n+t.patterns.reduce((sum,p)=>sum+p.examples.length,0),0),quizzes:D.reduce((n,t)=>n+t.quiz.length,0)};
  for(const level of ["N4","N3"]){
    C.jp[level].push({
      id:"contrast-"+level.toLowerCase(),
      title:"🧠 易混淆文法｜情境問法精講",
-     summary:"5 大主題、32 種句型、64 個例句、25 題情境練習",
+     summary:`${stats.topics} 大主題、${stats.patterns} 種句型、${stats.examples} 個例句、${stats.quizzes} 題情境練習`,
      sections:D.map(t=>({id:PREFIX+t.id,title:(t.level==="N3"?"N3｜":"N4｜")+t.title}))
    });
  }
@@ -86,7 +87,7 @@
    if(warning)shell.append(elem("p","cg-warning",warning));
    const counter=elem("p","cg-count"),question=elem("p","cg-question"),choices=elem("div","cg-choices"),
       feedback=elem("div","cg-feedback"),next=elem("button","cg-next","下一題 →"),
-      controls=elem("div","cg-actions"),start=elem("button","cg-next","重新開始 5 題"),
+      controls=elem("div","cg-actions"),start=elem("button","cg-next","重新開始 "+topic.quiz.length+" 題"),
       retryWrong=elem("button","cg-secondary","只練本主題錯題");
    next.type="button";start.type="button";retryWrong.type="button";
    feedback.setAttribute("role","status");
@@ -162,5 +163,5 @@
    patterns(wrap,topic);comparison(wrap,topic);quiz(wrap,topic);
    root.append(wrap);return true;
  }
- window.ENJP_ContrastGrammar={render,topics:D.map(t=>t.id),count:D.reduce((n,t)=>n+t.patterns.length*2,0)};
+ window.ENJP_ContrastGrammar={render,topics:D.map(t=>t.id),count:stats.examples,stats};
 })();
