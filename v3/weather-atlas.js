@@ -31,7 +31,7 @@
    sections:[{id:ID,title:"🌦️ 天氣、季節、氣象預報與颱風"}]});
  V.chapters.N3.unshift({id:"weather-vocab-index",title:"🌦️ 天氣日語圖鑑｜氣溫・氣象",
    summary:raw.length+" 大分類・"+words.length+" 個單字・兩句專屬例句・天氣預報與抽考",
-   sections:[{id:ID,title:"🌦️ 晴雨・擬聲語・颱風與防災日文"}},...raw.map((t,i)=>({id:"jp-weather-"+t.id,title:"13.":"+(i+1)+"｜"+t.title}))]});
+    sections:[{id:ID,title:"🌦️ 晴雨・擬聲語・颱風與防災日文"},...raw.map((t,i)=>({id:"jp-weather-"+t.id,title:"13."+(i+1)+"｜"+t.title}))]});
  let writable=true,wrong=new Set(),message="";
  try{
    const s=window.localStorage?.getItem(KEY);
