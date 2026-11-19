@@ -1,6 +1,8 @@
 "use strict";
 /* Integration and linguistic contrast check for scenario-first Japanese particles. */
-const fs=require("node:fs"),vm=require("node:vm"),assert=require("node:assert/strict");
+import fs from "node:fs";
+import vm from "node:vm";
+import assert from "node:assert/strict";
 const read=p=>fs.readFileSync(p,"utf8");
 const files=["v3/particle-data.js","v3/particle-practice-data.js","v3/particle-intuitive.js","v3/particle-course.js"];
 for(const file of files)new vm.Script(read(file),{filename:file});
