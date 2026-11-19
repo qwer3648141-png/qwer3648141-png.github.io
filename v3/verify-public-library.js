@@ -35,6 +35,30 @@ for(const file of assets){
  vm.runInContext(read(file),ctx);
 }
 assert(w.ENJP_COURSES&&w.ENJP_CuratedVocab&&w.ENJP_VoiceGrammar&&w.ENJP_WeatherAtlas&&w.ENJP_AppearanceAtlas);
+// Integration regression: execute the ACTUAL V3 reader, not a fake goToSection.
+// A registered navigation label must render the teaching content, never the placeholder.
+vm.runInContext(read("v3/app.js"),ctx);
+const actualCore=w.ENJP_3;
+assert(actualCore&&typeof actualCore.renderReader==="function","Real app reader initialized");
+for(const [id,level,mode,vocabLevel,expectedClass]of [
+ ["jp-voice-overview","N3","jp",null,"vg-lab"],
+ ["jp-voice-passive","N3","jp",null,"vg-lab"],
+ ["jp-voice-causative","N3","jp",null,"vg-lab"],
+ ["jp-voice-causative-passive","N3","jp",null,"vg-lab"],
+ ["jp-weather-atlas","N3","vocab","N3","wt-atlas"],
+ ["jp-weather-rain","N3","vocab","N3","wt-atlas"],
+ ["jp-appearance-atlas","N3","vocab","N3","ap-atlas"]
+]){
+ actualCore.state.mode=mode;actualCore.state.level=level;
+ if(vocabLevel){actualCore.state.vocabLang="jlpt";actualCore.state.vocabLevel=vocabLevel}
+ actualCore.state.sectionId=id;
+ assert(actualCore.lookupSection(id),"Actual reader should find navigation section "+id);
+ actualCore.renderReader();
+ const rendered=walk(ids["reader-content"]);
+ assert(rendered.some(n=>n.className===expectedClass),"User sees live teaching module "+id);
+ assert(!rendered.some(n=>n.className==="placeholder"),"No 'not yet connected' placeholder for "+id);
+}
+
 const app={state:{mode:"jp",level:"N5",vocabLang:"jlpt",vocabLevel:"N5",sectionId:null,filter:""},
  renderAll(){this.state.sectionId=null},
  goToSection(id){this.state.sectionId=id;return true}};
