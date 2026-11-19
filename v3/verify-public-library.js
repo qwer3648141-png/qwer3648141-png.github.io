@@ -54,7 +54,7 @@ for(const [id,chapter,mode]of [
  ["jp-voice-passive","04","jp"],["jp-voice-causative","04","jp"],["jp-voice-causative-passive","04","jp"],
  ["jp-adjective-overview","05","jp"],["jp-particles","06","jp"],
  ["jp-contrast-so-two-uses","09","jp"],["jp-appearance-atlas","12","jp"],
- ["jp-weather-atlas","13","jp"],["jp-advanced-vocab-overview","15","jp"],
+ ["jp-weather-atlas","13","jp"],["jp-weather-basics","13","jp"],["jp-weather-forecast","13","jp"],["jp-weather-safety","13","jp"],["jp-appearance-height","12","jp"],["jp-appearance-fashion","12","jp"],["jp-advanced-vocab-overview","15","jp"],
  ["legacy-vocab-jp-29","13","jp"],["legacy-vocab-jp-10","11","jp"],
  ["legacy-vocab-en-30","E3","en"],["legacy-vocab-dual-30","D3","dual"]
  ]){
