@@ -173,6 +173,26 @@
    Core.renderAll();
    const ok=originalGo(item.id);
    if(!ok)return false;
+   // Branch preview proxies may temporarily return mismatched cached app.js.
+   // A registered module should render its own lesson instead of a placeholder.
+   const readingArea=document.getElementById("reader-content");
+   if(readingArea?.querySelector?.(".placeholder")){
+     const modules=[
+       window.ENJP_VoiceGrammar,window.ENJP_WeatherAtlas,window.ENJP_AppearanceAtlas,
+       window.ENJP_AdvancedAtlas,window.ENJP_LexicalAtlas,window.ENJP_VerbAtlas,
+       window.ENJP_CuratedVocab,window.ENJP_ContrastGrammar,window.ENJP_Foundation,
+       window.ENJP_N4N3_Complete,window.ENJP_ConnectionLesson
+     ];
+     for(const module of modules){
+       if(typeof module?.render!=="function")continue;
+       if(module.has&&module.has(item.id)===false)continue;
+       const temporary=document.createElement("div");
+       if(module.render(temporary,item.id)===true){
+         readingArea.replaceChildren(...temporary.childNodes);
+         break;
+       }
+     }
+   }
    setView("lesson",{scroll:false});
    if(hash&&window.history?.pushState)window.history.pushState({pl:item.id},"","#"+encodeURIComponent(item.id));
    if(scroll){
