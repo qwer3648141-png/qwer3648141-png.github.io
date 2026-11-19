@@ -31,7 +31,7 @@
    sections:[{id:ID,title:"👤 身材、肌肉、姿勢與穿搭用語"}]});
  V.chapters.N3.unshift({id:"appearance-vocab-index",title:"👤 人物外觀圖鑑｜身高・身材",
    summary:raw.length+" 大分類・"+words.length+" 個單字・兩句專屬例句・語感與抽考",
-   sections:[{id:ID,title:"👤 身高・胖瘦・身體比例・健身用語"}},...raw.map((t,i)=>({id:"jp-appearance-"+t.id,title:"12.":"+(i+1)+"｜"+t.title}))]});
+    sections:[{id:ID,title:"👤 身高・胖瘦・身體比例・健身用語"},...raw.map((t,i)=>({id:"jp-appearance-"+t.id,title:"12."+(i+1)+"｜"+t.title}))]});
  let writable=true,wrong=new Set(),message="";
  try{
    const s=window.localStorage?.getItem(KEY);
