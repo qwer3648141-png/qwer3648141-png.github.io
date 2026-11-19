@@ -12,7 +12,7 @@
  const comparisonPairs=[...P.pairs,...extendedPairs];
  const groupIds=D.groups.map(g=>g.id);
  const guide=[
-  ["overview","🧭 先懂原理｜助詞為什麼能疊加？"],
+  ["overview","🧭 同句看差別｜助詞怎麼選？"],
   ...D.groups.slice(0,7).map(g=>[g.id,"は系列｜"+g.form+" · "+g.title]),
   ...D.groups.slice(7).map(g=>[g.id,"も系列｜"+g.form+" · "+g.title]),
   ["compare","⚖️ 20 組助詞差異對照"],
@@ -69,6 +69,9 @@
    b.addEventListener("click",()=>jump(id));return b;
  }
  function introduction(root){
+   // Scenario-first explanation is the primary lesson; retain the original
+   // explanation as a backwards-compatible fallback when optional asset fails.
+   if(window.ENJP_ParticleIntuitive?.render(root))return;
    root.append(add(el("div","pc-hero"),
      el("h3","","助詞不只是「接起來」，而是兩層不同工作"),
      el("p","","前面的 に／で／へ／と／から／まで／より 指出句子中的關係；後面的 は 提出話題或對比，も則常表示追加、包含或強調。")));
@@ -104,7 +107,9 @@
    const details=el("div","pc-rule");
    details.append(el("strong","","句型提示"),
      el("p","",g.pattern),el("small","",g.caution));
-   root.append(panel,details,el("h3","pc-h3","五個生活、旅行與工作例句"));
+   root.append(panel,details);
+   window.ENJP_ParticleIntuitive?.renderGroup(root,g);
+   root.append(el("h3","pc-h3","五個生活、旅行與工作例句"));
    examples(root,g.examples);
    const related=D.groups.filter(x=>x.base===g.base&&x.id!==g.id);
    if(related.length){
@@ -222,7 +227,7 @@
      el("h2","pc-title","には・では・へは・とは…"),
      el("p","pc-subtitle","14 組助詞｜大量實際例句｜20 組句型對照｜24 題小挑戰"));
    const header=el("nav","pc-tabs");header.setAttribute("aria-label","助詞組合學習分頁");
-   [["overview","原理"],["niwa","は系列"],["nimo","も系列"],["compare","句子對照"],["pitfalls","易混淆"],["quiz","測驗"]]
+   [["overview","情境入門"],["niwa","は系列"],["nimo","も系列"],["compare","句子對照"],["pitfalls","易混淆"],["quiz","測驗"]]
      .forEach(([key,title])=>{
        const b=routeButton(key,title);
        b.className="pc-tab"+(id===key?" active":"");header.append(b);
