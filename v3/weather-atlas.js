@@ -31,7 +31,7 @@
    sections:[{id:ID,title:"🌦️ 天氣、季節、氣象預報與颱風"}]});
  V.chapters.N3.unshift({id:"weather-vocab-index",title:"🌦️ 天氣日語圖鑑｜氣溫・氣象",
    summary:raw.length+" 大分類・"+words.length+" 個單字・兩句專屬例句・天氣預報與抽考",
-   sections:[{id:ID,title:"🌦️ 晴雨・擬聲語・颱風與防災日文"}]});
+   sections:[{id:ID,title:"🌦️ 晴雨・擬聲語・颱風與防災日文"}},...raw.map((t,i)=>({id:"jp-weather-"+t.id,title:"13.":"+(i+1)+"｜"+t.title}))]});
  let writable=true,wrong=new Set(),message="";
  try{
    const s=window.localStorage?.getItem(KEY);
@@ -72,7 +72,8 @@
    return a;
  };
  function render(host,id){
-   if(id!==ID)return false;
+   const selectedTopic=raw.find(x=>id==="jp-weather-"+x.id)||null;
+    if(id!==ID&&!selectedTopic)return false;
    const root=el("section","wt-atlas");
    root.append(el("span","wt-eyebrow","ENJP OCEAN · WEATHER & SEASONS"),
      el("h2","wt-title","🌦️ 天氣日語圖鑑｜晴雨・氣溫・天氣預報"),
@@ -112,11 +113,12 @@
    const filters=el("div","wt-filters"),searchField=el("label","wt-field wt-search-field");
    const search=el("input");search.type="search";search.placeholder="搜尋 晴れ、土砂降り、酷暑日、颱風、rain…";search.setAttribute("aria-label","搜尋天氣日文單字");
    searchField.append(el("span","","搜尋日／中文／英文"),search);filters.append(searchField);
-   const opts={query:"",category:"all",level:"all",tone:"all"};
+   const opts={query:"",category:selectedTopic?.id||"all",level:"all",tone:"all"};
    function select(label,key,choices){
      const field=el("label","wt-field"),s=el("select");s.setAttribute("aria-label",label);
      for(const [val,text]of choices){const option=el("option","",text);option.value=val;s.append(option)}
-     field.append(el("span","",label),s);filters.append(field);
+     s.value=opts[key]||"all";
+      field.append(el("span","",label),s);filters.append(field);
      s.addEventListener("change",()=>{opts[key]=s.value;page=0;draw()});
    }
    select("主題分類","category",[["all","全部分類"],...raw.map(x=>[x.id,x.title])]);
@@ -230,6 +232,6 @@
    review.addEventListener("click",()=>showQuiz(words.filter(w=>wrong.has(w.id)),true));
    draw();host.append(root);return true;
  }
- window.ENJP_WeatherAtlas={id:ID,has:id=>id===ID,render,words,themes:raw,tones:TONES,matching,issues,
+ window.ENJP_WeatherAtlas={id:ID,has:id=>id===ID||raw.some(x=>id==="jp-weather-"+x.id),render,words,themes:raw,tones:TONES,matching,issues,
    progressKey:KEY,wrongWords:()=>words.filter(w=>wrong.has(w.id))};
 })();
