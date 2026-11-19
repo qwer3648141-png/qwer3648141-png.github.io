@@ -75,7 +75,7 @@ const group=element("div");
 assert(core.render(group,"jp-particle-niwa"),"Existing group section works");
 assert(walk(group).some(x=>x.className==="pbi-group"),"Existing group now explains same-scenario differences");
 const html=read("v3/index.html");
-assert(html.includes("particle-intuitive.js?v=3.8.2")&&html.includes("particle-intuitive.css?v=3.8.2"));
+assert(html.includes("particle-intuitive.js?v=3.8.3")&&html.includes("particle-intuitive.css?v=3.8.3"));
 assert(html.indexOf("particle-intuitive.js")<html.indexOf("particle-course.js"),"Teaching bridge loads before chapter renderer");
 assert.equal(storageReads+storageWrites,0,"Public lesson must not access learner progress");
 console.log("PASS: four interactive contrasting cases, 3 semantic pitfalls, 5 context checks, 14 original particle topics, 20 original comparisons, 24 original quiz questions, safe annotated Japanese, no tracking");
