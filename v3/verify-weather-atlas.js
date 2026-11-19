@@ -27,9 +27,9 @@ for(const path of paths.slice(0,5))vm.runInContext(read(path),mock);
 const atlas=mock.window.ENJP_WeatherAtlas;
 assert(atlas&&atlas.issues.length===0,"Unmarked kanji, duplicate entries, or invalid tone: "+atlas?.issues);
 assert.equal(atlas.themes.length,8,"Eight thematic units");
-assert.equal(atlas.words.length,115,"At least 100 distinct vocabulary entries");
-assert.equal(new Set(atlas.words.map(w=>w.word)).size,115,"Unique display headwords");
-assert.equal(new Set(atlas.words.map(w=>w.id)).size,115,"Stable IDs");
+assert.equal(atlas.words.length,120,"At least 100 distinct vocabulary entries");
+assert.equal(new Set(atlas.words.map(w=>w.word)).size,120,"Unique display headwords");
+assert.equal(new Set(atlas.words.map(w=>w.id)).size,120,"Stable IDs");
 const examples=new Set();
 for(const w of atlas.words){
  assert(w.word&&w.reading&&w.zh&&w.en&&w.nuance,w.word+" has full bilingual/nuance fields");
@@ -44,7 +44,7 @@ for(const w of atlas.words){
    examples.add(e.ja);
  }
 }
-assert.equal(examples.size,230,"230 distinct Japanese examples");
+assert.equal(examples.size,240,"240 distinct Japanese examples");
 for(const q of ["天気","晴れ","土砂降り","酷暑日","風速","降水確率","颱風","rain"])
  assert(atlas.matching(q).length>0,"Search query failed: "+q);
 assert.equal(atlas.matching("天気").length,1,"Exact headword priority");
@@ -77,4 +77,4 @@ assert(app.includes("ENJP_WeatherAtlas?.render(root,section.id)"),"Reader integr
 assert(app.includes('state.vocabLevel="N3";'),"Weather deep-link route");
 assert(read("v3/global-search.js").includes('mode:"weather"'),"Global vocabulary search integration missing");
 assert(read("v3/weather-atlas.css").includes("@media(max-width:580px)"),"Mobile styling missing");
-console.log("PASS: 8 themes, 115 Japanese words, 230 individual bilingual sentences, tone, audio/ruby, filters, 4-way quiz, mobile layout, isolated storage, deep links, global search.");
+console.log("PASS: 8 themes, 120 Japanese words, 240 individual bilingual sentences, tone, audio/ruby, filters, 4-way quiz, mobile layout, isolated storage, deep links, global search.");
